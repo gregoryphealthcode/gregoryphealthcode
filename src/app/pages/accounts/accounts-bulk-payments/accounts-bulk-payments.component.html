@@ -34,7 +34,7 @@
     </div>
 
     <div class="cssWidgetWrapper disable-select hmin-275px">
-      <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" keyExpr="bulkPaymentId"
+      <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" keyExpr="bulkPaymentId" [height]="'100%'"
         [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true"
         [showRowLines]="true" focusedRowIndex="0" (onFocusedRowChanged)="onFocusedRowChanged($event)"
         [focusedRowEnabled]="true" (onRowDblClick)="edit($event)" [remoteOperations]="false">
