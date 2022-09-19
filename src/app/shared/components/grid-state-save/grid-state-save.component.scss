@@ -1,0 +1,16 @@
+$width: 10rem;
+
+:host ::ng-deep .a-form-group.d-row {
+  > label {
+    min-width: $width;
+    max-width: $width;
+    padding-right: 4px;
+  }
+  > small {
+    left: $width;
+  }
+}
+
+:host {
+  font-size: 13px;
+}

@@ -1,0 +1,98 @@
+<div class="d-flex flex-column flex-grow-1">
+  <span class="d-flex a-card-title responsive-paddings">{{patientDetails.lastName}}, {{patientDetails.firstName}}
+    {{patientDetails.title}}</span>
+
+  <div class="content-height custom-scroll disable-select responsive-paddings">
+    <div class="d-flex flex-column flex-grow-1 left-margin-1 h-100 ">
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">DOB</span>
+
+        <span class="label-info-value">{{patientDetails.birthDate | date: "dd/MM/yyyy"}}</span>
+      </div>
+
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">Gender:</span>
+
+        <span class="label-info-value">{{patientDetails.gender}}</span>
+      </div>
+
+      <span class="horizontal-line mt-2 mb-3"></span>
+
+      <div class="d-flex align-items-center" *ngFor="let item of telecoms; let i = index">
+        <div class="d-flex flex-row">
+          <div class="label-info label-width mr-1">{{item.description}}:</div>
+
+          <span *ngIf="item.description != 'Email'" class="label-info-value">
+            <a [href]="'tel:' + item.telecomValue">{{item.telecomValue}}</a></span>
+
+          <span *ngIf="item.description == 'Email'" class="label-info-value">
+            <a [href]="'mailto:' + item.telecomValue">{{item.telecomValue}}</a></span>
+        </div>
+      </div>
+
+      <span *ngIf="telecoms.length > 0" class="horizontal-line mt-2 mb-3"></span>
+      <!-- 
+      <div class="d-flex flex-row">
+        <span class="label-info label-width bold mt-2">Invoice Details</span>
+      </div> -->
+
+      <div *ngIf="episode?.episodeDescription" class="d-flex flex-row">
+        <span class="label-info label-width">Setting:</span>
+
+        <span class="label-info-value">{{episode?.episodeDescription}}</span>
+      </div>
+
+      <div *ngIf="episode?.startDate" class="d-flex flex-row">
+        <span class="label-info label-width">On</span>
+
+        <span class="label-info-value">{{episode?.startDate | date: appInfo.getDateFormat}}</span>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="recordAdmitDate">
+        <span class="label-info label-width">Admitted</span>
+
+        <span class="label-info-value">{{episode?.startDate | date: appInfo.getDateFormat}}</span>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="recordAdmitDate && episode?.endDate">
+        <span class="label-info label-width">Dischared</span>
+
+        <span class="label-info-value">{{episode?.endDate | date: appInfo.getDateFormat}}</span>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="recordAdmitDate && episode?.dischargeReasonId">
+        <span class="label-info label-width">Discharge Reason</span>
+
+        <span class="label-info-value">{{episode?.dischargeReasonId}}</span>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="episode?.ownerName">
+        <span class="label-info label-width">Practitioner:</span>
+
+        <span class="label-info-value">{{episode?.ownerName}}</span>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="episode?.locationName">
+        <span class="label-info label-width">Location:</span>
+
+        <span class="label-info-value">{{episode?.locationName}}</span>
+      </div>
+
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">Invoice Total:</span>
+
+        <span class="label-info-value">{{appInfo.getCurrencySymbol}} {{invoice.totalGross | number: '1.2-2'}}</span>
+      </div>
+    </div>
+  </div>
+
+  <span class="horizontal-line"></span>
+
+  <div class="d-flex flex-row w-100 a-card-footer justify-content-center">
+    <app-card-action-button icon="pound-sign" text="Open Invoice" (clicked)="createInvoice()">
+    </app-card-action-button>
+
+    <app-card-action-button icon="clipboard-user" text="Patient Details" (clicked)="showPatientDetails()">
+    </app-card-action-button>
+  </div>
+</div>

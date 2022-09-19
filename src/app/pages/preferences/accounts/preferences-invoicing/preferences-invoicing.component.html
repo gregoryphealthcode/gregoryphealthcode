@@ -1,0 +1,21 @@
+<div id="pageMainDetails" class="d-flex flex-grow-1 flex-column page-main" (wheel)="onMouseWheel($event)">
+  <div class="d-flex flex-grow-1 flex-row responsive-margins" [formGroup]="editForm">
+    <div class="d-flex flex-column flex-grow-1 col-6 h-100">
+      <div class="label-info-value-title sm mt-2 mb-2">Invoice Numbers</div>
+      <app-text-box formControlName="prefix" caption="Prefix" direction="row">
+      </app-text-box>
+
+      <app-text-box formControlName="nextNo" caption="Next Invoice No." direction="row" inputType="number">
+      </app-text-box>
+      
+      <app-text-box formControlName="suffix" caption="Suffix" direction="row">
+      </app-text-box>  
+    </div>
+  </div>
+</div>
+
+<div class="page-footer">
+  <div class="horizontal-line"></div>
+  <app-button class="mt-2 mb-2 page-footer-button" text="Save" (clicked)="submitForm()"
+    [disabled]="submitting || editForm?.pristine"></app-button>
+</div>

@@ -1,0 +1,647 @@
+//Grid wrapper
+.cssWidgetWrapper {
+  flex-grow: 1;
+  position: relative;
+}
+
+.cssGridGeneral {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  &.relative{
+    position: relative;
+  }
+}
+
+.dxWidget-w-h-100{
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.detail-grid-title {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-left: 8px;
+  position: relative;
+  bottom: -30px;
+  z-index: 1;
+  color: rgba(#000000, 0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dx-dialog.dx-overlay .dx-overlay-wrapper {
+  z-index: 1602 !important;
+}
+
+$header-text-color: lighten(desaturate($primary, 70%), 10%);
+$header-bg-color: #e7eef4;
+// $header-bg-color: transparent;
+$selected-row-bg-color: #a6c0da;
+$selected-row-color: #000000;
+$selected-row-border-color: lighten(desaturate($primary, 55%), 50%);
+$selected-page-bg-color: lighten(desaturate($primary, 25%), 56%);
+$selected-page-color: darken(saturate($primary, 15%), 1%);
+$selected-page-border-color: lighten(desaturate($primary, 4%), 5%);
+
+body .cssGridGeneral {
+  .dx-datagrid,
+  .dx-treelist {
+    color: hsl(0, 0%, 35%);
+  }
+
+  .dx-row.dx-data-row.dx-state-hover{
+    cursor: pointer;
+  }
+
+  .dx-datagrid-rowsview .dx-row.dx-group-row, .dx-row.dx-group-row:not(.dx-row-focused) td {
+    font-weight: 500;
+}
+
+&.header-no-margins .dx-datagrid-header-panel {
+    margin-bottom: 6px;
+  }
+
+  &.w-100-toolbar {
+    .dx-datagrid-header-panel,
+    .dx-treelist-header-panel {
+      .dx-toolbar .dx-toolbar-before {
+        width: 100%;
+        padding-right: 0px;
+      }
+    }
+  }
+
+  .dx-datagrid-focus-overlay::after {
+    background-color: hsl(0, 0, 40);
+  }
+
+  .dx-datagrid-headers {
+    td[role="columnheader"] .dx-datagrid-text-content {
+      color: $header-text-color;
+      font-weight: 500;
+    }
+
+    color: $header-text-color;
+    background-color: $header-bg-color;
+
+    .dx-texteditor {
+      background: none;
+      border-radius: 0px;
+      // border-bottom: 1px solid hsl(0, 0, 93) !important;
+      .dx-texteditor-input {
+        padding-bottom: 2px;
+        min-height: 24px;
+      }
+
+      .dx-texteditor-container {
+        background: none;
+      }
+    }
+
+    .dx-datagrid-filter-row .dx-menu-item-content .dx-icon {
+      color: $header-text-color;
+    }
+
+    .dx-header-filter-empty {
+      color: $header-text-color;
+    }
+
+    .dx-header-filter {
+      font: 11px/1 DXIcons;
+      // padding-left: 1.55rem;
+    }
+
+    .dx-dropdowneditor-button .dx-dropdowneditor-icon {
+      color: $header-text-color;
+      background: none;
+    }
+  }
+
+  .dx-datagrid-borders .dx-datagrid-rowsview,
+  .dx-datagrid-headers + .dx-datagrid-rowsview,
+  .dx-treelist-borders .dx-treelist-rowsview,
+  .dx-treelist-headers + .dx-treelist-rowsview {
+    border-top: none;
+  }
+
+  .dx-datagrid-headers .dx-datagrid-table .dx-row.dx-header-row > td,
+  .dx-treelist-headers .dx-treelist-table .dx-row.dx-header-row > td {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+  .dx-datagrid-headers .dx-datagrid-table .dx-row.dx-datagrid-filter-row > td,
+  .dx-treelist-headers .dx-treelist-table .dx-row.dx-treelist-filter-row > td {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+
+  .dx-datagrid-headers .dx-datagrid-table,
+  .dx-treelist-headers .dx-treelist-table {
+    .dx-row > td {
+      font-weight: 500;
+      font-size: 12px;
+    }
+  }
+
+  .dx-treelist-rowsview .dx-row {
+    border-bottom: 1px solid #dde4e8 !important;
+    height: 46px;
+  }
+
+  .dx-treelist .dx-row-alt.dx-row:not(.dx-row-removed) {
+    border-bottom-color: lightgrey !important;
+  }
+
+  .dx-datagrid-headers.dx-datagrid-nowrap,
+  .dx-treelist-headers {
+    padding-bottom: 0px;
+  }
+  .dx-datagrid-rowsview .dx-datagrid-table .dx-freespace-row > td,
+  .dx-datagrid-rowsview .dx-datagrid-table .dx-virtual-row > td {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-right: 0px solid hsl(0, 0%, 92%) !important;
+  }
+
+  //cells padding
+  .dx-datagrid
+    .dx-datagrid-content
+    .dx-datagrid-table
+    .dx-row
+    > td.dx-cell-modified:not(.dx-field-item-content):first-of-type,
+  .dx-datagrid
+    .dx-datagrid-content
+    .dx-datagrid-table
+    .dx-row
+    > td.dx-datagrid-invalid:not(.dx-field-item-content):first-of-type,
+  .dx-datagrid
+    .dx-datagrid-content
+    .dx-datagrid-table
+    .dx-row
+    > td:first-of-type,
+  .dx-treelist
+    .dx-treelist-content
+    .dx-treelist-table
+    .dx-row
+    > td.dx-cell-modified:not(.dx-field-item-content):first-of-type,
+  .dx-treelist
+    .dx-treelist-content
+    .dx-treelist-table
+    .dx-row
+    > td.dx-datreelistagrid-invalid:not(.dx-field-item-content):first-of-type,
+  .dx-treelist
+    .dx-treelist-content
+    .dx-treelist-table
+    .dx-row
+    > td:first-of-type {
+      padding-left: 1.55rem;
+  }
+
+  //cells padding
+  .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td,
+  .dx-datagrid
+    .dx-datagrid-content
+    .dx-datagrid-table
+    .dx-row
+    > td.dx-cell-modified:not(.dx-field-item-content),
+  .dx-datagrid
+    .dx-datagrid-content
+    .dx-datagrid-table
+    .dx-row
+    > td.dx-datagrid-invalid:not(.dx-field-item-content),
+  .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td,
+  .dx-treelist
+    .dx-treelist-content
+    .dx-treelist-table
+    .dx-row
+    > td.dx-cell-modified:not(.dx-field-item-content),
+  .dx-treelist
+    .dx-treelist-content
+    .dx-treelist-table
+    .dx-row
+    > td.dx-treelist-invalid:not(.dx-field-item-content) {
+    padding-right: 0.9rem;
+    padding-left: 1.55rem;
+    vertical-align: middle;
+  }
+
+  //cells padding
+  .dx-datagrid .dx-row > td,
+  .dx-treelist .dx-row > td {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    font-size: 13px;
+  }
+
+  &.compact-mode{
+    .dx-datagrid .dx-row > td,
+    .dx-treelist .dx-row > td {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      font-size: 12.5px;
+    }
+    .mat-icon-button{
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
+    }
+
+
+    &.custom-Grid .dx-datagrid-table .dx-row.dx-header-row > td {
+      font-size: 12px;
+      padding-top: 0.55rem;
+      padding-bottom: 0.55rem;
+      letter-spacing: 0px;
+    }
+  }
+
+  .dx-datagrid .dx-row > td.dx-command-edit,
+  .dx-treelist .dx-row > td.dx-command-edit {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+    font-size: 13px;
+    padding-right: 0.9rem !important;
+  }
+
+  //Header panel
+  .dx-datagrid-header-panel,
+  .dx-treelist-header-panel {
+    border-bottom: none;
+    margin-bottom: 1.2rem;
+
+    .dx-toolbar .dx-toolbar-items-container {
+      height: 1.5rem;
+      margin-bottom: 0.5rem;
+
+      .dx-texteditor-container {
+        background: none;
+        border-radius: 0;
+      }
+    }
+
+    //Top search box
+    .dx-item-content.dx-toolbar-item-content {
+      .dx-texteditor {
+        width: 17rem;
+        margin-left: 0 !important;
+      }
+
+      .dx-texteditor:after {
+        border-bottom: 1px solid hsl(0, 0, 90);
+      }
+
+      .dx-searchbox .dx-icon-search {
+        right: 4px;
+        left: auto;
+        transform: rotate(90deg);
+        &:before {
+          color: hsl(0, 0, 70);
+        }
+      }
+
+      .dx-searchbox .dx-texteditor-input,
+      .dx-searchbox .dx-placeholder:before {
+        padding-left: 5px;
+        padding-right: 0.9rem;
+      }
+
+      .dx-placeholder {
+        color: hsl(0, 0, 70);
+        font-size: 13px;
+      }
+    }
+  }
+
+  .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td,
+  .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td,
+  .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td,
+  .dx-datagrid-rowsview
+    .dx-selection.dx-row:not(.dx-row-focused):hover
+    > tr
+    > td {
+    background-color: $selected-row-bg-color;
+    color: $selected-row-color;
+  }
+
+  .dx-datagrid-rowsview
+    .dx-selection.dx-row:not(.dx-row-focused):not(.dx-row-lines)
+    > td,
+  .dx-datagrid-rowsview
+    .dx-selection.dx-row:not(.dx-row-focused):hover:not(.dx-row-lines)
+    > td {
+    border-bottom: 1px solid $selected-row-bg-color;
+    border-top: 1px solid $selected-row-bg-color;
+  }
+
+  //selected row
+  .dx-datagrid-rowsview .dx-row-focused.dx-data-row > td:not(.dx-focused),
+  .dx-datagrid-rowsview .dx-row-focused.dx-data-row > tr > td:not(.dx-focused),
+  .dx-datagrid-rowsview
+    .dx-row-focused.dx-data-row
+    .dx-command-edit:not(.dx-focused)
+    .dx-link {
+    ///////
+    background-color: $selected-row-bg-color;
+    .text-grey-70{
+      color: lighten($selected-row-color,15%);
+    }
+    .app-btn.btn-grey-color.btn-link .btn-icon{
+      color: $selected-row-color !important;
+    }
+
+    color: $selected-row-color;
+    border-top: 2px solid $selected-row-border-color;
+    border-bottom: 2px solid $selected-row-border-color;
+  }
+  .dx-row.dx-data-row.dx-row-focused {
+    border-left: 1px solid $selected-row-border-color;
+    border-right: 1px solid $selected-row-border-color;
+  }
+
+  .dx-treelist-rowsview .dx-row-focused.dx-data-row > td:not(.dx-focused),
+  .dx-treelist-rowsview .dx-row-focused.dx-data-row > tr > td:not(.dx-focused) {
+    background-color: $selected-row-bg-color;
+    color: #000000;
+    font-weight: 500;
+    border: none !important;
+    border-bottom: 1px solid $selected-row-border-color !important;
+    border-top: 1px solid $selected-row-border-color !important;
+  }
+
+  .dx-datagrid-table .dx-data-row.dx-state-hover:not(.dx-selection):not(.dx-row-inserted):not(.dx-row-removed):not(.dx-edit-row):not(.dx-row-focused) > td:not(.dx-focused) {
+    background-color: rgba(0, 0, 0, 0.03);
+    color: #2E3A40;
+}
+
+  //Extra classes
+  .dx-datagrid-headers,
+  .dx-treelist-headers,
+  .dx-gridbase-container {
+    .dx-row > td {
+      &.py-0 {
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
+      }
+
+      &.py-1 {
+        padding-top: 0.85rem;
+        padding-bottom: 0.85rem;
+      }
+    }
+  }
+
+  .dx-datagrid-filter-panel .dx-icon-filter,
+  .dx-datagrid-filter-panel .dx-datagrid-filter-panel-text,
+  .dx-datagrid-filter-panel .dx-datagrid-filter-panel-clear-filter {
+    color: darken($header-text-color, 7%);
+  }
+
+  .child.dx-template-wrapper {
+    background: #fffb13;
+    color: #666666;
+    border-radius: 114px;
+    text-align: center;
+    border: #ccc5c5;
+    border-style: solid;
+    border-width: 0.7px;
+  }
+
+  // Pager
+  .dx-pages .dx-info,
+  .dx-pager .dx-pages .dx-info {
+    color: hsl(0, 0%, 60%);
+  }
+
+  .dx-pager .dx-pages .dx-page {
+    padding: 3px 10px 5px;
+    color: hsl(0, 0%, 60%);
+  }
+
+  .dx-datagrid-pager {
+    padding-top: 0px;
+    border: none;
+  }
+
+  .dx-pager .dx-pages .dx-selection,
+  .dx-pager .dx-page-sizes .dx-selection {
+    color: $selected-page-color;
+    background-color: $selected-page-bg-color !important;
+    border-radius: 50%;
+    border: 1px solid $selected-page-border-color;
+  }
+
+  //scrollbar
+  .dx-scrollable-scroll-content {
+    background-color: hsl(0, 0%, 68%);
+  }
+
+  .dx-scrollbar-hoverable.dx-state-hover,
+  .dx-scrollbar-hoverable.dx-scrollable-scrollbar-active {
+    background-color: hsl(0, 0%, 80%);
+  }
+
+  .dx-treelist-rowsview tr:not(.dx-row-focused) .dx-treelist-empty-space {
+    color: hsl(0, 0%, 60%);
+  }
+  .dx-treelist .dx-row .dx-data-row .dx-column-lines .dx-row-alt {
+    background-color: hsl(0, 0%, 68%) !important;
+  }
+}
+
+.dx-treelist-headers .dx-treelist-table .dx-row > td {
+  border-bottom: 1px solid #dde4e8 !important;
+}
+
+.dx-treelist-content .dx-treelist-table .dx-row > td,
+.dx-treelist-content .dx-treelist-table .dx-row > tr > td {
+  vertical-align: middle;
+}
+
+.dx-header-row > td > .dx-treelist-text-content {
+  white-space: normal;
+  vertical-align: top;
+}
+
+.dx-treelist-content .dx-treelist-table .dx-row > td,
+.dx-treelist-content .dx-treelist-table .dx-row > tr > td {
+  vertical-align: middle;
+  padding-left: 1.55rem !important;
+}
+
+.dx-treelist-content .dx-treelist-table .dx-row .dx-command-edit {
+  text-overflow: clip;
+  width: 100px;
+  min-width: 100px;
+  padding-top: 0px !important;
+}
+
+.dx-treelist-container {
+  color: #2e3a40;
+  background-color: white;
+}
+
+// .dx-datagrid .dx-row > td.dx-command-edit .icon,
+// .dx-treelist .dx-row > td.dx-command-edit .icon {
+//   display: none;
+// }
+
+.dx-datagrid .dx-row.dx-row-focused > td.dx-command-edit .icon,
+.dx-treelist .dx-row.dx-row-focused > td.dx-command-edit .icon {
+  display: inline-block;
+}
+
+// .dx-datagrid .dx-row > td.dx-command-edit .small-icon,
+// .dx-treelist .dx-row > td.dx-command-edit .small-icon {
+//   display: none;
+// }
+
+.dx-datagrid .dx-row.dx-row-focused > td.dx-command-edit .small-icon,
+.dx-treelist .dx-row.dx-row-focused > td.dx-command-edit .small-icon {
+  display: inline-block;
+}
+
+body {
+
+  .custom-Grid .dx-datagrid-headers {
+    .dx-sort-up, .dx-sort-down{
+      font-size: 11px;
+      font-weight: 500;
+      color: darken(desaturate($header-text-color, 55%),90%);
+  }
+    color: darken(desaturate($header-text-color, 55%),15%);
+    border-bottom: 1px solid #bdbdbd;
+    border-top: 1px solid #bdbdbd69;
+    td[role=columnheader] .dx-datagrid-text-content{
+      color: darken(desaturate($header-text-color, 55%),15%);
+
+      &.dx-sort-indicator{
+        color: darken(desaturate($header-text-color, 55%),90%);
+        font-weight: 500;
+      }
+    }
+
+    // &.dx-datagrid-nowrap {
+    //   border-bottom: 1px solid #bbbbbb;
+    //   border-top: 1px solid #e6e6e6;
+    // }
+
+    .dx-datagrid-table .dx-row.dx-header-row > td {
+      border-bottom: none;
+      font-weight: 500;
+      font-size: 12px;
+      padding-top: 0.85rem;
+      padding-bottom: 0.85rem;
+    }
+
+  }
+  .custom-Grid .dx-datagrid-header-panel {
+    // border-bottom: none;
+    padding: 0 1rem;
+
+    .dx-toolbar
+    .dx-toolbar-items-container {
+    height: 2.5rem;
+    margin-bottom: 0.1rem;
+  }
+  }
+
+  /*cell padding*/
+  .custom-Grid
+    .dx-datagrid
+    .dx-datagrid-content
+    .dx-datagrid-table
+    .dx-row
+    > td:first-of-type {
+      padding-left: 1.55rem;
+  }
+
+  .custom-Grid.padd-first-lg
+  .dx-datagrid
+  .dx-datagrid-content
+  .dx-datagrid-table
+  .dx-row
+  > td:first-of-type {
+  padding-left: 1.55rem;
+}
+
+.custom-Grid.padd-first-sm
+.dx-datagrid
+.dx-datagrid-content
+.dx-datagrid-table
+.dx-row
+> td:first-of-type {
+padding-left: 0.25rem;
+}
+
+
+  .custom-Grid .dx-datagrid .dx-row > td {
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    font-size: 13px;
+    padding-right: 0.9rem;
+    padding-left: 1.55rem;
+  }
+
+
+  .custom-Grid .dx-datagrid .dx-row.dx-data-row.dx-row-focused {
+    border-color: transparent;
+  }
+
+  /*row border color*/
+  .custom-Grid .dx-datagrid .dx-row-lines > td {
+    border-bottom: 1px solid hsl(300, 20%, 90%);
+  }
+
+  .custom-Grid {
+    .dx-template-wrapper{
+      line-height: 1.5;
+    }
+
+    .dx-toolbar-after .dx-toolbar-item.dx-toolbar-button{
+      .dx-button-has-icon{
+        margin-top: 4px;
+        .dx-button-content{
+          padding:2px;
+        }
+      }
+
+    }
+  }
+}
+
+$default-border-color: hsl(0, 19%, 92%);
+
+body{
+  .dx-datagrid-borders > .dx-datagrid-rowsview, .dx-datagrid-borders > .dx-datagrid-total-footer {
+    border-bottom: 1px solid $default-border-color;
+}
+
+.dx-datagrid-borders > .dx-datagrid-headers, .dx-datagrid-borders > .dx-datagrid-rowsview, .dx-datagrid-borders > .dx-datagrid-total-footer {
+  /* border-left: 1px solid $default-border-color;
+  border-right: 1px solid $default-border-color; */
+  border-left: none;
+  border-right: none;
+}
+.dx-datagrid .dx-column-lines > td {
+  /* border-left: 1px solid $default-border-color;
+  border-right: 1px solid $default-border-color; */
+  border-left: none;
+  border-right: none;
+}
+
+.dx-datagrid-borders > .dx-datagrid-pager, .dx-datagrid-borders > .dx-datagrid-headers, .dx-datagrid-borders > .dx-datagrid-filter-panel {
+  border-top: 1px solid $default-border-color;
+}
+
+.dx-datagrid-headers .dx-datagrid-table .dx-row > td  {
+  border-bottom: 1px solid $default-border-color;
+}
+
+}

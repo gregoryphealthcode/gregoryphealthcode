@@ -1,0 +1,20 @@
+body {
+  .dx-dropdownlist-popup-wrapper
+    .dx-list:not(.dx-list-select-decorator-enabled)
+    .dx-list-item-content {
+    padding: 8px 10px;
+    white-space: normal !important;
+  }
+
+  .dx-list:not(.dx-list-select-decorator-enabled)
+    .dx-list-item.dx-state-active {
+    background-color: hsl(0, 0%, 80%);
+    color: black;
+  }
+
+  .dx-list:not(.dx-list-select-decorator-enabled)
+    .dx-list-item.dx-state-focused.dx-list-item-selected {
+    background-color: hsl(0, 0%, 80%);
+    color: black;
+  }
+}

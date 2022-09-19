@@ -1,0 +1,53 @@
+<dx-popup appCentralPopUpSettings [width]="'380'" *ngIf="show" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <app-preferences-edi-address-add-edit [data]="selectedRecord" (saved)="saved($event)" (closed)="show = false;">
+  </app-preferences-edi-address-add-edit>
+</dx-popup>
+
+<div class="d-flex flex-column flex-grow-1">
+  <div class="d-flex flex-row mx-4 mt-2">
+    <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+    <app-button icon="far fa-plus" text="New" class="ml-auto mt-auto" (clicked)="addClicked()"></app-button>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-2">
+    <div class="cssWidgetWrapper">
+      <dx-data-grid [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="id" [hoverStateEnabled]="true"
+        class="cssGridGeneral padd-first-lg" (onRowDblClick)="editClicked($event)" focusedRowIndex="0">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+        <dxi-column dataField="insurerName" caption="Insurer" width="150" sortOrder="asc"></dxi-column>
+        <dxi-column dataField="addressType" caption="Address Type" width="150" cellTemplate="addressTypeTemplate"
+          alignment="center"></dxi-column>
+        <dxi-column caption="Address" cellTemplate="addressTemplate" [minWidth]="400"></dxi-column>
+        <dxi-column type="buttons" width="80">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'addressTypeTemplate'">
+          {{cellInfo.row.data.addressType == 1 ? 'Site' : 'Paper Bills'}}
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'addressTemplate'">
+          {{cellInfo.row.data.address1 }},
+          {{cellInfo.row.data.address2 != 'null' && cellInfo.row.data.address2 != null && cellInfo.row.data.address2
+          != ''? cellInfo.row.data.address2 + ',' : ''}}
+          {{cellInfo.row.data.address3 != 'null' && cellInfo.row.data.address3 != null && cellInfo.row.data.address3
+          != ''? cellInfo.row.data.address3 + ',' : ''}}
+          {{cellInfo.row.data.address4 != 'null' && cellInfo.row.data.address4 != null && cellInfo.row.data.address4
+          != ''? cellInfo.row.data.address4 + ',': ''}}
+          {{cellInfo.row.data.postcode }}
+        </div>
+
+        <div *dxTemplate="let data of 'myCommandTemplate'" class="d-flex flex-row">
+          <app-button icon="far fa-trash" type="link" color="grey" class="mr-2" matTooltip="Delete"
+            (clicked)="deleteClicked(data)"></app-button>
+
+          <app-button icon="far fa-edit" type="link" color="grey" matTooltip="Edit" (clicked)="editClicked(data)">
+          </app-button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

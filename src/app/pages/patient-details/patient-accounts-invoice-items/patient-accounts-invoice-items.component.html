@@ -1,0 +1,20 @@
+<dx-data-grid [dataSource]="detailDataSource" [showBorders]="true" [columnAutoWidth]="true" style="margin-left:15px;"
+  focusedRowIndex="0">
+  <dxi-column dataField="lineNumber" caption="#" [visible]="false"></dxi-column>
+  <dxi-column dataField="startTime" dataType="date" caption="Date" format="dd/MM/yyyy"></dxi-column>
+  <dxi-column dataField="code" caption="Code" [width]="100"></dxi-column>
+  <dxi-column dataField="description" caption="Description"></dxi-column>
+  <dxi-column dataField="fee" caption="Price" [width]="110">
+    <dxo-format type="fixedPoint" [precision]="2">
+    </dxo-format>
+  </dxi-column>
+
+  <dxo-summary>
+    <dxi-total-item column="startTime" summaryType="count" displayFormat="{0}">
+    </dxi-total-item>
+
+    <dxi-total-item column="fee" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+      [valueFormat]="{type:'fixedPoint',precision:2}">
+    </dxi-total-item>
+  </dxo-summary>
+</dx-data-grid>

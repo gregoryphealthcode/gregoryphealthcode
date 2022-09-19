@@ -1,0 +1,409 @@
+<div class="d-flex flex-column flex-grow-1 p-3">
+  <div class="d-flex flex-row w-100 header-row mb-1 pb-1">
+    <div class="col-2">
+      Table
+    </div>
+
+    <div class="col-2 text-center">
+      Successful Imports
+    </div>
+
+    <div class="col-2 text-center">
+      Failed Imports
+    </div>
+
+    <div class="col-6">
+      Failed Details
+    </div>
+  </div>
+
+  <ng-container *ngIf="migrationResponse.patients">
+    <div *ngIf="migrationResponse.patients.import" class="d-flex flex-row flex-grow-1 mb-2 pb-2 border-bottom">
+      <div class="col-2">
+        Patients
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-primary">
+          {{migrationResponse.patients.import.successCount}}
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-danger">
+          {{migrationResponse.patients.import.errorCount}}
+        </div>        
+      </div>
+
+      <div class="col-6">
+        <table class="w-100">
+          <tbody class="w-100">
+            <tr class="w-100">
+              <th class="w-40per">Item</th>
+
+              <th class="w-60per">Error</th>
+            </tr>
+
+            <tr *ngFor="let error of migrationResponse.patients.import.errorDetails" class="w-100">
+              <td>
+                {{error.description}}
+              </td>
+
+              <td>
+                {{error.error}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="migrationResponse.patients.addresses" class="d-flex flex-row flex-grow-1 mb-2 pb-2 border-bottom">
+      <div class="col-2">
+        Patient Addresses
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-primary">
+          {{migrationResponse.patients.addresses.successCount}}
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-danger">
+          {{migrationResponse.patients.addresses.errorCount}}
+        </div>        
+      </div>
+
+      <div class="col-6">
+        <table class="w-100">
+          <tbody class="w-100">
+            <tr class="w-100">
+              <th class="w-40per">Item</th>
+
+              <th class="w-60per">Error</th>
+            </tr>
+
+            <tr *ngFor="let error of migrationResponse.patients.addresses.errorDetails" class="w-100">
+              <td>
+                {{error.description}}
+              </td>
+
+              <td>
+                {{error.error}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="migrationResponse.patients.telecoms" class="d-flex flex-row flex-grow-1 mb-2 pb-2 border-bottom">
+      <div class="col-2">
+        Patient Telecoms
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-primary">
+          {{migrationResponse.patients.telecoms.successCount}}
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-danger">
+          {{migrationResponse.patients.telecoms.errorCount}}
+        </div>        
+      </div>
+
+      <div class="col-6">
+        <table class="w-100">
+          <tbody class="w-100">
+            <tr class="w-100">
+              <th class="w-40per">Item</th>
+
+              <th class="w-60per">Error</th>
+            </tr>
+
+            <tr *ngFor="let error of migrationResponse.patients.telecoms.errorDetails" class="w-100">
+              <td>
+                {{error.description}}
+              </td>
+
+              <td>
+                {{error.error}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="migrationResponse.contacts">
+    <div *ngIf="migrationResponse.contacts.import" class="d-flex flex-row flex-grow-1 mb-2 pb-2 border-bottom">
+      <div class="col-2">
+        Contacts
+      </div>
+ 
+      <div class="col-2">
+        <div class="label-tag md-2 type-primary">
+          {{migrationResponse.contacts.import.successCount}}
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-danger">
+          {{migrationResponse.contacts.import.errorCount}}
+        </div>        
+      </div>
+
+      <div class="col-6">
+        <table class="w-100">
+          <tbody class="w-100">
+            <tr class="w-100">
+              <th class="w-40per">Item</th>
+
+              <th class="w-60per">Error</th>
+            </tr>
+
+            <tr *ngFor="let error of migrationResponse.contacts.import.errorDetails" class="w-100">
+              <td>
+                {{error.description}}
+              </td>
+
+              <td>
+                {{error.error}}
+              </td>
+            </tr>
+          </tbody>
+        </table>        
+      </div>
+    </div>
+    
+    <div *ngIf="migrationResponse.contacts.addresses" class="d-flex flex-row flex-grow-1 mb-2 pb-2 border-bottom">
+      <div class="col-2">
+        Contact Addresses
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-primary">
+          {{migrationResponse.contacts.addresses.successCount}}
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-danger">
+          {{migrationResponse.contacts.addresses.errorCount}}
+        </div>        
+      </div>
+
+      <div class="col-6">
+        <table class="w-100">
+          <tbody class="w-100">
+            <tr class="w-100">
+              <th class="w-40per">Item</th>
+
+              <th class="w-60per">Error</th>
+            </tr>
+
+            <tr *ngFor="let error of migrationResponse.contacts.addresses.errorDetails" class="w-100">
+              <td>
+                {{error.description}}
+              </td>
+
+              <td>
+                {{error.error}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="migrationResponse.contacts.telecoms" class="d-flex flex-row flex-grow-1 mb-2 pb-2 border-bottom">
+      <div class="col-2">
+        Contact Telecoms
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-primary">
+          {{migrationResponse.contacts.telecoms.successCount}}
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-danger">
+          {{migrationResponse.contacts.telecoms.errorCount}}
+        </div>        
+      </div>
+
+      <div class="col-6">
+        <table class="w-100">
+          <tbody class="w-100">
+            <tr class="w-100">
+              <th class="w-40per">Item</th>
+
+              <th class="w-60per">Error</th>
+            </tr>
+
+            <tr *ngFor="let error of migrationResponse.contacts.telecoms.errorDetails" class="w-100">
+              <td>
+                {{error.description}}
+              </td>
+
+              <td>
+                {{error.error}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="migrationResponse.relatedPersons">
+    <div *ngIf="migrationResponse.relatedPersons.import" class="d-flex flex-row flex-grow-1 mb-2 pb-2 border-bottom">
+      <div class="col-2">
+        Related Persons
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-primary">
+          {{migrationResponse.relatedPersons.import.successCount}}
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-danger">
+          {{migrationResponse.relatedPersons.import.errorCount}}
+        </div>        
+      </div>
+
+      <div class="col-6">
+        <table class="w-100">
+          <tbody class="w-100">
+            <tr class="w-100">
+              <th class="w-40per">Item</th>
+
+              <th class="w-60per">Error</th>
+            </tr>
+
+            <tr *ngFor="let error of migrationResponse.relatedPersons.import.errorDetails" class="w-100">
+              <td>
+                {{error.description}}
+              </td>
+
+              <td>
+                {{error.error}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="migrationResponse.invoices">
+    <div *ngIf="migrationResponse.invoices.import" class="d-flex flex-row flex-grow-1 mb-2 pb-2 border-bottom">
+      <div class="col-2">
+        Invoices
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-primary">
+          {{migrationResponse.invoices.import.successCount}}
+        </div>
+      </div>
+
+      <div class="col-2">
+
+      </div>
+
+      <div class="col-6">
+
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="migrationResponse.correspondence">
+    <div *ngIf="migrationResponse.correspondence.import" class="d-flex flex-row flex-grow-1 mb-2 pb-2 border-bottom">
+      <div class="col-2">
+        Correspondence
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-primary">
+          {{migrationResponse.correspondence.import.successCount}}
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-danger">
+          {{migrationResponse.correspondence.import.errorCount}}
+        </div>        
+      </div>
+
+      <div class="col-6">
+        <table class="w-100">
+          <tbody class="w-100">
+            <tr class="w-100">
+              <th class="w-40per">Item</th>
+
+              <th class="w-60per">Error</th>
+            </tr>
+
+            <tr *ngFor="let error of migrationResponse.correspondence.import.errorDetails" class="w-100">
+              <td>
+                {{error.description}}
+              </td>
+
+              <td>
+                {{error.error}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="migrationResponse.correspondence.files" class="d-flex flex-row flex-grow-1 mb-2 pb-2 border-bottom">
+      <div class="col-2">
+        Files
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-primary">
+          {{migrationResponse.correspondence.files.successCount}}
+        </div>
+      </div>
+
+      <div class="col-2">
+        <div class="label-tag md-2 type-danger">
+          {{migrationResponse.correspondence.files.errorCount}}
+        </div>        
+      </div>
+
+      <div class="col-6">
+        <table class="w-100">
+          <tbody class="w-100">
+            <tr class="w-100">
+              <th>Item</th>
+
+              <th>Error</th>
+            </tr>
+
+            <tr *ngFor="let error of migrationResponse.correspondence.files.errorDetails" class="w-100">
+              <td>
+                {{error.description}}
+              </td>
+
+              <td>
+                {{error.error}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+</div>

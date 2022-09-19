@@ -1,0 +1,19 @@
+<div class="central-popup-body" [formGroup]="editForm" appEnterKeyFocusWrapper delay="750">
+  <app-select-box direction="row" [dataSource]="telecomTypes" formControlName="telecomTypeId" valueExpr="uniqueNo"
+    displayExpr="description" caption="Type" [disabled]="!isNew"></app-select-box>
+
+  <app-text-box formControlName="telecomValue" class="mb-0" direction="row" [caption]="caption"></app-text-box>
+
+  <app-slide-toggle *ngIf="isNew || (!isNew && !telecom?.preferred)" formControlName="preferred"
+    class="mb-0 mt-3 md-height" direction="row" caption="Preferred?"></app-slide-toggle>
+
+  <app-slide-toggle *ngIf="isNew || (!isNew && !telecom?.primary)" formControlName="primary" class="mb-0" direction="row"
+    caption="Primary?"></app-slide-toggle>
+</div>
+
+<!-- Footer -->
+<div class="popup-form-footer-wrapper">
+  <app-button text="Close" class="ml-auto mr-3" (clicked)="formClosed.emit()" color="grey"></app-button>
+  
+  <app-button text="Save" (clicked)="submitForm()"></app-button>
+</div>

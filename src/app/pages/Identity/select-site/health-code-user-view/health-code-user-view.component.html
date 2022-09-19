@@ -1,0 +1,72 @@
+<div class="identity-card">
+  <div class="logo"></div>
+
+  <span class="pb-1 d-flex text-xs-1 text-grey-55">Site</span>
+
+  <div class="d-flex flex-row w-100 mb-3">
+    <app-button text="Admin System" (clicked)="adminClicked()" class="ml-auto mr-auto"></app-button>
+  </div>  
+
+  <dx-select-box [items]="sites" [(value)]="selectedSite" class="mx-auto no-bg-dropdown dx-custom-button-hovered"
+    displayExpr="displayName" stylingMode="outlined" [searchEnabled]="true"  autocomplete="new-password"
+    itemTemplate="item" fieldTemplate="field" placeholder="Choose a site ...">
+    <dx-validator>
+      <dxi-validation-rule type="required" message="Site must be selected from list."></dxi-validation-rule>
+    </dx-validator>
+
+    <div *dxTemplate="let data of 'item'" class="d-flex flex-row"> 
+      <span>{{data.siteName}}&nbsp;</span>
+
+      <span class="text-grey-65">[{{data.siteRef}}]&nbsp;</span>
+
+      <span class="label-tag my-auto ml-1" [ngClass]="{
+          'type3-1': data.ePracticeVariant === 'Lite',
+          'type5-1': data.ePracticeVariant === 'Full' || data.ePracticeVariant === 'Pro',
+          'type1-1': data.ePracticeVariant === 'Basic',
+          'type4-1': data.ePracticeVariant === 'Clinic'
+        }">{{data.ePracticeVariant}}</span>
+    </div>
+
+    <div *dxTemplate="let data of 'field'">
+      <div *ngIf="data" class="dropdown-field-wrapper d-flex flex-row">
+        <span>{{data.siteName}}&nbsp;</span>
+
+        <span class="text-grey-65">[{{data.siteRef}}]&nbsp;</span>
+
+        <span class="label-tag my-auto ml-1" [ngClass]="{
+          'type3-1': data.ePracticeVariant === 'Lite',
+          'type5-1': data.ePracticeVariant === 'Full' || data.ePracticeVariant === 'Pro',
+          'type1-1': data.ePracticeVariant === 'Basic',
+          'type4-1': data.ePracticeVariant === 'Clinic'
+        }">{{data.ePracticeVariant}}</span>
+      </div>
+
+      <dx-text-box [class.d-none]="data" [value]="data && data.displayName" placeholder="Choose a site ...">
+      </dx-text-box>
+    </div>
+  </dx-select-box>
+
+  <form (submit)="onHealthCodeUserFormSubmit($event)">
+    <span class="pb-1 d-flex mt-3 text-xs-1 text-grey-50">Reason</span>
+
+    <dx-select-box [items]="reasonList" [(value)]="reasonSelected" displayExpr="name" valueExpr="id"
+      class="mx-auto no-bg-dropdown dx-custom-button-hovered" stylingMode="outlined"  autocomplete="new-password">
+      <dx-validator>
+        <dxi-validation-rule type="required" message="Reason for logging in is required"></dxi-validation-rule>
+      </dx-validator>
+    </dx-select-box>
+
+    <span class="text-grey-55 pb-1 d-flex mt-3 text-xs-1">Details</span>
+
+    <dx-text-area [minHeight]="75" [maxHeight]="300" stylingMode="outlined" [autoResizeEnabled]="true" class="mb-2"
+      [(value)]="reasonDetails">
+      <dx-validator>
+        <dxi-validation-rule type="required" message="Details of reason for login are required.">
+        </dxi-validation-rule>
+      </dx-validator>
+    </dx-text-area>
+
+    <dx-button class="w-full w-100 login-btn mt-4" text="Select" type="default" [useSubmitBehavior]="true">
+    </dx-button>
+  </form>
+</div>

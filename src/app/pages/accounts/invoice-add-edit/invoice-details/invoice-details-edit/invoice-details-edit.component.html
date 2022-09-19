@@ -1,0 +1,24 @@
+<div class="d-flex flex-row flex-grow-1">
+  <div class="d-flex flex-column mr-2" [formGroup]="editForm" >
+    <div class="d-flex flex-row" #gouprOne>
+      <app-text-box id="invoiceNo" formControlName="invoiceNo" direction="row" caption="Invoice Number" class="width-1/2" [maxLength]="20">
+      </app-text-box>
+
+      <span class="label-info light" style="line-height: 30px;">* Invoice Number will be auto generated if left blank
+      </span>
+    </div>
+
+    <div class="d-flex flex-row">
+      <app-text-box class="width-1/2" *ngIf="store.isInsurer" formControlName="authCode" direction="row" caption="Auth Code"></app-text-box>
+    </div>    
+    
+    <div class="d-flex flex-row">
+      <app-date-box formControlName="invoiceDate" direction="row" caption="Invoice Date" acceptCustomValue="true"
+        [maxDate]="maxDate" class="width-1/2"></app-date-box>
+    </div>
+  </div>
+
+  <div class="d-flex flex-column mt-auto flex-grow-1 pb-2">
+    <app-button text="Save" class="ml-auto" (clicked)="save()" [disabled]="!editForm.valid"></app-button>
+  </div>
+</div>

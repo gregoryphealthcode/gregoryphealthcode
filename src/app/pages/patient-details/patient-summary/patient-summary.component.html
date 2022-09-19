@@ -1,0 +1,504 @@
+<dx-popup appRightPopUpSettings *ngIf="showCorrespondence" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="d-flex modal-standard-width">
+    <app-patient-correspondence-preview [correspondencePreviewData]="selectedRowData" [patientId]="patientId"
+      (closed)="showCorrespondence = false"></app-patient-correspondence-preview>
+  </div>
+</dx-popup>
+
+<app-patient-letters-add-edit [data]="selectedLetter" (saved)="saved($event)"></app-patient-letters-add-edit>
+
+<app-appointment-popup-add-edit *ngIf="showAppointmentPopup" (closed)="closedHandler();"
+  (saved)="getNextApt(); getPatientWaitingList(); showAppointmentPopup = false;" [patientId]="patientId">
+</app-appointment-popup-add-edit>
+
+<!-- Row 1 -->
+<div class="top-row mt-3">
+  <!-- Cell 1 -->
+  <div class="summary-card disable-select single-column">
+    <div class="summary-card-title">
+      <span>Main Details</span>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1 summary-card-body">
+      <!-- col 1 -->
+      <div class="d-flex flex-column flex-grow-1" *ngIf="basicPatientDetails">
+        <div class="d-flex flex-row card-row">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width mt-1">Full Name</span>
+
+            <span class="label-info-value mb-1 wrap">{{basicPatientDetails.lastName}}, {{basicPatientDetails.firstName}}
+              {{basicPatientDetails.title}}</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row card-row" *ngIf="basicPatientDetails.otherInitials">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width mt-1">Other Initals</span>
+
+            <span class="label-info-value mb-1">{{basicPatientDetails.otherInitials}}</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row card-row">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width mt-1">Birth Gender</span>
+
+            <span class="label-info-value mb-1">{{basicPatientDetails.gender}}</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row card-row" *ngIf="basicPatientDetails.identifiesAs">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width mt-1">Identifies As</span>
+
+            <span class="label-info-value mb-1">{{basicPatientDetails.identifiesAs}}</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row card-row">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width mt-1 ">DOB (Age)</span>
+
+            <span class="label-info-value mb-1">{{basicPatientDetails.birthDate | date: appInfo.getDateFormat}}
+              ({{calcAge()}})</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row card-row" *ngIf="basicPatientDetails.deceased">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width mt-1 ">Deceased</span>
+
+            <span class="label-info-value mb-1">{{basicPatientDetails.deceasedDate | date:
+              appInfo.getDateFormat}}</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row card-row hoverable" (click)="tabIndex.emit('Address')">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width mt-1" *ngIf="primaryAddress?.address1">Address</span>
+
+            <div *ngIf="this.primaryAddress?.address1" class="label-info-value">{{primaryAddress.address1}}</div>
+
+            <div *ngIf="this.primaryAddress?.address2" class="label-info-value">{{primaryAddress.address2}}</div>
+
+            <div *ngIf="this.primaryAddress?.address3" class="label-info-value">{{primaryAddress.address3}}</div>
+
+            <div *ngIf="this.primaryAddress?.address3" class="label-info-value">{{primaryAddress.address4}}</div>
+
+            <div *ngIf="this.primaryAddress?.postcode" class="label-info-value mb-1">{{primaryAddress.postcode}}</div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row mt-1 card-row hoverable" *ngFor="let item of telecoms; let i = index">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width mt-1">{{item.description}}</span>
+
+            <a *ngIf="item.telecomTypeId != 4" class="label-info-value mb-1"
+              [href]="'tel:' + item.telecomValue">{{item.telecomValue}}</a>
+
+            <a *ngIf="item.telecomTypeId == 4" class="label-info-value mb-1"
+              [href]="'mailto:' + item.telecomValue">{{item.telecomValue}}</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- col 2 -->
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row card-row hoverable" *ngFor="let item of referenceNumbers; let i = index"
+          (click)="tabIndex.emit('Reference')">
+          <div class="d-flex flex-column">
+            <div class="label-info label-width mt-1">{{item.refNoType}}</div>
+
+            <div class="label-info-value mb-1 ">{{item.refNoValue}}</div>
+          </div>
+        </div>
+
+        <ng-container *ngIf="insurer">
+          <div class="d-flex flex-row card-row hoverable" (click)="tabIndex.emit('Insurer')">
+            <div class="d-flex flex-column">
+              <span class="label-info label-width mt-1">Insurer</span>
+
+              <span class="label-info-value mb-1">{{insurer.insurerName}}</span>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row card-row hoverable" (click)="tabIndex.emit('Insurer')">
+            <div class="d-flex flex-column">
+              <span class="label-info label-width mt-1">Membership No.</span>
+
+              <span class="label-info-value mb-1 ">{{insurer.registrationNumber}}</span>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="d-flex flex-row mt-1 card-row hoverable" (click)="tabIndex.emit('Balance')">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width">Balance</span>
+
+            <span class="label-info-value" *ngIf="patientBalance"> {{patientBalance.balanceDue === null ? "0":
+              patientBalance.balanceDue | currency: appInfo.getCurrencySymbol}}
+              <!-- Balance  - ORANGE FLAG IF MONEY OWED-->
+              <i class="fas fa-flag orange" hint="orange flag = Balance due"
+                *ngIf="(patientBalance.balanceDue > 0)"></i>
+
+              <!-- Balance  - RED FLAG IF ON STOP-->
+              <i class="fas fa-flag red" hint="red flag = On Stop"
+                *ngIf="basicPatientDetails && basicPatientDetails.onStop" matTooltip="Patient On Stop"></i>
+            </span>
+          </div>
+        </div>
+        <ng-container *ngIf="basicPatientDetails && basicPatientDetails.dateCreated">
+          <div class="d-flex flex-row mt-1 card-row hoverable">
+            <div class="d-flex flex-column">
+              <span class="label-info label-width mt-1">Patient Added On</span>
+
+              <span class="label-info-value mb-1">{{basicPatientDetails.dateCreated | date:
+                appInfo.getDateFormat}}</span>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="summary-card-footer">
+      <app-button text="Add Appointment" type="link" icon="fal fa-calendar-plus" (clicked)="newAppointment()"
+        class="mr-3">
+      </app-button>
+
+      <app-button text="New Invoice" type="link" icon="fal fa-file-invoice" (clicked)="newInvoice()" class="mr-3">
+      </app-button>
+
+      <app-button text="Create Letter" type="link" icon="fal fa-file-word" (clicked)="newLetter()"></app-button>
+    </div>
+  </div>
+
+  <!-- Cell 2 -->
+  <div class="summary-card disable-select notes-card single-column">
+    <div class="summary-card-title">
+      <span>Warning Notes</span>
+    </div>
+
+    <div class="d-flex flex-column summary-card-body">
+      <ng-container *ngIf="!selectedItem">
+        <span class="label-info column-margin mt-1 link" (click)="tabIndex.emit('Notes')">No warning notes exist</span>
+      </ng-container>
+
+      <ng-container *ngIf="selectedItem">
+        <div class="d-flex flex-row card-row">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width label-width-small">Date</span>
+
+            <span class="label-info-value ">{{selectedItem.dateCreated | date: appInfo.getDateFormat }}</span>
+          </div>
+
+          <div class="d-flex flex-column">
+            <span class="label-info label-width">Created by</span>
+
+            <span class="label-info-value ">{{selectedItem.createdBy}}</span>
+          </div>
+
+          <div class="d-flex flex-column label-width-small">
+            <span class="label-info label-width label-width-small ">Type</span>
+
+            <span class="label-info-value ">{{selectedItem.noteType}}</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row mt-2">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width">Details</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row">
+          <div class="d-flex flex-column flex-grow-1 notes-height">
+
+            <dx-html-editor [height]="200" class="custom" valueType="markdown" #noteTextEditor name="noteTextEditor"
+              [readOnly]="true" [value]="selectedItem.noteText"> </dx-html-editor>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center justify-content-center">
+          <button mat-icon-button class="alternative icon ml--16px" (click)="previousClicked()">
+            <mat-icon fontSet="fa" fontIcon="fa-chevron-left"></mat-icon>
+          </button>
+
+          <span class="item-selector">Note {{selectedIndex + 1}} of {{notes.length}}</span>
+
+          <button mat-icon-button class=" alternative icon" (click)="nextClicked()">
+            <mat-icon fontSet="fa" fontIcon="fa-chevron-right"></mat-icon>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="summary-card-footer">
+      <app-button text="Show All" type="link" icon="fal fa-list" (clicked)="tabIndex.emit('Notes')"></app-button>
+    </div>
+  </div>
+
+  <!-- Cell 3 -->
+  <div class="d-flex flex-column">
+    <div class="d-flex flex-row">
+      <div class="summary-card width-sm disable-select single-column">
+
+        <div class="summary-card-title">
+          <span>Next Appointment</span>
+        </div>
+
+        <div class="d-flex flex-row summary-card-body">
+          <ng-container *ngIf="nextApt !== null">
+            <div class="d-flex flex-row">
+              <div class="d-flex flex-column hoverable" (click)="tabIndex.emit('Appointment')">
+                <div class="label-info-value mb-1"><i class="far fa-clock w-1 mr-1"></i>{{nextAptDate}}</div>
+
+                <div class="label-info-value mb-1"> <i class="far fa-user-md w-1 mr-1"></i>{{nextApt?.ownerName}}</div>
+
+                <div class="label-info-value mb-1">
+                  <i class="far fa-map-marker-alt w-1 mr-1"></i>{{nextApt?.locationName}}
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="nextApt === null">
+            <div class="label-info link mb-3">No upcoming appointments</div>
+
+            <div class="label-info button-align-right">
+              <button mat-button class="app-button primary grid-header-btn-small mb-3 " (click)="newAppointment()"
+                matTooltip="Create a new appointment">
+                <span>Add appointment</span>
+              </button>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row">
+      <div class="summary-card width-sm disable-select single-column">
+        <div class="summary-card-title">
+          <span>Waiting List</span>
+        </div>
+
+        <div class="d-flex flex-row summary-card-body" (click)="tabIndex.emit('WaitingList')">
+          <ng-container *ngIf="waitingList?.length > 0">
+            <div class="lighter-background d-flex flex-grow-1 mt-2 grid-height2">
+              <div class="cssWidgetWrapper px-0">
+                <dx-data-grid [dataSource]="waitingList" [remoteOperations]="false" [rowAlternationEnabled]="true"
+                  [showBorders]="false" [showColumnLines]="false" [showRowLines]="false" keyExpr="this"
+                  [focusedRowEnabled]="true" focusedRowIndex="0" gridWithRowLinesSettings class="compact-mode"
+                  [columnMinWidth]="100">
+                  <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+                  <dxi-column dataField="dateAdded" caption="Date Added" [format]="appInfo.getDateFormat"
+                    dataType="date"></dxi-column>
+                  <dxi-column dataField="appointmentDescription" caption="Appointment Type"></dxi-column>
+                </dx-data-grid>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="waitingList?.length == 0">
+            <div class="label-info link mb-3">No waiting list entries</div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1 pointer" *ngIf="allergies.length > 0" (click)="tabIndex.emit('Allergies')">
+      <div class="summary-card bg-red width-sm disable-select single-column">
+        <div class="summary-card-title">
+          <span>Allergies & Intolerances</span>
+        </div>
+
+        <div class="d-flex flex-column summary-card-body">
+          <div class="d-flex flex-row mb-1">
+            <span class="label-info-value allergies-label-info-value width-80 underline">Allergy to</span>
+
+            <span class="label-info-value allergies-label-info-value width-20 underline">Severity</span>
+          </div>
+
+          <div class="d-flex flex-row" *ngFor="let item of allergies; let i = index">
+            <span class="label-info-value allergies-label-info-value font-light width-80">{{item.allergen}}</span>
+
+            <span
+              class="label-info-value allergies-label-info-value font-light width-20">{{item.allergySeverity}}</span>
+          </div>
+
+          <ng-container *ngIf="intolerances.length == 0">
+            <div class="d-flex flex-row mt-3 mb-1">
+              <span class="label-info-value">No intolerances recorded</span>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="intolerances.length > 0">
+            <div class="d-flex flex-row mt-3 mb-1">
+              <span class="label-info-value allergies-label-info-value width-80 underline">Intolerance to</span>
+
+              <span class="label-info-value allergies-label-info-value width-20 underline">Severity</span>
+            </div>
+
+            <div class="d-flex flex-row" *ngFor="let item of intolerances; let i = index">
+              <span class="label-info-value allergies-label-info-value font-light width-80">{{item.allergen}}</span>
+
+              <span
+                class="label-info-value allergies-label-info-value font-light width-20">{{item.allergySeverity}}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1 pointer" *ngIf="allergies.length == 0 && intolerances.length >= 0"
+      (click)="tabIndex.emit('Allergies')">
+      <div class="summary-card width-sm disable-select single-column">
+        <div class="summary-card-title">
+          <span>Allergies & Intolerances</span>
+        </div>
+
+        <div class="d-flex flex-column summary-card-body">
+          <div class="d-flex flex-row mb-1">
+            <span class="label-info-value">No allergies recorded</span>
+          </div>
+
+          <ng-container *ngIf="intolerances.length == 0">
+            <div class="d-flex flex-row mt-3 mb-1">
+              <span class="label-info-value">No intolerances recorded</span>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="intolerances.length > 0">
+            <div class="d-flex flex-row mt-3 mb-1">
+              <span class="label-info-value allergies-label-info-value width-80 underline">Intolerance to</span>
+
+              <span class="label-info-value allergies-label-info-value width-20 underline">Severity</span>
+            </div>
+
+            <div class="d-flex flex-row" *ngFor="let item of intolerances; let i = index">
+              <span class="label-info-value allergies-label-info-value font-light width-80">{{item.allergen}}</span>
+
+              <span
+                class="label-info-value allergies-label-info-value font-light width-20">{{item.allergySeverity}}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Row 2 -->
+<div class="bottom-row">
+  <div class="summary-card width-lg flex-column disable-select single-column">
+    <div class="summary-card-title">
+      <span>Correspondence</span>
+    </div>
+
+    <div class="d-flex flex-row summary-card-body align-items-center">
+      <div class="lighter-background d-flex flex-grow-1 mt-2 grid-height">
+        <div class="cssWidgetWrapper px-0">
+          <dx-data-grid id="relatedgridContainer" [dataSource]="correspondence" [remoteOperations]="false"
+            [rowAlternationEnabled]="true" [showBorders]="false" [showColumnLines]="false" [showRowLines]="false"
+            keyExpr="this" [focusedRowEnabled]="true" focusedRowIndex="0" gridWithRowLinesSettings class="compact-mode">
+
+            <dxi-column dataField="description" cellTemplate="descriptionTemplate" caption="Name" [minWidth]="400">
+            </dxi-column>
+            <dxi-column dataField="created" caption="Created" alignment="center" [format]="appInfo.getDateFormat"
+              [minWidth]="120" dataType="date">
+            </dxi-column>
+
+            <div *dxTemplate="let data of 'descriptionTemplate'" class="d-flex flex-column">
+              <div class="d-flex flex-row align-items-center">
+                <span class="text-semiBold mr-2">{{data.data.description}}</span>
+
+                <span class="label-tag type5-1 my-auto">{{data.data.category}}</span>
+              </div>
+
+              <div class="d-flex flex-row">
+                {{data.data.comments}}
+              </div>
+            </div>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-card-footer">
+      <app-button text="Show All" type="link" icon="fal fa-list" (clicked)="tabIndex.emit('Correspondence')">
+      </app-button>
+    </div>
+  </div>
+
+  <div class="summary-card disable-select single-column kin-card">
+    <div class="summary-card-title">
+      <span>Next of Kin</span>
+    </div>
+
+    <div class="d-flex flex-column summary-card-body has-border-bottom">
+      <ng-container *ngIf="!relatedPersons">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <span class="label-info column-margin mt-1 link" (click)="tabIndex.emit('Related')">No next of kin</span>
+          </div>
+        </div>
+      </ng-container>
+
+      <div *ngIf="relatedPersons" class="d-flex flex-column hoverable" (click)="tabIndex.emit('Related')">
+        <div class="d-flex flex-row card-row ">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width column-margin mt-1">Name</span>
+
+            <span class="label-info-value column-margin mb-1">{{relatedPersons?.title != null ? relatedPersons?.title +
+              ' ' + relatedPersons?.firstName + ' ' + relatedPersons?.lastName : relatedPersons?.firstName + ' ' +
+              relatedPersons?.lastName}}</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row card-row">
+          <div class="d-flex flex-column">
+            <div class="d-flex flex-row">
+              <div class="d-flex flex-column">
+                <span class="label-info label-width mt-1">Address</span>
+
+                <span>
+                  <div *ngIf="relatedPersons.address?.address1" class="label-info-value ">
+                    {{relatedPersons.address.address1}}</div>
+
+                  <div *ngIf="relatedPersons.address?.address2" class="label-info-value ">
+                    {{relatedPersons.address.address2}}</div>
+
+                  <div *ngIf="relatedPersons.address?.address3" class="label-info-value ">
+                    {{relatedPersons.address.address3}}</div>
+
+                  <div *ngIf="relatedPersons.address?.address3" class="label-info-value ">
+                    {{relatedPersons.address.address4}}</div>
+
+                  <div *ngIf="relatedPersons.address?.postcode" class="label-info-value mb-1">
+                    {{relatedPersons.address.postcode}}</div>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row card-row">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width mt-1">Email</span>
+
+            <span class="label-info-value mb-1">{{relatedPersons.email}}</span>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row">
+          <div class="d-flex flex-column">
+            <span class="label-info label-width mt-1">Contact Number</span>
+
+            <span class="label-info-value mb-1">{{relatedPersons.contactNumber}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

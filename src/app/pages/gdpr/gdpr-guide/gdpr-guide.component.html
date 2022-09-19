@@ -1,0 +1,516 @@
+<div class="w-69per h-auto float-left">
+  <div *ngIf="(PageNumber===1)" class="dx-card content-block m-1" class="hc-100-120px overflow-auto">
+    <div>
+      <h3 class="subheadgdpr">GDPR Terms </h3>
+
+      <div class="data_terms_list_wrap">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/data_controller.png" /> </div>
+
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Data Controller </h3>
+
+          <p> The person who alone or jointly with others, determines the purposes and
+            means of the processing of personal data. This is usually the person who
+            individuals will supply their information to. For example; a hospital,
+            consultant or practitioner who collects data from patients would be the data controller.
+          </p>
+        </div>
+      </div>
+
+      <div class="data_terms_list_wrap">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/data_processor.png" /> </div>
+
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Data Processor </h3>
+
+          <p> A natural or legal person, public authority, agency or other body which processes personal data on behalf
+            of the controller.
+          </p>
+        </div>
+      </div>
+
+      <div class="data_terms_list_wrap">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/personal-data.png" /> </div>
+
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Personal Data </h3>
+
+          <p>Any information relating to an identified or identifiable natural
+            person (‘data subject’); an identifiable natural person is one who can
+            be identified, directly or indirectly, in particular by reference to an
+            identifier such as a name, an identification number, location data,
+            an online identifier or to one or more factors specific to the physical,
+            physiological, genetic, mental, economic, cultural or social identity of that natural person.
+          </p>
+        </div>
+      </div>
+
+      <div class="data_terms_list_wrap">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/data-concerning-health.png" /> </div>
+
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Data Concerning Health </h3>
+
+          <p> Personal data related to the physical or mental health of a natural person, including the provision of
+            health care services, which reveal information about his or her health status.
+          </p>
+        </div>
+      </div>
+
+
+      <div class="data_terms_list_wrap">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/sensitive_data.png" /></div>
+
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Sensitive Data </h3>
+
+          <p> Includes medical records, genetic data, biometric data, racial
+            or ethnic data, political opinions, religious or philosophical beliefs,
+            trade-union memberships and health data. These all fall into ‘special category’
+            of sensitive data meaning they have enhanced protection under The GDPR.
+            Practitioners will require an additional ground for processing
+            this type of data, such as explicit consent or security. This will be
+            discussed in more detail throughout the Toolkit.
+          </p>
+        </div>
+      </div>
+
+      <div class="data_terms_list_wrap">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/processing.png" /> </div>
+
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Processing </h3>
+
+          <p> Any operation or set of operations which is performed on personal data or on sets of personal data,
+            whether or not by automated means, such as collection, recording, organisation, structuring, storage,
+            adaptation or alteration, retrieval, consultation, use, disclosure by transmission,
+            dissemination or otherwise making available, alignment or combination, restriction, erasure or destruction.
+          </p>
+        </div>
+      </div>
+
+      <div class="data_terms_list_wrap">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/third_party.png" /> </div>
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Third Party </h3>
+
+          <p> A natural or legal person, public authority, agency or body other than the
+            data subject, controller, processor and persons who, under the direct authority of the
+            controller or processor, are authorised to process personal data.
+          </p>
+        </div>
+      </div>
+
+      <div class="data_terms_list_wrap">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/consent.png" /> </div>
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Consent </h3>
+
+          <p> Freely, given, specific, informed and unambiguous indication of the data subject's wishes by which he or
+            she, by a statement or by a clear affirmative action, signifies agreement to the processing of personal data
+            relating to him or her.
+          </p>
+        </div>
+      </div>
+
+      <div class="data_terms_list_wrap">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/data-breach.png" /> </div>
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Personal Data Breach </h3>
+
+          <p> A breach of security leading to the accidental or unlawful destruction, loss, alteration, unauthorised
+            disclosure of, or access to, personal data transmitted, stored or otherwise processed.
+          </p>
+        </div>
+      </div>
+
+      <div class="data_terms_list_wrap">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/genetic_data.png" /> </div>
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Genetic Data </h3>
+
+          <p> Personal data relating to the inherited or acquired genetic characteristics
+            of a natural person which give unique information about the physiology or the health of that natural
+            person and which result, in particular, from an analysis of a biological sample from the natural person in
+            question.
+          </p>
+        </div>
+      </div>
+
+      <div class="data_terms_list_wrap border-bottom-none">
+        <div class="termsimgwrap"> <img src="./assets/GDPR/biometric_data.png" /> </div>
+        <div class="termsdatawrap">
+          <h3 class="bighead"> Biometric Data </h3>
+
+          <p> Personal data resulting from specific technical processing relating to
+            the physical, physiological or behavioural characteristics of a natural person, which allow or confirm
+            the unique identification of that natural person, such as facial images or dactyloscopic data. </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="offset-sm-1 col-sm-5">
+          <dx-button text="Previous" type="default" icon="fas fa-chevron-left" [disabled]="true">
+          </dx-button>
+        </div>
+
+        <div class="col-sm-5" class="text-right">
+          <dx-button text="Next" (onClick)="NavigateToPage(2)" type="default" icon="fas fa-chevron-right">
+          </dx-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="(PageNumber===2)" class="dx-card content-block m-1" class="hc-100-120px overflow-auto">
+    <div>
+      <div class="intro_data">
+        <h3 class="subheadgdpr">Conditions for Processing</h3>
+
+        <p>Practitioners need to be aware that if personal data is being
+          processed, you will be required to have one processing ground to do
+          so. If you process sensitive/special category data, you will need an
+          additional ground to process. As a practitioner, in most cases you
+          are able to rely on the Data Protection Bill which states ‘Medical
+          purposes 7 (1) The processing is necessary for medical purposes and
+          is undertaken by— (a) a health professional, or (b) a person who in
+          the circumstances owes a duty of confidentiality which is equivalent
+          to that which would arise if that person were a health professional.
+          (2) In this paragraph, “medical purposes” includes the purposes of
+          preventative medicine, medical diagnosis, medical research, the
+          provision of care and treatment and the management of healthcare
+          services.
+        </p>
+
+        <p>As mentioned above, a fundamental principle of the GDPR is that
+          personal data shall be processed fairly and lawfully and in a
+          transparent manner. In order to demonstrate lawful processing of
+          personal data, you must satisfy one of the six lawful bases for
+          processing. These have been outlined:
+        </p>
+
+        <div class="data_terms_list_wrap autoheight">
+          <div class="termsdatawrap">
+            <h3 class="colorblue">Consent</h3>
+
+            <p>The data subject has given consent to the processing for one
+              or more specific purposes.
+            </p>
+          </div>
+        </div>
+
+
+        <div class="data_terms_list_wrap autoheight">
+          <div class="termsdatawrap">
+            <h3 class="colorblue">Performance of a Contract</h3>
+
+            <p>Processing is necessary for the performance of a contract to
+              which the data subject is party or in order to take steps at the
+              request of the data subject prior to entering into a contract.
+            </p>
+          </div>
+        </div>
+
+
+        <div class="data_terms_list_wrap autoheight">
+          <div class="termsdatawrap">
+            <h3 class="colorblue">Compliance with Legal Obligations</h3>
+
+            <p>Processing is necessary for compliance with a legal
+              obligation to which the controller is subject.
+            </p>
+          </div>
+        </div>
+
+        <div class="data_terms_list_wrap autoheight">
+          <div class="termsdatawrap">
+            <h3 class="colorblue">Vital Interests</h3>
+
+            <p>Processing is necessary in order to protect the vital
+              interests of the data subject or another natural person.
+            </p>
+          </div>
+        </div>
+
+        <div class="data_terms_list_wrap autoheight">
+          <div class="termsdatawrap">
+            <h3 class="colorblue">Public Interest</h3>
+
+            <p>Processing is necessary for the performance of a task carried
+              out in the public interest or in the exercise of official authority
+              vested in the controller.
+            </p>
+          </div>
+        </div>
+
+        <div class="data_terms_list_wrap autoheight border-bottom-none">
+          <div class="termsdatawrap">
+            <h3 class="colorblue">Legitimate Interests</h3>
+
+            <p>Processing is necessary for the purposes of the legitimate
+              interests pursued by the controller or a third party, except where
+              such interests are overridden by the interests or fundamental
+              rights and freedoms of the data subject.
+            </p>
+          </div>
+        </div>
+
+        <p> In the provision of health care services, it is most likely that practitioners will be
+          processing the personal data in order to perform the contract that it has in place with
+          the patient for the provision of this care. It may also be that practitioners would seek
+          to rely on the ‘legitimate interests’ ground for processing when it is processing personal
+          data that is not related to health care or the ‘vital interests’ ground for processing in the event that any
+          unusual
+          processing (such as urgent disclosure of personal data to a third party) is necessary to protect the life of
+          the
+          patient.
+        </p>
+
+        <p>As practitioners will also be processing data concerning the health of patients,
+          and because this is classed as a special category of personal data under the GDPR,
+          you will also need to satisfy an additional and
+          separate condition for processing special category data under Article 9 of the GDPR.
+        </p>
+
+        <table class="continuewtbl">
+          <tbody>
+            <tr>
+              <th> Explicit Consent </th>
+
+              <th>Employment and Social Security </th>
+
+              <th>Vital Interests</th>
+
+              <th>Not for Profit Bodies</th>
+
+              <th> Personal Data made Public </th>
+            </tr>
+
+            <tr>
+              <td>The data subject has given explicit consent to the processing.</td>
+
+              <td>The processing is necessary for the purposes of carrying out the
+                obligations and exercising specific rights of the controller or of the data subject
+                in the field of employment and social security and social protection law.
+              </td>
+
+              <td>The processing is necessary to protect the vital interests of the data subject or
+                of another natural person where the data subject is physically or
+                legally incapable of giving consent.
+              </td>
+
+              <td>The processing is carried out in the course
+                of its legitimate activities with appropriate safeguards by a foundation, association
+                or any other not-for-profit body with a political, philosophical, religious or trade union aim.
+              </td>
+
+              <td> The personal data has been manifestly made public by the data subject.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="continuewtbl">
+          <tbody>
+            <tr>
+              <th>Legal Claims </th>
+
+              <th>Substantial Public Interest </th>
+
+              <th>Medicine and Health</th>
+
+              <th>Public Health</th>
+
+              <th>Archiving</th>
+            </tr>
+
+            <tr>
+              <td>The processing is necessary for the establishment, exercise or defence of legal
+                claims or whenever courts are acting in their judicial capacity.
+              </td>
+
+              <td>The processing is necessary for reasons of substantial public interest, on the basis of Union or
+                Member State law.
+              </td>
+
+              <td>The processing is necessary for the purposes of preventive
+                or occupational medicine, for the assessment of the working
+                capacity of the employee, medical diagnosis, the provision of
+                health or social care or treatment or the management of health
+                or social care systems and services on the basis of Union or Member
+                State law or pursuant to contract with a health professional.
+              </td>
+
+              <td> The processing is necessary for reasons of public interest
+                in the area of public health, such as protecting against
+                serious cross-border threats to health.
+              </td>
+
+              <td>The processing is necessary for archiving purposes
+                in the public interest, scientific or historical
+                research purposes or statistical purposes.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 class="bighead"> The Bill </h3>
+
+        <p>The Bill has added further clarification to what this ground for processing special category personal data
+          means. The Bill states that “health or social care purposes” means the purposes of:
+        </p>
+
+        <ul class="benefitsul liablitiul">
+          <li>Preventative or occupational medicine</li>
+
+          <li> The assessment of the working capacity of an employee</li>
+
+          <li> Medical diagnosis</li>
+
+          <li> The provision of health care or treatment</li>
+
+          <li> The provision of social care</li>
+
+          <li> The management of health care systems or services or social care systems or services</li>
+        </ul>
+
+        <h3 class="bighead mt-10px float-left w-100"> Who is a Health Professional? </h3>
+
+        <p>The Bill defines a health professional as:</p>
+
+        <ul class="benefitsul liablitiul">
+          <li> A registered medical practitioner </li>
+
+          <li> A registered nurse or midwife</li>
+
+          <li> A registered dentist within the meaning of the Dentists Act 1984 (see section 53 of that Act)</li>
+
+          <li> A registered dispensing optician or a registered optometrist within the meaning of the Opticians Act 1989
+            (see section 36 of that Act)
+          </li>
+
+          <li> A registered osteopath with the meaning of the Osteopaths Act 1993 (see section 41 of that Act)</li>
+
+          <li> A registered chiropractor within the meaning of the Chiropractors Act 1994 (see section 43 of that Act)
+          </li>
+
+          <li> A person registered as a member of a profession to which the Health and Social Work Professions
+            Order 2001 (S.I. 2002/254) for the time being extends, other than the social work profession in England
+          </li>
+
+          <li> A registered pharmacist or a registered pharmacy technician within the meaning of the Pharmacy Order 2010
+            (S.I. 2010/231) (see Article 3 of that Order)
+          </li>
+
+          <li> A registered person within the meaning of the Pharmacy (Northern Ireland) Order 1976 (S.I. 1976/1213
+            (N.I.22)) (see Article 2 of that Order)
+          </li>
+
+          <li> A child psychotherapist</li>
+
+          <li> A scientist employed by a health service body as head of a department</li>
+        </ul>
+
+        <p> Consequently, the processing of data concerning health by a practitioner will, when it relates to the
+          provision
+          of healthcare or the management of healthcare systems, likely be permitted under GDPR on the basis of the
+          ‘medicine and
+          health’ ground for processing. Of course, if a practitioner is processing special category personal data for
+          other purposes
+          (such as for marketing purposes) then another ground (such as explicit consent) will need to be considered.
+        </p>
+      </div>
+
+      <div class="row">
+        <div class="offset-sm-1 col-sm-5">
+          <dx-button text="Previous" (onClick)="NavigateToPage(1)" type="default" icon="fas fa-chevron-left">
+          </dx-button>
+        </div>
+
+        <div class="col-sm-5 text-right">
+          <dx-button text="Next" (onClick)="NavigateToPage(3)" type="default" icon="fas fa-chevron-right">
+          </dx-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="float-left h-auto w-30">
+  <div class="dx-card content-block m-1">
+    <h3 class="subheadgdpr">GDPR Guide Menu </h3>
+
+    <div class="commonContainer">
+      <div class="card">
+        <ul class="right_nav_gdpr">
+          <li><a href="javascript:void(0);" id="gdprlink1" (onClick)="NavigateToPage(1)">GDPR Terms</a></li>
+
+          <li><a href="javascript:void(0);" id="gdprlink2" (onClick)="NavigateToPage(2)">Conditions for Processing</a>
+          </li>
+
+          <li><a href="javascript:void(0);" id="gdprlink3" onclick="navigate(3,this)">Liability</a></li>
+
+          <li><a href="javascript:void(0);" id="gdprlink4" onclick="navigate(4,this)">Consent</a></li>
+          <li><a href="javascript:void(0);" id="gdprlink5" onclick="navigate(5,this)">Marketing</a></li>
+
+          <li class="submenuli iconshift gdprEcPlus"><a class="gdprprincbtn" id="gdprMainMenu1" href="#">GDPR 6
+              Principles and Examples </a>
+            <ul class="submenuul gdprprincul">
+              <li><a href="javascript:void(0);" id="gdprlink6" onclick="navigate(6,this)">Fairly, Lawful and
+                  Transparent</a></li>
+
+              <li><a href="javascript:void(0);" id="gdprlink7" onclick="navigate(7,this)">Purpose Limitations</a></li>
+
+              <li><a href="javascript:void(0);" id="gdprlink8" onclick="navigate(8,this)">Data Minimisation</a></li>
+
+              <li><a href="javascript:void(0);" id="gdprlink9" onclick="navigate(9,this)">Accuracy and Relevance</a>
+              </li>
+
+              <li><a href="javascript:void(0);" id="gdprlink10" onclick="navigate(10,this)">Storage Limitations</a></li>
+
+              <li><a href="javascript:void(0);" id="gdprlink11" onclick="navigate(11,this)">Integrity and
+                  Confidentiality</a></li>
+            </ul>
+          </li>
+
+          <li class="submenuli iconshift1 gdprEcPlus">
+            <a class="increassunbtn" id="gdprMainMenu2" href="#">Increased Data Subject Rights</a>
+
+            <ul class="submenuul increassunul">
+              <li><a href="javascript:void(0);" id="gdprlink12" onclick="navigate(12,this)">Right to be informed</a>
+              </li>
+
+              <li><a href="javascript:void(0);" id="gdprlink13" onclick="navigate(13,this)">Right to rectification</a>
+              </li>
+
+              <li><a href="javascript:void(0);" id="gdprlink14" onclick="navigate(14,this)">Right to restrict
+                  processing</a></li>
+
+              <li><a href="javascript:void(0);" id="gdprlink15" onclick="navigate(15,this)">Right to object</a></li>
+
+              <li><a href="javascript:void(0);" id="gdprlink16" onclick="navigate(16,this)">Right of access</a></li>
+
+              <li><a href="javascript:void(0);" id="gdprlink17" onclick="navigate(17,this)">Right to erasure</a></li>
+
+              <li><a href="javascript:void(0);" id="gdprlink18" onclick="navigate(18,this)">Right to data
+                  portability</a></li>
+
+              <li><a href="javascript:void(0);" id="gdprlink19" onclick="navigate(19,this)">Right not to be subject to
+                  Automated Decision Making and Profiling</a></li>
+            </ul>
+          </li>
+
+          <li><a href="javascript:void(0);" id="gdprlink20" onclick="navigate(20,this)">Healthcare Sector Breach
+              Facts</a></li>
+
+          <li><a href="javascript:void(0);" id="gdprlink21" onclick="navigate(21,this)">Healthcode’s Key Practical
+              Tips</a></li>
+
+          <li> <a href="javascript:void(0);" id="gdprlink22" onclick="navigate(22,this)">Questions &amp; Answers</a>
+          </li>
+
+          <li> <a href="javascript:void(0);" id="gdprlink23" onclick="navigate(23,this)">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

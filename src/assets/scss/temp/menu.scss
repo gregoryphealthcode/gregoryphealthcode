@@ -1,0 +1,179 @@
+
+$menu-bg-color: rgb(13, 75, 146);
+$menu-hover-bg-color: hsla(205, 95%, 60%, 0.35);
+$menu-text-color: hsl(219, 100%, 99%);
+$menu-icon-color: hsl(219, 100%, 95%);
+
+body {
+  .dx-drawer-left .dx-drawer-panel-content {
+    z-index: 1501;
+  }
+
+  #sidenavigationmenu.dx-swatch-additional
+    .dx-treeview-item-without-checkbox.dx-state-focused
+    > .dx-treeview-item {
+    background-color: $menu-hover-bg-color !important;
+    color: white;
+  }
+
+  app-side-navigation-menu#sidenavigationmenu {
+    width: 240px !important;
+  }
+
+  app-side-navigation-menu {
+    &.dx-swatch-additional {
+      border-right: thin solid $menu-bg-color;
+      box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .menu-container .dx-widget.dx-treeview {
+      color: $menu-text-color !important;
+    }
+
+    .dx-treeview-node-container {
+      .dx-treeview-node {
+        padding-left: 0px;
+      }
+    }
+
+    .dx-treeview
+      .dx-treeview-node-container
+      .dx-treeview-node:not(.dx-state-focused)
+      > .dx-treeview-item.dx-state-hover {
+      background-color: $menu-hover-bg-color !important;
+    }
+
+    .dx-treeview
+    li.dx-treeview-node.dx-treeview-item-without-checkbox[aria-selected="true"] {
+      background-color: transparent !important;
+    }
+
+    // .dx-treeview
+    // li.dx-treeview-node.dx-treeview-item-without-checkbox[aria-level="2"] {
+    //   background-color: rgb(2, 135, 188) !important;
+    // }
+
+    .dx-treeview
+      li.dx-treeview-node.dx-treeview-item-without-checkbox[aria-expanded="true"] {
+      background-color: transparent !important;
+      color: $menu-text-color !important;
+
+      i.dx-icon {
+        color: $menu-text-color !important;
+      }
+    }
+  }
+
+  app-medsec-side-navigation-menu#sidenavigationmenu {
+    width: 240px !important;
+  }
+
+  app-medsec-side-navigation-menu {
+    &.dx-swatch-additional {
+      border-right: thin solid $menu-bg-color;
+      box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .menu-container .dx-widget.dx-treeview {
+      color: $menu-text-color !important;
+    }
+
+    .dx-treeview-node-container {
+      .dx-treeview-node {
+        padding-left: 0px;
+      }
+    }
+
+    .dx-treeview
+      .dx-treeview-node-container
+      .dx-treeview-node:not(.dx-state-focused)
+      > .dx-treeview-item.dx-state-hover {
+      background-color: $menu-hover-bg-color !important;
+    }
+
+    .dx-treeview
+    li.dx-treeview-node.dx-treeview-item-without-checkbox[aria-selected="true"] {
+      background-color: transparent !important;
+    }
+
+    // .dx-treeview
+    // li.dx-treeview-node.dx-treeview-item-without-checkbox[aria-level="2"] {
+    //   background-color: rgb(2, 135, 188) !important;
+    // }
+
+    .dx-treeview
+      li.dx-treeview-node.dx-treeview-item-without-checkbox[aria-expanded="true"] {
+      background-color: transparent !important;
+      color: $menu-text-color !important;
+
+      i.dx-icon {
+        color: $menu-text-color !important;
+      }
+    }
+  }
+
+  .menu-container {
+    .dx-treeview .dx-treeview-toggle-item-visibility {
+      right: 14px !important;
+      top: 8px;
+    }
+
+    background-color: $menu-bg-color !important;
+
+    .dx-treeview-node-container.dx-treeview-node-container-opened {
+      background-color: $menu-bg-color;
+      color: $menu-text-color;
+    }
+
+    .dx-treeview .dx-treeview-item .dx-icon {
+      color: $menu-icon-color;
+      margin: 2px 1px 0 0px !important;
+    }
+
+    .dx-treeview .dx-treeview-node[aria-level="1"] {
+      font-weight: 400 !important;
+    }
+
+    .dx-treeview-item {
+      padding: 0px 0px;
+      min-height: 28px;
+
+      .dx-treeview-item-content {
+        span {
+          margin-left: 3px;
+        }
+      }
+    }
+  }
+}
+
+.submenucontext {
+  width: auto;
+  height: auto;
+  z-index: 1506;
+  margin: 0px;
+  left: 0px;
+  top: 0px;
+  transform: translate(-85px, 46px);
+  transition: none 0s ease 0s;
+  visibility: visible;
+  opacity: 1;
+}
+
+.dx-context-menu .dx-submenu {
+  background-color: white;
+  border: 1px solid #dde4e8;
+  -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+  padding: 5px !important;
+}
+
+.dx-treeview-toggle-item-visibility:before {
+  position: absolute;
+  display: block;
+  width: 18px;
+  top: 50%;
+  margin-top: -16px !important;
+  left: 50%;
+  margin-left: -9px;
+}

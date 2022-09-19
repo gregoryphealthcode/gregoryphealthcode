@@ -1,0 +1,52 @@
+/*
+import Guid from 'devextreme/core/guid';
+
+export class DatapointModelBase {
+    uniqueNo?: number | null;
+    siteId?: Guid | null;
+    category?: string | null;
+    categoryRank?: number | null;
+    dataPointDescription?: string | null;
+    valueType?: string | null;
+    valueMaxLength?: number | null;
+    value1List?: string[] | null;
+    recordValue2?: boolean | null;
+    value2Description?: string | null;
+    value2Type?: string | null;
+    value2MaxLength?: number | null;
+    value2List?: string[] | null;
+    recordValue3?: boolean | null;
+    value3Description?: string | null;
+    value3Type?: string | null;
+    value3MaxLength?: number | null;
+    value3List?: string[] | null;
+    recordComment?: boolean | null;
+    alwaysAdd?: boolean | null;
+    active?: boolean | null;
+}
+
+export class DatapointModel extends DatapointModelBase {
+    datapointId?: Guid | null;
+    uniqueNo?: number | null;
+    siteId?: Guid | null;
+    patientId?: Guid | null;
+    dataItem?: string | null;
+    dataCategory?: string | null;
+    dataValue1?: string | null;
+    data2Description?: string | null;
+    data2Value?: string | null;
+    data3Description?: string | null;
+    data3Value?: string | null;
+    comment?: string | null;
+    dataCategoryRank?: number | null;
+    dataItemRank?: number | null;
+    flagRef?: boolean | null;
+    flagAmber?: boolean | null;
+    flagGreen?: boolean | null;
+    dateAdded?: Date | null;
+    addedBy?: Guid | null;
+    data: any | null;
+    errors: any | null;
+    success: boolean | null;
+}  
+*/

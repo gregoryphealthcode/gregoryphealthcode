@@ -1,0 +1,27 @@
+<div class="app-page-header" [class.has-tabs]="hasTabs">
+  <div class="d-flex flex-row">
+    <app-button text="Back" class="app-back-btn" type="link" icon="fas fa-chevron-left" (clicked)="backButtonClicked()"
+      *ngIf="hasBackButton"></app-button>
+  </div>
+
+  <div class="app-page-title-wrapper">
+    <div class="app-title-row">
+      <span class="app-page-title">{{title}}</span>
+      <ng-content select="div[role=extra]"></ng-content>
+
+      <ng-content class="w-100" select="app-page-header-buttons"></ng-content>
+    </div>
+
+    <!-- <div class="w-100per">
+      
+    </div> -->
+  </div>
+
+  <div class="d-flex flex-row">
+    <ng-content select="app-page-header-content"></ng-content>
+  </div>
+</div>
+
+<div class="app-page-body" [class.has-tabs]="hasTabs">
+  <ng-content select="app-page-body"></ng-content>
+</div>

@@ -1,0 +1,68 @@
+<div class="card-body">
+    <dx-data-grid class="dx-card wide-card wm-100" id="gluGrid" height="calc(100vh - 120px)" width="100%"
+        [dataSource]="accesslevelbits" [showBorders]="false" focusedRowIndex="0" [allowColumnReordering]="true"
+        [allowColumnResizing]="true" [columnHidingEnabled]="true" keyExpr="AccessLevelBit" [selectedRowKeys]="[]"
+        [focusedRowEnabled]="true" [columnAutoWidth]="true" [rowAlternationEnabled]="true" columnResizingMode="widget"
+        [columnMinWidth]="175">
+        <dxo-editing mode="cell" [allowUpdating]="true" [allowDeleting]="false" [allowAdding]="false"
+            [useIcons]="false">
+        </dxo-editing>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[500]"></dxo-pager>
+        <dxo-paging [pageSize]="500"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-remote-operations [filtering]="true" [paging]="true" [sorting]="true" [summary]="false" [grouping]="false"
+            [groupPaging]="false">
+        </dxo-remote-operations>
+        <dxo-export [enabled]="true" fileName="SecurityRoleReport" [allowExportSelectedData]="false"></dxo-export>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-grouping [contextMenuEnabled]="true" [autoExpandAll]="true"></dxo-grouping>
+        <dxo-group-panel [visible]="false" [allowColumnDragging]="true"> </dxo-group-panel>
+        <dxo-scrolling mode="virtual" preloadEnabled="true"></dxo-scrolling>
+
+        <dxi-column dataField="AccessLevelBit" caption="#" [allowEditing]="false"> </dxi-column>
+        <dxi-column dataField="Description" caption="Description" [allowEditing]="false"> </dxi-column>
+        <dxi-column dataField="Category" caption="Category" [groupIndex]="0" [allowEditing]="false"> </dxi-column>
+        <dxi-column dataField="TableName" caption="TableName" [visible]="false" [allowEditing]="false"> </dxi-column>
+        <dxi-column *ngIf="numRoles >= 1" dataField="Role1" [caption]="sitesaccessroles[0].AccessRole"
+            [showEditorAlways]="true" headerCellTemplate="titleHeaderTemplate" [width]="45"
+            [editorOptions]="{ onValueChanged: tickbox1Changed.bind(this) }">
+        </dxi-column>
+        <dxi-column *ngIf="numRoles >= 2" dataField="Role2" [caption]="sitesaccessroles[1].AccessRole"
+            [showEditorAlways]="true" headerCellTemplate="titleHeaderTemplate" [width]="45"
+            [editorOptions]="{ onValueChanged: tickbox2Changed.bind(this) }">
+        </dxi-column>
+        <dxi-column *ngIf="numRoles >= 3" dataField="Role3" [caption]="sitesaccessroles[2].AccessRole"
+            [showEditorAlways]="true" headerCellTemplate="titleHeaderTemplate" [width]="45"
+            [editorOptions]="{ onValueChanged: tickbox3Changed.bind(this) }">
+        </dxi-column>
+        <dxi-column *ngIf="numRoles >= 4" dataField="Role4" [caption]="sitesaccessroles[3].AccessRole"
+            [showEditorAlways]="true" headerCellTemplate="titleHeaderTemplate" [width]="45"
+            [editorOptions]="{ onValueChanged: tickbox4Changed.bind(this) }">
+        </dxi-column>
+        <dxi-column *ngIf="numRoles >= 5" dataField="Role5" [caption]="sitesaccessroles[4].AccessRole"
+            [showEditorAlways]="true" headerCellTemplate="titleHeaderTemplate" [width]="45"
+            [editorOptions]="{ onValueChanged: tickbox5Changed.bind(this) }">
+        </dxi-column>
+        <dxi-column *ngIf="numRoles >= 6" dataField="Role6" [caption]="sitesaccessroles[5].AccessRole"
+            [showEditorAlways]="true" headerCellTemplate="titleHeaderTemplate" [width]="45"
+            [editorOptions]="{ onValueChanged: tickbox6Changed.bind(this) }">
+        </dxi-column>
+        <dxi-column *ngIf="numRoles >= 7" dataField="Role7" [caption]="sitesaccessroles[6].AccessRole"
+            [showEditorAlways]="true" headerCellTemplate="titleHeaderTemplate" [width]="45"
+            [editorOptions]="{ onValueChanged: tickbox7Changed.bind(this) }">
+        </dxi-column>
+        <dxi-column *ngIf="numRoles >= 8" dataField="Role8" [caption]="sitesaccessroles[7].AccessRole"
+            [showEditorAlways]="true" headerCellTemplate="titleHeaderTemplate" [width]="45"
+            [editorOptions]="{ onValueChanged: tickbox8Changed.bind(this) }">
+        </dxi-column>
+        <dxi-column *ngIf="numRoles >= 9" dataField="Role9" [caption]="sitesaccessroles[8].AccessRole"
+            [showEditorAlways]="true" headerCellTemplate="titleHeaderTemplate" [width]="45"
+            [editorOptions]="{ onValueChanged: tickbox9Changed.bind(this) }">
+        </dxi-column>
+
+        <div *dxTemplate="let info of 'titleHeaderTemplate'">
+            <p class="title-header">{{info.column.caption}}</p>
+        </div>
+    </dx-data-grid>
+</div>

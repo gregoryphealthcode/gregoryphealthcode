@@ -1,0 +1,48 @@
+.content-height.compact-mode {
+  .label-info, .label-info-value{
+    font-size: 13px;
+  }
+
+  .label-width{
+    margin-bottom: 0.6rem;
+  }
+}
+
+.avatar-wrapper{
+  width: 5.5rem;
+  height: 5.5rem;
+  display: block;
+}
+
+
+
+.space {
+  display: inline-block;
+  width: 15px;
+}
+
+.badge {
+  max-height: 19px !important;
+  font-weight: normal !important;
+}
+
+.orange {
+  color:orange;
+}
+
+.red {
+  color:red;
+}
+
+.wrap {
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.w-max-22 {
+  max-width: 22rem;
+}
+
+.side-card .label-width {
+  min-width: 7rem;
+}

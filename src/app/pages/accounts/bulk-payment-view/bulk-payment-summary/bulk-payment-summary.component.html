@@ -1,0 +1,40 @@
+<app-form-section title="Summary" class="pb-0 no-end-section pr-4" [showTitleUnderline]="true" [showInfo]="false">
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column">
+        <dx-pie-chart id="pie" type="doughnut" [startAngle]="90" [innerRadius]="0.75" [dataSource]="dataSource"
+          [customizePoint]="customizePoint">
+          <dxi-series argumentField="name">
+          </dxi-series>
+          <dxo-legend [visible]="false"></dxo-legend>
+          <dxo-size [height]="120" [width]="126"></dxo-size>
+          <dxo-tooltip [enabled]="true" dataType="number">
+            <dxo-format type="currency" [precision]="2" currency="{{this.appInfo.getCurrencyCode}}">
+            </dxo-format>
+          </dxo-tooltip>
+        </dx-pie-chart>
+      </div>
+  
+      <div class="d-flex flex-column">
+        <div class="d-flex flex-row">
+          <span class="legend-info blue"></span>
+          
+          <app-form-label class="sm-height" caption="Allocated" [value]="allocated | currency: store.getCurrency">
+          </app-form-label>
+        </div>
+  
+        <div class="d-flex flex-row">
+          <span class="legend-info red"></span>
+  
+          <app-form-label class="sm-height" caption="Unallocated" [value]="unallocated | currency: store.getCurrency">
+          </app-form-label>
+        </div>
+  
+        <div class="d-flex flex-row">
+          <span class="legend-info orange"></span>
+  
+          <app-form-label class="sm-height" caption="Shortfalls" [value]="shortfalls | currency: store.getCurrency">
+          </app-form-label>
+        </div>
+      </div>
+    </div>
+  </app-form-section>

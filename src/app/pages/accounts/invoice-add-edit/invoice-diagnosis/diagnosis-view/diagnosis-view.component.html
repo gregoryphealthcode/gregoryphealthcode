@@ -1,0 +1,11 @@
+<div class="d-flex flex-row flex-grow-1">
+  <div class="d-flex flex-column mr-2 column-width">
+    <div class="d-flex flex-row flex-wrap align-items-center w-100" *ngFor="let code of codes; index as i">
+      <span class="label-info light label-width">Diagnosis {{i+ 1}} &nbsp;</span>
+
+      <span class="label-info-value light">{{code.code}} - {{code.description}}</span>
+      
+      <span *ngIf="code.isPrimary" class="label-tag type3 pmb-1 ml-2">Primary</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+<div class="d-flex flex-row justify-content-center mb-3" *ngIf="!appointmentId">
+  <span class="tab-heading text-center">{{service.lineId === '0' ! ? 'Add Service' : 'Edit Service'}} </span>
+</div>
+
+<div class="d-flex flex-column align-items-center" *ngIf="serviceTypes">
+  <div class="d-flex flex-column justify-content-center align-items-center" [class.min-w-25]="!appointmentId" [formGroup]="editForm">
+    <app-date-box formControlName="start" direction="row" caption="From" [maxDate]="maxDate"
+      [displayFormat]="getDateFormat()">
+    </app-date-box>
+
+    <app-date-box formControlName="end" direction="row" caption="To" [maxDate]="maxDate"
+      [displayFormat]="getDateFormat()">
+    </app-date-box>
+
+    <app-select-box [dataSource]="serviceTypes" direction="row" formControlName="service" valueExpr="code"
+      displayExpr="description" caption="Service" [disabled]="service.lineId != '0'"
+      [searchEnabled]="true" (input)="searchForIndustryCode($event.target.value)">
+    </app-select-box>
+
+    <app-select-box [dataSource]="owners" direction="row" formControlName="provider" valueExpr="id"
+      displayExpr="displayName" caption="Provider">
+    </app-select-box>
+
+    <app-select-box [dataSource]="episodeTypes" direction="row" formControlName="episode"
+      valueExpr="episodeTypeId" displayExpr="description" caption="Setting">
+    </app-select-box>
+
+    <app-text-box formControlName="units" direction="row" caption="Units" inputType="number" [max]="999" [min]="0.1">
+    </app-text-box>
+
+    <div class="d-flex flex-row w-100" *ngIf="showFee && !service.requiresProcedure">
+      <app-text-box formControlName="fee" direction="row" caption="Fee" inputType="number"
+      [isCurrency]="true" [min]="0">
+      </app-text-box>
+
+      <app-button icon="far fa-calculator" type="link" class="alternative icon ml-3 mt-3" size="xl"
+        matTooltip="Calculate fee" (clicked)="calculateFee()"></app-button>
+    </div>
+
+    <!-- <div class="d-flex flex-row align-items-center mb-2 w-full">
+      <span class="label-info light label-width">From</span>
+
+      <dx-date-box #procedureStartDate id="procedureStartDate" [displayFormat]="getDateFormat()" type="date"
+        [(value)]="service.startTime" class="w-9" [max]="maxDate" (onValueChanged)="startDateUpdated($event)">
+      </dx-date-box>
+    </div>
+
+    <div class="d-flex flex-row align-items-center mb-2 w-full">
+      <span class="label-info light label-width">To</span>
+
+      <dx-date-box id="procedureEndDate" [displayFormat]="getDateFormat()" class="w-9" [max]="maxDate" type="date"
+        [(value)]="service.endTime" (onValueChanged)="endDateUpdated($event)">
+      </dx-date-box>
+    </div>
+
+    <div class="d-flex flex-row align-items-center mb-2 w-full">
+      <span class="label-info light label-width">Service</span>
+
+      <dx-select-box #servicesSelectBox id="servicesSelectBox" [searchEnabled]="true" [dataSource]="serviceTypes"
+        valueExpr="code" [wrapItemText]="true" displayExpr="description" [(value)]="service.code" [disabled]="service.lineId != '0'"
+        (input)="searchForIndustryCode($event.target.value)" class="w-full" (onSelectionChanged)="setService($event)">
+      </dx-select-box>
+    </div> -->
+
+    <!-- <div class="d-flex flex-row align-items-center mb-2 w-full">
+      <span class="label-info light label-width">Provider</span>
+
+      <dx-select-box id="serviceProviderBox" [dataSource]="owners" class="w-full" valueExpr="id"
+        [(value)]="service.ownerId" displayExpr="displayName" (onValueChanged)="ownerChanged($event)">
+      </dx-select-box>
+    </div> -->
+
+    <!-- <div class="d-flex flex-row align-items-center mb-2 w-full">
+      <span class="label-info light label-width">Setting</span>
+
+      <dx-select-box #appointmentTypeSelectBox id="appointmentTypeSelectBox" [dataSource]="episodeTypes" class="w-full"
+        valueExpr="episodeTypeId" displayExpr="description" [(value)]="service.episodeTypeId" (onValueChanged)="episodeTypeChanged($event)">
+      </dx-select-box>
+    </div> -->
+
+    <!-- <div class="d-flex flex-row align-items-center mb-2 w-full">
+      <span class="label-info light label-width">Units</span>
+
+      <dx-number-box [(value)]="service.units" class="w-7" [max]="999" [min]="0.1" (onValueChanged)="unitsChanged($event)"></dx-number-box>
+    </div> -->
+
+    <!-- <div class="d-flex flex-row align-items-center mb-2 w-full" *ngIf="showFee && !service.requiresProcedure">
+      <span class="label-info light label-width">Fee</span>
+
+      <dx-number-box  format="0,###.00"  [min]="0"  #procedureCostTextBox name="procedureCostTextBox" (onValueChanged)="onFeeChanged($event)" valueChangeEvent="keyup" class="w-7" [(value)]="service.fee"></dx-number-box>
+
+      <app-button icon="far fa-calculator" type="link" class="alternative icon ml-2" size="xl" matTooltip="Calculate fee"
+              (clicked)="calculateFee()"></app-button>
+    </div> -->
+  </div>
+
+  <div class="d-flex flex-row flex-grow-0 align-items-center mt-3">
+    <app-button text="Save" class="mr-2" matTooltip="Save" tabindex="4" [disabled]="isInvalid"
+      (clicked)="invoiceStore.setSectionToEdit(false); store.saveService(service)"></app-button>
+
+    <app-button [text]="appointmentId ? 'Cancel' : 'Close'" class="ml-2" type="secondary" matTooltip="Close" tabindex="4"
+      (clicked)="saveHandler(); store.cancelCurrentServiceEdit()"></app-button>
+  </div>
+</div>

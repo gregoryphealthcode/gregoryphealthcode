@@ -1,0 +1,85 @@
+<div class="central-popup-body" delay="750">
+  <div class="d-flex flex-row w-100 mt-1 mb-1 align-items-center">
+    <div class="important-message flex flex-row w-100 text-center justify-content-center">
+      <div class="d-flex flex-column">
+        <span class="text-semiBold text-sm">Important!</span>
+
+        <span class="text-xs leading-1.5">Please read through each note before continuing</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row align-items-center justify-content-center">
+    <button mat-icon-button class="alternative icon ml--16px" (click)="previousClicked()">
+      <mat-icon fontSet="fa" fontIcon="fa-chevron-left"></mat-icon>
+    </button>
+
+    <span class="item-selector">Note {{selectedIndex + 1}} of {{popupNotesData.length}}</span>
+
+    <button mat-icon-button class=" alternative icon" (click)="nextClicked()">
+      <mat-icon fontSet="fa" fontIcon="fa-chevron-right"></mat-icon>
+    </button>
+  </div>
+
+  <div class="d-flex flex-column w-100" *ngIf="selectedItem">
+    <div class="d-flex flex-column w-100 mb-2">
+      <dx-html-editor [height]="200" class="custom custom-scroll detailsborder" #noteTextEditor name="noteTextEditor"
+        valueType="markdown" [value]="selectedItem.noteText" [readOnly]="true">
+      </dx-html-editor>
+    </div>
+
+    <div class="d-flex flex-row mb-2" *ngIf="selectedItem.attachments.length > 0">
+      <div class="d-flex flex-column">
+        <span class="label-info label-width">Attachments</span>
+
+        <a *ngFor="let attachment of selectedItem.attachments" class="download" title="{{attachment.attachmentFile}}"
+          (click)="downloadAttachment(attachment.attachmentId)">{{attachment.attachmentFile}}</a>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row">
+      <div class="d-flex flex-column">
+        <span class="label-info label-width">Created</span>
+
+        <span class="label-info-value">{{selectedItem.dateCreated | date: 'dd/MM/yyyy HH:mm'}}</span>
+      </div>
+
+      <span class="mx-4"></span>
+
+      <div class="d-flex flex-column">
+        <span class="label-info label-width">Created By</span>
+
+        <span class="label-info-value">{{selectedItem.createdBy}}</span>
+      </div>
+
+      <span class=" mx-4"></span>
+
+      <div class="d-flex flex-column mr-4">
+        <span class="label-info label-width">Warning</span>
+
+        <span class="label-info-value">{{selectedItem.warning ? 'Yes' : 'No'}}</span>
+      </div>
+
+      <span class="mx-4"></span>
+
+      <div class="d-flex flex-column mr-4">
+        <span class="label-info label-width">Pop-up</span>
+
+        <span class="label-info-value">{{selectedItem.popup ? 'Yes' : 'No'}}</span>
+      </div>
+
+      <span class="mx-4"></span>
+
+      <div class="d-flex flex-column mr-4">
+        <span class="label-info label-width">Type</span>
+
+        <span class="label-info-value">{{selectedItem.noteType}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-form-footer-wrapper mt-1"> 
+  <app-button *ngIf="selectedIndex + 1 < popupNotesData.length" text="Next" class="mr-3 ml-auto" (clicked)="nextClicked()" size="sm"></app-button>
+  <app-button *ngIf="selectedIndex + 1 == popupNotesData.length" text="Close" class="mr-3 ml-auto" (clicked)="closeWarnings()" size="sm"></app-button>
+</div>

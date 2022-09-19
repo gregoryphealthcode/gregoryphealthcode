@@ -1,0 +1,36 @@
+<div class="popup-wrapper">
+  <app-pop-up-form-title [hasBorder]="true" title="Save Settings" (closed)="onCancel()"></app-pop-up-form-title>
+
+  <div class="central-popup-wrapper">
+    <div class="central-popup-body">
+      <div class="d-flex flex-row a-form-group d-row" *ngIf="!isNew">
+        <label>Update existing?</label>
+
+        <app-radio-button text="Yes" class="mr-3" [checkedValue]="true" [(value)]="updateMode"></app-radio-button>
+
+        <app-radio-button text="No" [checkedValue]="false" [(value)]="updateMode"></app-radio-button>
+      </div>
+
+      <!-- <div class="d-flex flex-row a-form-group d-row" *ngIf="!isNew && isGlobal && !isAdmin">
+        <label>Can not update a global style. Please specify a new description.</label>
+      </div> -->
+
+      <app-text-box *ngIf="isNew || updateMode == false" [(ngModel)]="name" direction="row" caption="Description"
+        required></app-text-box>
+
+      <div class="d-flex flex-row a-form-group d-row mt-2" *ngIf=" (isNew || !isNew && updateMode === false)">
+        <label>Visible to all users?</label>
+
+        <app-radio-button text="Yes" class="mr-3" [checkedValue]="true" [(value)]="isGlobal"></app-radio-button>
+
+        <app-radio-button text="No" [checkedValue]="false" [(value)]="isGlobal"></app-radio-button>
+      </div>
+    </div>
+
+    <div class="popup-form-footer-wrapper">
+      <app-button text="Close" class="ml-auto mr-3" (clicked)="onCancel()" color="grey"></app-button>
+
+      <app-button text="Save" (clicked)="onDialogSave()"></app-button>
+    </div>
+  </div>
+</div>

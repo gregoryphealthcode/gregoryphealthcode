@@ -1,0 +1,40 @@
+.text-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  background:rgba(255,255,255,0.85);
+  border-radius:10px;
+  max-width: 450px;
+  padding: 1.5rem 2rem 1rem 2rem;
+}
+
+.lock-icon-wraper{
+  border-radius: 50%;
+  padding: 1rem;
+  background-color: hsl(0, 0%, 90%);
+  display: flex;
+  justify-content: center;
+  width: 3.5rem;
+}
+
+.lock-icon{
+  color: hsl(0, 0%, 60%);
+  font-size: 18px;
+}
+
+.red {
+  color:red;
+}
+
+.font-14 {
+  font-size:14px;
+}
+
+.text-shadow {
+  text-shadow:1px 1px black; 
+}
+
+.text-center {
+  text-align: center;
+}

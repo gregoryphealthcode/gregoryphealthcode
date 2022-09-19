@@ -1,0 +1,11 @@
+<app-reports-back-button></app-reports-back-button>
+
+<div class="d-flex flex-column">
+  <span class="reports-title mt-4 mb-4 label-info-value-title lg">{{title + ' Reports'}}</span>
+
+  <div class="d-flex flex-row flex-wrap mx-auto justify-content-center">
+    <app-report-card *ngFor="let item of items" [title]="item.title" [description]="item.description" [icon]="item.icon"
+      [path]="item.key">
+            </app-report-card>              
+          </div>
+</div>

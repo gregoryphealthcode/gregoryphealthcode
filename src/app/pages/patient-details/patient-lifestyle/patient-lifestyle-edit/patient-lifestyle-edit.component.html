@@ -1,0 +1,35 @@
+<app-pop-up-form-title [hasBorder]="true"
+    [title]="isEdit ? 'Edit ' + category + ' Details' : 'Add ' + category + ' Details'" (closed)="closePopup.emit()">
+</app-pop-up-form-title>
+
+<div>
+    <div class="central-popup-body padding" [formGroup]="editForm" appEnterKeyFocusWrapper delay="750">
+        <app-select-box [dataSource]="dataPoints" direction="row" formControlName="dataItemType"
+            valueExpr="value1Description" displayExpr="value1Description" caption="Type" [disabled]="isEdit">
+        </app-select-box>
+
+        <app-text-box *ngIf="dataPoint?.value1Type == 'Text'" formControlName="value1Text" direction="row"
+            [caption]="dataPoint?.value1Description"></app-text-box>
+
+        <app-text-box *ngIf="dataPoint?.value1Type == 'Number'" formControlName="value1Number" direction="row"
+            [caption]="dataPoint?.value1Description"></app-text-box>
+
+        <app-slide-toggle *ngIf="dataPoint?.value1Type == 'Tickbox'" formControlName="value1Tick"
+            class="mb-0 my-2 md-height" direction="row" [caption]="dataPoint?.value1Description">
+        </app-slide-toggle>
+
+        <app-select-box *ngIf="dataPoint?.value1Type == 'Suggest'" [dataSource]="value1List" direction="row"
+            formControlName="value1List" [caption]="dataPoint?.value1Description">
+        </app-select-box>
+
+        <app-text-area-box *ngIf="dataPoint?.recordComment" formControlName="comment" direction="row" caption="Comments"
+            class="text-area-height"></app-text-area-box>
+    </div>
+
+    <!-- Footer -->
+    <div class="popup-form-footer-wrapper">
+        <app-button text="Close" class="ml-auto mr-3" (clicked)="closePopup.emit()" color="grey"></app-button>
+        
+        <app-button text="Save" (clicked)="submitForm()" [disabled]="!editForm.valid || submitting"></app-button>
+    </div>
+</div>

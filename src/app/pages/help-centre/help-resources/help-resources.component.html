@@ -1,0 +1,31 @@
+<div class="card mx-auto vm-100 hc-100-140px">
+    <div class="card-header">Help + Resources</div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <span>
+                    <h2 class="header">Guided Tours</h2>
+                </span>
+
+                <p class="text-center">select a topic below to see a guided tour on that topic</p>
+
+                <ul *ngFor="let tour of helptours; let i = index" class="m-1 p-1 list">
+                    <li class="mb-1 text-center">
+                        <dx-button type="default" text="{{tour.TourDescription}}" (onClick)="runTour(tour.TourCode)"
+                            width="200px">
+                        </dx-button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-sm-6">
+                <span><h2 class="header">Check Lists</h2></span>
+
+                <p class="text-center">select a checklist to run through from list below </p>               
+                
+                <ul class="font-16"></ul>
+            </div>
+        </div>
+    </div>
+</div>

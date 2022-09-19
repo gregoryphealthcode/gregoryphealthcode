@@ -1,0 +1,42 @@
+@mixin for-phone-only {
+  @media (max-width: 575px) { @content; }
+}
+@mixin for-small-screen-up {
+  @media (min-width: 576px) { @content; }
+}
+@mixin for-medium-screen-up {
+  @media (min-width: 768px) { @content; }
+}
+@mixin for-large-screen-up {
+  @media (min-width: 992px) { @content; }
+}
+@mixin for-xlarge-screen-up {
+  @media (min-width: 1200px) { @content; }
+}
+@mixin for-superlarge-screen-up {
+  @media (min-width: 1500px) { @content; }
+}
+
+@mixin form-group-layout($label-width : 10rem, $padding : 4rem){
+
+  &.d-col.a-form-group, .d-col.a-form-group{
+    > label {
+      min-width: $label-width;
+      max-width: $label-width;
+    }
+
+    >small{
+      left: $padding;
+    }
+  }
+
+  &:first-child:last-child, &:first-child {
+    padding-right: $padding;
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-left: $padding;
+    padding-right: 0px;
+  }
+}

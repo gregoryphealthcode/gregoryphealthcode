@@ -1,0 +1,53 @@
+<div class="d-flex flex-column flex-grow-1 app-card">
+    <div class="d-flex flex-row mx-4 mt-3">
+        <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+        
+        <app-button icon="far fa-plus" text="New" class="ml-auto mt-auto" (clicked)="addClicked()"></app-button>
+    </div>
+
+    <div class="d-flex flex-grow-1 mt-3">
+        <div class="app-card flex-grow-1 content-height border-none">
+            <div class="cssWidgetWrapper">
+                <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" keyExpr="invoiceId"
+                    [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg min-height" [rowAlternationEnabled]="true"
+                    [showRowLines]="true"
+                    [columnMinWidth]="125">
+                    <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+                    <dxi-column dataField="type" caption="Type" sortOrder="asc"></dxi-column>
+                    <dxi-column dataField="description" caption="Description"></dxi-column>
+                    <dxi-column dataField="default" caption="Default" cellTemplate="cellTemplate" [visible]="!isMedsec"></dxi-column>
+                    <dxi-column dataField="isPatientZone" caption="Is Patientzone" cellTemplate="cellTemplate"></dxi-column>
+                    <dxi-column dataField="active" caption="Active" cellTemplate="cellTemplate"></dxi-column>
+                    <dxi-column dataField="comments" caption="Comments"></dxi-column>
+                    <dxi-column type="buttons" [showInColumnChooser]="false" width="140">
+                        <dxi-button template="myCommandTemplate"></dxi-button>
+                    </dxi-column>
+    
+                    <div *dxTemplate="let cellInfo of 'cellTemplate'">
+                        <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check">
+                        </mat-icon>
+                    </div>
+    
+                    <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+                        <app-button icon="far fa-trash" type="link" color="grey" class="mr-2 pointer-events" matTooltip="Delete"
+                            (clicked)="deleteClicked(cellInfo)"></app-button>
+
+                        <app-button *ngIf="isMedsec" icon="far fa-clone" type="link" color="grey" class="mr-2 pointer-events" matTooltip="Copy to site"
+                            (clicked)="shareClicked(cellInfo)"></app-button>
+
+                        <app-button icon="far fa-file-word" type="link" color="grey" class="mr-2 pointer-events" matTooltip="Edit Document"
+                            (clicked)="editDocumentClicked(cellInfo)"></app-button>                   
+    
+                        <app-button icon="far fa-cog" type="link" color="grey" class="pointer-events" matTooltip="Template Settings"
+                            (clicked)="editClicked(cellInfo)"></app-button>
+                    </div>
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-preferences-templates-add-edit [data]="selectedRecord" (saved)="saved($event)" [isMedsec]="isMedsec"></app-preferences-templates-add-edit>
+
+<app-med-sec-duplicate-site-selector *ngIf="showSites" (saved)="savedSiteHandler($event)" (closed)="showSites = false;" [duplicateId]="selectedTemplateId" [duplicateType]="'Templates'"></app-med-sec-duplicate-site-selector>

@@ -1,0 +1,46 @@
+<dx-popup appCentralPopUpSettings [width]="'380'" *ngIf="show" [enableScroll]="true">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [title]="isNew ? 'Add Appointment Location' : 'Edit Appointment Location'" (closed)="closeForm()"></app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body" appEnterKeyFocusWrapper delay="750" [formGroup]="editForm">
+        <app-text-box formControlName="locationName" direction="row" caption="Location" [capitalizeEachWord]="true">
+        </app-text-box>
+      
+        <!-- <app-text-box formControlName="hcCode" direction="row" caption="HC Code">
+        </app-text-box> -->
+      
+        <div class="d-flex flex-row a-form-group d-row width-3/4">
+          <label>Postcode *</label>
+      
+          <app-postcode-to-address #postcoderesolver formControlName="postcode"
+            (addressSelect)="postcodeResolverAddressSelectHandler($event)" class="d-flex flex-row align-items-center">
+          </app-postcode-to-address>
+        </div>
+      
+        <app-text-box formControlName="address1" direction="row" caption="Address 1" [capitalizeEachWord]="true">
+        </app-text-box>
+      
+        <app-text-box formControlName="address2" direction="row" caption="Address 2" [capitalizeEachWord]="true">
+        </app-text-box>
+      
+        <app-text-box formControlName="address3" direction="row" caption="Address 3" [capitalizeEachWord]="true">
+        </app-text-box>
+      
+        <app-text-box formControlName="address4" class="mb-0" direction="row" caption="Address 4" [capitalizeEachWord]="true">
+        </app-text-box>
+
+        <app-slide-toggle *ngIf="!isNew" formControlName="active" class="mb-0 md-height" direction="row"
+          caption="Active" (checked)="active">
+        </app-slide-toggle>
+      </div>
+
+      <!-- Footer -->
+      <div class="popup-form-footer-wrapper">
+        <app-button text="Close" class="ml-auto mr-3" (clicked)="closeForm()" color="grey"></app-button>
+        
+        <app-button text="Save" (clicked)="submitForm()" [disabled]="!editForm.valid"></app-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

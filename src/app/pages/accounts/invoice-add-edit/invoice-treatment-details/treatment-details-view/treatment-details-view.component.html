@@ -1,0 +1,43 @@
+<div class="d-flex flex-column mr-2" *ngIf="record">
+  <div class="d-flex flex-row">
+    <span class="label-info light label-width">Episode Setting</span>
+
+    <span class="label-info-value light">{{record.type}}</span>
+  </div>
+
+  <div class="d-flex flex-row" *ngIf="record.locationName">
+    <span class="label-info light label-width">Treatment Site</span>
+
+    <span class="label-info-value light">{{record.locationName}}</span>
+  </div>
+
+  <div class="d-flex flex-row" *ngIf="record.admissionDate">
+    <span class="label-info light label-width">{{recordAdmitDate ?'Admission Date' : 'Episode Date'}}</span>
+
+    <span class="label-info-value light">{{record.admissionDate | date: appInfo.getDateFormat}}</span>
+  </div>
+
+  <div class="d-flex flex-row" *ngIf="record.dischargeDate">
+    <span class="label-info light label-width">Discharge Date</span>
+
+    <span class="label-info-value light">{{record.dischargeDate | date: appInfo.getDateFormat}}</span>
+  </div>
+
+  <div class="d-flex flex-row" *ngIf="record.dischargeReason">
+    <span class="label-info light label-width">Discharge reason</span>
+
+    <span class="label-info-value light">{{record.dischargeReason}}</span>
+  </div>
+  <div class="d-flex flex-row">
+
+    <span class="label-info light label-width">Controlling Practitioner</span>
+
+    <span class="label-info-value light">{{record.ownerName }}</span>
+  </div>
+</div>
+
+<div class="d-flex flex-column mr-2" *ngIf="!record">
+  <div class="d-flex flex-row">
+    <span class="label-info light">Episode details could not be found.</span>
+  </div>
+</div>

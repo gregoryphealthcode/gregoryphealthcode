@@ -1,0 +1,25 @@
+<div class="page-header responsive-margins">Integration Service</div>
+
+<div class="d-flex  flex-grow-1 responsive-margins row-height">
+  <mat-tab-group class="full-height">
+    <mat-tab class="header">
+      <ng-template mat-tab-label>
+        <span class="tabHeader">Patientzone</span>
+      </ng-template>
+
+      <div class="d-flex flex-grow-1 h-100">
+        <app-patientzone-registration class="d-flex flex-column flex-grow-1" [isMedsec]="true"></app-patientzone-registration>
+      </div>
+    </mat-tab>
+
+    <mat-tab class="header">
+      <ng-template mat-tab-label>
+        <span class="tabHeader">Templates</span>
+      </ng-template>
+
+      <div class="d-flex flex-grow-1 h-100">
+        <app-preferences-templates class="d-flex flex-column flex-grow-1" [isMedsec]="true"></app-preferences-templates>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

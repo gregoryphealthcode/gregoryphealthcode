@@ -1,0 +1,120 @@
+<div class="d-flex d-flex-column">
+  <div class="d-flex flex-grow-1">
+    <div class="page-header responsive-margins">Pricing Matrix</div>
+  </div>
+
+  <div class="d-flex flex-grow-1 mr-4 mt-2">
+    <app-button icon="far fa-plus" class="ml-auto mt-2 mr-1" text="Add" iconPosition="left" [showDropdownIcon]="true"
+      #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="belowMenu"></app-button>
+
+    <mat-menu #belowMenu="matMenu" yPosition="below">
+      <ng-container *ngFor="let item of items">
+        <app-button type="link" [icon]="item.icon" color="grey" class="menu-item-btn" [text]="item.description"
+          (clicked)="itemClicked(item)"></app-button>
+      </ng-container>
+    </mat-menu>
+  </div>
+</div>
+
+<div class="d-flex flex-grow-1 responsive-margins pt-0 px-0 app-card">
+  <div class="d-flex flex-row mx-4 mt-3">
+    <!-- <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box> -->
+    <dx-select-box [dataSource]="payorSelection" valueExpr="payorId" displayExpr="payorName"
+      (onSelectionChanged)="setSearchPayor($event)" class="no-bg-dropdown dx-custom-button-hovered mr-3"
+      [(value)]="selectedPayor">
+    </dx-select-box>
+
+    <dx-select-box [dataSource]="serviceSelection" valueExpr="serviceId" displayExpr="serviceDescription"
+      (onSelectionChanged)="setSearchService($event)" class="no-bg-dropdown dx-custom-button-hovered"
+      [(value)]="selectedService">
+    </dx-select-box>
+
+    <!-- <dx-select-box [dataSource]="appointmentListViewList" valueExpr="id" displayExpr="name"
+      (onSelectionChanged)="setSearchLocation($event)" class="no-bg-dropdown dx-custom-button-hovered ml-3"
+      [(value)]="selectedLocation">
+    </dx-select-box> -->
+
+    <dx-tag-box *ngIf="appointmentListViewList.length > 0" displayExpr="name" valueExpr="id" [searchEnabled]="true"
+      class="text-area-standard-height position" (onValueChanged)="setSearchLocation($event)"
+      [dataSource]="appointmentListViewList" [showSelectionControls]="true" [value]="[appointmentListViewList[0].id]"
+      placeholder="Locations" [showDataBeforeSearch]="true">
+    </dx-tag-box>
+
+    <app-button class="ml-auto mt-auto" text="Multi Procedures" (clicked)="showMultiProc = true;"></app-button>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3">
+    <div class="app-card flex-grow-1 content-height border-none">
+      <div class="cssWidgetWrapper">
+        <dx-data-grid [dataSource]="services" gridWithRowLinesSettings [showRowLines]="false"
+          class="w-100 cssGridGeneral h-100" [remoteOperations]="false" [showColumnLines]="false"
+          [wordWrapEnabled]="true" keyExpr="serviceId" [rowAlternationEnabled]="true" [focusedRowEnabled]="true"
+          [hoverStateEnabled]="true" (onRowExpanded)="onRowExpanded($event)"
+          (onFocusedRowChanged)="onFocusedRowChanged($event)"
+          [masterDetail]="{enabled: true, template: 'detailTemplate'}">
+          <dxo-selection mode="single"></dxo-selection>
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+          <dxi-column dataField="serviceDescription" cellTemplate="nameTemplate" caption="Service" [minWidth]="400">
+          </dxi-column>
+          <dxi-column type="buttons" [minWidth]="80">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+          </dxi-column>
+          <dxi-column *ngFor="let item of filteredPayors" cellTemplate="valueTemplate" [caption]="item.payorName"
+            class="text-center" alignment="center" [width]="130">
+          </dxi-column>
+
+          <div *dxTemplate="let data of 'valueTemplate'" class="d-flex flex-row flex-grow-1">
+            <div *ngIf="getPrice(data) as fee; else noFee" class="w-90px text-center">
+              <span class="text-semiBold">{{fee | currency: appInfo.getCurrencySymbol}}</span>
+            </div>
+
+            <ng-template #noFee>
+              <div class="w-90px text-center">
+                <span class="text-semiBold">-</span>
+              </div>
+            </ng-template>
+
+            <div class="w-30px ml-auto">
+              <app-button *ngIf="!(filteredPayors[(data.columnIndex - 2)]?.isStv)" icon="far fa-edit" type="link"
+                color="grey" matTooltip="Edit" (clicked)="editClicked(data)"></app-button>
+            </div>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+            <app-button icon="far fa-trash" type="link" color="grey" class="mr-2" matTooltip="Delete"
+              (clicked)="deleteClicked(cellInfo)"></app-button>
+          </div>
+
+          <div *dxTemplate="let data of 'nameTemplate'" class="d-flex flex-column">
+            <span class="text-semiBold">{{data.data.serviceDescription}}</span>
+            <span *ngFor="let item of data.data.procedureDescriptions" class="text-grey-60">
+              {{item}}
+            </span>
+          </div>
+
+          <div *dxTemplate="let data of 'detailTemplate'">
+            <app-service-pricing-grid [payors]="payors" [serviceId]="currentServiceId" [locations]="filteredLocations"
+              class="d-flex flex-grow-1 ml-06r" [style.height.px]="filteredLocations.length*50">
+            </app-service-pricing-grid>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-accounts-guideline-pricing-add-payor *ngIf="showAddPayor" (saved)="saved($event)" (closePopup)="payorClosed()">
+</app-accounts-guideline-pricing-add-payor>
+
+<app-accounts-guideline-pricing-add-service *ngIf="showAddService" [data]="selectedServiceRecord"
+  (saved)="saved($event)">
+</app-accounts-guideline-pricing-add-service>
+
+<app-accounts-guideline-pricing-multiple-procedures *ngIf="showMultiProc" (closePopup)="showMultiProc = false">
+</app-accounts-guideline-pricing-multiple-procedures>
+
+<dx-popup appCentralPopUpSettings [width]="'380'" [enableScroll]="true" *ngIf="showEdit">
+  <app-accounts-guideline-pricing-edit [payorId]="payorId" [payor]="payor" [serviceId]="serviceId" [service]="service"
+    (formClosed)="showEdit = false;" (saved)="saved($event)"></app-accounts-guideline-pricing-edit>
+</dx-popup>

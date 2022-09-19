@@ -1,0 +1,45 @@
+<div class="cssWidgetWrapper">
+  <dx-data-grid gridWithRowLinesSettings [dataSource]="patients" class="cssGridGeneral" keyExpr="this"
+    (onRowDblClick)="doubleClickHandled($event)" [rowAlternationEnabled]="true" [focusedRowEnabled]="true"
+    focusedRowIndex="0" (onFocusedRowChanged)="onFocusedRowChanged($event)" focusedRowIndex="0">
+
+    <dxi-column dataField="displayName" caption="Name" sortOrder="asc" cellTemplate="nameTemplate" [minWidth]="200">
+    </dxi-column>
+    <dxi-column dataField="birthDate" caption="Date of Birth" dataType="date" [format]="dateFormat" [minWidth]="100">
+    </dxi-column>
+    <dxi-column dataField="address" caption="Address" cellTemplate="addressTemplate" [minWidth]="300">
+    </dxi-column>
+    <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="100">
+      <dxi-button template="myCommandTemplate"></dxi-button>
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'nameTemplate'">
+      <app-button type="link" [text]="data.data.displayName" (clicked)="viewPatient(data)"></app-button>
+    </div>
+
+    <div *dxTemplate="let data of 'addressTemplate'">
+      <span *ngIf="data.data.primaryAddress?.address1">
+        {{data.data.primaryAddress.address1}} ,</span>
+
+      <span *ngIf="data.data.primaryAddress?.address2">
+        {{data.data.primaryAddress.address2}} ,</span>
+
+      <span *ngIf="data.data.primaryAddress?.address3">
+        {{data.data.primaryAddress.address3}} ,</span>
+
+      <span *ngIf="data.data.primaryAddress?.address4">
+        {{data.data.primaryAddress.address4}} ,</span>
+
+      <span *ngIf="data.data.primaryAddress?.postcode">
+        {{data.data.primaryAddress.postcode}}</span>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+      <app-button type="link" iconPosition="left" icon="far fa-unlink" color="grey" matTooltip="Unlink Patient"
+        (clicked)="store.unlinkPatient(cellInfo.data.patientId)"></app-button>
+
+      <app-button type="link" iconPosition="left" icon="far fa-external-link-square" color="grey"
+        matTooltip="View Patient" (clicked)="viewPatient(cellInfo.row)"></app-button>
+    </div>
+  </dx-data-grid>
+</div>

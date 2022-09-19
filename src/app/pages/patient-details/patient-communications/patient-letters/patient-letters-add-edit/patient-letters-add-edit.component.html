@@ -1,0 +1,36 @@
+<dx-popup appCentralPopUpSettings [width]="'500'" *ngIf="show" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [title]="isNew? 'New Letter' : 'Edit Letter'" (closed)="closeForm()"></app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body" appEnterKeyFocusWrapper delay="750" [formGroup]="editForm">
+
+        <app-select-box direction="row" [dataSource]="templates" formControlName="templateId" valueExpr="templateId"
+          displayExpr="description" caption="Template" [disabled]="!isNew"></app-select-box>
+
+        <app-date-box caption="Date Typed" formControlName="dateTyped" direction="row" [maxDate]="maxDate"
+          [disabled]="!isNew"></app-date-box>
+
+        <app-select-box direction="row" [dataSource]="recipientTypes" formControlName="recipientType" valueExpr="id"
+          displayExpr="description" caption="Recipient Type" [disabled]="!isNew"></app-select-box>
+
+        <app-select-box *ngIf="selectedRecipientType && selectedRecipientType != 1" direction="row"
+          [dataSource]="recipients" formControlName="recipientId" valueExpr="recipientId" displayExpr="recipientName"
+          caption="Recipient" [disabled]="!isNew"></app-select-box>
+
+        <app-text-area-box formControlName="comments" direction="row" caption="Comments"
+          class="text-area-standard-height">
+        </app-text-area-box>
+      </div>
+
+      <!-- Footer -->
+      <div class="popup-form-footer-wrapper">
+        <app-button text="Close" class="ml-auto mr-3" (clicked)="closeForm()" color="grey"></app-button>
+
+        <app-button [text]="isNew? 'Generate' : 'Save'" (clicked)="submitForm()"
+          [disabled]="!editForm.valid || submitting"></app-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

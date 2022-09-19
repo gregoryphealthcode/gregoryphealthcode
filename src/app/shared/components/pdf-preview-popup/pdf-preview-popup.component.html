@@ -1,0 +1,12 @@
+<dx-popup appCentralPopUpSettings *ngIf="showPrintPopup" [width]="800" [height]="900" (onShown)="onpopupshown()"
+  [enableScroll]="true" (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [title]="title" (closed)="closedHandler()"></app-pop-up-form-title>
+
+    <div class="d-flex flex-column h-100 w-100">
+      <span class="iframe-loading">Loading...</span>
+      <iframe width="'100'" class="h-100" height="'100'" [src]="invViewUrl | safe" frameborder='0'
+        onload="$('.iframe-loading').css('display', 'none')"></iframe>
+    </div>
+  </div>
+</dx-popup>

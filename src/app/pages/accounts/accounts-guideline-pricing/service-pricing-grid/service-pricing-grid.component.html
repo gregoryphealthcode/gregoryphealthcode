@@ -1,0 +1,24 @@
+<div class="cssWidgetWrapper disable-select">
+  <dx-data-grid [dataSource]="locations" [remoteOperations]="false" [showColumnLines]="false" class="cssGridGeneral pl-2"
+    [wordWrapEnabled]="true" keyExpr="locationId" [hoverStateEnabled]="true" [rowAlternationEnabled]="true"
+    [showColumnHeaders]="false" [focusedRowEnabled]="true">
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+    <dxi-column dataField="locationName" cssClass="font-semiBold" caption="Location" [minWidth]="400"></dxi-column>
+    <dxi-column *ngFor="let item of payors" cellTemplate="valueTemplate" [caption]="item.payorName" class="text-center"
+      alignment="center" [width]="130">
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'valueTemplate'" class="d-flex flex-row flex-grow-1">
+      <div *ngIf="getPrice(data) as fee; else noFee" class="w-130px text-center">
+        <span class="text-semiBold">{{fee | currency: appInfo.getCurrencySymbol}}</span>
+      </div>
+
+      <ng-template #noFee>
+        <div class="w-130px text-center">
+          <span class="text-semiBold">-</span>
+        </div>
+      </ng-template>
+    </div>
+  </dx-data-grid>
+</div>

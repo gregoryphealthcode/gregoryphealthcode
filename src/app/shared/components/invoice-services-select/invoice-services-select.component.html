@@ -1,0 +1,7 @@
+<app-button class="mt-3" *ngIf="!editMode" (clicked)="addNewService()" text="Add Service"></app-button>
+
+<app-service-add-edit *ngIf="editMode" class="w-100 h-100 my-2" [owners]="owners" [episodeTypes]="episodeTypes" [appointmentId]="appointmentId"
+    [showFee]="store.showFee$ | async" (serviceAdded)="serviceAddedHandler()"></app-service-add-edit>
+
+<app-services-grid class="d-flex flex-grow-1 w-100 justify-content-center" [showFee]="store.showFee$ | async">
+</app-services-grid>

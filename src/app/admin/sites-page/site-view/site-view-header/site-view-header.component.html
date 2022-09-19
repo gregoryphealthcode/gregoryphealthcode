@@ -1,0 +1,67 @@
+<div class="d-flex flex-row" *ngIf="site">
+  <app-form-section title="Payee Details" class="pb-0 no-end-section header-section-1 mr-5" [showTitleUnderline]="true"
+  [showInfo]="false">
+  <div class="d-flex flex-row">
+    <div class="d-flex flex-column">
+      <app-form-label caption="Name" [value]="site.payeeProviderDisplayName ? site.payeeProviderDisplayName : '-'"></app-form-label>
+
+      <app-form-label caption="Practitioner Code" [value]="site.payeeProviderPractitionerCode ? site.payeeProviderPractitionerCode : '-'"></app-form-label>
+
+      <app-form-label caption="HC Code" [value]="site.payeeProviderPractitionerCode ? site.payeeProviderPractitionerCode : '-'"></app-form-label>
+    </div>
+
+    <app-button type="link" icon="far fa-edit" color="grey" class="pt-1" (clicked)="editClicked.emit()">
+    </app-button>
+  </div>
+</app-form-section>
+
+  <app-form-section title="Payee Address" class="pb-0 no-end-section header-section-2 mr-5" [showAddButton]="!site?.payeeProviderAddress1"
+    [showInfo]="false" [showTitleUnderline]="true" (addClicked)="editClicked.emit()">
+    <div class="d-flex flex-row">
+      <div class="a-form-group d-col d-flex flex-column address-col">
+        <ng-container *ngIf="site?.payeeProviderAddress1; else noAddress">
+
+          <label *ngIf="site?.payeeProviderAddress1" class="label-value">{{site?.payeeProviderAddress1}}</label>
+
+          <label *ngIf="site?.payeeProviderAddress2" class="label-value">{{site?.payeeProviderAddress2}}</label>
+
+          <label *ngIf="site?.payeeProviderAddress3" class="label-value">{{site?.payeeProviderAddress3}}</label>
+
+          <label *ngIf="site?.payeeProviderPostcode" class="label-value">{{site?.payeeProviderPostcode}}</label>
+        </ng-container>
+
+        <ng-template #noAddress>
+          <label>No address found</label>
+        </ng-template>
+      </div>
+
+      <app-button type="link" icon="far fa-edit" *ngIf="site?.payeeProviderAddress1" color="grey" class="pt-1"
+        (clicked)="editClicked.emit()"></app-button>
+    </div>
+  </app-form-section>
+
+  <app-form-section title="Site Address" class="pb-0 no-end-section header-section-2 mr-5" [showAddButton]="!site?.siteAddress1"
+  [showInfo]="false" [showTitleUnderline]="true" (addClicked)="editClicked.emit()">
+  <div class="d-flex flex-row">
+    <div class="a-form-group d-col d-flex flex-column address-col">
+      <ng-container *ngIf="site?.siteAddress1; else noAddress">
+
+        <label *ngIf="site?.siteAddress1" class="label-value">{{site?.siteAddress1}}</label>
+
+        <label *ngIf="site?.siteAddress2" class="label-value">{{site?.siteAddress2}}</label>
+
+        <label *ngIf="site?.siteAddress3" class="label-value">{{site?.siteAddress3}}</label>
+
+        <label *ngIf="site?.sitePostcode" class="label-value">{{site?.sitePostcode}}</label>
+      </ng-container>
+
+      <ng-template #noAddress>
+        <label>No address found</label>
+      </ng-template>
+    </div>
+
+    <app-button type="link" icon="far fa-edit" *ngIf="site?.siteAddress1" color="grey" class="pt-1"
+      (clicked)="editClicked.emit()"></app-button>
+  </div>
+</app-form-section>
+</div>

@@ -1,0 +1,64 @@
+<div class="central-popup-body" appEnterKeyFocusWrapper delay="750" [formGroup]="editForm">
+  <div class="search-entry d-flex flex-row">
+    <app-date-box acceptCustomValue="true" caption="Treatment Date" formControlName="treatmentDate" [maxDate]="maxDate">
+    </app-date-box>
+
+    <app-select-box [dataSource]="hospitals" caption="Treatement Hospital" formControlName="treatmentHospital"
+      valueExpr="id" displayExpr="name"></app-select-box>
+
+    <app-text-box formControlName="lastName" caption="Last Name" [capitalizeEachWord]="true">
+    </app-text-box>
+
+    <app-date-box acceptCustomValue="true" caption="Date of Birth" formControlName="birthDate" [maxDate]="maxDate">
+    </app-date-box>    
+
+    <app-button text="Search" icon="far fa-search" (clicked)="search()" class="ml-auto"></app-button>
+  </div>
+
+  <div *ngIf="claims" class="search-grid">
+    <dx-data-grid gridWithRowLinesSettings [dataSource]="claims" keyExpr="id" [hoverStateEnabled]="true"
+    class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true" [showRowLines]="true" focusedRowIndex="0"
+    (onFocusedRowChanged)="onFocusedRowChanged($event)" [focusedRowEnabled]="true"
+    (onRowDblClick)="download($event.data)">
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-state-storing [enabled]="true" type="sessionStorage" storageKey="invoiceAutoPopListStorage">
+    </dxo-state-storing>
+
+    <dxi-column dataField="dateAdded" caption="Date Added" dataType="date" [format]="appInfo.getDateFormat"
+      [sortIndex]="0" sortOrder="desc" [minWidth]="120"></dxi-column>
+    <dxi-column dataField="insurerName" caption="Insurer" [minWidth]="150"></dxi-column>
+    <dxi-column dataField="patientFirstName" [visible]="false"></dxi-column>
+    <dxi-column dataField="patientLastName" [visible]="false"></dxi-column>
+    <dxi-column caption="Patient" [minWidth]="200" cellTemplate="patientNameTemplate"></dxi-column>
+    <dxi-column dataField="patientBirthDate" caption="DoB" [minWidth]="120" dataType="date"
+      [format]="appInfo.getDateFormat"></dxi-column>
+    <dxi-column caption="Practitioner" [minWidth]="200" cellTemplate="practitionerNameTemplate"></dxi-column>
+    <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="50">
+      <dxi-button template="myCommandTemplate"></dxi-button>
+    </dxi-column>
+
+    <dxo-summary>
+      <dxi-total-item column="Date" summaryType="count" displayFormat="{0}">
+      </dxi-total-item>
+    </dxo-summary>
+
+    <div *dxTemplate="let cellInfo of 'patientNameTemplate'">
+      {{cellInfo.row.data.patientLastName}}, {{cellInfo.row.data.patientFirstName}}
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'practitionerNameTemplate'">
+      {{cellInfo.row.data.practitionerLastName}}, {{cellInfo.row.data.practitionerFirstName}}
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+      <app-button type="link" color="grey" icon="far fa-download"
+        class="mr-2 pointer-events-all" (clicked)="download(cellInfo.row.data)" matTooltip="Download Claim">
+      </app-button>
+    </div>
+  </dx-data-grid>
+  </div>
+</div>
+
+<div class="popup-form-footer-wrapper">
+  <app-button text="Close" class="ml-auto" (clicked)="formClosed.emit()" color="grey"></app-button>
+</div>

@@ -1,0 +1,76 @@
+<app-med-sec-site-selector (onSelected)="siteSelectorHandler()"></app-med-sec-site-selector>
+
+<div class="cssWidgetWrapper disable-select">
+    <dx-data-grid #transactionsGrid [dataSource]="dataSource" [focusedRowEnabled]="true" gridWithRowLinesSettings
+        appGridWithStateStore gridId="transactionsGrid1V1" focusedRowIndex="0" [allowColumnReordering]="true"
+        [columnMinWidth]="175" [allowColumnResizing]="true" [columnHidingEnabled]="true" [showColumnLines]="true"
+        [remoteOperations]="false" [rowAlternationEnabled]="true" columnResizingMode="widget"
+        (onToolbarPreparing)="onToolbarPreparing($event)" (openSiteSelectorModel)="openSiteSelectorModelHandler()"
+        (onOptionChanged)="onOptionChanged($event)" [masterDetail]="{ enabled: false, template: 'transactiondetail' }"
+        (stateSelected)="stateSelectedHandler($event)">
+        <dxo-paging [pageSize]="30"> </dxo-paging>
+        <dxo-export [enabled]="true" [fileName]="fileName" [allowExportSelectedData]="false"></dxo-export>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+        <dxo-search-panel [visible]="true" [width]="160" placeholder="Search...">
+        </dxo-search-panel>
+        <dxo-load-panel [enabled]="true"></dxo-load-panel>
+        <dxo-column-chooser [enabled]="true" mode="select" [height]="550">
+        </dxo-column-chooser>
+        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+        </dxo-editing>
+        <dxo-grouping [contextMenuEnabled]="true">
+        </dxo-grouping>
+        <dxo-group-panel [visible]="true" [allowColumnDragging]="true">
+        </dxo-group-panel>
+        <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+        <dxo-pager [visible]="true" [allowedPageSizes]="false" [showPageSizeSelector]="true" [showInfo]="true"
+            [showNavigationButtons]="true">
+        </dxo-pager>
+        <dxi-column dataField="siteName" [allowSorting]="true"
+            [visible]="isMedSec && !this.userStore.hasSelectedASite()" caption="Site"></dxi-column>
+        <dxi-column dataField="transactionDate" caption="Date" dataType="date" [sortIndex]="0" sortOrder="desc"
+            format="dd/MM/yyyy" [allowFiltering]="true">
+        </dxi-column>
+        <dxi-column dataField="paidAmount" caption="Amount" [fixed]="true" valueFormat="fixedPoint {2}"
+            fixedPosition="right">
+            <dxo-header-filter [groupInterval]="250"></dxo-header-filter>
+            <dxo-format type="currency" [precision]="2" currency="{{this.appInfo.getCurrencyCode}}"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="transactionType" caption="Transaction Type"> </dxi-column>
+        <dxi-column dataField="method" caption="Method"></dxi-column>
+        <dxi-column dataField="invoiceNumber" caption="Inv. No." [allowFiltering]="true"> </dxi-column>
+        <dxi-column dataField="patientName" caption="Patient"> </dxi-column>
+        <dxi-column dataField="patientBirthDate" caption="DOB" dataType="date" dataType="date" format="dd/MM/yyyy"
+            [format]="appInfo.getDateFormat" [allowSorting]="true" [allowFiltering]="true">
+        </dxi-column>
+        <dxi-column [calculateCellValue]="calculateAge" caption="Age" [allowSorting]="false" [visible]="false"
+            [allowFiltering]="true">
+        </dxi-column>
+        <dxi-column dataField="invoiceOwner" caption="Practitioner" [allowSorting]="false" [visible]="true"
+            [allowGrouping]="true">
+        </dxi-column>
+        <dxi-column dataField="comments" caption="Comments" [allowFiltering]="false"> </dxi-column>
+        <dxi-column dataField="postcode" caption="Postcode" [allowSorting]="false" [visible]="false"
+            [allowFiltering]="false">
+        </dxi-column>
+
+        <dxo-summary>
+            <dxi-total-item column="Date" summaryType="count" displayFormat="{0}" valueFormat="fixedPoint {2}">
+                <dxo-format [precision]="2"> </dxo-format>
+            </dxi-total-item>
+            <dxi-total-item column="paidAmount" summaryType="sum" displayFormat="{{this.appInfo.getCurrencySymbol}} {0}"
+                valueFormat="fixedPoint {2}">
+            </dxi-total-item>
+            <dxi-group-item column="TransactionDate" summaryType="count" displayFormat="{0} transactions">
+            </dxi-group-item>
+            <dxi-group-item column="paidAmount" summaryType="sum" valueFormat="fixedPoint {2}"
+                displayFormat="{{this.appInfo.getCurrencySymbol}} {0}" [showInGroupFooter]="true">
+                <dxo-format [precision]="2" type="fixedPoint"> </dxo-format>
+            </dxi-group-item>
+        </dxo-summary>
+    </dx-data-grid>
+</div>

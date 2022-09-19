@@ -1,0 +1,236 @@
+<dx-popup appCentralPopUpSettings *ngIf="showDepartments" [width]="'480'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="'Add To Department'" (closed)="showDepartments = false">
+    </app-pop-up-form-title>
+
+    <div class="d-flex flex-column flex-grow-1 responsive-paddings flex-auto top-row-height mx-3">
+      <div class="d-flex flex-row">Do you want to link to a department?</div>
+
+      <div class="d-flex flex-row">
+        <dx-select-box id="contactSelectBox" [dataSource]="departments" valueExpr="contactId" displayExpr="displayName"
+          (onSelectionChanged)="getDepartment($event)" placeholder="Select from list">
+        </dx-select-box>
+      </div>
+
+      <div class="popup-form-footer-wrapper">
+        <app-button text="Yes" class="ml-auto mr-3" (clicked)="linkToDepartment()"></app-button>
+
+        <app-button text="No" (clicked)="continue()"></app-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<div class="d-flex flex-column flex-grow-1 side-card" *ngIf="contact">
+  <div class="d-flex flex-column a-card-title px-4" *ngIf="!isInPatientDetails && !isInConnection">
+    <div class="d-flex flex-row" style="align-items: center;">
+      <span> {{contact.displayName}} </span>
+
+      <span class="label-tag md badge-danger ml-1 hm-17" *ngIf="contact && contact.inactive">Inactive</span>
+
+      <span class="label-tag md badge-success ml-1 hm-17" *ngIf="contact && !contact.inactive">Active</span>
+    </div>
+
+    <span class="label-tag md badge-secondary hm-17 badge-wide mt-1"
+      [ngStyle]="{'background-color': getBackgroundColor(contact)}">{{contact.contactType.contactType}}</span>
+  </div>
+
+  <div class="d-flex a-card-title responsive-paddings" *ngIf="isInConnection">
+    <span>{{contact.displayName }}</span>
+
+    <span class="badgeGlobal badge-secondary ml-2">{{contact.contactType}}</span>
+  </div>
+
+  <div class="main-content content-height custom-scroll disable-select px-4 mt-3" (mouseenter)="enableScroll($event)">
+    <div class="d-flex flex-column flex-grow-1 left-margin-1">
+      <div class="d-flex flex-row mb-1">
+        <span class="text-semiBold">Main</span>
+
+        <app-button type="link" class="ml-auto" icon="far fa-edit" color="grey"
+          (clicked)="contactToEdit = {id: contact.contactId}" matTooltip="Edit details"></app-button>
+      </div>
+
+      <span class="horizontal-line mb-2"></span>
+
+      <div class="d-flex flex-row">
+        <span *ngIf="contact.knownAs" class="label-info label-width">Known as:</span>
+
+        <span *ngIf="contact.knownAs" class="label-info-value">{{contact.knownAs }}</span>
+      </div>
+
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">Payor</span>
+
+        <span class="label-info-value">{{contact.isPayor? "Yes" : "No"}}</span>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="contact.isPayor">
+        <span class="label-info label-width">Invoices via patientzone</span>
+
+        <span class="label-info-value">{{contact.sendViaPatientzone ? "Yes" : "No"}}</span>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="contact.jobTitle">
+        <span class="label-info label-width">Job Title</span>
+
+        <span class="label-info-value">{{contact.jobTitle }}</span>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="contact.qualifications">
+        <span class="label-info label-width">Qualifications</span>
+
+        <span class="label-info-value">{{contact.qualifications }}</span>
+      </div>
+
+      <!-- Address -->
+      <div class="d-flex flex-row mt-4 mb-1">
+        <span class="text-semiBold">Address</span>
+
+        <app-button type="link" class="ml-auto" *ngIf="contact.primaryAddress" icon="far fa-edit" color="grey"
+          (clicked)="addressId = {id: contact.primaryAddress.addressId}" matTooltip="Edit address"></app-button>
+
+        <app-button type="link" class="ml-auto" *ngIf="!contact.primaryAddress" icon="far fa-plus"
+          (clicked)="addressId = {id: '0'}" matTooltip="Add address"></app-button>
+      </div>
+
+      <span class="horizontal-line mb-2"></span>
+
+      <div class="d-flex flex-row" *ngIf="contact?.primaryAddress as primaryAddress; else noAddress">
+        <span class="label-info label-width">Primary</span>
+
+        <div class="d-flex flex-column">
+          <div *ngIf="primaryAddress?.addressTypeDescription" class="label-info-value">
+            {{primaryAddress.addressTypeDescription}}</div>
+
+          <div *ngIf="primaryAddress?.address1" class="label-info-value">{{primaryAddress.address1}}</div>
+
+          <div *ngIf="primaryAddress?.address2" class="label-info-value">{{primaryAddress.address2}}</div>
+
+          <div *ngIf="primaryAddress?.address3" class="label-info-value">{{primaryAddress.address3}}</div>
+
+          <div *ngIf="primaryAddress?.address3" class="label-info-value">{{primaryAddress.address4}}</div>
+
+          <div *ngIf="primaryAddress?.postcode" class="label-info-value">{{primaryAddress.postcode}}</div>
+        </div>
+      </div>
+
+      <ng-template #noAddress>
+        <span class="text-grey-65">No Address</span>
+      </ng-template>
+
+      <!-- Telecoms -->
+      <div class="d-flex flex-row mt-4 mb-1">
+        <span class="text-semiBold">Telecoms</span>
+
+        <app-button type="link" class="ml-auto" *ngIf="!contact.telecoms || contact.telecoms.length === 0"
+          icon="far fa-plus" (clicked)="telecomId = {id: '0'}" matTooltip="Add telecom"></app-button>
+      </div>
+
+      <span class="horizontal-line mb-2"></span>
+
+      <ng-container *ngIf="contact.telecoms && contact.telecoms.length > 0; else noContact">
+        <div class="d-flex flex-row align-items-center" *ngFor="let item of contact.telecoms">
+          <span class="label-info label-width text-truncate">{{item.description}}</span>
+
+          <span *ngIf="item.description != 'Email'" class="label-info-value"><a
+              [href]="'tel:' + getPhone(item.value)">{{getPhone(item.value)}}</a></span>
+
+          <span *ngIf="item.description == 'Email'" class="label-info-value"><a
+              [href]="'mailto:' + item.value">{{item.value}}</a></span>
+
+          <span class="label-tag type3 mb-auto ml-2 mt-04r" *ngIf="item.preferred">Preferred</span>
+
+          <app-button type="link" class="ml-auto" icon="far fa-edit" color="grey" (clicked)="telecomId = {id: item.id}"
+            matTooltip="Edit telecom">
+          </app-button>
+        </div>
+      </ng-container>
+
+      <ng-template #noContact>
+        <span class="text-grey-65">No contact details</span>
+      </ng-template>
+
+      <ng-container *ngIf="contact.linkedContacts.length > 0 || contact.linkedOrganisations.length > 0">
+        <span class="text-semiBold mt-4">{{contact.contactType.contactClassificationId === 1 ? 'Organisations' :
+          'People'}}</span>
+        <span class="horizontal-line mb-2 mt-1"></span>
+
+        <div class="d-flex flex-column" *ngFor="let item of connections">
+          <div class="d-flex flex-row mt-1 mb-3">
+            <span class="mr-2 text-grey-65">&#8226;</span>
+
+            <div class="d-flex flex-column w-100">
+              <div class="d-flex flex-row">
+                <span class="text-semiBold mr-2">{{item.displayName}}</span>
+
+                <span class="label-tag md badge-secondary hm-17"
+                  [ngStyle]="{'background-color': getBackgroundColor(item)}">{{item.contactType.contactType}}</span>
+
+                <app-button type="link" class="ml-auto" icon="far fa-external-link-square" color="grey"
+                  (clicked)="routeToContact(item.contactId)" matTooltip="View contact"></app-button>
+              </div>
+
+              <div class="d-flex flex-row">
+                <i class="fas fa-map-marker-alt leading-1.75"></i>
+
+                <div class="d-inline-block">
+                  <div *ngIf="item.address?.addressTypeDescription" class="label-info-value">
+                    {{item.address.addressTypeDescription}}</div>
+
+                  <div *ngIf="item.address?.address1" class="label-info-value">{{item.address?.address1}},&nbsp;</div>
+
+                  <div *ngIf="item.address?.address2" class="label-info-value">{{item.address?.address2}},&nbsp;</div>
+
+                  <div *ngIf="item.address?.address3" class="label-info-value">{{item.address?.address3}},&nbsp;</div>
+
+                  <div *ngIf="item.address?.address4" class="label-info-value">{{item.address?.address4}},&nbsp;</div>
+
+                  <div *ngIf="item.address?.postcode" class="label-info-value">{{item.address?.postcode}}</div>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row align-items-center" *ngFor="let item of item.telecoms">
+                <i class="fas fa-phone" *ngIf="item.gluTypeId !== 4; else email"></i>
+
+                <ng-template #email>
+                  <i class="far fa-envelope"></i>
+                </ng-template>
+
+                <span class="label-info-value">{{item.value}}</span>
+
+                <span class="label-tag type3 ml-2 mt-2px" *ngIf="item.preferred">Preferred</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row w-100 a-card-footer justify-content-center" *ngIf="showButtons">
+    <app-card-action-button *ngIf="addToContact && contact.contactType.contactClassificationId !== 1" icon="plus"
+      text="Add To Contact" (clicked)="addContactToParent(contact)" matTooltip="Add to organisation">
+    </app-card-action-button>
+
+    <app-card-action-button icon="user-injured" text="Add To Contact" *ngIf="addToPatient"
+      (clicked)="addContactToPatientClick(contact)" matTooltip="Repring Invoice" matTooltip="Add to patient">
+    </app-card-action-button>
+
+    <app-card-action-button icon="address-card" text="View Contact Details" *ngIf="!isInPopup"
+      (clicked)="editContactDetails(selectedContactId)" matTooltip="View contact details">
+    </app-card-action-button>
+  </div>
+</div>
+
+<!-- Add/Edit Address -->
+<app-edit-contact-address-modal [addressId]="addressId" [contact]="contact" (saved)="getData()">
+</app-edit-contact-address-modal>
+
+<!-- Add/Edit Telecoms -->
+<app-contact-telecom-edit-modal [telecomId]="telecomId" [contact]="contact" (saved)="getData()">
+</app-contact-telecom-edit-modal>
+
+<!-- Edit Contact -->
+<app-edit-contact-modal [contactId]="contactToEdit" [contactClassification]="contactClassification" (saved)="getData()">
+</app-edit-contact-modal>

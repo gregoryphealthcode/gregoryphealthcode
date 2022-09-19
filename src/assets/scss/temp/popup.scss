@@ -1,0 +1,56 @@
+body {
+  .dx-popup-title.dx-toolbar {
+    background: hsl(120, 100%, 100%);
+    color: hsl(120, 100%, 100%);
+    padding: 12px 0px;
+
+    .dx-toolbar-label {
+      font-size: 15px;
+    }
+  }
+
+  .dx-datagrid-column-chooser .dx-overlay-content .dx-popup-title{
+    padding-left: 12px;
+    padding-right: 24px;
+    padding-top: 6px;
+    color: black;
+
+    .dx-item-content.dx-toolbar-item-content{
+      font-size: 14px;
+      font-weight: 500;
+      padding-top: 4px;
+    }
+  }
+
+  .dx-popup-content {
+    padding: 0px;
+  }
+
+  .dx-overlay-content.dx-popup-normal.dx-resizable.dx-popup-inherit-height {
+    box-shadow: 1px 1px 5px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    border: transparent;
+  }
+
+  .dx-tooltip-wrapper .dx-overlay-content .dx-popup-content {
+    border-radius: 6px;
+  }
+
+  .dx-popup-normal .dx-button-mode-contained .dx-icon.dx-icon-close {
+   color : $primary;
+  }
+
+
+  .dx-button-mode-contained.dx-state-hover  { color: $primary; }
+
+
+  .dx-popup-done .dx-button
+  {
+    color : $primary;
+  }
+
+  .dx-popup-done .dx-button.dx-state-hover .dx-button-text
+  {
+    color : $primary;
+  }
+}

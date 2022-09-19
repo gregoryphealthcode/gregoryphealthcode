@@ -1,0 +1,65 @@
+<div class="d-flex app-card flex-grow-1">
+    <div class="d-flex flex-column responsive-margins">
+        <div class="label-info-value-title mt-3">Appointment preferences</div>
+
+        <span class="label-description mt-2 mb-2">You can update appointment settings from here</span>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1">
+        <mat-tab-group class="full-height settings-tabs left-aligned wm-100">
+            <mat-tab class="header">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">Diary Hours</span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-preferences-appointment-diary class="d-flex flex-column flex-grow-1"></app-preferences-appointment-diary>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">Types</span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-preferences-appointment-types class="d-flex flex-column flex-grow-1">
+                    </app-preferences-appointment-types>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">Locations</span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-preferences-appointment-locations class="d-flex flex-column flex-grow-1">
+                    </app-preferences-appointment-locations>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">Sessions</span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-preferences-appointment-sessions class="d-flex flex-column flex-grow-1">
+                    </app-preferences-appointment-sessions>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">Appointment Instructions</span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-preferences-appointment-instructions class="d-flex flex-column flex-grow-1">
+                    </app-preferences-appointment-instructions>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

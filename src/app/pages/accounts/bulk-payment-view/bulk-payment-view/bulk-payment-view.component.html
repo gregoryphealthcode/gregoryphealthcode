@@ -1,0 +1,64 @@
+<app-page-wrapper [title]="'Bulk payment'" [hasTabs]="true" backPagePath="/accounts/bulk-payments">
+  <app-page-header-buttons>
+    <app-button *ngIf="store.getAllocationsUnsaved" icon="far fa-exclamation-triangle" type="link" color="warning"
+      text="You have allocations pending processing. Click here to view" class="ml-4 mt-3" (clicked)="viewClicked()">
+    </app-button>
+
+    <app-button *ngIf="!store.getAllocationsSaved" text="Delete" icon="far fa-trash" class="ml-auto my-auto mr-4"
+      type="link" color="warning" (clicked)="delete()"></app-button>
+
+    <app-button *ngIf="store.getAllocationsSaved" text="Print Receipt" icon="far fa-receipt"
+      class="ml-auto my-auto mr-4" type="link" (clicked)="printReceipt()"></app-button>
+
+    <app-button text="Save" class="ml-3" (clicked)="detailsForm.submitForm()" [disabled]="detailsForm.updating == false"></app-button>
+  </app-page-header-buttons>
+
+  <app-page-header-content class="mb-2">
+    <app-bulk-payment-summary></app-bulk-payment-summary>
+
+    <div class="vertical-line line-2x ml-1 mr-5"></div>
+
+    <app-bulk-payment-header #detailsForm class="d-flex flex-grow-1">
+    </app-bulk-payment-header>
+  </app-page-header-content>
+
+  <app-page-body>
+    <div class="d-flex flex-row flex-grow-1">
+      <mat-tab-group class="full-height left-aligned modal-tabs" [selectedIndex]="store.tabIndex$|async"
+        (selectedIndexChange)="store.setTab($event)">
+        <mat-tab class="header">
+          <ng-template mat-tab-label>
+            <span class="tabHeader">Outstanding</span>
+          </ng-template>
+
+          <ng-template matTabContent>
+            <app-bulk-payment-outstanding class="d-flex w-100 h-100">
+            </app-bulk-payment-outstanding>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="tabHeader">Allocations</span>
+          </ng-template>
+
+          <ng-template matTabContent>
+            <app-bulk-payment-allocations class="d-flex w-100 h-100">
+            </app-bulk-payment-allocations>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="tabHeader">Shortfalls</span>
+          </ng-template>
+
+          <ng-template matTabContent>
+            <app-bulk-payment-shortfalls class="d-flex h-100 w-100">
+            </app-bulk-payment-shortfalls>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </app-page-body>
+</app-page-wrapper>

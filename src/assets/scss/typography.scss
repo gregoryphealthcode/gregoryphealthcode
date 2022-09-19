@@ -1,0 +1,38 @@
+html,
+body {
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+}
+
+h2,
+h4,
+h5 {
+  color: $ep-color-heading;
+}
+
+.dx-widget {
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+  color: $main-text-color;
+  font-size: 13px;
+
+  &.dx-tagbox{
+    font-size: 12px;
+  }
+}
+
+.dx-widget input,
+.dx-widget textarea {
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+}
+
+.dx-theme-material-typography a {
+  color: $ep-color-label;
+}
+
+.dx-scrollview-content .dx-item.dx-list-item{
+  font-size: 12px;
+}
+
+.dx-swatch-additional .dx-placeholder {
+  color: hsl(0, 0%, 73%);
+  font-weight: normal;
+}

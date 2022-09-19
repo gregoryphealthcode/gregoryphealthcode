@@ -1,0 +1,104 @@
+body {
+  .tabHeader {
+    font-weight: 400;
+    color: hsl(0, 0%, 60%);
+  }
+
+  .mat-tab-label-active .tabHeader {
+    font-weight: 500;
+    color: hsl(0, 0%, 30%);
+  }
+
+  .mat-tab-nav-bar,
+  .mat-tab-header {
+    border-bottom: 2px solid hsl(0, 0%, 96%);
+  }
+
+  .no-border.mat-tab-group {
+    .mat-tab-header {
+      border-bottom: none;
+    }
+  }
+
+  .mat-tab-group.mat-primary .mat-ink-bar,
+  .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background: $primary;
+    height: 3px;
+  }
+
+
+
+  .mat-tab-labels {
+    margin: 0 18px;
+    .mat-tab-label {
+      min-width: 80px;
+      height: 48px;
+      opacity: 1;
+      color: hsl(0, 0%, 55%);
+      font-weight: 400;
+
+      &.mat-tab-label-active {
+        color: hsl(0, 0%, 40%);
+        font-weight: 500;
+      }
+
+      .mat-tab-label-content {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .full-height.mat-tab-group,
+  .full-height.mat-tab-group .mat-tab-body-wrapper {
+    flex: 1 1 auto;
+  }
+  .mat-tab-label.sub-heading {
+    height: 20px !important;
+  }
+
+  .mat-tab-group.mat-primary.settings-tabs{
+    .mat-tab-labels {
+      margin: 0 1.5rem;
+    }
+
+    .mat-tab-header-pagination-controls-enabled .mat-tab-labels{
+      margin: 0;
+    }
+
+  }
+
+  .mat-tab-group.mat-primary {
+    &.left-aligned {
+      > .mat-tab-header
+        > .mat-tab-label-container
+        > .mat-tab-list
+        > .mat-tab-labels
+        > .mat-tab-label {
+        height: 44px;
+        padding: 2px 1px 0;
+        justify-content: start;
+        min-width: 32px;
+        margin-right: 42px;
+        //letter-spacing: 0.3px;
+
+        &.mat-tab-label-active {
+          color: $primary;
+          opacity: 1;
+        }
+      }
+    }
+
+    &.modal-tabs {
+      > .mat-tab-header
+        > .mat-tab-label-container
+        > .mat-tab-list
+        > .mat-tab-labels {
+        margin: 0;
+        > .mat-tab-label {
+          height: 46px;
+          padding: 0px 1px 0;
+        }
+      }
+    }
+  }
+}

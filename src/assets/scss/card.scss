@@ -1,0 +1,261 @@
+.app-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: $card-back-color;
+  background-clip: border-box;
+  border-radius: 0px;
+  // box-shadow: 0px 9px 9px -2px hsl(0, 0%, 91%), 0px 0px 2px 1px hsl(0, 0%, 94%);
+  border: 1px solid $base-border-color;
+  line-height: 1.35;
+
+  &.border-none {
+    border: none;
+  }
+
+  &.inside-card {
+    box-shadow: 0px 1px 5px 1px hsl(0, 0%, 87%);
+  }
+}
+
+.diary-specialist-card {
+  // d-flex flex-column generic-border px-2 py-1 mr-2 text-sm
+  display: flex;
+  flex-direction: column;
+  padding: 5px 8px 5px 6px;
+  margin-right: 18px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  border-radius: 4px;
+  min-width: 14rem;
+  position: relative;
+  cursor: pointer;
+
+  &.active, &:hover{
+    border-color: hsl(215, 35%, 83%);
+    background-color: hsl(215, 35%, 98%);
+    color: hsl(215, 30%, 40%);
+
+    .text-grey-65{
+      color: hsl(215, 20%, 65%);
+    }
+  }
+
+  .specialist-name {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: "Montserrat", "Helvetica Neue", "Segoe UI", Helvetica, Verdana,
+      sans-serif;
+  }
+
+  .add-session-btn{
+    padding-top: 2px;
+
+    .app-btn.app-btn-xs .btn-icon {
+      font-size: 12px !important;
+      line-height: 10px !important;
+      margin-right: 5px !important;
+    }
+  }
+
+  .label-tag{
+    margin-top: 2px;
+    z-index:2;
+  }
+
+  i.fa-check-circle {
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    font-size: 14px;
+    background-color: white;
+    color: hsl(220, 45%, 65%);
+  }
+}
+
+.app-cardMini {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin-right: 4px;
+  word-wrap: break-word;
+  background-color: $card-back-color;
+  background-clip: border-box;
+  border-radius: 9px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+  border: none;
+  line-height: 1.35;
+}
+
+.page-header {
+  background: none;
+  color: #807f7f;
+  padding: 1.4rem 0px;
+  border: none;
+  height: auto;
+  line-height: 1;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+gridster-item {
+  border: solid thin $base-border-color !important;
+  border-radius: 0px !important;
+  padding: 4px;
+}
+
+.sub-page-header {
+  background: none;
+  color: #807f7f;
+  padding: 0.75rem 0px;
+  border: none;
+  height: auto;
+  line-height: 1;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.tab-heading {
+  background: none;
+  color: #807f7f;
+  padding: 0.75rem 0px;
+  border: none;
+  height: auto;
+  line-height: 1;
+  font-size: 1.25em;
+  font-weight: 500;
+}
+
+.identity-card {
+  width: 342px;
+  margin-bottom: 10rem;
+  padding: 18px 36px 28px;
+  background-color: white;
+  border-radius: 9px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+
+  &.lg-view {
+    width: 875px;
+  }
+
+  .logo {
+    text-align: center;
+    height: 78px;
+    width: 190px;
+    background-image: url("~/assets/img/logo.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
+
+.small-card-wrapper {
+  border: 1px solid #e6e6e6;
+  padding: 10px 10px;
+  margin-top: 6px;
+  border-radius: 3px;
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+.side-card {
+  i {
+    color: hsl(0, 0%, 50%);
+    margin-right: 0.5rem;
+    font-size: 12px;
+    padding-top: 3px;
+    --fa-primary-opacity: 1;
+    --fa-secondary-opacity: 0.25;
+  }
+
+  .a-card-title {
+    background-color: rgb(231 238 244 / 1);
+    color: hsl(211, 35%, 36%);
+    padding-top: 0.6rem;
+    padding-bottom: 0.7rem;
+    border-radius: 0px 0px 0 0;
+    font-size: 17px;
+    font-weight: 500;
+
+    &.compact-mode {
+      background-color: transparent;
+      color: hsl(0, 0%, 40%);
+      padding-top: 0.85rem;
+      padding-bottom: 0.65rem;
+    }
+
+    .secondary-text{
+      color: hsl(211, 22%, 60%);
+      font-size: 13px;
+      font-weight: 400;
+
+    }
+
+    .small-label{
+      &.type1{
+        color: hsl(145, 55%, 45%);
+      }
+      &.type2{
+        color: hsl(0, 0%, 55%);
+      }
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-left: 6px;
+      margin-top: 2px;
+    }
+  }
+
+  .a-card-footer {
+    background-color: #e7eef4;
+    padding-top: .4rem;
+    padding-bottom: .75rem;
+    border-radius: 0 0 0px 0px;
+  }
+
+  .label-info-value,
+  .label-info-value-title {
+    font-weight: 500;
+  }
+
+  .label-width {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 7rem;
+    margin-bottom: 0.85rem;
+    margin-right: 1rem;
+  }
+
+  .left-margin-1 {
+    margin-left: 0rem;
+  }
+
+  .left-margin-2 {
+    margin-left: 6.5%;
+  }
+
+  .content-height {
+    height: 100px; // dummy height
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+
+  .height-1 {
+    flex: 0 0 128px;
+  }
+
+  .height-2 {
+    flex: 0 0 44px;
+  }
+
+  .height-3 {
+    flex: 0 0 64px;
+  }
+}

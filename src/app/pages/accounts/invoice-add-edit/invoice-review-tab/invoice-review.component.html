@@ -1,0 +1,49 @@
+<div class="d-flex flex-column tab-height flex-grow-1">
+  <div class="d-flex flex-row">
+    <app-invoice-step-section [index]="1" class="mt-3 mr-4" [isReview]="true">
+      <app-invoice-patient-details-view class="d-flex flex-grow-1"></app-invoice-patient-details-view>
+    </app-invoice-step-section>
+
+    <app-invoice-step-section [index]="2" class="mt-3 ml-4" [isReview]="true">
+      <app-invoice-payor-details-view class="d-flex flex-row"></app-invoice-payor-details-view>
+    </app-invoice-step-section>
+  </div>
+
+  <div class="d-flex flex-row">
+    <app-invoice-step-section [index]="3" class="mt-3 mr-4" [isReview]="true">
+      <app-invoice-details-view class="d-flex flex-grow-1"></app-invoice-details-view>
+    </app-invoice-step-section>
+
+    <app-invoice-step-section [index]="4" class="mt-3 ml-4" [isReview]="true">
+      <app-treatment-details-view class="d-flex flex-grow-1"></app-treatment-details-view>
+    </app-invoice-step-section>
+  </div>
+
+  <div class="d-flex flex-row" *ngIf="showDiagnosisStep">
+    <app-invoice-step-section [index]="5" [isReview]="true">
+      <app-diagnosis-view class="d-flex flex-grow-1"></app-diagnosis-view>
+    </app-invoice-step-section>
+  </div>
+
+  <div class="d-flex flex-row">
+    <app-invoice-step-section [index]="6" class="mt-3"[isReview]="true"> 
+      <app-invoice-services-view class="d-flex flex-grow-1 flex-column"></app-invoice-services-view>
+    </app-invoice-step-section>
+  </div>
+
+  <div class="d-flex flex-row" *ngIf="store.isEditable">
+    <label class="mt-2 ml-auto">Invoice Template:</label>
+
+    <dx-select-box [dataSource]="templates" valueExpr="templateId" displayExpr="description"
+        (onSelectionChanged)="templateChanged($event)" class="dx-custom-button-hovered ml-3"
+        [(value)]="selectedTemplate">
+      </dx-select-box>
+  </div>
+
+  <div class="d-flex pt-3 pb-3 height-2 buttons-right align-items-center" *ngIf="store.isEditable">
+    <app-button text="To Be Reviewed" type="secondary" icon="far fa-file-check" class="mr-3" *ngIf="!store.inReview"
+      (clicked)="store.setToReview()"></app-button>
+
+    <app-button [text]="store.isInsurer || store.isPatientzone ? 'Save and Send' : 'Save and Print'" (clicked)="store.send()" icon="fal fa-file-upload" [disabled]="!store.selectedTemplate"></app-button>
+  </div>
+</div>

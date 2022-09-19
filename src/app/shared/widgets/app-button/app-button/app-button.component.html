@@ -1,0 +1,12 @@
+<button (click)="clicked.emit($event)" [class]="btnClass" [disabled]="disabled" *ngIf="!loading; else loadingTemplate" [class.small-btn-width]="smallButton">
+  <i *ngIf="!smallButton && icon && iconPosition==='left'" [class]="icon + ' btn-icon btn-icon-left'"></i>
+  <span [class.pr-2]="showDropdownIcon">{{text}}</span>
+  <i *ngIf="!smallButton && icon && iconPosition==='right'" [class]="icon + ' btn-icon btn-icon-right'"></i>
+
+  <i *ngIf="smallButton && icon" [class]="icon + ' btn-icon btn-icon-center'"></i>
+
+  <i *ngIf="showDropdownIcon" class="btn-icon dropdown-icon fas fa-caret-down"></i>
+</button>
+
+<ng-template #loadingTemplate>
+  <app-content-loader></app-content-loader></ng-template>

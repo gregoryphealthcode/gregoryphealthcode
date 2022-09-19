@@ -1,0 +1,48 @@
+<div class="flex flex-col flex-grow-1 section-wrapper" *ngIf="store.showSection(index)">
+  <div class="d-flex flex-row align-items-center">
+    <div class="section-heading mr-auto">{{sectionDetails?.title}}</div>
+
+    <button mat-icon-button class="alternative small-icon mr-1 section-icon"
+      matTooltip="An error has occurred please click here to view the errors" (click)="errorClicked.emit()"
+      *ngIf="errors?.length > 0">
+      <mat-icon fontSet="fad" fontIcon="fa-exclamation-square" class="warning"> </mat-icon>
+    </button>
+
+    <button *ngIf="!isReview" mat-icon-button class="alternative small-icon section-icon" (click)="showHelp = !showHelp"
+      matTooltip="Show Help">
+      <mat-icon fontSet="fad" fontIcon="fa-question-circle"> </mat-icon>
+    </button>
+
+    <button mat-icon-button class="alternative small-icon ml-2 section-icon"
+      (click)="store.sectionManager.setCurrentlyEditableSection(index)" [matTooltip]="store.sectionManager.currentEditableSection !== index ? 'Edit' :'Cancel'" *ngIf="store.sectionManager.canEditSection(index) &&
+        (
+          !(index == 1 && store.isNew && !store.hasPatientId) && 
+          !(index == 2 && !store.hasPayor) &&
+          !(index == 3 && !store.hasInvoiceId) &&
+          !(index == 4 && !store.hasEpisode)
+        )">
+      <mat-icon fontSet="fad"
+        [fontIcon]="store.sectionManager.currentEditableSection !== index ? 'fa-edit' : 'fa-times'"></mat-icon>
+    </button>
+  </div>
+
+  <span class="horizontal-line d-flex"></span>
+  
+  <div class="help-text-wrapper" *ngIf="showHelp">
+    <span class="mt-4">{{sectionDetails?.helperText}}</span>
+
+    <button mat-icon-button class="alternative ml-auto section-icon" (click)="showHelp = !showHelp"
+      matTooltip="Hide Help">
+      <mat-icon fontSet="fal" fontIcon="fa-times"> </mat-icon>
+    </button>
+  </div>
+
+  <span class="d-flex"></span>
+
+  <app-invoice-error-section [errors]="errors" class="mb-2" *ngIf="errors && errors?.length > 0">
+  </app-invoice-error-section>
+
+  <div class="d-flex flex-column flex-grow-1 py-2">
+    <ng-content></ng-content>
+  </div>
+</div>

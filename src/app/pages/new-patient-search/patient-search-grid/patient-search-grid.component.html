@@ -1,0 +1,142 @@
+<div class="d-flex flex-row flex-wrap w-100 mb-3 pt-3 pl-4">
+  <app-grid-search-text-box [mask]="searchBoxMask" [maskRules]="maskRules"
+    (changed)="searchTermValue = $event; onSearchInputChangedHandler()" class="mr-3">
+  </app-grid-search-text-box>
+
+  <dx-select-box *ngIf="isMedSec" [dataSource]="sites" valueExpr="siteId" displayExpr="siteName"
+    (onSelectionChanged)="setSelectedSiteItem($event)" class="no-bg-dropdown dx-custom-button-hovered"
+    [(value)]="defaultSiteId">
+  </dx-select-box>
+
+  <dx-select-box *ngIf="filterType != 'recent' && filterType != 'today'" [dataSource]="searchOptions" valueExpr="value"
+    displayExpr="viewValue" (onSelectionChanged)="setSearchItem($event)"
+    class="no-bg-dropdown dx-custom-button-hovered ml-3" [(value)]="searchField">
+  </dx-select-box>
+
+  <div *ngIf="filterType != 'recent'" class="d-flex ml-2 h-36px w-15px">
+    <mat-form-field class="w-1px">
+      <input matInput [matDatepicker]="picker" class="alternative-hover datePicker w-1px"
+        (dateChange)="getSelectedDate($event)" tabindex="6">
+
+      <mat-datepicker-toggle matSuffix [for]="picker" matTooltip="See Appointments on a certain date"
+        class="alternative-hover">
+        <mat-icon matDatepickerToggleIcon class="alternative-hover icons" fontSet="fas" fontIcon="fa-calendar-day"
+          style="margin-top: -5px !important;">
+        </mat-icon>
+      </mat-datepicker-toggle>
+
+      <mat-datepicker #picker class="alternative-hover"></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="appointmentDate" class="d-flex ml-2 h-39px">
+    <app-button type="link" icon="far fa-times-circle" color="grey" matTooltip="Clear Date"
+      class="mt-auto mb-auto" (clicked)="clearDate()">
+    </app-button>
+  </div>
+
+  <ng-container *ngIf="filterType != 'recent' && filterType != 'today'">
+    <div class="d-flex flex-row flex-wrap align-items-center ml-auto mr-4">
+      <mat-checkbox name="Debtors" class="ml-4 CheckPadded" [checked]="debtors" (change)="checkboxChanged($event)"
+        matInput>Include debtors</mat-checkbox>
+
+      <mat-checkbox name="Deceased" class="ml-4 CheckPadded" [checked]="deceased" (change)="checkboxChanged($event)"
+        matInput>Include deceased</mat-checkbox>
+
+      <mat-checkbox name="Active" class="ml-4 CheckPadded" [checked]="inactive" (change)="checkboxChanged($event)"
+        matInput>Include inactive</mat-checkbox>
+    </div>
+  </ng-container>
+</div>
+
+<!-- Grid -->
+<div class="cssWidgetWrapper disable-select hmin-275px">
+  <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource != null ? dataSource : null"
+    #patientSearchGridContainer id="patientSearchGrid" [remoteOperations]="false"
+    (onFocusedRowChanged)="onFocusedRowChanged($event)" keyExpr="this" [focusedRowEnabled]="true" focusedRowIndex="0"
+    gridWithRowLinesSettings [showRowLines]="true" [columnHidingEnabled]="true"
+    (onRowDblClick)="doubleClickHandled($event)" [rowAlternationEnabled]="true" (onKeyDown)="onKeyDown($event)" [remoteOperations]="false"
+    [columnMinWidth]="100">
+
+    <dxo-sorting mode="single"></dxo-sorting>
+    <dxo-search-panel [visible]="false" placeholder="Search..." [width]="'15rem'" [highlightCaseSensitive]="true">
+    </dxo-search-panel>
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-paging [pageSize]="20"></dxo-paging>
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-pager [allowedPageSizes]="[5, 10, 20]" [showInfo]="true"></dxo-pager>
+
+    <dxi-column dataField="siteName" [allowSorting]="true" [visible]="isMedSec"
+      caption="Site"></dxi-column>
+    <dxi-column dataField="inactive" [allowSorting]="true" cellTemplate="activeTemplate" [visible]="inactive">
+    </dxi-column>
+    <dxi-column dataField="deceased" [allowSorting]="true" cellTemplate="deceasedTemplate" [visible]="deceased">
+    </dxi-column>
+    <dxi-column dataField="lastName" [allowSorting]="true" caption="Last Name" cssClass="text-semiBold"></dxi-column>
+    <dxi-column dataField="firstName" [allowSorting]="true" caption="First Name"></dxi-column>
+    <dxi-column dataField="birthDate" [allowSorting]="true" [format]="dateFormat" dataType="date"
+      caption="Date of Birth">
+    </dxi-column>
+    <dxi-column [alignment]="'center'" caption="Age" [allowSorting]="false" dataField="age" [visible]="true"
+      [fixed]="false" cellTemplate="warnifchildCellTemplate" [allowFiltering]="false" [(visible)]="hideCol"
+      [allowSorting]="true" [hidingPriority]="1">
+    </dxi-column>
+    <dxi-column dataField="gender" [allowSorting]="true" caption="Birth Gender" [hidingPriority]="1"
+      [(visible)]="hideCol">
+    </dxi-column>
+    <dxi-column dataField="postcode" [allowSorting]="false" caption="Postcode" [(visible)]="showPostCol">
+    </dxi-column>
+    <dxi-column dataField="referenceNumber" [allowSorting]="true" caption="Reference No" [(visible)]="showRefCol">
+    </dxi-column>
+    <dxi-column dataField="telecoms" [allowSorting]="false" caption="Telecom" [(visible)]="showTelCol"
+      cellTemplate="telecomTemplate">
+    </dxi-column>
+    <dxi-column dataField="insurer" [allowSorting]="true" caption="Membership Number" [(visible)]="showInsCol">
+    </dxi-column>
+    <dxi-column dataField="invoices" caption="Invoice No." [(visible)]="showInvCol" cellTemplate="invoiceTemplate"
+      [allowSorting]="false">
+    </dxi-column>
+    <dxi-column *ngIf="filterType == 'recent'" dataField="lastSelected" sortOrder="desc" [showInColumnChooser]="false"
+      [visible]="false">
+    </dxi-column>
+    <dxi-column *ngIf="filterType != 'today' && filterType != 'recent'" [showInColumnChooser]="false"
+      [hidingPriority]="1" dataField="lastModified" sortOrder="desc" caption="Last Edited" [format]="dateFormat"
+      dataType="date" [allowSorting]="true">
+    </dxi-column>
+    <dxi-column type="buttons" [showInColumnChooser]="false" width="90">
+      <dxi-button template="myCommandTemplate"></dxi-button>
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'activeTemplate'" class="flex flex-row">
+      <span class="label-tag md badge-danger align-items-center" *ngIf="data.value == true">Inactive</span>
+    </div>
+
+    <div *dxTemplate="let data of 'deceasedTemplate'" class="flex flex-row">
+      <span class="label-tag md badge-danger align-items-center" *ngIf="data.value == true">Deceased</span>
+    </div>
+
+    <div *dxTemplate="let data of 'telecomTemplate'" class="flex flex-row">
+      {{data.value}}
+    </div>
+
+    <div *dxTemplate="let data of 'invoiceTemplate'" class="flex flex-column" style="white-space: pre;">
+      <span *ngFor="let invoice of data.value" style="display: block;">{{invoice}}</span>
+    </div>
+
+    <div *dxTemplate="let d of 'warnifchildCellTemplate'">
+      <div class="current-value">{{d.value}}</div>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+      <app-button *ngIf="isMedSec" icon="far fa-clone" type="link" color="grey" class="pointer-events"
+        matTooltip="Copy to site" (clicked)="shareClicked(cellInfo)"></app-button>
+
+      <app-button type="link" iconPosition="right" icon="far fa-external-link-square" color="grey"
+        matTooltip="View Patient Details" (clicked)="this.patientSelected.emit(cellInfo.row.data.patientId)">
+      </app-button>
+    </div>
+  </dx-data-grid>
+</div>
+
+<app-med-sec-duplicate-site-selector *ngIf="showSites" (saved)="savedSiteHandler($event)" (closed)="showSites = false;"
+  [duplicateId]="selectedPatientId" [duplicateType]="'Patients'"></app-med-sec-duplicate-site-selector>

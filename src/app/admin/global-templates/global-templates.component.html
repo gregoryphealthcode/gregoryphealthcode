@@ -1,0 +1,55 @@
+<app-global-template-add-edit [data]="selectedRecord" (saved)="saved($event)"></app-global-template-add-edit>
+
+<div class="d-flex d-flex-column">
+    <div class="d-flex flex-grow-1">
+        <div class="page-header responsive-margins">Global Templates</div>
+    </div>
+
+    <div class="d-flex flex-grow-1 mr-4 mt-2">
+        <app-button icon="far fa-plus" text="New" class="ml-auto mt-2" (clicked)="addClicked()"></app-button>
+    </div>
+</div>
+
+<div class="d-flex flex-grow-1 responsive-margins disable-select">
+    <div class="app-card responsive-paddings flex-grow-1 px-0 py-3">
+
+        <div class="d-flex flex-row flex-wrap w-100 mb-3 pt-2 pl-4">
+            <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+        </div>
+
+        <div class="cssWidgetWrapper">
+            <dx-data-grid id="userGrid" [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="this" height="100%"
+                [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true"
+                [columnMinWidth]="175">
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+                <dxi-column dataField="type" caption="Type" sortOrder="asc"></dxi-column>
+                <dxi-column dataField="description" caption="Description"></dxi-column>
+                <dxi-column dataField="fileName" caption="File Name"></dxi-column>
+                <!-- <dxi-column dataField="isPatientZone" caption="Is Patientzone" cellTemplate="cellTemplate">
+                </dxi-column>
+                <dxi-column dataField="active" caption="Active" cellTemplate="cellTemplate"></dxi-column> -->
+                <dxi-column dataField="comments" caption="Comments"></dxi-column>
+                <dxi-column type="buttons" [showInColumnChooser]="false" width="120">
+                    <dxi-button template="myCommandTemplate"></dxi-button>
+                </dxi-column>
+
+                <div *dxTemplate="let cellInfo of 'cellTemplate'">
+                    <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check">
+                    </mat-icon>
+                </div>
+
+                <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+                    <app-button icon="far fa-file-word" type="link" color="grey" class="mr-2" matTooltip="Edit Document"
+                        (clicked)="editDocumentClicked(cellInfo)"></app-button>                   
+
+                    <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit Template"
+                        (clicked)="editClicked(cellInfo)"></app-button>
+
+                    <app-button *ngIf="cellInfo.data.id > 17" icon="far fa-trash" type="link" color="grey" class="mr-2" matTooltip="Delete"
+                        (clicked)="deleteClicked(cellInfo)"></app-button>
+                </div>
+            </dx-data-grid>
+        </div>
+    </div>
+</div>

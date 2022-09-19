@@ -1,0 +1,120 @@
+.avatar-wrapper {
+  width: 5.5rem;
+  height: 5.5rem;
+  display: block;
+}
+
+:host ::ng-deep #patientSearchGridContainer .dx-datagrid-header-panel {
+  margin-bottom: 2.2rem !important;
+}
+:host ::ng-deep
+  #patientSearchGridContainer
+  .dx-datagrid-header-panel
+  .dx-toolbar-after {
+  vertical-align: top !important;
+}
+:host ::ng-deep #patientSearchGridContainer .dx-toolbar-after .dx-toolbar-item {
+  vertical-align: top !important;
+}
+.CheckPadded {
+  padding-right: 30px !important;
+}
+.label-width {
+  width: 9rem;
+  margin-bottom: 0.35rem;
+}
+
+.left-margin-1 {
+  margin-left: 12.5%;
+  height: 1px;
+}
+
+.left-margin-2 {
+  margin-left: 17.5%;
+}
+
+.content-height {
+  height: 100px; // dummy height
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.height-1 {
+  flex: 0 0 128px;
+}
+
+.height-2 {
+  flex: 0 0 44px;
+}
+
+.height-3 {
+  flex: 0 0 64px;
+}
+/* DATE PICKER */
+// .mat-icon-button {
+// color: #1cb06d !important;
+// }
+
+.searchBox {
+  width: 12.5rem;
+  // .mat-form-field-wrapper{
+  //   padding-bottom: 0px!important;
+  // }
+}
+
+// .outerSearchBox
+// .mat-form-field-appearance-outline .mat-form-field-outline-start, .mat-form-field-appearance-outline .mat-form-field-outline-end {
+// background-color: palegoldenrod !important;
+// color: hsl(0, 0%, 90%) !important;
+// }
+
+@media (max-width: 1600px) {
+  .searchBox {
+    width: 9.5rem;
+  }
+}
+
+@media (max-width: 666px) {
+  :host ::ng-deep
+    body
+    .cssGridGeneral
+    .dx-datagrid-header-panel
+    .dx-toolbar
+    .dx-toolbar-items-container {
+    height: 4.5rem;
+  }
+  :host ::ng-deep .search-wrapper {
+    width: 16rem;
+  }
+}
+
+:host ::ng-deep .compact-tabs {
+
+  .mat-tab-header{
+    margin: 0 1rem;
+  }
+
+  .mat-tab-labels .mat-tab-label {
+    height: 40px;
+    padding: 0 16px;
+    min-width: 100px;
+  }
+
+  &.mat-tab-group.mat-primary .mat-ink-bar,
+  &.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    min-width: 60px;
+  }
+}
+
+.in-invoice{
+  width: 25rem;
+  border: 1px solid hsl(0, 0%, 93%);
+}
+
+.mt-40per {
+  margin-top: 40% !important;
+}
+
+.w-max-22 {
+  max-width: 22rem;
+}

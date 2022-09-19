@@ -1,0 +1,15 @@
+<div mat-dialog-content>
+  <p>Send Electronically or Print</p>
+</div>
+
+<div mat-dialog-actions>
+  <ng-container>
+    <button mat-button [mat-dialog-close]="true" class="app-button primary grid-header-btn ml-auto mr-2">Send To
+      patientzone</button>
+      
+    <button mat-button class="app-button primary grid-header-btn ml-auto mr-2" [mat-dialog-close]="false"
+      cdkFocusInitial>Print</button>
+  </ng-container>
+
+  <button mat-button (click)="onNoClick()" class=" app-button secondary grid-header-btn ml-auto mr-2">Close</button>
+</div>

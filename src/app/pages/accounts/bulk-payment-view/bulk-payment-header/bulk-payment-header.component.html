@@ -1,0 +1,46 @@
+<div class="d-flex flex-row flex-grow-1" [formGroup]="editForm">
+    <app-form-section title="Payor" class="pb-0 no-end-section pr-4 payor-section" *ngIf="editForm"
+        [showTitleUnderline]="true" [showInfo]="false">
+        <div class="d-flex flex-row card-row">
+            <div class="d-flex flex-column">
+                <app-text-box formControlName="payorType" caption="Type" [disabled]="true">
+                </app-text-box>
+            </div>
+        </div>
+        <div class="d-flex flex-row card-row">
+            <div class="d-flex flex-column">
+                <app-text-box formControlName="payorName" caption="Payor" [disabled]="true"> </app-text-box>
+            </div>
+        </div>
+    </app-form-section>
+
+    <div class="vertical-line line-2x ml-1 mr-4"></div>
+
+    <app-form-section title="Payment" class="no-end-section pb-0 form-col-1/3 px-4" [showTitleUnderline]="true"
+        [showInfo]="false">
+        <div class="form-section-row">
+            <app-date-box class="width-1/2" caption="Date" formControlName="dateCreated"></app-date-box>
+
+            <app-text-box formControlName="total" caption="Total" class="width-1/2" inputType="number" [isCurrency]="true">
+            </app-text-box>
+        </div>
+
+        <div class="form-section-row">
+            <app-select-box [dataSource]="methods" formControlName="methodId" class="width-1/2" valueExpr="uniqueNo"
+                displayExpr="description" caption="Method"></app-select-box>
+
+            <app-text-box formControlName="payorRef" caption="Reference" class="width-1/2">
+            </app-text-box>
+        </div>
+    </app-form-section>
+
+    <div class="vertical-line line-2x ml-3"></div>
+
+    <app-form-section title="Comments" class="no-end-section pb-0 form-col-1/3 pl-4" [showTitleUnderline]="true"
+        [showInfo]="false">
+        <app-text-area-box formControlName="comments" class="text-area-height">
+        </app-text-area-box>
+
+        <div class="horizontal-line"></div>
+    </app-form-section>
+</div>

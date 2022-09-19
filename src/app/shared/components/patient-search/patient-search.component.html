@@ -1,0 +1,682 @@
+<!-- !!!!!!!!!!! popup to select from most recently selectd patients -->
+<dx-popup #historypopup class="popup" [showTitle]="true" [deferRendering]="false" [showCloseButton]="true"
+    [height]="isMobile ? '100vh' : '280px'" [width]="isMobile ? '275px' : '100%'" [dragEnabled]="false"
+    [resizeEnabled]="false" title="Recently Selected Patients" [closeOnOutsideClick]="true"
+    (onInitialized)="appInfo.disableESC($event)">
+
+    <dx-tile-view #tileview id="tileview" [height]="isMobile ? '100vh' : '280px'" [baseItemHeight]="200"
+        [baseItemWidth]="240" width="100%" [itemMargin]="10" (onItemClick)="tileClick($event)"
+        [dataSource]="lastXpatientsDataSource" [direction]="lastXscrolldirection" itemTemplate="tile">
+        <dxo-paging [pageSize]="30"></dxo-paging>
+
+        <div class="tile noselect" *dxTemplate="let data of 'tile'; let i = index">
+            <div class="tile-content">
+                <p [ngSwitch]="daysBefore(data.DateTimeSelected)" class="days-before">
+                    <span *ngSwitchCase="0"> Today at {{data.DateTimeSelected | date: 'HH:mm'}} </span>
+
+                    <span *ngSwitchCase="1"> Yesterday at {{data.DateTimeSelected | date: 'HH:mm'}} </span>
+
+                    <span *ngSwitchDefault> {{data.DateTimeSelected | date: 'dd MMM HH:mm'}} </span>
+
+                    ({{data.DateTimeSelected | amTimeAgo}})
+                </p>
+            </div>
+
+            <br />
+
+            <div class="text-align-last-center font-15">
+                {{data.Patient.Title}} {{data.Patient.FirstName}}<br />
+
+                <b><u>{{data.Patient.LastName | uppercase}}</u></b>
+            </div><br />
+
+            <div id="taskSubject">
+                <span class="ep_tile_label">DOB : </span>
+
+                <b>{{data.Patient.BirthDate | date: appInfo.getDateFormat}}</b>
+            </div>
+
+            <!-- <div id="taskSubject"><span class="ep_preview_title">Age : </span><b> {{age}}</b> -->
+            <div id="taskSubject">
+                <span class="ep_tile_label">Gender : </span>
+
+                <b> {{data.Patient.Gender}}</b>
+
+                <span *ngIf="(data.Patient.Gender=='Female')">&nbsp;
+                    <i class="fas fa-venus female-icon"></i>
+                </span>
+
+                <span *ngIf="(data.Patient.Gender=='Male')">&nbsp;
+                    <i class="fas fa-mars male-icon"></i>
+                </span>
+            </div>
+
+            <br />
+            <!-- <div *ngIf="(i == tileviewIndex)" style="text-align: right; margin-top: -30px; margin-right: 15px;"> -->
+            <div class="text-right mt--30px mr-15px">
+                <dx-button type="success" text="" icon="fas fa-check" [visible]="(i == this.tileviewIndex)"
+                    [elementAttr]="{class: 'roundOKButton success-button'}" hint="click to select this patient."
+                    class="button-hint" (click)="tileOKButtonClicked(data, data.Patient.PatientId)">
+                </dx-button>
+            </div>
+        </div>
+    </dx-tile-view>
+</dx-popup>
+
+<!-- !!!!!!!!!!!!!!! popup to select required date -->
+<dx-popup #datepopup class="popup" [width]="350" [height]="390" [showTitle]="true" title="Select Appointment Date"
+    [closeOnOutsideClick]="true" [deferRendering]="false" [dragEnabled]="false" [resizeEnabled]="false"
+    [showCloseButton]="true" (onInitialized)="appInfo.disableESC($event)">
+    <div *dxTemplate="let data of 'content'">
+        <div class="text-center">
+            <dx-calendar [min]="minDate" [max]="maxDate" [firstDayOfWeek]="1" [(value)]="currentDate"
+                class="ml-auto mr-auto">
+            </dx-calendar>
+        </div>
+
+        <div class="text-center mtb-5px">
+            <dx-button text="OK" type="default" stylingMode="filled" icon="fas fa-check" width="95px"
+                (click)="selectApptDate()">
+            </dx-button>
+        </div>
+    </div>
+</dx-popup>
+
+<!-- !!!!!! MAIN PATIENT SEARCH FORM STARTS HERE !!!! -->
+<dx-box direction="row" [width]="600" class="wmc-100-5px">
+    <dxi-item class="rect demo-light" [ratio]="3">
+        <h3 class="text-center mtb-3px font-18">
+            &nbsp;&nbsp;&nbsp; Searching on:
+            <b> {{searchOn}} </b>
+        </h3>
+
+        <dx-form #patientsearchform id="patientsearchform" [formData]="patientsearchdata" [minColWidth]="300"
+            colCount="2" focusStateEnabled="true" activeStateEnabled="true" hoverStateEnabled="true"
+            [elementAttr]="{autocomplete: 'off'}" scrollingEnabled="true" showValidationSummary="true"
+            [labelLocation]="appInfo.getPreflabelLocation()" (onFieldDataChanged)="form_fieldDataChanged($event)">
+
+            <!-- PATIENT SEARCH (With 3 buttons) -->
+            <dxi-item #searchText name="searchText" editorType='dxTextBox' [colSpan]="2" [label]="{text: 'Search'}"
+                dataField="searchText" [editorOptions]="{
+                    stylingMode: appInfo.prefstylingmode,
+                    onInput: searchInputChanged.bind(this),
+                    focusStateEnabled: true,
+                    style: 'font-size: 18px!important',
+                    placeholder: 'name, no., dob, postcode, phone or email',
+                    elementAttr: {
+                        style: 'font-size:18px;'
+                        },
+                    buttons: [
+                      {
+                          name: 'find',
+                          location: 'after',
+                          options: this.searchButton
+                      },
+                      {
+                          name: 'finddate',
+                          location: 'after',
+                          options: this.dateButton
+                      },
+                      {
+                          name: 'findlastx',
+                          location: 'after',
+                          options: this.historyButton
+                      }]
+                  }">
+
+                <!-- [editorOptions]="searchTextEditorOptions"> -->
+            </dxi-item>
+            <!-- </dxi-item>
+            </dxi-item> -->
+        </dx-form>
+    </dxi-item>
+</dx-box>
+
+<dx-box direction="row" width="100%">
+    <dxi-item class="rect demo-light" [ratio]="5">
+        <div class="dx-card content-block responsive-paddings m-5px p-0">
+            <!-- !!!!!! BY SURNAME ETC !!!! -->
+            <dx-data-grid #patientSearchGrid class="dx-card wide-card wm-100" id="patientSearchGrid" height="350px"
+                width="100%" [dataSource]="patientsDatasource" [showBorders]="false" [columnMinWidth]="175"
+                [focusedRowEnabled]="true" focusedRowIndex="0" [allowColumnReordering]="true"
+                [allowColumnResizing]="true" [columnHidingEnabled]="false" [rowAlternationEnabled]="true"
+                columnResizingMode="widget" (onFocusedRowChanging)="onFocusedRowChanging($event)"
+                (onContentReady)="patientSearchGrid.focusedRowIndex=0"
+                (onFocusedRowChanged)="onFocusedRowChanged($event)" (onRowPrepared)="onRowPrepared($event)"
+                noDataText="--- Patient Search --- "
+                [visible]="(searchOn==='Surname' || searchOn==='Surname,Forename'  || searchOn==='DOB')"
+                (onRowDblClick)="onRowDblclick($event)"
+                [masterDetail]="{ enabled: isMobile, template: 'expandedpatientdetail' }">
+                <dxo-remote-operations [filtering]="true" [paging]="true" [sorting]="true" [summary]="false"
+                    [grouping]="true" [groupPaging]="true">
+                </dxo-remote-operations>
+                <dxo-state-storing [enabled]="false" type="sessionStorage" storageKey="patientsearch_storage">
+                </dxo-state-storing>
+                <dxo-column-chooser [enabled]="false" mode="select"></dxo-column-chooser>
+                <dxo-paging [pageSize]="40"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [showInfo]="false"></dxo-pager>
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+                </dxo-editing>
+                <dxo-scrolling mode="virtual" preloadEnabled="true"></dxo-scrolling>
+
+                <dxi-column [calculateCellValue]="calculatePatientNameValue" caption="Patient Name" class="wmin-170px"
+                    [width]="220">
+                </dxi-column>
+
+                <dxi-column dataField="LastName" caption="Last Name" [visible]="false">
+                </dxi-column>
+
+                <dxi-column dataField="FirstName" caption="First Name" [visible]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Title" caption="Title" [visible]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column dataField="BirthDate" caption="DOB" dataType="date" [width]="100"
+                    [format]="appInfo.getDateFormat" [allowSorting]="true" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column [calculateCellValue]="calculateAgeValue" caption="Age" [allowSorting]="false"
+                    [allowFiltering]="false" [width]="80">
+                </dxi-column>
+
+                <dxi-column dataField="Gender" caption="Gender" [allowSorting]="false" [allowFiltering]="false"
+                    [width]="80">
+                </dxi-column>
+
+                <dxi-column dataField="Patient_Addresses[0].Postcode" caption="Postcode" [allowSorting]="false"
+                    [allowFiltering]="false" [width]="100">
+                </dxi-column>
+
+                <div *dxTemplate="let patient of 'expandedpatientdetail'">
+                    <dx-box direction="row" width="100%" class="hm-300px overflow-auto">
+                        <div class="text-center">
+                            <b>
+                                {{patient.data.Title}} {{patient.data.FirstName}} {{patient.data.LastName | uppercase}}
+                            </b>
+                        </div>
+
+                        <dxi-item class="rect demo-dark" [ratio]="2">
+                            <br />
+
+                            <div id="taskSubject">
+                                <span class="ep_preview_title">DOB : </span>
+
+                                <b>{{patient.data.BirthDate | date: appInfo.getDateFormat}}</b>
+
+                                <span class="ep_preview_title"> Age: </span>
+
+                                <b> {{age}}</b>
+                            </div>
+
+                            <br />
+
+                            <div *ngIf="this.address1" id="taskSubject">
+                                <span class="ep_preview_title">
+                                    <dx-switch ([value])="showBillingAddress" switchedOffText="Primary"
+                                        switchedOnText="Billing" [width]="75"></dx-switch>
+                                </span>
+                            </div>
+
+                            <br />
+
+                            <div *ngIf="this.address1" id="taskSubject">
+                                <span class="ep_preview_title">Address :</span>
+                                <b>{{this.address1}}</b>
+                            </div>
+
+                            <div *ngIf="this.address2" id="taskSubject">
+                                <span class="ep_preview_title"> : </span>
+
+                                <b> {{this.address2}}</b>
+                            </div>
+
+                            <div *ngIf="this.address3" id="taskSubject">
+                                <span class="ep_preview_title"> : </span>
+
+                                <b>{{this.address3}}</b>
+                            </div>
+
+                            <div *ngIf="this.address4" id="taskSubject">
+                                <span class="ep_preview_title"> : </span>
+
+                                <b>{{this.address4}}</b>
+                            </div>
+
+                            <div *ngIf="this.address5" id="taskSubject">
+                                <span class="ep_preview_title"> : </span>
+
+                                <b>{{this.address5}}</b>
+                            </div>
+
+                            <div *ngIf="this.postcode" id="taskSubject">
+                                <span class="ep_preview_title"> : </span>
+
+                                <b>{{this.postcode}}</b>
+                            </div>
+
+                            <br />
+                        </dxi-item>
+
+                        <dxi-item class="rect demo-dark" [ratio]="2">
+                            <br />
+
+                            <div *ngFor="let telecom of this.telecoms; let i = index">
+                                <span class="ep_preview_title">{{telecom.description}} : </span>
+
+                                <b>{{telecom.TelecomValue}}</b>
+                            </div>
+
+                            <br />
+
+                            <div *ngFor="let refno of this.referenceNumbers; let i = index">
+                                <span class="ep_preview_title">{{refno.RefNoType}} : </span>
+
+                                <b> {{refno.RefNoValue}}</b>
+                            </div>
+                        </dxi-item>
+                    </dx-box>
+                </div>
+            </dx-data-grid>
+
+            <!-- !!!!!! BY NUMBER !!!! -->
+            <dx-data-grid #patientSearchByRefNoGrid class="dx-card wide-card wm-100" id="patientSearchByRefNoGrid"
+                name="patientSearchByRefNoGrid" height="350px" width="100%" [columnMinWidth]="175"
+                [dataSource]="patientsByRefNoDatasource" [showBorders]="false" [visible]="searchOn==='Number'"
+                [focusedRowEnabled]="true" focusedRowIndex="0" [allowColumnReordering]="true"
+                [allowColumnResizing]="true" [columnHidingEnabled]="false" [rowAlternationEnabled]="true"
+                columnResizingMode="widget" (onFocusedRowChanged)="onByRefNoFocusedRowChanged($event)">
+                <dxo-remote-operations [filtering]="true" [paging]="true" [sorting]="true" [summary]="false"
+                    [grouping]="true" [groupPaging]="true">
+                </dxo-remote-operations>
+                <dxo-state-storing [enabled]="false" type="sessionStorage" storageKey="patientbyrefnosearch_storage">
+                </dxo-state-storing>
+                <dxo-column-chooser [enabled]="false" mode="select"></dxo-column-chooser>
+                <dxo-paging [pageSize]="20"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [showInfo]="false"></dxo-pager>
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+                </dxo-editing>
+                <dxo-scrolling mode="virtual" preloadEnabled="false"></dxo-scrolling>
+
+                <dxi-column dataField="RefNoType" caption="Ref" [visible]="true" [width]="110">
+                </dxi-column>
+
+                <dxi-column dataField="RefNoValue" caption="#" [visible]="true" [width]="160">
+                </dxi-column>
+
+                <dxi-column [calculateCellValue]="calculatePatientNameValueByRefNo" caption="Patient Name"
+                    class="wmin-170px" [width]="220">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.LastName" caption="Last Name" [visible]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.FirstName" caption="First Name" [visible]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.Title" caption="Title" [visible]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.BirthDate" caption="DOB" dataType="date" [width]="100"
+                    [format]="appInfo.getDateFormat" [allowSorting]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column [calculateCellValue]="calculateAgeValueByRefNo" caption="Age" [allowSorting]="false"
+                    [allowFiltering]="false" [width]="80">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.Gender" caption="Gender" [allowSorting]="false" [allowFiltering]="false"
+                    [width]="80">
+                </dxi-column>
+
+                <!-- <dxi-column dataField="Patient.Patient_Addresses[0].Postcode" caption="Postcode" [allowSorting]="false"
+                    [allowFiltering]="false" [width]="100">
+                </dxi-column> -->
+            </dx-data-grid>
+
+            <!-- !!!!!! BY POSTCODE !!!! -->
+            <dx-data-grid #patientSearchByPostcodeGrid class="dx-card wide-card wm-100" id="patientSearchByPostcodeGrid"
+                name="patientSearchByPostcodeGrid" height="350px" width="100%" [columnMinWidth]="175"
+                [dataSource]="patientsByPostcodeDatasource" [showBorders]="false" [visible]="searchOn==='Postcode'"
+                [focusedRowEnabled]="true" focusedRowIndex="0" [allowColumnReordering]="true"
+                [allowColumnResizing]="true" [columnHidingEnabled]="false" [rowAlternationEnabled]="true"
+                columnResizingMode="widget" (onFocusedRowChanged)="onByPostcodeFocusedRowChanged($event)">
+                <dxo-remote-operations [filtering]="true" [paging]="true" [sorting]="true" [summary]="false"
+                    [grouping]="true" [groupPaging]="true">
+                </dxo-remote-operations>
+                <dxo-state-storing [enabled]="false" type="sessionStorage" storageKey="patientbyrefnosearch_storage">
+                </dxo-state-storing>
+                <dxo-column-chooser [enabled]="false" mode="select"></dxo-column-chooser>
+                <dxo-paging [pageSize]="20"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [showInfo]="false"></dxo-pager>
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+                </dxo-editing>
+                <dxo-scrolling mode="virtual" preloadEnabled="false"></dxo-scrolling>
+
+                <dxi-column [calculateCellValue]="calculatePatientNameValueByRefNo" caption="Patient Name"
+                    class="wmin-170px" [width]="220">
+                </dxi-column>
+
+                <dxi-column dataField="Postcode" caption="Postcode" [allowSorting]="false" [allowFiltering]="false"
+                    [width]="100">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.LastName" caption="Last Name" [visible]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.FirstName" caption="First Name" [visible]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.Title" caption="Title" [visible]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.BirthDate" caption="DOB" dataType="date" [width]="100"
+                    [format]="appInfo.getDateFormat" [allowSorting]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column [calculateCellValue]="calculateAgeValueByRefNo" caption="Age" [allowSorting]="false"
+                    [allowFiltering]="false" [width]="80">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.Gender" caption="Gender" [allowSorting]="false" [allowFiltering]="false"
+                    [width]="80">
+                </dxi-column>
+            </dx-data-grid>
+
+
+            <!-- !!!!!! BY PHONE NUMBER !!!! -->
+            <dx-data-grid #patientSearchByPhoneGrid class="dx-card wide-card wm-100" id="patientSearchByPhoneGrid"
+                name="patientSearchByPhoneGrid" height="350px" width="100%" [columnMinWidth]="175"
+                [dataSource]="patientsByPhoneDatasource" [showBorders]="false"
+                [visible]="searchOn==='Phone Number' || searchOn==='Email'" [focusedRowEnabled]="true"
+                focusedRowIndex="0" [allowColumnReordering]="true" [allowColumnResizing]="true"
+                [columnHidingEnabled]="false" [rowAlternationEnabled]="true" columnResizingMode="widget"
+                (onFocusedRowChanged)="onByPhoneFocusedRowChanged($event)">
+                <dxo-remote-operations [filtering]="true" [paging]="true" [sorting]="true" [summary]="false"
+                    [grouping]="true" [groupPaging]="true">
+                </dxo-remote-operations>
+                <dxo-state-storing [enabled]="false" type="sessionStorage" storageKey="patientbyrefnosearch_storage">
+                </dxo-state-storing>
+                <dxo-column-chooser [enabled]="false" mode="select"></dxo-column-chooser>
+                <dxo-paging [pageSize]="20"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [showInfo]="false"></dxo-pager>
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+                </dxo-editing>
+                <dxo-scrolling mode="virtual" preloadEnabled="false"></dxo-scrolling>
+
+                <dxi-column [calculateCellValue]="calculatePatientNameValueByRefNo" caption="Patient Name"
+                    class="wmin-170px" [width]="220">
+                </dxi-column>
+
+                <dxi-column dataField="TelecomSystem" caption="-" [allowSorting]="false" [allowFiltering]="false"
+                    [width]="120">
+                </dxi-column>
+
+                <dxi-column dataField="TelecomValue" caption="-" [allowSorting]="false" [allowFiltering]="false"
+                    [width]="180">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.LastName" caption="Last Name" [visible]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.FirstName" caption="First Name" [visible]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.Title" caption="Title" [visible]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.BirthDate" caption="DOB" dataType="date" [width]="100"
+                    [format]="appInfo.getDateFormat" [allowSorting]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column [calculateCellValue]="calculateAgeValueByRefNo" caption="Age" [allowSorting]="false"
+                    [allowFiltering]="false" [width]="80">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.Gender" caption="Gender" [allowSorting]="false" [allowFiltering]="false"
+                    [width]="80">
+                </dxi-column>
+            </dx-data-grid>
+
+            <!-- !!!!!! BY APPOINTMENT DATE !!!! -->
+            <dx-data-grid #patientSearchByApptDateGrid class="dx-card wide-card wm-100" id="patientSearchByPhoneGrid"
+                name="patientSearchByApptDateGrid" height="350px" width="100%" [columnMinWidth]="175"
+                [dataSource]="patientsByApptDateDatasource" [showBorders]="false" [visible]="searchOn==='Diary'"
+                [focusedRowEnabled]="true" focusedRowIndex="0" [allowColumnReordering]="true"
+                [allowColumnResizing]="true" [columnHidingEnabled]="false" [rowAlternationEnabled]="true"
+                columnResizingMode="widget" (onFocusedRowChanged)="onByPhoneFocusedRowChanged($event)">
+                <dxo-remote-operations [filtering]="true" [paging]="true" [sorting]="true" [summary]="false"
+                    [grouping]="true" [groupPaging]="true">
+                </dxo-remote-operations>
+                <dxo-state-storing [enabled]="false" type="sessionStorage" storageKey="patientbyapptdatesearch_storage">
+                </dxo-state-storing>
+                <dxo-column-chooser [enabled]="false" mode="select"></dxo-column-chooser>
+                <dxo-paging [pageSize]="30"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [showInfo]="false"></dxo-pager>
+                <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+                </dxo-editing>
+                <dxo-scrolling mode="virtual" preloadEnabled="false"></dxo-scrolling>
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+
+                <dxi-column [calculateCellValue]="calculatePatientNameValueByRefNo" caption="Patient Name"
+                    class="wmin-170px" [width]="220">
+                </dxi-column>
+
+                <dxi-column dataField="StartDateTime" dataType="date" [format]="appInfo.getDateFormat" [width]="95"
+                    caption="Date" [allowSorting]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column dataField="StartDateTime" dataType="date" format="HH:mm" [width]="70" caption="Time"
+                    [allowSorting]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.LastName" caption="Last Name" [visible]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.FirstName" caption="First Name" [visible]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.Title" caption="Title" [visible]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.BirthDate" caption="DOB" dataType="date" [width]="95"
+                    [format]="appInfo.getDateFormat" [allowSorting]="false" [allowFiltering]="false">
+                </dxi-column>
+
+                <dxi-column [calculateCellValue]="calculateAgeValueByRefNo" caption="Age" [allowSorting]="false"
+                    [allowFiltering]="false" [width]="70">
+                </dxi-column>
+
+                <dxi-column dataField="Patient.Gender" caption="Gender" [allowSorting]="false" [allowFiltering]="false"
+                    [width]="80">
+                </dxi-column>
+            </dx-data-grid>
+
+            <div class="text-center mtb-5px">
+                <dx-button text="OK" type="default" stylingMode="filled" icon="fas fa-check" width="95px"
+                    (click)="selectPatient()">
+                </dx-button>&nbsp;&nbsp;&nbsp;
+
+                <dx-button text="Cancel" type="default" stylingMode="filled" icon="fas fa-times" width="95px"
+                    (click)="cancelClicked()">
+                </dx-button>
+            </div>
+        </div>
+    </dxi-item>
+
+    <!-- RIGHT SIDE PREVIEW PANEL -->
+    <dxi-item *ngIf="!isMobile" class="rect demo-dark mt--86px" [(visible)]="showPreview" [ratio]="3">
+        <div class="dx-card content-block responsive-paddings preview-panel">
+            <div class="w-100" id="previewContentDiv">
+                <!-- PATIENT NAME -->
+                <div class="text-align-last-center font-16">
+                    <b>
+                        <u>{{title}} {{firstName}} {{lastName}}</u>
+                    </b><br />
+                </div><br />
+
+                <div>
+                    <dx-scroll-view #patientPreviewScrollView id="patientPreviewScrollView" [scrollByContent]="true"
+                        [scrollByThumb]="true" showScrollbar="always" bounceEnabled="pullDown" [height]="410"
+                        class="background-white">
+
+                        <!-- AGE, DOB, GENDER -->
+                        <div id="taskSubject">
+                            <span class="ep_preview_title">DOB : </span>
+
+                            <b> {{birthDate}}</b>
+                        </div>
+
+                        <div id="taskSubject">
+                            <span class="ep_preview_title">Age : </span>
+
+                            <b> {{age}}</b>
+                        </div>
+
+                        <div id="taskSubject"><span class="ep_preview_title">Gender : </span><b> {{gender}}</b>
+                            <span *ngIf="(gender=='Female')">&nbsp;
+                                <i class="fas fa-venus female-icon">
+                                </i>
+                            </span>
+
+                            <span *ngIf="(gender=='Male')">&nbsp;
+                                <i class="fas fa-mars male-icon"></i>
+                            </span>
+                        </div>
+
+                        <br />
+
+                        <!-- BALANCE -->
+                        <div id="taskSubject">
+                            <span class="ep_preview_title">Balance : £ </span>
+                            <span [ngClass]="getBalanceClasses()"> {{balance}}</span>
+                        </div>
+
+                        <br />
+
+                        <div *ngIf="address1" id="taskSubject">
+                            <span class="ep_preview_title">
+                                <dx-switch ([value])="showBillingAddress" switchedOffText="Primary"
+                                    switchedOnText="Billing" [width]="75"></dx-switch>
+                            </span>
+                        </div>
+
+                        <!-- ADDRESS     -->
+                        <div *ngIf="address1" id="taskSubject">
+                            <span class="ep_preview_title">Address : </span>
+
+                            <b>{{address1}}</b>
+                        </div>
+
+                        <div *ngIf="address2" id="taskSubject">
+                            <span class="ep_preview_title"> : </span>
+
+                            <b>{{address2}}</b>
+                        </div>
+
+                        <div *ngIf="address3" id="taskSubject">
+                            <span class="ep_preview_title"> : </span>
+
+                            <b>{{address3}}</b>
+                        </div>
+
+                        <div *ngIf="address4" id="taskSubject">
+                            <span class="ep_preview_title"> : </span>
+
+                            <b>{{address4}}</b>
+                        </div>
+
+                        <div *ngIf="address5" id="taskSubject">
+                            <span class="ep_preview_title"> : </span>
+
+                            <b>{{address5}}</b>
+                        </div>
+
+                        <div *ngIf="postcode" id="taskSubject">
+                            <span class="ep_preview_title"> : </span>
+
+                            <b>{{postcode}}</b>
+                        </div>
+
+                        <br />
+
+                        <br />
+
+                        <!-- VISIT (APPOINTMENTS) -->
+                        <div *ngFor="let pv of patientVisits; let i = index">
+                            <div *ngIf="pv.DateAdded != null && pv.DateAdded != '1913-01-19'">
+                                <span class="ep_preview_title">Added : </span>
+
+                                <b>{{pv.DateAdded | date: appInfo.getDateFormat}}</b>
+
+                                ({{pv.DateAdded | amTimeAgo}})
+                            </div>
+
+                            <div *ngIf="pv.MostRecentAppointment != null && pv.MostRecentAppointment != '1913-01-19'">
+                                <span class="ep_preview_title">Last Appt : </span>
+
+                                <b> {{pv.MostRecentAppointment | date: appInfo.getDateFormat}}</b>
+
+                                ({{pv.MostRecentAppointment | amTimeAgo}})
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <!-- ORGANISATIONS (MAINLY INSURER) -->
+                        <div *ngFor="let po of patientOrganisations; let i = index">
+                            <span class="ep_preview_title">{{po.OrganisationType}} : </span>
+
+                            <b> {{po.DisplayName}} </b>
+
+                            <div *ngIf="(appInfo.insurerLogo(po.DisplayName) !== '')">
+                                <div class="text-center pl-15px">
+                                    <img class="imagerepositoryPreview h-40px w-auto"
+                                        [src]="appInfo.insurerLogo(po.DisplayName)" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <!-- TELECOMS (MOBILE/PHONE/FAX/EMAIL) -->
+                        <div *ngFor="let telecom of this.telecoms; let i = index">
+                            <span class="ep_preview_title">{{telecom.description}} : </span>
+
+                            <b>{{telecom.TelecomValue}}</b>
+                        </div>
+
+                        <br />
+
+                        <!-- REFERENCE NUMBERS -->
+                        <div *ngFor="let refno of this.referenceNumbers; let i = index">
+                            <span class="ep_preview_title">{{refno.RefNoType}} : </span>
+
+                            <b> {{refno.RefNoValue}}</b>
+                        </div>
+
+                        <br />
+
+                        <!-- CONTACTS (GPs, Clinicians etc) -->
+                        <div *ngFor="let pc of patientContacts; let i = index">
+                            <span class="ep_preview_title">{{pc.ContactType}} : </span>
+
+                            <b> {{pc.DisplayName}}</b>
+                        </div>
+                    </dx-scroll-view>
+                </div>
+            </div>
+        </div>
+    </dxi-item>
+</dx-box>
+
+<dx-context-menu [items]="contextMenuItems" target="#patientSearchGrid" (onItemClick)="handleItemClickEvent($event)">
+</dx-context-menu>
+
+<dx-action-sheet [items]="contextMenuItems" title="Choose action" [usePopover]="true" [(visible)]="actionSheetVisible"
+    target="#patientSearchGrid tr.dx-row-focused .myCommandButton" showEvent="click"
+    (onItemClick)="showNotify($event.itemData.text)"></dx-action-sheet>

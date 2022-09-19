@@ -1,0 +1,109 @@
+@import "../../../../assets/scss/variables.scss";
+
+:host ::ng-deep .diary-weekend {
+  background-color: rgba(195, 229, 235, 0.4);
+  height: 100%;
+}
+
+:host ::ng-deep .diary-publichol {
+  background-color: rgba(235, 91, 91, 0.2);
+  height: 100%;
+}
+
+.dx-layout-manager .dx-tabpanel .dx-multiview-item-content {
+  padding: 3px;
+}
+
+:host
+  ::ng-deep
+  .dx-scheduler-navigator-caption.dx-widget.dx-button-has-text
+  > .dx-button-content {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+body :host ::ng-deep .selectBoxes.w-16 .dx-placeholder {
+  color: hsl(0, 0%, 30%);
+}
+
+:host ::ng-deep {
+  //hide view buttons
+  .dx-scheduler-view-switcher.dx-tabs {
+    display: none;
+  }
+
+  .dx-scheduler-agenda-nodata {
+    top: 25%;
+  }
+
+  .dx-scheduler-navigator {
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .dx-scheduler-time-panel {
+    display: none;
+  }
+  .dx-scheduler-date-table {
+    margin-left: 0px;
+  }
+  .dx-scheduler-date-table .dx-scheduler-date-table-row:before {
+    content: none;
+  }
+
+  .dx-scheduler-small
+    .dx-scheduler-agenda
+    .dx-scheduler-scrollable-appointments {
+    padding-left: 0px;
+  }
+
+  .dx-scheduler-appointment {
+    padding: 0px 6px;
+    margin-top: 4px;
+  }
+  .dx-scheduler-appointment-content {
+    box-shadow: none;
+    padding: 1px;
+    border-radius: 3px;
+  }
+}
+.dx-scheduler-header {
+  background-color: #ffffff !important;
+}
+
+.appointment-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 8px 3px 8px;
+  background-color: darken(desaturate($primary, 7%), 5%);
+  color: #fff;
+
+  // background-color: lighten($primary, 53%);
+  // border-left: 3px solid darken(desaturate($primary,10%), 5%);
+  // color: darken(desaturate($primary,10%), 10%);
+  height: 100%;
+  border-radius: 3px;
+}
+
+.scheduler-wrapper {
+  width: 370px;
+  height: 432px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto auto;
+}
+
+.left-right-padding {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.pt-2px {
+  padding-top: 2px;
+}
+
+.background-white {
+  background: white;
+}

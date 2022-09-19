@@ -1,0 +1,14 @@
+<div class="d-flex flex-row align-items-center dropdown-wrapper position-relative">
+  <dx-select-box [dataSource]="patientTelecoms" [value]="selectedItem" [isValid]="!isInvalid" valueExpr="telecomId"
+    displayExpr="telecomValue" placeholder="Telecoms" (onValueChanged)="dropdownValueChangedHandler($event)">
+    <div *dxTemplate="let data of 'item'">
+      <div class="d-flex flex-row align-items-center">
+        <span class="text-semiBold mr-2">{{data.telecomValue}}</span>
+        <span *ngIf="data.primary" class="label-tag type5-1 my-auto">primary</span>
+      </div>
+    </div>
+  </dx-select-box>
+  <small class="font-weight-normal" *ngIf="hint && !isInvalid">{{hint}}</small>
+  <small class="font-weight-normal control-error" *ngIf="isInvalid">{{error}}</small>
+  <small class="font-weight-normal control-error" *ngIf="error">{{error}}</small>
+</div>

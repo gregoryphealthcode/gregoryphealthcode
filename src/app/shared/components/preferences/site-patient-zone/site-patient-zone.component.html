@@ -1,0 +1,48 @@
+<div id="pageMainPZ" class="d-flex flex-grow-1 flex-column page-main" (wheel)="onMouseWheel($event)">
+    <div class="d-flex flex-grow-1 flex-row responsive-margins" [formGroup]="editForm">
+        <div class="d-flex flex-column flex-grow-1 col-6 h-100">
+            <div class="label-info-value-title sm mb-2 mt-2">Patient Zone</div>
+
+            <app-slide-toggle formControlName="pzEnabled" class="mt-1 md-height" direction="row" 
+                caption="Patient zone enabled" (onValueChanged)="patientzoneEnabled($event)">
+            </app-slide-toggle>
+
+            <ng-container *ngIf="editForm.get('pzEnabled').value == true">
+                <app-text-box formControlName="pzApiKey" caption="Api Key" direction="row">
+                </app-text-box>
+
+                <app-text-box formControlName="pzRegistrationReference" caption="Registration Reference" direction="row">
+                </app-text-box>
+
+                <app-text-box formControlName="pzOrganisationCode" caption="Organisation Code" direction="row">
+                </app-text-box>
+
+                <app-slide-toggle formControlName="pzInvoices" class="mt-1 md-height" direction="row"
+                caption="Invoices">
+                </app-slide-toggle>
+
+                <app-slide-toggle formControlName="pzShortfalls" class="mt-1 md-height" direction="row"
+                caption="Shortfalls">
+                </app-slide-toggle>
+
+                <app-slide-toggle formControlName="pzCredit" class="mt-1 md-height" direction="row"
+                caption="Credit">
+                </app-slide-toggle>
+
+                <app-slide-toggle formControlName="pzReminders" class="mt-1 md-height" direction="row"
+                caption="Reminders">
+                </app-slide-toggle>
+
+                <app-slide-toggle formControlName="pzReallocations" class="mt-1 md-height" direction="row"
+                caption="Reallocations">
+                </app-slide-toggle>                
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<div class="page-footer">
+    <div class="horizontal-line"></div>
+    <app-button class="mt-2 mb-2 page-footer-button" text="Save" (clicked)="submitForm()"
+        [disabled]="submitting || editForm?.pristine"></app-button>
+</div>

@@ -1,0 +1,87 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  align-items: center;
+}
+
+:host ::ng-deep {
+  .lessPadding {
+    padding-right: 2px !important;
+    padding-left: 2px !important;
+  }
+
+  .leftPadding {
+    padding-left: 5px !important;
+  }
+
+  .buttons-right {
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .content-height {
+    height: 100px; // dummy height
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+
+  .cost-cell {
+    align-items: flex-end;
+    font-weight: 500;
+  }
+
+  .serviceDescription {
+    overflow-wrap: break-word;
+  }
+
+  .field-width {
+    width: 14rem;
+  }
+
+  .short-label-width {
+    width: 10rem;
+  }
+  .small-field-width {
+    width: 9rem;
+  }
+
+  .small-label-width {
+    width: 5rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .extra-small-label-width {
+    width: 2rem;
+  }
+
+  .right-text {
+    align-items: flex-end;
+  }
+
+  .column-width-1 {
+    width: 15rem;
+  }
+
+  .column-width-2 {
+    width: 18rem;
+  }
+  .column-width-3 {
+    width: 18rem;
+  }
+  .bolder {
+    font-weight: bolder;
+  }
+
+  .label-width {
+    &.label-info-value{
+      width: 7rem;
+      min-width: 7rem;
+    }
+  }
+
+  .label-width-view {
+    width: 10rem;
+    min-width: 10rem;
+  }
+}

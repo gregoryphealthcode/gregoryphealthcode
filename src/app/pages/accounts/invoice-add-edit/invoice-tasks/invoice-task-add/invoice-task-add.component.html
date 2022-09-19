@@ -1,0 +1,33 @@
+<div class="d-flex flex-row flex-grow-1 justify-content-center">
+    <div class="d-flex flex-column form-width" [formGroup]="editForm">
+        <label class="text-grey-40 text-base my-2 mx-auto">{{isNew ? 'Add Task' : 'Edit Task'}}</label>
+        <div class="d-flex flex-row a-form-group d-row">
+            <label>Payor *</label>
+
+            <app-patient-payor-select-dropdown formControlName="payorId" [patientId]="patientId" class="w-100"
+                (payorSelected)="payorSelectedHandler($event)" [showInsurers]="true">
+            </app-patient-payor-select-dropdown>
+        </div>
+
+        <app-select-box formControlName="taskTypeId" [dataSource]="taskTypes" valueExpr="id" displayExpr="description"
+            direction="row" caption="Task Type" class="form-control-width">
+        </app-select-box>
+
+        <app-text-area-box formControlName="note" direction="row" caption="Notes"
+            class="text-area-standard-height form-control-width" [maxLength]="2000">
+        </app-text-area-box>
+
+        <app-date-box formControlName="dueDateTime" direction="row" class="w-16" caption="Follow Up" [minDate]="min">
+        </app-date-box>
+
+        <app-slide-toggle *ngIf="taskId" formControlName="isCompleted" class="md-height" direction="row"
+            caption="Is complete?">
+        </app-slide-toggle>
+
+        <div class="d-flex fkex-row mx-auto mt-3">
+            <app-button text="Cancel" color="grey" (clicked)="close()"></app-button>
+
+            <app-button text="Save" class="ml-3" (clicked)="submitForm()" [disabled]="!editForm.valid"></app-button>
+        </div>
+    </div>
+</div>

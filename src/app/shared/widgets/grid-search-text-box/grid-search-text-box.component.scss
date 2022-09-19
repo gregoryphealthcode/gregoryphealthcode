@@ -1,0 +1,27 @@
+:host ::ng-deep {
+  .dx-button {
+    padding-right: 0;
+    pointer-events: none;
+
+    &.dx-button-has-icon:not(.dx-button-has-text) > .dx-button-content {
+      padding-right: 0;
+    }
+
+    &.dx-button-mode-text .dx-icon {
+      color: hsl(0, 0%, 60%);
+  }
+  }
+
+  .dx-widget{
+    font-family: "Montserrat", "Helvetica Neue", "Segoe UI", Helvetica, Verdana,
+    sans-serif;
+  }
+
+  .dx-placeholder:before {
+    padding-left: 8px;
+  }
+
+  .dx-texteditor-input {
+    padding-left: 8px;
+  }
+}

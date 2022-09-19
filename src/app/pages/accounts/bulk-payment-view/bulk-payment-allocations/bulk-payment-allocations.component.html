@@ -1,0 +1,57 @@
+<app-card class="page-wrapper-tab-card h-100">
+  <div class="d-flex flex-row flex-grow-1">
+    <div class="cssWidgetWrapper hmin-400px">
+      <dx-data-grid #dataGrid gridWithRowLinesSettings class="cssGridGeneral padd-first-lg" [dataSource]="allocations"
+        [remoteOperations]="false" [rowAlternationEnabled]="true" [focusedRowEnabled]="true" focusedRowIndex="0"
+        (onSelectionChanged)="onSelectionChanged($event)" keyExpr="bulkPaymentTransactionId"
+        (onFocusedRowChanged)="onFocusedRowChanged($event)" [(selectedRowKeys)]="selectedRows" [columnMinWidth]="150">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-selection mode="multiple" [showCheckBoxesMode]="checkBoxesMode"></dxo-selection>
+
+        <dxi-column dataField="patientName" caption="Patient Name"></dxi-column>
+        <dxi-column dataField="invoiceNumber" caption="Invoice Number"></dxi-column>
+        <dxi-column dataField="invoiceDate" caption="Invoice Date" dataType="date" [format]="store.getDateFormat">
+        </dxi-column>
+        <dxi-column dataField="allocatedDate" caption="Allocation Date" dataType="date" [format]="store.getDateFormat">
+        </dxi-column>
+        <dxi-column dataField="invoiceTotal" caption="Invoice Total" cellTemplate="currency"></dxi-column>
+        <dxi-column dataField="balanceDue" caption="Balance Due" cellTemplate="currency"></dxi-column>
+        <dxi-column caption="Processed" cellTemplate="processedTemplate" alignment="center"></dxi-column>
+        <dxi-column caption="Allocation" cellTemplate="allocationTemplate"></dxi-column>
+
+        <div *dxTemplate="let d of 'currency'" valueFormat="fixedPoint {2}">
+          <div class="current-value" *ngIf="d.value > 0">{{d.value | currency: store.getCurrency}}
+          </div>
+          <div class="current-value" *ngIf="d.value === 0">-</div>
+        </div>
+
+        <div *dxTemplate="let data of 'processedTemplate'">
+          <mat-icon *ngIf="data.data.processed === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+        </div>
+
+        <div *dxTemplate="let data of 'allocationTemplate'" class="d-flex flex-row">
+          <ng-container *ngIf="!data.data.processed">
+            <dx-number-box #numberBox [max]="data.data.balanceDue < 0 ? 0 : data.data.balanceDue" [min]="0"
+              [(value)]="data.data.allocation" [showSpinButtons]="true"
+              format="{{appInfo.getCurrencyFormatForNumberBox}}" (onValueChanged)="editAllocation(data.data, $event)">
+            </dx-number-box>
+
+            <app-button icon="far fa-trash" type="link" color="grey" class="set-grid-btn" (clicked)="delete(data)"
+              matTooltip="Remove allocation"></app-button>
+          </ng-container>
+
+          <ng-container *ngIf="data.data.processed">
+            {{data.data.allocation | currency: store.getCurrency}}
+          </ng-container>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+
+  <app-card-footer>
+    <app-button text="Process Allocations" icon="far fa-save" class="ml-auto mr-4" type="link"
+      matToolTip="Processing allocations will finalise these payments. Payments cannot be edited once finalises"
+      (clicked)="saveAllocations()" [disabled]="selectedRows.length == 0"></app-button>
+  </app-card-footer>
+</app-card>

@@ -1,0 +1,59 @@
+<div class="d-flex d-flex-column">
+  <div class="d-flex flex-grow-1">
+    <div class="page-header responsive-margins">Remittance</div>
+  </div>
+</div>
+
+<div class="d-flex flex-grow-1 flex-column responsive-margins disable-select">
+  <div class="d-flex flex-grow-1 flex-row app-card">
+    <div class="d-flex flex-column w-100">
+      <div class="d-flex flex-row flex-wrap ml-2 mb-2 pt-2 mr-2">
+        <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+        <div class="d-flex flex-row flex-wrap align-items-center ml-auto mr-2">
+          <mat-checkbox class="CheckPadded" [checked]="showArchived" (change)="checkboxChanged($event)" matInput>
+            Include archived
+          </mat-checkbox>
+        </div>
+      </div>
+
+      <div class="cssWidgetWrapper">
+        <dx-data-grid #bulkPaymentsGrid gridWithRowLinesSettings class="cssGridGeneral" [dataSource]="dataSource"
+          [remoteOperations]="true" [rowAlternationEnabled]="true" [showBorders]="true" [focusedRowEnabled]="true"
+          (onFocusedRowChanged)="onFocusedRowChanged($event)" focusedRowIndex="0">
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+          <dxi-column dataField="insurerName" caption="Insurer" cellTemplate="nameTemplate" [minWidth]="300">
+          </dxi-column>
+          <dxi-column dataField="totalAmount" caption="Amount" cellTemplate="currency" [minWidth]="120"></dxi-column>
+          <dxi-column dataField="dateCreated" caption="Date" dataType="date" [format]="dateFormat" [minWidth]="120">
+          </dxi-column>
+
+          <div *dxTemplate="let d of 'currency'">
+            <div class="current-value">{{currencySymbol}}{{d.value | number : '1.2-2'}}</div>
+          </div>
+
+          <div *dxTemplate="let data of 'nameTemplate'" class="d-flex flex-column"
+            [class.text-grey-65]="data.data.archived">
+            <div class="d-flex" style="align-items: center;">
+              <span class="text-semiBold">{{data.data.insurerName}}</span>
+
+              <span class="label-tag md badge-secondary ml-1" *ngIf="data.data.archived">Archived</span>
+            </div>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row flex-grow-1 w-100 mt-3">
+    <div class="app-card w-100">
+      <app-no-data *ngIf="!showPanel" [showTitle]="false" text="Please select a Remittance from the list."
+        class="w-100 flex responsive-paddings px-4 mt-40per"></app-no-data>
+
+      <app-remittance-view *ngIf="showPanel" [remittance]="remittance" (remittanceChanged)="changedHandler($event)"
+        class="d-flex w-100 h-100">
+      </app-remittance-view>
+    </div>
+  </div>
+</div>

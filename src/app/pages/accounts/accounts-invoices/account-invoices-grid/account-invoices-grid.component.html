@@ -1,0 +1,115 @@
+<div class="d-flex flex-column flex-grow-1 app-card">
+    <div class="d-flex flex-row mx-4 mt-3">
+        <app-grid-search-text-box [term]="searchValue" (changed)="searchBoxValue = $event; doSearch()">
+        </app-grid-search-text-box>
+    </div>
+
+    <div class="d-flex flex-grow-1 mt-3">
+        <div class="app-card flex-grow-1 content-height border-none">
+            <div class="cssWidgetWrapper">
+                <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" keyExpr="invoiceId"
+                    [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true"
+                    [showRowLines]="true" focusedRowIndex="0" (onFocusedRowChanged)="onFocusedRowChanged($event)"
+                    [focusedRowEnabled]="true" (onRowDblClick)="openInvoice($event)">
+                    <dxo-scrolling mode="virtual"></dxo-scrolling>
+                    <!-- <dxo-state-storing [enabled]="true" type="sessionStorage" storageKey="InvoiceListStorage">
+                    </dxo-state-storing> -->
+
+                    <dxi-column dataField="siteName" [allowSorting]="true"
+                        [visible]="userStore.isMedSecUser() && !this.userStore.hasSelectedASite()" caption="Site"
+                        [minWidth]="60">
+                    </dxi-column>
+                    <dxi-column dataField="invoiceDate" caption="Invoice Date" dataType="date"
+                        [format]="appInfo.getDateFormat" [sortIndex]="0" sortOrder="asc" [minWidth]="135">
+                    </dxi-column>
+                    <dxi-column dataField="invoiceNumber" caption="Invoice Number" [minWidth]="135">
+                    </dxi-column>
+                    <dxi-column [visible]="status == 'all'" dataField="status" caption="Status"
+                        cellTemplate="statusTemplate" [minWidth]="115"></dxi-column>
+                    <dxi-column caption="Type" cellTemplate="typeTemplate" [minWidth]="95"></dxi-column>
+                    <dxi-column dataField="payorType" caption="Payor Type" [minWidth]="95"></dxi-column>
+                    <dxi-column dataField="payor" caption="Payor" [minWidth]="170"></dxi-column>
+                    <dxi-column dataField="patientText" caption="Patient" [minWidth]="190"></dxi-column>
+                    <dxi-column dataField="birthDate" caption="DOB" dataType="date" [format]="appInfo.getDateFormat"
+                        [minWidth]="110">
+                    </dxi-column>
+                    <dxi-column dataField="totalGross" caption="Total" dataType="number" [minWidth]="125">
+                        <dxo-format type="fixedPoint" [precision]="2" type="currency"  currency="{{this.appInfo.getCurrencyCode}}">
+                        </dxo-format>
+                    </dxi-column>
+                    <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="1">
+                        <dxi-button template="myCommandTemplate"></dxi-button>
+                    </dxi-column>
+                    <div *dxTemplate="let cellInfo of 'statusTemplate'">
+                        <div [ngSwitch]="cellInfo.data.status">
+                            <div class="label-tag md-2 type-success" *ngSwitchCase="'Draft'">
+                                {{cellInfo.data.status}}
+                            </div>
+
+                            <div class="label-tag md-2 type-danger" *ngSwitchCase="'FailedValidation'">
+                                {{cellInfo.data.status}}
+                            </div>
+
+                            <div class="label-tag md-2 type-primary" *ngSwitchCase="'Issued'">
+                                {{cellInfo.data.status}}
+                            </div>
+
+                            <div class="label-tag md-2 type-warning" *ngSwitchCase="'Review'">
+                                {{cellInfo.data.status}}
+                            </div>
+
+                            <div class="label-tag md-2 type4" *ngSwitchDefault>
+                                {{cellInfo.data.status}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *dxTemplate="let cellInfo of 'typeTemplate'">
+                        <span *ngIf="cellInfo.row.data.payorType == 'Insurer'">
+                            <mat-icon class="ml-auto mr-auto pointer-events" fontSet="far" fontIcon="fa-tv"
+                                matTooltip="EDI">
+                            </mat-icon>
+                        </span>
+
+                        <span
+                            *ngIf="cellInfo.row.data.payorType != 'Insurer' && cellInfo.row.data.sendViaPatientzone == true">
+                            <mat-icon class="ml-auto mr-auto pointer-events" fontSet="far" fontIcon="fa-user-chart"
+                                matTooltip="Patientzone"></mat-icon>
+                        </span>
+
+                        <span
+                            *ngIf="cellInfo.row.data.payorType != 'Insurer' && cellInfo.row.data.sendViaPatientzone != true">
+                            <mat-icon class="ml-auto mr-auto pointer-events" fontSet="far" fontIcon="fa-file-invoice"
+                                matTooltip="Paper"></mat-icon>
+                        </span>
+                    </div>
+
+                    <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+                        <app-button icon="far fa-external-link-square" type="link" color="grey" class="mr-2"
+                            matTooltip="View Invoice" (clicked)="openInvoice(cellInfo)"></app-button>
+                    </div>
+
+                    <dxo-summary>
+                        <dxi-total-item column="invoiceDate" summaryType="count" displayFormat="Records: {0}"
+                            valueFormat="fixedPoint {2}">
+                        </dxi-total-item>
+                        <dxi-total-item column="totalGross" summaryType="sum"
+                            displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+                            [valueFormat]="{type:'fixedPoint',precision:2}">
+                        </dxi-total-item>
+                    </dxo-summary>
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-none d-lg-flex flex-w-21">
+    <div class="app-card h-100 ml-4 flex-grow-1">
+        <app-no-data *ngIf="!showPanel" [showTitle]="false" text="Please select a patient from the list."
+            class="w-100 flex responsive-paddings px-4 mt-40per"></app-no-data>
+
+        <app-invoice-summary-view class="d-flex flex-grow-1" [isDraft]="true" [patientId]="patientId"
+            [invoice]="selectedRowData" class="d-flex flex-grow-1" *ngIf="showPanel"></app-invoice-summary-view>
+    </div>
+</div>

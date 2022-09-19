@@ -1,0 +1,19 @@
+<div style="text-align:center">
+	<div>
+		<webcam [height]="500" [width]="400" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+		 [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
+		 (initError)="handleInitError($event)"></webcam>
+		<br/>
+
+    <div class="d-flex flex-row flew-grow-1 mt-2 mb-3">
+      <app-button *ngIf="showWebcam" icon="far fa-camera" type="link" text="Take photo" color="grey" class="ml-auto mr-3" matTooltip="Take picture" (clicked)="triggerSnapshot()"></app-button>
+      <app-button *ngIf="showWebcam" icon="far fa-sync-alt" type="link" text="Swap camera" color="grey" class="mr-3 mr-auto" matTooltip="Switch camera" (clicked)="showNextWebcam(true)"></app-button>
+      <app-button *ngIf="!showWebcam" icon="far fa-trash" type="link" text="Delete" color="grey" class="ml-auto mr-auto" matTooltip="Delete picture" (clicked)="deletePicture()"></app-button>
+    </div>
+	</div>
+</div>
+
+<h4 *ngIf="errors.length > 0">Messages:</h4>
+<ul *ngFor="let error of errors">
+	<li>{{error | json}}</li>
+</ul>

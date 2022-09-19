@@ -1,0 +1,129 @@
+<dx-popup appCentralPopUpSettings height="800" [enableScroll]="true" (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="d-flex flex-column popup-wrapper modal-lg-width">
+    <app-pop-up-form-title [title]="title" [cancelConfirmation]="cancelBtn" [ofEditForm]="true">
+    </app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body" [formGroup]="editForm">
+        <div class="d-flex flex-row w-100">
+          <div class="flex-column flex-grow-1" style="max-width: 50%;">
+            <app-form-section title="Main Details" class="form-col-1/2 pb-0 no-end-section pr-4"
+              [showTitleUnderline]="true" [helperText]="helperText">
+
+              <app-select-box id="contactSelectBox" caption="Type" [dataSource]="contactTypes"
+                formControlName="contactType" valueExpr="this" displayExpr="contactType"
+                [disabled]="contactClassification === 3">
+              </app-select-box>
+
+              <app-text-box *ngIf="contactClassification === 1" id="lastName" formControlName="lastName"
+                caption="Last name" [capitalizeEachWord]="true">
+              </app-text-box>
+
+              <app-text-box *ngIf="contactClassification === 1" id="firstName" formControlName="firstName"
+                caption="First name" [capitalizeEachWord]="true">
+              </app-text-box>
+
+              <app-select-box *ngIf="contactClassification === 1" caption="Title" [dataSource]="titles"
+                formControlName="title" displayExpr="title" valueExpr="title" class="w-50per">
+              </app-select-box>
+
+              <app-text-box *ngIf="contactClassification === 2 || contactClassification === 3"
+                formControlName="displayName" caption="Name" [capitalizeEachWord]="true">
+              </app-text-box>
+
+              <app-text-box *ngIf="getFormPropertyValue('title') == 'GP'" formControlName="knownAs" id="knownAs"
+                caption="Known as" [capitalizeEachWord]="true">
+              </app-text-box>
+            </app-form-section>
+
+            <div class="form-section-row flex-nowrap">
+              <app-slide-toggle formControlName="isPayor" class="md-height" caption="Is Payor" style="width: 30%;">
+              </app-slide-toggle>
+
+              <app-slide-toggle formControlName="sendViaPatientzone" class="md-height"
+                caption="Send invoices via patientzone" style="width: 50%;"
+                *ngIf="getFormPropertyValue('isPayor') && isSitePatientzone">
+              </app-slide-toggle>
+            </div>
+
+            <app-slide-toggle formControlName="inactive" class="width-1/2  md-height" caption="Is Inactive">
+            </app-slide-toggle>
+
+            <app-text-box formControlName="inactiveReason" *ngIf="getFormPropertyValue('inactive')"
+              caption="Inactive Reason">
+            </app-text-box>
+
+            <app-form-section title="Telecoms" class="form-col-1/2 pb-0 no-end-section pr-4" [showTitleUnderline]="true"
+              helperText="Please enter the contact's contact information i.e. mobile number and email below.">
+              <div class="modal-section-content" formArrayName="telecoms">
+                <div *ngFor="let telecom of getTelecomsFormArray().controls; let i = index" class="flex flex-col"
+                  [formGroupName]="i">
+                  <div class="flex flex-row">
+                    <app-text-box *ngIf="getFormGroupControlValue(telecom, 'description') == 'Email'"
+                      formControlName="value" [caption]="getFormGroupControlValue(telecom, 'description')"
+                      [capitalizeEachWord]="false">
+                    </app-text-box>
+
+                    <app-text-box *ngIf="getFormGroupControlValue(telecom, 'description') != 'Email'"
+                      formControlName="value" [caption]="getFormGroupControlValue(telecom, 'description')"
+                      [capitalizeEachWord]="true">
+                    </app-text-box>
+                  </div>
+                </div>
+              </div>
+            </app-form-section>
+          </div>
+
+          <div class="flex-column flex-grow-1">
+            <app-form-section title="Address" class="form-col-1/2 pb-0 no-end-section pl-4" [showTitleUnderline]="true"
+              helperText="Please enter the contact's address details below. Entering a valid postcode will find the address.">
+              <app-button *ngIf="addressNeeded" class="ml-auto mr-auto mb-2" text="Clear address"
+                (clicked)="clearAddress()"></app-button>
+
+              <app-select-box #titlesSelectBox id="addressTypeId" [dataSource]="addressTypes"
+                formControlName="addressTypeId" valueExpr="uniqueNo" displayExpr="description" caption="Type">
+              </app-select-box>
+
+              <div class="d-flex flex-column a-form-group d-col width-3/5">
+                <label>{{postcodeLabel}}</label>
+
+                <app-postcode-to-address formControlName="postcode"
+                  (addressSelect)="postcodeResolverAddressSelectHandler($event)"
+                  class="d-flex flex-row align-items-center">
+                </app-postcode-to-address>
+              </div>
+
+              <app-text-box formControlName="address1" [capitalizeEachWord]="true" caption="Address 1"></app-text-box>
+
+              <app-text-box formControlName="address2" [capitalizeEachWord]="true" caption="Address 2"></app-text-box>
+
+              <app-text-box formControlName="address3" [capitalizeEachWord]="true" caption="Address 3"></app-text-box>
+
+              <app-text-box formControlName="address4" [capitalizeEachWord]="true" caption="Address 4"></app-text-box>
+            </app-form-section>
+
+            <app-form-section title="Other" class="form-col-1/2 pb-0 no-end-section pl-4"
+              *ngIf="contactClassification === 1" [showTitleUnderline]="true"
+              helperText="Please enter any additional reference information for the contact below.">
+              <app-text-box formControlName="jobTitle" id="jobTitle" [capitalizeEachWord]="true" caption="Job Title">
+              </app-text-box>
+
+              <app-text-box formControlName="qualifications" id="qualifications" [capitalizeEachWord]="true"
+                caption="Qualifications">
+              </app-text-box>
+            </app-form-section>
+          </div>
+        </div>
+      </div>
+
+      <div class="popup-form-footer-wrapper">
+        <app-button text="Cancel" class="ml-auto mr-3" color="grey" appCancelConfirmation
+          #cancelBtn="cancelConfirmation" [form]="editForm" (cancelClick)="closeForm()" (saveClick)="submitForm()"
+          [confirmButtonText]="'Create contact'">
+        </app-button>
+
+        <app-button text="Save" (clicked)="submitForm()"></app-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

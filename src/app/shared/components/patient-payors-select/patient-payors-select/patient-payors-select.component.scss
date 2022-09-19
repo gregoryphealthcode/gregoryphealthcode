@@ -1,0 +1,68 @@
+@import "../../../../../assets/scss/variables.scss";
+
+.insurer {
+  color: $primary;
+}
+
+.invoice-mini-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border-radius: 5px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+  border: none;
+  line-height: 1.35;
+  min-height: 14em;
+  max-width: 22em;
+
+  .label-info.light,.label-info-value{
+    line-height: 1.4;
+  }
+}
+
+.invoice-mini-card:hover, .itemSelected{
+  background-color: hsl(0, 0%, 98%);
+  // border: 1px;
+  border-color: hsl(0, 0%, 80%);
+}
+
+.insurers-row {
+  cursor: pointer;
+  width: 13em;
+  border: solid thin #efefef;
+
+  padding: 0 4px;
+}
+
+.carousel-row {
+  height: 150px;
+}
+
+.grid-header-btn {
+  min-width: 8rem !important;
+}
+
+.chevron-btn {
+  min-width: 2rem !important;
+
+  &.mat-button[disabled] {
+    background-color: transparent !important;
+  }
+}
+
+.small-icon {
+  line-height: normal !important;
+  height: 22px !important;
+}
+.small-icon:hover {
+  background-color: transparent !important;
+}
+
+.warning-text {
+  font-weight: bold;
+  color: red;
+}

@@ -1,0 +1,53 @@
+@import "../../../../assets/scss/variables.scss";
+
+:host {
+  display: flex;
+  flex-direction: column;
+
+  .main-wrapper{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: $card-back-color;
+    background-clip: border-box;
+    border-radius: 0px;
+    border: 1px solid $base-border-color;
+    line-height: 1.35;
+  }
+
+  &.page-wrapper-tab-card{
+    margin: 0 0 1.25rem 0;
+    flex: auto;
+    width: 100%;
+  }
+
+  &.p-body-0 .app-card-body{
+     padding: 0;
+  }
+}
+
+.app-card-body{
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+}
+
+.app-card-footer{
+  display: flex;
+}
+
+.app-page-header{
+  padding: 0.35rem 0.25rem;
+}
+
+.app-card-title{
+  font-weight: 500;
+}
+
+.no-pointer {
+  pointer-events: none;
+}

@@ -1,0 +1,17 @@
+<div class="d-flex  ml-auto">
+  <!-- DROPDOWN MENU WITH USER OPTIONS (lock, profile, set up 2fa, logout etc...) -->
+  <dx-button class="user-button authorization" width="auto" stylingMode="text">
+    <div *dxTemplate="let data of 'content'" style="overflow: hidden !important;">
+      <app-user-panel [menuItems]="userMenuItems" menuMode="context"></app-user-panel>
+    </div>
+  </dx-button>
+
+  <!-- LOCK BUTTON (if on larger screen) -->
+<div class="d-none d-md-flex align-items-center">
+  <button mat-icon-button class="alternative-hover icon" (click)="lockScreenService.showLockOutScreen()">
+    <mat-icon fontSet="fad" matTooltip="Lock System" fontIcon="fa-lock-alt"></mat-icon>
+  </button>
+</div>
+</div>
+
+

@@ -1,0 +1,36 @@
+<div class="d-flex flex-row align-items-center dropdown-wrapper position-relative">
+  <dx-select-box [dataSource]="payors" [(value)]="value" [isValid]="!isInvalid" valueExpr="payorId"
+    displayExpr="displayName" placeholder="Payor" itemTemplate="item" fieldTemplate="field"
+    (onValueChanged)="dropdownValueChangedHandler($event)">
+
+    <div *dxTemplate="let data of 'item'" class="d-flex flex-row">
+      <span>{{data.displayName}}&nbsp;</span>
+      <app-button type="link" class="d-flex ml-auto" *ngIf="data.invalid" color="warning"
+      [icon]="'fad fa-exclamation-triangle'" matTooltip="Invalid"></app-button>
+    </div>
+
+    <div *dxTemplate="let data of 'field'">
+      <div *ngIf="data" class="dropdown-field-wrapper d-flex flex-row field-min-width">
+        <span class="text-truncate">{{data.displayName}}&nbsp;</span>
+        <app-button type="link" class="d-flex ml-auto" [color]="data.invalid ? 'warning' :'grey'"
+        [icon]="data.invalid ? 'fad fa-exclamation-triangle' :'fad fa-edit'"
+        matTooltip="Edit Details" (clicked)="showEditPayorPopup(data.payorId, $event);"></app-button>
+      </div>
+
+      <dx-text-box [class.d-none]="data" [value]="data && data.displayName"></dx-text-box>
+    </div>
+  </dx-select-box>
+
+  <app-button type="link" text="Add" color="grey" class="ml-2" icon="fal fa-plus" size="sm" id="addPayorBtn"
+    (clicked)="addMenu.show()"></app-button>
+
+  <small class="font-weight-normal" *ngIf="hint && !isInvalid">{{hint}}</small>
+  <small class="font-weight-normal control-error" *ngIf="isInvalid">{{error}}</small>
+  <small class="font-weight-normal control-error" *ngIf="error">{{error}}</small>
+</div>
+
+<app-payor-details-edit *ngIf="showEditPayorFormPopup" [payorId]="value" [payorTypeId]="selectedPayorTypeId"
+  (closed)="showEditPayorFormPopup=false" (updated)="payorUpdatedHandler()"></app-payor-details-edit>
+
+<app-add-payor-logic [patientId]="patientId" [showInsurers]="showInsurers" (added)="addedPayor($event)" #addMenu
+  targetId="addPayorBtn"></app-add-payor-logic>

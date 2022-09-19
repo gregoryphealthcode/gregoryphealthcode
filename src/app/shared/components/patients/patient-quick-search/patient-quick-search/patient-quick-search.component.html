@@ -1,0 +1,32 @@
+<dx-select-box
+[dataSource]="dataSource"
+[searchEnabled]="true"
+[searchExpr]="['firstName', 'lastName', 'postcode', 'displayName', 'dob']"
+valueExpr="patientId"
+[(value)]="value"
+displayExpr="name"
+[wrapItemText]="true"
+placeholder="Select or search"
+itemTemplate="listItem"
+[dropDownOptions]="dropdownOptions"
+[disabled]="disabled"
+>
+
+<div *dxTemplate="let title of 'titleTemplate'" class="d-flex py-2-1 align-items-center">
+  <app-button type="link" color="grey" text="Advanced Search" class="pt-1" size="xs" (clicked)="advancedSearch.show()"></app-button>
+  <app-button type="link" icon="far fa-plus" text="Add" class="pt-1 ml-auto" size="xs" (clicked)="showAddPatient = true"></app-button>
+</div>
+
+<div *dxTemplate="let item of 'listItem'">
+  <div class="d-flex flex-column">
+      <div><span class="text-semiBold">{{item.displayName}}</span> -
+        <span *ngIf="!item.postcode">No Address</span>
+        <span>{{item.postcode}}</span>
+      </div>
+      <div class="text-grey-70 text-xxs">{{item.dob}}, {{item.age}} years</div>
+  </div>
+</div>
+</dx-select-box>
+
+<app-patient-quick-search-popup #advancedSearch (doubleClickedRow)="advancedSearchPatientSelected($event)"></app-patient-quick-search-popup>
+<app-patient-add-edit-popup (patientSelected)="newPatientAdded($event)" (closePopup)="showAddPatient=false;" *ngIf="showAddPatient"></app-patient-add-edit-popup>

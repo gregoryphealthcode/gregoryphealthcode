@@ -1,0 +1,65 @@
+<div id="pageMainDetails" class="d-flex flex-grow-1 flex-column page-main" (wheel)="onMouseWheel($event)">
+    <div class="d-flex flex-grow-1 flex-row responsive-margins" [formGroup]="editForm">
+        <div class="d-flex flex-column flex-grow-1 col-6 h-100">
+            <div class="label-info-value-title sm mt-2 mb-2">Site </div>
+
+            <app-text-box formControlName="siteRef" caption="Site Ref" direction="row" [disabled]="true">
+            </app-text-box>
+
+            <app-text-box formControlName="siteName" caption="Site Name" direction="row">
+            </app-text-box>            
+
+            <app-select-box caption="ePractice Variant" [dataSource]="siteTypeList" formControlName="ePracticeVariant"
+                direction="row">
+            </app-select-box>
+
+            <app-text-box formControlName="parentSiteId" caption="Parent Site Id" direction="row">
+            </app-text-box>
+
+            <app-slide-toggle formControlName="isSingleSpecialist" class="mt-1 md-height" direction="row"
+                caption="Is Single Practitioner">
+            </app-slide-toggle>
+
+            <app-slide-toggle formControlName="hasChildSites" class="mt-1 md-height" direction="row"
+                caption="Has Child Sites">
+            </app-slide-toggle>
+
+            <app-slide-toggle formControlName="useEBooking" class="mt-1 md-height" direction="row"
+                caption="Use eBooking">
+            </app-slide-toggle>
+
+            <div class="horizontal-line mb-2"></div>
+
+            <div class="label-info-value-title sm mt-2 mb-2">Contact Details</div>
+
+            <app-text-box formControlName="contactName" caption="Contact Name" direction="row"
+                [capitalizeEachWord]="true">
+            </app-text-box>
+
+            <app-text-box formControlName="contactRole" caption="Contact Role" direction="row"
+                [capitalizeEachWord]="true">
+            </app-text-box>
+
+            <app-text-box formControlName="contactNumber" caption="Contact Number" direction="row">
+            </app-text-box>
+
+            <app-text-box formControlName="smsSenderTag" caption="SMS Sender Tag" direction="row"></app-text-box>
+
+            <div class="horizontal-line mb-2"></div>
+
+            <div class="label-info-value-title sm mb-2">Additional Information</div>
+
+            <app-text-box formControlName="documentReference" caption="Document Reference" direction="row">
+            </app-text-box>
+
+            <app-text-area-box formControlName="siteNotes" caption="Site Notes" class="text-area-height" direction="row">
+            </app-text-area-box>            
+        </div>
+    </div>
+</div>
+
+<div class="page-footer">
+    <div class="horizontal-line"></div>
+    <app-button class="mt-2 mb-2 page-footer-button" text="Save" (clicked)="submitForm()"
+        [disabled]="submitting || editForm?.pristine"></app-button>
+</div>

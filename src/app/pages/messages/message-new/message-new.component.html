@@ -1,0 +1,94 @@
+<div class="content-block dx-card responsive-paddings dx-swatch-additional hc-100-5px p-5px m-1px">
+    <form action="messageComplete" (submit)="onFormSubmit($event)">
+        <dx-form #messageform id="messageform" [formData]="messageData" [minColWidth]="300" [colCount]="1"
+            focusStateEnabled="true" activeStateEnabled="true" hoverStateEnabled="true"
+            [elementAttr]="{autocomplete: 'off'}" scrollingEnabled="true" showValidationSummary="true"
+            validationGroup="messageData" [labelLocation]="appInfo.getPreflabelLocation()"
+            (onFieldDataChanged)="formfieldDataChanged($event)">
+
+            <dxi-item itemType="group" caption="" [colSpan]="3" ngStyle.height="!issmallscreen ? '600px' : 'auto'"
+                [colCount]="3" [alignItemLabels]="true">
+                <dxi-item *ngIf="Mode === 'Add'" #recipient name="recipient" dataField="RecipientId"
+                    editorType="dxSelectBox" [colSpan]="2" [label]="{text: 'Message To'}" [editorOptions]="{stylingMode: appInfo.prefstylingmode, placeholder: '', height: 27,
+                                items: this.users, displayExpr: 'DisplayName', valueExpr: 'UserId._value'}">
+                    <dxi-validation-rule type="required" message="Recipient is required"></dxi-validation-rule>
+                </dxi-item>
+
+                <dxi-item *ngIf="Mode === 'Reply'" #recipientName name="recipientName" dataField="RecipientName"
+                    editorType="dxTextBox" [colSpan]="2" [label]="{text: 'Message To'}"
+                    [editorOptions]="{stylingMode: appInfo.prefstylingmode, placeholder: '', height: 27, readOnly: true}">
+                </dxi-item>
+
+                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+
+                <dxi-item #messageDateTime name="messageDateTime" dataField="MessageDateTime" editorType="dxDateBox"
+                    [colSpan]="1" [label]="{text: 'Message Date/Time'}" [editorOptions]="{stylingMode: appInfo.prefstylingmode, width: 170, displayFormat: this.appInfo.getDateTimeFormat,
+                                      placeholder: '', height: 27, type: 'datetime', readOnly: true}">
+                    <dxi-validation-rule type="required" message="Date is required"></dxi-validation-rule>
+                </dxi-item>
+
+                <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+
+                <dxi-item #subject name="subject" dataField="Subject" editorType="dxTextBox" [colSpan]="3"
+                    [label]="{text: 'Subject'}"
+                    [editorOptions]="{stylingMode: appInfo.prefstylingmode, placeholder: '', height: 27, maxLength: 50}">
+                </dxi-item>
+
+                <dxi-item [colSpan]="3">
+                    <dx-html-editor #htmleditor [height]="280" valueType="Markdown" (valueChange)="valueChange($event)">
+                        <dxo-toolbar>
+                            <dxi-item formatName="undo"></dxi-item>
+                            <dxi-item formatName="redo"></dxi-item>
+                            <dxi-item formatName="separator"></dxi-item>
+                            <dxi-item formatName="size"
+                                [formatValues]="['12pt', '14pt', '16pt', '18pt', '24pt', '36pt']"></dxi-item>
+                            <dxi-item formatName="font"
+                                [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']">
+                            </dxi-item>
+                            <dxi-item formatName="separator"></dxi-item>
+                            <dxi-item formatName="bold"></dxi-item>
+                            <dxi-item formatName="italic"></dxi-item>
+                            <dxi-item formatName="underline"></dxi-item>
+                            <dxi-item formatName="separator"></dxi-item>
+                            <dxi-item formatName="alignLeft"></dxi-item>
+                            <dxi-item formatName="alignCenter"></dxi-item>
+                            <dxi-item formatName="alignRight"></dxi-item>
+                            <dxi-item formatName="alignJustify"></dxi-item>
+                            <dxi-item formatName="separator"></dxi-item>
+                            <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                            <dxi-item formatName="separator"></dxi-item>
+                            <dxi-item formatName="orderedList"></dxi-item>
+                            <dxi-item formatName="bulletList"></dxi-item>
+                            <dxi-item formatName="separator"></dxi-item>
+                            <dxi-item formatName="color"></dxi-item>
+                            <dxi-item formatName="separator"></dxi-item>
+                            <dxi-item formatName="clear"></dxi-item>
+                            <dxi-item formatName="background"></dxi-item>
+                            <dxi-item formatName="separator"></dxi-item>
+                            <dxi-item formatName="link"></dxi-item>
+                            <dxi-item formatName="image"></dxi-item>
+                            <dxi-item formatName="separator"></dxi-item>
+                            <dxi-item formatName="blockquote"></dxi-item>
+                        </dxo-toolbar>
+
+                        <dxo-media-resizing [enabled]=true></dxo-media-resizing>
+                    </dx-html-editor>
+                </dxi-item>
+            </dxi-item>
+        </dx-form>
+    </form>
+
+    <dx-box direction="row" width="100%" class="mt-10px">
+        <dxi-item direction="col" [ratio]="1">
+            <span class="text-center float-none ml-auto mr-auto">
+                <dx-button text="Send" (onClick)="saveMessageClicked($event)" type="default" icon="fas fa-check"
+                    class="mr-10px" useSubmitBehavior="true">
+                </dx-button>
+
+                <dx-button text="Cancel" (onClick)="cancelClicked($event)" type="default" icon="fas fa-times"
+                    class="ml-10px">
+                </dx-button>
+            </span>
+        </dxi-item>
+    </dx-box>
+</div>

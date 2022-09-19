@@ -1,0 +1,35 @@
+<ng-container *ngIf="show">
+  <div>
+    <div *ngIf="isNew" class="d-flex flex-row a-form-group d-row mb-2 mt-3">
+      <label class="pb-1">From Template</label>
+
+      <div class="d-flex flex-row flex-grow-1">
+        <dx-radio-group [items]="options" layout="horizontal" (onValueChanged)="optionChanged($event)"></dx-radio-group>
+      </div>
+    </div>
+
+    <div [formGroup]="editForm">
+      <app-select-box *ngIf="isNew && fromTemplate" formControlName="options" [dataSource]="instructions"
+        direction="row" valueExpr="id" displayExpr="title" caption="Template">
+      </app-select-box>
+
+      <app-text-box formControlName="title" direction="row" caption="Title" [capitalizeEachWord]="true">
+      </app-text-box>
+
+      <app-text-area-box formControlName="text" direction="row" caption="Text" class="text-area-height">
+      </app-text-area-box>
+
+      <app-slide-toggle formControlName="isDirections" class="mb-0 mt-3 md-height" direction="row"
+        caption="Is Directions?">
+      </app-slide-toggle>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row w-100 align-items-center mt-3">
+    <app-button text="Save" class="mr-2 ml-auto" [disabled]="!editForm.valid"
+      (clicked)="submitForm()"></app-button>
+
+    <app-button text="Close" class="ml-2 mr-auto" type="secondary"
+      (clicked)="closeForm()"></app-button>
+  </div>
+</ng-container>      

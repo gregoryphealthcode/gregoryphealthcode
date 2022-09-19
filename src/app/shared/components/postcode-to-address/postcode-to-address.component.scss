@@ -1,0 +1,17 @@
+:host ::ng-deep {
+  .dropdown-wrapper small {
+    position: absolute;
+    left: 0;
+    top: 38px;
+  }
+
+  .d-col{
+    .dropdown-wrapper small {
+      top: 33px;
+    }
+  }
+}
+
+.w-100 {
+  width: 100% !important;
+}

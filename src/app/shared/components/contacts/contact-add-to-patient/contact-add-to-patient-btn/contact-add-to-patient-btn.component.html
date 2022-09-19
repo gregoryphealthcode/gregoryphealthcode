@@ -1,0 +1,28 @@
+<app-button icon="far fa-plus" text="Add Contact" iconPosition="left" [showDropdownIcon]="true"
+  #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="belowMenu"></app-button>
+
+<mat-menu #belowMenu="matMenu" yPosition="below">
+  <ng-container *ngFor="let item of items">
+    <app-button type="link" [icon]="item.icon" color="grey" class="menu-item-btn" [text]="item.description"
+      (clicked)="itemClicked(item)"></app-button>
+  </ng-container>
+</mat-menu>
+
+<!-- Add Connection Further Details -->
+<dx-popup appCentralPopUpSettings *ngIf="showReferrers" [width]="'380'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="'Link to Patient'" (closed)="showReferrers = false">
+    </app-pop-up-form-title>
+    <div class="central-popup-wrapper">
+      <app-contact-add-to-patient (saved)="connectionAdded.emit($event); showReferrers = false;" [contactId]="contactId"
+        [patientId]="patientId" (formClosed)="showReferrers=false">
+      </app-contact-add-to-patient>
+    </div>
+  </div>
+</dx-popup>
+
+<!-- Add contact popup -->
+<app-add-contact *ngIf="showAddContact" [contactClassification]="contactClassification"
+  (closed)="showAddContact = false" class="d-flex flex-column flex-grow-1" (saved)="addedContact($event)">
+</app-add-contact>

@@ -1,0 +1,74 @@
+<app-waiting-list-add-edit [data]="selectedRecord" (saved)="reloadData()"></app-waiting-list-add-edit>
+
+<app-med-sec-site-selector (onSelected)="addClicked()"></app-med-sec-site-selector>
+
+<div class="d-flex flex-grow-1 responsive-paddings h-100 pt-0 px-0 app-card">
+  <div class="d-flex flex-row flex-wrap w-100 mb-3 pt-3 pl-4">
+    <app-grid-search-text-box class="mr-3" (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">From Date</label>
+    </div>
+
+    <dx-date-box class="w-130px" [displayFormat]="dateFormat" [(value)]="fromDate" type="date" (onValueChanged)="dateChanged()">
+    </dx-date-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">To Date</label>
+    </div>
+
+    <dx-date-box class="w-130px" [displayFormat]="dateFormat" [(value)]="toDate" type="date" (onValueChanged)="dateChanged()">
+    </dx-date-box>
+
+    <app-button class="mr-4 ml-auto mt-auto" text="Add" (clicked)="add()"></app-button>
+  </div>
+
+  <div class="cssWidgetWrapper content-height">
+    <dx-data-grid [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="id" height="100%"
+      [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true" focusedRowIndex="0"
+      (onFocusedRowChanged)="onFocusedRowChanged($event)" [focusedRowEnabled]="true" [noDataText]="hasPatientId ? 'Patient not on waiting list' : 'No Data'">
+      <dxo-scrolling mode="virtual"></dxo-scrolling>
+      <dxo-sorting mode="multiple"></dxo-sorting>
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxi-column dataField="patientName" caption="Patient" [minWidth]="200" cellTemplate="patientNameTemplate"></dxi-column>
+      <dxi-column caption="Priority" cellTemplate="priorityTemplate" alignment="center" 
+        [minWidth]="100"></dxi-column>
+        <dxi-column dataField="priority" [visible]="false" sortOrder="desc" [sortIndex]="0"></dxi-column>
+      <dxi-column dataField="ownerName" caption="To See" [allowSorting]="false" [minWidth]="150"></dxi-column>
+      <dxi-column dataField="appointmentDescription" caption="Appointment Type" [minWidth]="150"></dxi-column>
+      <dxi-column dataField="duration" caption="Duration (mins)" [minWidth]="150" [visible]="false"></dxi-column>
+      <dxi-column dataField="dateAdded" caption="Date Added" dataType="date" format="dd/MM/yyyy" [minWidth]="150"
+        sortOrder="asc" [sortIndex]="1">
+      </dxi-column>
+      <dxi-column dataField="notes" caption="Notes" [minWidth]="150">
+      </dxi-column>
+      <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="80">
+        <dxi-button template="myCommandTemplate"></dxi-button>
+      </dxi-column>
+
+      <dxo-summary>
+        <dxi-total-item column="patientName" summaryType="count" displayFormat="{0}" valueFormat="fixedPoint {2}">
+        </dxi-total-item>
+      </dxo-summary>
+
+      <div *dxTemplate="let cellInfo of 'patientNameTemplate'">
+        <div class="d-flex flex-row">
+          {{cellInfo.data.patientName}} <span class="label-tag md badge-danger align-items-center ml-2" *ngIf="cellInfo.data.deceased == true">Deceased</span>
+        </div>        
+      </div>
+
+      <div *dxTemplate="let cellInfo of 'priorityTemplate'">
+        <mat-icon *ngIf="cellInfo.row.data.priority === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+      </div>
+
+      <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+        <app-button icon="far fa-trash" type="link" color="grey" class="mr-2" matTooltip="Delete"
+        style="width: 15px; height: 15px;"   (clicked)="deleteClicked(cellInfo)"></app-button>
+
+        <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit"
+          (clicked)="editClicked(cellInfo)"></app-button>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>

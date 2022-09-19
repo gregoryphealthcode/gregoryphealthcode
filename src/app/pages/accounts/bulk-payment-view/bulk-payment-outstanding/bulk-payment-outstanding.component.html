@@ -1,0 +1,39 @@
+<app-card class="page-wrapper-tab-card h-100">
+  <div class="d-flex flex-row flex-grow-1">
+    <div class="cssWidgetWrapper hmin-400px">
+      <dx-data-grid gridWithRowLinesSettings class="cssGridGeneral padd-first-lg" [dataSource]="invoices"
+        [remoteOperations]="false" [rowAlternationEnabled]="true" [focusedRowEnabled]="true" focusedRowIndex="0"
+        keyExpr="invoiceId" [columnMinWidth]="150">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+        <dxi-column dataField="patientName" caption="Patient Name"></dxi-column>
+        <dxi-column dataField="invoiceNumber" caption="Invoice Number"></dxi-column>
+        <dxi-column dataField="invoiceDate" caption="Invoice Date" dataType="date" [format]="store.getDateFormat">
+        </dxi-column>
+        <dxi-column dataField="totalDue" caption="Invoice Total" cellTemplate="currency"></dxi-column>
+        <dxi-column dataField="balanceDue" caption="Balance Due" cellTemplate="currency"></dxi-column>
+        <dxi-column dataField="allocation" caption="Allocation" cellTemplate="allocationTemplate"></dxi-column>
+
+        <div *dxTemplate="let d of 'currency'" valueFormat="fixedPoint {2}">
+          <div class="current-value" *ngIf="d.value > 0">{{d.value | currency: store.getCurrency}}
+          </div>
+          <div class="current-value" *ngIf="d.value === 0">-</div>
+        </div>
+
+        <div *dxTemplate="let data of 'allocationTemplate'" class="d-flex flex-row">
+          <dx-number-box #numberBox [max]="data.data.balanceDue < 0 ? 0 : data.data.balanceDue" [min]="0"
+            [showSpinButtons]="true" (onValueChanged)="allocation(data.data, $event)" format="{{appInfo.getCurrencyFormatForNumberBox}}"></dx-number-box>
+
+          <app-button icon="far fa-money-check-edit-alt" class="set-grid-btn" type="link" color="grey"
+            (clicked)="setTextBoxValue(numberBox, data.data)" matTooltip="Allocate full amount"></app-button>          
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+
+  <app-card-footer>
+    <app-button text="Save Allocations" icon="far fa-save" class="ml-auto mr-4" type="link" matToolTip="Save your payment allocations. You can edit these before finalising."
+      (clicked)="saveAllocations()" [disabled]="allocations?.length === 0"></app-button>
+  </app-card-footer>
+</app-card>

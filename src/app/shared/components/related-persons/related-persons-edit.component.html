@@ -1,0 +1,74 @@
+<dx-popup appCentralPopUpSettings [enableScroll]="true" width="640" (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [cancelConfirmation]="cancelBtn" [title]="title" [ofEditForm]="true"></app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body" [formGroup]="editForm">
+        <div class="d-flex flex-row w-100 mt-3">
+          <div class="flex-column half-width">
+            <app-form-section title="Details" class="form-col-1/2 pb-0 no-end-section pr-4 mr-0"
+              [showTitleUnderline]="true">
+              <app-text-box formControlName="lastName" caption="Last name" [capitalizeEachWord]="true"></app-text-box>
+
+              <app-text-box formControlName="firstName" caption="First name" [capitalizeEachWord]="true"></app-text-box>
+
+              <app-select-box caption="Title" [dataSource]="titles" formControlName="title" valueExpr="title"
+                displayExpr="title"></app-select-box>
+
+              <app-select-box [dataSource]="gluRelatedPersonTypes" formControlName="relationshipToPatient"
+                valueExpr="relatedPersonType" displayExpr="description" caption="Relationship"></app-select-box>
+
+              <app-text-box formControlName="email" caption="Email"></app-text-box>
+
+              <app-text-box formControlName="contactNumber" caption="Contact number"></app-text-box>
+
+            </app-form-section>
+
+            <div class="form-section-row flex-nowrap w-100">
+              <app-slide-toggle class="width-1/4" formControlName="isPayor" caption="Is Payor" [(ngModel)]="payor"
+                [disabled]="fromInvoice"></app-slide-toggle>
+
+              <app-slide-toggle class="half-width" formControlName="sendViaPatientzone"
+                caption="Send invoices via patientzone" [(ngModel)]="sendViaPatientzone"
+                *ngIf="isSitePatientzone && getFormPropertyValue('isPayor')">
+              </app-slide-toggle>
+            </div>
+          </div>
+
+          <div class="flex-column half-width">
+            <app-form-section title="Address" class="form-col-1/2 pb-0 no-end-section pr-4" [showTitleUnderline]="true">
+              <div class="d-flex flex-column a-form-group d-col width-1/2 mt-1">
+                <label>{{fromInvoice || payor || addressNeeded ? 'Postcode *' : 'Postcode'}}</label>
+
+                <app-postcode-to-address formControlName="postcode"
+                  (addressSelect)="postcodeResolverAddressSelectHandler($event)"
+                  class="d-flex flex-row align-items-center">
+                </app-postcode-to-address>
+              </div>
+
+              <app-text-box formControlName="address1" caption="Address 1" [capitalizeEachWord]="true"></app-text-box>
+
+              <app-text-box formControlName="address2" caption="Address 2" [capitalizeEachWord]="true"></app-text-box>
+
+              <app-text-box formControlName="address3" caption="Address 3" [capitalizeEachWord]="true"></app-text-box>
+
+              <app-text-box formControlName="address4" caption="Address 4" [capitalizeEachWord]="true"></app-text-box>
+
+              <app-text-area-box formControlName="comments" caption="Comments" class="text-area-standard-height mb-1">
+              </app-text-area-box>
+            </app-form-section>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="popup-form-footer-wrapper">
+        <app-button text="Cancel" class="ml-auto mr-3" color="grey" appCancelConfirmation
+          #cancelBtn="cancelConfirmation" [form]="editForm" (cancelClick)="closeForm()" (saveClick)="submitForm()"
+          [confirmButtonText]="'Create related person'"></app-button>
+
+        <app-button text="Save" (clicked)="submitForm()"></app-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

@@ -1,0 +1,133 @@
+<div *ngIf="options.draggable.enabled" class="dashboard-button-container">
+    <dx-button *ngIf="options.draggable.enabled" stylingMode="filled" type="default" text="Cancel Customising Dashboard"
+        icon="fas fa-times" (onClick)="showDashboardSettings()" class="dashboard-button-right">
+    </dx-button>
+
+    <dx-button *ngIf="options.draggable.enabled" stylingMode="filled" type="default" text="Save Dashboard Changes"
+        icon="fas fa-save" (onClick)="saveDashboardSettings()" class="dashboard-button">
+    </dx-button>
+
+    <dx-button *ngIf="options.draggable.enabled" stylingMode="filled" type="default" text="Add Panel" icon="fas fa-plus"
+        (onClick)="actionSheet.visible = true" class="dashboard-button">
+    </dx-button>
+</div>
+
+<!-- dashboard -->
+<div id="dashboardcontainer" class="dashboard-container">
+    <gridster [options]="options" class="gridster">
+        <div ngStyle.visible="options.draggable.enabled ? true : false" class="float-right pr-20px mr-20px mt--30px">
+            <!-- add dashboard panel -->
+            <dx-action-sheet #actionSheet title="Choose type of panel to add" [items]="commands" [visible]="false"
+                [showTitle]="true" [showCancelButton]="true" width="33%"
+                (onItemClick)="actionsheetAddPanel($event.itemData.text)">
+            </dx-action-sheet>
+        </div>
+
+        <gridster-item [item]="item" *ngFor="let item of dashboard;" class="h-100 overflow-y-hidden mt-2">
+            <div *ngIf="options.draggable.enabled" class="text-right">
+                <dx-button hint="drag+drop to move this panel to a new position in the dashboard" stylingMode="text"
+                    type="default" text="" class="w-25px" icon="fas fa-arrows-alt">
+                </dx-button>
+
+                <dx-button hint="click to remove this panel from dashboard" stylingMode="text" type="default"
+                    (onClick)="removeItem($event, item)" text="" class="w-25px" icon="fas fa-window-close">
+                </dx-button>
+            </div>
+
+            <!-- healthcode news panel -->
+            <div class="gridster-item-content noselect" *ngIf="item.label=='Healthcode News'">
+                <div class="noselect m-4px text-center">
+                    <p class="text-center"><b>Healthcode News</b><br /></p>
+                </div>
+
+                <dx-gallery [dataSource]="newsfeedDataSource" [height]="'calc(100% - 20px)'" width="100%" [loop]="true"
+                    [showIndicator]="true" [slideshowDelay]="slideshowDelay">
+                    <div *dxTemplate="let data of 'item'" class="d-flex flex-column">
+                        <div class="d-flex" height="auto">{{data.title}}</div>
+
+                        <div class="d-flex flex-row">
+                            <div class="d-flex" *ngIf="data.author != 'n/a'">Written by: {{data.author}}</div>
+
+                            <div class="d-flex">{{data.datePublished | date: dateFormat}}</div>
+                        </div>
+
+                        <div class="d-flex" height="auto" class="wrap" [innerHtml]="data.htmlContent | safeHtml"></div>
+                    </div>
+                </dx-gallery>
+            </div>
+
+            <!-- INVOICE AUTO-POPULATION PANEL -->
+            <div class="gridster-item-content noselect hc-100-20px" *ngIf="item.label=='Invoice Auto-population'">
+                <div class="noselect m-4px text-center">
+                    <p class="text-center"><b>Invoice Auto-population</b><br /></p>
+                </div>
+            </div>
+
+            <!-- TASKS & REMINDERS PANEL -->
+            <div class="gridster-item-content noselect" *ngIf="item.label=='Tasks + Reminders'">
+                <div class="noselect m-4px text-center">
+                    <p class="text-center"><b>Tasks + Reminders</b><br /></p>
+                </div>
+            </div>
+
+            <!-- !!!! DIARY PANEL !!!! -->
+            <div class="gridster-item-content noselect h-100 d-flex flex-column" *ngIf="item.label=='Diary'">
+                <div class="noselect text-center mx-1 mt-1">
+                    <p class="text-center"><b>Diary</b><br /></p>
+                </div>
+                <app-view-diary class="d-flex flex-grow-1 pb-2" #dashboarddiarycomponent id="dashboarddiarycomponent"
+                    (appointmentSelected)="appointmentSelectedHandler($event)" [hideTitle]="true"></app-view-diary>
+            </div>
+
+            <!-- RECENT LOGINS -->
+            <div class="gridster-item-content noselect" *ngIf="item.label=='Recent Logins'">
+                <div class="noselect m-4px text-center">
+                    <p class="text-center"><b>Recent Logins</b><br /></p>
+                </div>
+            </div>
+
+            <!-- SYSTEM STATUS -->
+            <div class="gridster-item-content noselect"
+                *ngIf="item.label=='System Status' && !userStore.isMedSecUser()">
+                <div class="noselect m-4px text-center">
+                    <p class="text-center"><b>System Status</b><br /></p>
+                    <div>
+                        <iframe src='https://stats.uptimerobot.com/29M2kC93P' width="100%" height="100%"
+                            frameborder="0"></iframe>
+                    </div>
+                </div>
+                <div class="text-center ml-auto mr-auto float-none">
+                    <dx-button text="Detailed Status" (onClick)="showSystemStatus()" type="default" width="auto">
+                    </dx-button>
+                </div>
+            </div>
+
+            <!--LOGO-->
+            <div class="gridster-item-content noselect text-center hc-100-10px" *ngIf="item.label==''">
+                <div class="noselect logo-container">
+                    <img src="assets/img/logo.png" alt="Healthcode Logo" class="logo" />
+                    <div>
+                        <p>
+                            <b>Customer Support</b> <br />
+                            <b>Tel: 0330 900 4900</b><br />
+                            <a href="mailto:custserv@healthcode.co.uk"
+                                target="_blank">custserv@healthcode.co.uk</a><br />
+                            <a href="https://www.healthcode.co.uk/" target="_blank">www.healthcode.co.uk</a><br />
+                            Opening Hours 08:00 to 18:00<br />
+                            Mon-Fri excl. Bank Holidays<br />
+
+                            <a href="https://www.healthcode.co.uk/video-gallery/" target="_blank">Training Videos</a>
+                            <br />
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </gridster-item>
+    </gridster>
+</div>
+
+<app-appointment-popup-add-edit *ngIf="showAppointmentPopup == true"
+    (saved)="showAppointmentPopup = false; notifier.valueChanged()" (closed)="closedHandler()"
+    [appointmentId]="appointmentId" [patientId]="patientId" [ownerId]="ownerId" [locationId]="locationId"
+    [fromSession]="fromSession" [startDate]="startDateTime">
+</app-appointment-popup-add-edit>

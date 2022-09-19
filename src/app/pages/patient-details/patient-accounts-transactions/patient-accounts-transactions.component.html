@@ -1,0 +1,22 @@
+<dx-data-grid [dataSource]="detailDataSource" [showBorders]="true" [columnAutoWidth]="true" style="margin-left:15px;"
+    focusedRowIndex="0" noDataText="None recorded">
+    <dxi-column dataField="transactionDate" dataType="date" caption="Date" format="dd/MM/yyyy" [minWidth]="120">
+    </dxi-column>
+    <dxi-column dataField="transactionType" caption="Transaction" [minWidth]="120"></dxi-column>
+    <dxi-column dataField="payorName" caption="Payor" [minWidth]="120"></dxi-column>
+    <dxi-column dataField="methodType" caption="Method" [minWidth]="120"></dxi-column>
+    <dxi-column dataField="comments" caption="Comments" [minWidth]="120"></dxi-column>
+    <dxi-column dataField="amount" caption="Amount" [minWidth]="120">
+        <dxo-format type="fixedPoint" [precision]="2">
+        </dxo-format>
+    </dxi-column>
+
+    <dxo-summary>
+        <dxi-total-item column="transactionDate" summaryType="count" displayFormat="{0}">
+        </dxi-total-item>
+
+        <dxi-total-item column="amount" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+            [valueFormat]="{type:'fixedPoint',precision:2}">
+        </dxi-total-item>
+    </dxo-summary>
+</dx-data-grid>

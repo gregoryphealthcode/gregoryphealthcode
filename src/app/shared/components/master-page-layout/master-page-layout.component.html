@@ -1,0 +1,15 @@
+<app-side-nav-outer-toolbar title="{{appInfo.title}}" [menuItems]="menuItems" [class.blur-background]="showBlur$|async">
+  <router-outlet></router-outlet>
+
+  <app-header-right-section>
+    <ng-content [right-header-section]></ng-content>
+  </app-header-right-section>
+
+  <app-footer>
+    <div class="d-flex flex-row justify-content-between">
+      <span class="d-flex">Copyright © 2002-2022 Healthcode.All rights reserved - Version 2.1.2.58</span>
+      <span class="d-flex">{{ todaysdate | date: 'EEEE, d MMMM y'}}</span>
+    </div>
+  </app-footer>
+</app-side-nav-outer-toolbar>
+<app-lock-screen></app-lock-screen>

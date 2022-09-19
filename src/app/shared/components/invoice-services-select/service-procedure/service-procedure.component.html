@@ -1,0 +1,77 @@
+<div class="d-flex flex-row align-items-center mb-2">
+  <span class="bolder">Look up procedures</span>
+</div>
+
+<div class="d-flex flex-row mb-2">
+  <mat-form-field appearance="outline" class="marginy-0 my-auto mb-2">
+    <mat-label>Search</mat-label>
+
+    <input #searchBox matInput appAutoFocus [autoFocusTimeout]="0.75" preventAutoFill class="searchBox"
+      [value]="term" tabindex="1" (onchange)='term = $event.target.value' placeholder="Search for procedures" (input)="searchForProcedureCode($event)"
+      autocomplete="off" (keyup.enter)="keyUpFunction()">
+
+    <button *ngIf="term" matSuffix mat-icon-button class="alternative icon" aria-label="Clear" (click)="term = ''">
+      <mat-icon fontSet="fa" fontIcon="fa-times-circle"></mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
+<div class="d-flex flex-row flex-wrap w-100 mb-2 diagnosisGridHeight"
+  *ngIf="procedureCodes && procedureCodes.length > 0">
+  <div class="cssWidgetWrapper ">
+    <dx-data-grid id="procedureCodesGrid" #procedureCodesGrid class="cssGridGeneral" [showBorders]="true" focusedRowIndex="0"
+      [dataSource]="procedureCodes" [selection]="{ mode: 'single' }" [hoverStateEnabled]="true" [showColumnLines]="true"
+      [columnMinWidth]="175" [wordWrapEnabled]="true" [showRowLines]="true" [showBorders]="true" [paging]="{ enabled: true, pageSize: 10 }"
+      [filterRow]="{ visible: false }" [scrolling]="{ mode: 'infinite' }" height="100%" (onRowDblClick)="addProcedureHandler($event.data, service)">
+
+      <dxi-column dataField="code" caption="Code" width="90"></dxi-column>
+      <dxi-column dataField="description" caption="Description" [encodeHtml]="true"></dxi-column>
+      <dxi-column type="buttons" [showInColumnChooser]="false" width="70">
+        <dxi-button template="myCommandTemplate"></dxi-button>
+      </dxi-column>
+
+      <div *dxTemplate="let cellInfo of 'myCommandTemplate'">
+        <button mat-icon-button class="alternative-hover icons" (click)='addProcedureHandler(cellInfo.data, service)'
+          matTooltip="Add procedure">
+          <i class="fas fa-plus" matTooltip="Add procedure"></i>
+        </button>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>
+
+<div class="d-flex align-items-center flex-row mt-2">
+  <div class="flex-column">
+    <div class="d-flex flex-row">
+      <button mat-button class="app-button secondary grid-header-btn"
+        (click)="store.cancelEditProcedures(service)">Close</button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="showFee && service.requiresProcedure">
+    <div class="flex-column">
+      <div class="d-flex flex-row align-items-center">
+        <span class="label-info light label-width pl-3">Fee</span>
+
+        <dx-number-box #procedureCostTextBox name="procedureCostTextBox" [(value)]="fee"
+          (onValueChanged)="onFeeChanged($event)" valueChangeEvent="keyup" class="w-6 smaller-height mr-2"
+          format="{{appInfo.getCurrencyFormatForNumberBox}}">
+        </dx-number-box>
+      </div>
+    </div>
+
+    <div class="flex-column">
+      <div class="d-flex flex-row">
+        <app-button type="link" icon="fa fa-calculator" matTooltip="Calculate fee"></app-button>
+      </div>
+    </div>
+
+    <div class="flex-column" #saveFeeButton>
+      <div class="d-flex flex-row">
+        <app-button type="secondary" text="Save"
+          [disabled]="!service.procedures || service.procedures.length < 1 || (fee < 0 || fee == null)"
+          (clicked)="store.updateFee(service, fee)" matTooltip="Calculate fee"></app-button>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,69 @@
+<dx-popup appCentralPopUpSettings [visible]="true" *ngIf="visible" height="650" width="1100" [enableScroll]="false"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="title" (closed)="visible = false; closed.emit()">
+    </app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body">
+        <div class="d-flex flex-column flex-grow-1">
+          <div class="d-flex flex-row flex-wrap w-100 mb-3">
+            <app-grid-search-text-box [mask]="searchBoxMask" [maskRules]="maskRules"
+              (changed)="searchTermValue = $event; onSearchInputChangedHandler()" class="mr-3">
+            </app-grid-search-text-box>
+
+            <dx-select-box [dataSource]="searchOptions" valueExpr="value" displayExpr="viewValue"
+              (onSelectionChanged)="setSearchItem($event)" class="no-bg-dropdown dx-custom-button-hovered"
+              [(value)]="searchField">
+            </dx-select-box>
+          </div>
+
+          <div class="cssWidgetWrapper generic-border">
+            <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" [remoteOperations]="true"
+              class="cssGridGeneral" [class.padd-first-lg]="true" [rowAlternationEnabled]="true"
+              (onRowDblClick)="onRowDoubleClick($event)" focusedRowIndex="0" focusedRowEnabled="true">
+              <dxo-scrolling mode="virtual"></dxo-scrolling>
+              <dxo-search-panel [visible]="false"></dxo-search-panel>
+
+              <dxi-column dataField="lastName" [allowSorting]="true" caption="Last Name" cssClass="text-semiBold"
+                [minWidth]="175">
+              </dxi-column>
+              <dxi-column dataField="firstName" [allowSorting]="true" caption="First Name" [minWidth]="150">
+              </dxi-column>
+              <dxi-column dataField="birthDate" [allowSorting]="true" [format]="dateFormat" dataType="date"
+                caption="Date of Birth" [minWidth]="100">
+              </dxi-column>
+              <dxi-column [alignment]="'center'" caption="Age" [allowSorting]="true" dataField="age"
+                [allowFiltering]="false" [minWidth]="100">
+              </dxi-column>
+              <dxi-column cellTemplate="addressTemplate" caption="Postcode" dataField="postcode" [allowSorting]="true"
+                [minWidth]="120">
+              </dxi-column>
+              <dxi-column dataField="referenceNumber" [allowSorting]="true" caption="Patient No" [minWidth]="120">
+              </dxi-column>
+              <dxi-column *ngIf="addToContact" type="buttons" [showInColumnChooser]="false" [minWidth]="150">
+                <dxi-button template="myCommandTemplate"></dxi-button>
+              </dxi-column>
+
+              <div *dxTemplate="let  data of 'addressTemplate'">
+                <div *ngIf="data.data.postcode; else noAddress" class="d-flex flex-column">
+                  <span>{{data.data.postcode}}</span>
+                </div>
+
+                <ng-template #noAddress>
+                  <span class="text-grey-70">No address</span>
+                </ng-template>
+              </div>
+
+              <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+                <app-button type="link" text="Link patient" size="sm" iconPosition="left" icon="far fa-plus"
+                  matTooltip="Add connection" (clicked)="addedPatient(cellInfo.row.data)">
+                </app-button>
+              </div>
+            </dx-data-grid>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</dx-popup>

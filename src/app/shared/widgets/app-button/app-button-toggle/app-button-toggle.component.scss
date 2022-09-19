@@ -1,0 +1,57 @@
+.btn-toggle-wrapper {
+  display: flex;
+  flex-direction: row;
+
+  button {
+    border: 0;
+    border-radius: 25px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.3;
+    white-space: nowrap;
+    text-decoration: none;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    margin: 0.1rem;
+    min-width: 2.5rem;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    outline: none;
+    background-color: hsl(0, 0, 85);
+    color: hsl(0, 0, 50);
+
+    &.active {
+      background-color: #2276AF;
+      color: white;
+
+      &.first {
+        z-index: 2;
+        padding-right: 12px;
+      }
+
+      &.second {
+        z-index: 2;
+        padding-left: 12px;
+      }
+    }
+
+    &.first {
+      z-index: 1;
+      padding-right: 22px;
+      padding-left: 12px;
+      margin-right: -8px;
+    }
+
+    &.second {
+      z-index: 1;
+      padding-left: 22px;
+      padding-right: 12px;
+      margin-left: -8px;
+    }
+  }
+}

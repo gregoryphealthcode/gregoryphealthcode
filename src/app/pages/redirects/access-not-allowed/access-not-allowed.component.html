@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-header">Access Denied</div>
+
+    <div class="card-body text-center">
+        <h4><i class="fas fa-exclamation-triangle"></i>Your login does not allow access to the page.</h4>
+        <p>
+            <br /><br /><br />
+            Please contact your system administrator. <br /><br />
+
+            Requested Page: <strong>{{this.requestedPage}} </strong> <br /><br />
+        </p>
+        <dx-button text="OK" type="default" stylingMode="filled" useSubmitBehavior="true" icon="fas fa-check"
+            width="auto" class="mr-20px" (onClick)="this.router.navigate(['../home'], {});">
+        </dx-button>
+    </div>
+</div>

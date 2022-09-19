@@ -1,0 +1,9 @@
+:host(.d-row) {
+  display: flex;
+  flex-direction: row;
+}
+
+:host(.d-col) {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,94 @@
+<mat-tab-group class="full-height2">
+  <mat-tab class="header">
+    <ng-template mat-tab-label>
+      <span class="tabHeader">
+        <i class="fas fa-allergies icons pr-1"></i>
+        Allergies
+        <span class="notes-badge notes-badge-red mx-1">{{allergyCount}}</span>
+      </span>
+    </ng-template>
+
+    <div class="d-flex h-100" *matTabContent>
+      <app-patient-allergies [patientId]="patientId" class="d-flex flex-grow-1 content-height"
+        (updated)="updatedHandler($event)"></app-patient-allergies>
+    </div>
+  </mat-tab>
+
+  <mat-tab class="header">
+    <ng-template mat-tab-label class="sub-heading">
+      <span class="tabHeader">
+        <i class="fas fa-yin-yang icons pr-1"></i>
+        Lifestyle
+        <span class="notes-badge mx-1">{{lifestyleCount}}</span>
+      </span>
+    </ng-template>
+
+    <div class="d-flex h-100" *matTabContent>
+      <app-patient-lifestyle [patientId]="patientId" [category]="'Lifestyle'" class="d-flex flex-grow-1 content-height"
+        (updated)="updatedHandler($event)">
+      </app-patient-lifestyle>
+    </div>
+  </mat-tab>
+
+  <mat-tab class="header">
+    <ng-template mat-tab-label>
+      <span class="tabHeader">
+        <i class="fas fa-theater-masks icons pr-1"></i>
+        Social/Cultural
+        <span class="notes-badge mx-1">{{socialCount}}</span>
+      </span>
+    </ng-template>
+
+    <div class="d-flex h-100" *matTabContent>
+      <app-patient-lifestyle [patientId]="patientId" [category]="'Social'" class="d-flex flex-grow-1 content-height"
+        (updated)="updatedHandler($event)">
+      </app-patient-lifestyle>
+    </div>
+  </mat-tab>
+
+  <mat-tab class="header">
+    <ng-template mat-tab-label>
+      <span class="tabHeader">
+        <i class="fas fa-tablets icons pr-1"></i>
+        Current Medication
+        <span class="notes-badge mx-1">{{medicationCount}}</span>
+      </span>
+    </ng-template>
+
+    <div class="d-flex h-100" *matTabContent>
+      <app-patient-lifestyle [patientId]="patientId" [category]="'Current Medication'"
+        class="d-flex flex-grow-1 content-height" (updated)="updatedHandler($event)">
+      </app-patient-lifestyle>
+    </div>
+  </mat-tab>
+
+  <mat-tab class="header">
+    <ng-template mat-tab-label>
+      <span class="tabHeader">
+        <i class="fas fa-history icons pr-1"></i>
+        Family History
+        <span class="notes-badge mx-1">{{historyCount}}</span>
+      </span>
+    </ng-template>
+
+    <div class="d-flex h-100" *matTabContent>
+      <app-patient-lifestyle [patientId]="patientId" [category]="'Family History'" (updated)="updatedHandler($event)"
+        class="d-flex flex-grow-1 content-height"></app-patient-lifestyle>
+    </div>
+  </mat-tab>
+
+  <mat-tab class="header">
+    <ng-template mat-tab-label>
+      <span class="tabHeader">
+        <i class="fas fa-stethoscope icons pr-1"></i>
+        General Health
+        <span class="notes-badge mx-1">{{generalCount}}</span>
+      </span>
+    </ng-template>
+
+    <div class="d-flex h-100" *matTabContent>
+      <app-patient-lifestyle [patientId]="patientId" [category]="'General Health'" (updated)="updatedHandler($event)"
+        class="d-flex flex-grow-1 content-height"></app-patient-lifestyle>
+    </div>
+  </mat-tab>
+</mat-tab-group>

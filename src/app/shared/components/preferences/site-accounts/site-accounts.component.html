@@ -1,0 +1,41 @@
+<div id="pageMainAccounts" class="d-flex flex-grow-1 flex-column page-main" (wheel)="onMouseWheel($event)">
+    <div class="d-flex flex-grow-1 flex-row responsive-margins" [formGroup]="editForm">
+        <div class="d-flex flex-column flex-grow-1 col-6 h-100">
+            <div class="label-info-value-title sm mt-2 mb-2">Finances</div>
+
+            <app-date-box caption="Financial Year Start" formControlName="financialYearStart" direction="row">
+            </app-date-box>
+
+            <app-date-box caption="Financial Year End" formControlName="financialYearEnd" direction="row">
+            </app-date-box>
+
+            <app-slide-toggle formControlName="financialLock" class="mt-1 md-height" direction="row"
+                caption="Financial Lock" onValueChanged="financialLockChanged($event)">
+            </app-slide-toggle>
+
+            <app-date-box *ngIf="editForm.get('financialLock').value == true" caption="Financial Lock Date" formControlName="financialLockDate" direction="row" displayFormat="dd/MM/yyyy">
+            </app-date-box>
+
+            <app-slide-toggle formControlName="autoAnalyseBulkPayment" class="mt-1 md-height" direction="row"
+                caption="Auto Analyse Bulk Payments">
+            </app-slide-toggle>
+
+            <div class="horizontal-line mb-2"></div>
+
+            <div class="label-info-value-title sm mb-2">Currency</div>
+
+            <app-select-box caption="Code" [dataSource]="currencyList" formControlName="currencyCode"
+                direction="row" valueExpr="id" displayExpr="id">
+            </app-select-box>
+
+            <app-text-box formControlName="currencySymbol" caption="Symbol" direction="row" [disabled]="true">
+            </app-text-box>
+        </div>
+    </div>
+</div>
+
+<div class="page-footer">
+    <div class="horizontal-line"></div>
+    <app-button class="mt-2 mb-2 page-footer-button" text="Save" (clicked)="submitForm()"
+        [disabled]="submitting || editForm?.pristine"></app-button>
+</div>

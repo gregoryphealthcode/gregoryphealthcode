@@ -1,0 +1,66 @@
+<app-med-sec-site-selector (onSelected)="siteSelectorHandler()"></app-med-sec-site-selector>
+
+<div class="cssWidgetWrapper disable-select h-100">
+    <dx-data-grid class="h-100" gridWithRowLinesSettings appGridWithStateStore gridId="diaryWaitingListGrid1V1"
+        [dataSource]="dataSource" [showBorders]="false" [focusedRowEnabled]="true" focusedRowIndex="0" keyExpr="id"
+        [allowColumnReordering]="true" [allowColumnResizing]="true" [columnHidingEnabled]="true"
+        [showColumnLines]="true" [rowAlternationEnabled]="true" columnResizingMode="widget"
+        (onToolbarPreparing)="onToolbarPreparing($event)" (stateSelected)="stateSelectedHandler($event)"
+        (onOptionChanged)="onOptionChanged($event)" (openSiteSelectorModel)="openSiteSelectorModelHandler()"
+        [remoteOperations]="false">
+        <dxo-paging [pageSize]="30"> </dxo-paging>
+        <dxo-export [enabled]="true" [fileName]="fileName" [allowExportSelectedData]="false"></dxo-export>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-search-panel [visible]="true" [width]="160" placeholder="Search...">
+        </dxo-search-panel>
+        <dxo-load-panel [enabled]="true"></dxo-load-panel>
+        <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+        <dxo-column-fixing [enabled]="false"></dxo-column-fixing>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+        </dxo-editing>
+        <dxo-grouping [contextMenuEnabled]="true">
+        </dxo-grouping>
+        <dxo-group-panel [visible]="true" [allowColumnDragging]="true">
+        </dxo-group-panel>
+        <dxo-header-filter [visible]="true"></dxo-header-filter>
+        <dxo-pager [visible]="true" [allowedPageSizes]="false" [showPageSizeSelector]="true" [showInfo]="true"
+            [showNavigationButtons]="true">
+        </dxo-pager>
+        <dxi-column dataField="siteName" [allowSorting]="true"
+            [visible]="isMedSec && !this.userStore.hasSelectedASite()" caption="Site"></dxi-column>
+        <dxi-column dataField="dateAdded" caption="Date" dataType="date" format="dd/MM/yyyy" [sortIndex]="0"
+            sortOrder="desc" [allowFiltering]="true"></dxi-column>
+        <dxi-column dataField="patientName" caption="Patient" [allowSorting]="true" [allowFiltering]="true">
+        </dxi-column>
+        <dxi-column [calculateCellValue]="this.calculateAgeValue" caption="Age" [allowSorting]="true"
+            [allowFiltering]="true" alignment="center" [allowGrouping]="true"></dxi-column>
+        <dxi-column dataField="birthDate" caption="DOB" dataType="date" format="dd/MM/yyyy" [allowFiltering]="true">
+        </dxi-column>
+        <dxi-column dataField="appointmentDescription" caption="Appointment Type"></dxi-column>
+        <dxi-column dataField="priorityString" caption="Priority"></dxi-column>
+        <dxi-column dataField="duration" caption="Duration (Hours/Mins)" [minWidth]="200"
+            cellTemplate="minutesCellTemplate"></dxi-column>
+        <dxi-column dataField="locationName" caption="Location"></dxi-column>
+        <dxi-column dataField="ownerName" caption="To See"></dxi-column>
+        <dxi-column dataField="notes" caption="Notes"></dxi-column>
+
+        <div *dxTemplate="let data of 'priorityTemplate'">
+            {{data.value == true ? "Yes" : "No"}}
+        </div>
+
+        <dxo-summary>
+            <dxi-group-item column="duration" summaryType="sum" [showInGroupFooter]="false"
+                [valueFormat]="{type:'fixedPoint',precision:2}" [alignByColumn]="true" displayFormat="{0}">
+            </dxi-group-item>
+            <dxi-total-item column="duration" summaryType="sum" [customizeText]="customiseDuration" alignment="center">
+            </dxi-total-item>
+            <dxi-total-item column="dateAdded" summaryType="count" displayFormat="{0}" valueFormat="fixedPoint {2}">
+            </dxi-total-item>
+        </dxo-summary>
+
+        <div *dxTemplate="let cellInfo of 'minutesCellTemplate'" class="text-center">
+            <span>{{appInfo.convertToHours(cellInfo.value)}}</span>
+        </div>
+    </dx-data-grid>
+</div>

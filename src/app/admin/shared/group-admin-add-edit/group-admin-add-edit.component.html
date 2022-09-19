@@ -1,0 +1,90 @@
+<dx-popup appCentralPopUpSettings [width]="'800'" *ngIf="show" [enableScroll]="true"
+    (onInitialized)="appInfo.disableESC($event)">
+    <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+        <app-pop-up-form-title title="Edit Group" (closed)="closeForm()"></app-pop-up-form-title>
+
+        <div class="central-popup-wrapper">
+            <div class="central-popup-body flex-row" appEnterKeyFocusWrapper delay="750" [formGroup]="editForm">
+                <div class="d-flex flex-column pr-4 flex-grow-1">
+                    <app-form-section title="Group details" class="d-flex flex-column pb-0 no-end-section"
+                        [showTitleUnderline]="true" helperText="Please enter the group's basic details.">
+                        <app-text-box formControlName="bureauName" direction="row" caption="Group Name"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-area-box formControlName="notes" caption="Notes" class="text-area-height mb-2"
+                            direction="row">
+                        </app-text-area-box>
+
+                        <app-slide-toggle *ngIf="!isNew" formControlName="active" class="md-height" direction="row"
+                            caption="Active" [(ngModel)]="active">
+                        </app-slide-toggle>
+                    </app-form-section>
+
+                    <app-form-section title="Site Address" class="d-flex flex-column pb-0 no-end-section"
+                        [showTitleUnderline]="true" helperText="Please enter the group's address.">
+
+                        <div class="d-flex flex-row a-form-group mb-3 align-items-center">
+                            <label style="width: 112px">Postcode *</label>
+
+                            <app-postcode-to-address formControlName="postcode"
+                                (addressSelect)="postcodeResolverAddressSelectHandler($event)" class="flex-grow-1">
+                            </app-postcode-to-address>
+                        </div>
+
+                        <app-text-box formControlName="address1" direction="row" caption="Address 1"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-box formControlName="address2" direction="row" caption="Address 2"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-box formControlName="address3" direction="row" caption="Address 3"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-box formControlName="address4" direction="row" caption="Address 4"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+                    </app-form-section>
+                </div>
+
+                <div class="d-flex flex-column pl-4 flex-grow-1">
+                    <app-form-section title="Primary Contact" class="d-flex flex-column pb-0 no-end-section"
+                        [showTitleUnderline]="true" helperText="Please enter the group's primary contact details.">
+                        <app-text-box formControlName="primaryContactName" direction="row" caption="Name">
+                        </app-text-box>
+
+                        <app-text-box formControlName="primaryContactTel" direction="row" caption="Phone Number">
+                        </app-text-box>
+                    </app-form-section>
+
+                    <app-form-section title="PZ Details" class="d-flex flex-column pb-0 no-end-section"
+                        [showTitleUnderline]="true" helperText="Please enter the group's PZ details.">
+                        <app-slide-toggle formControlName="isPzEnabled" class="md-height" direction="row"
+                            caption="PZ Enabled" [(ngModel)]="isPzEnabled">
+                        </app-slide-toggle>
+
+                        <app-text-box formControlName="pzRegistrationReference" direction="row"
+                            caption="Registation Reference">
+                        </app-text-box>
+
+                        <app-text-box formControlName="pzOrganisationCode" direction="row" caption="Organistaion Code">
+                        </app-text-box>
+
+                        <app-text-box formControlName="pzApiKey" direction="row" caption="Organistaion Code">
+                        </app-text-box>
+                    </app-form-section>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="popup-form-footer-wrapper">
+                <app-button text="Close" class="ml-auto mr-3" (clicked)="closeForm()" color="grey"></app-button>
+
+                <app-button text="Save" (clicked)="submitForm()" [disabled]="!editForm.valid"></app-button>
+            </div>
+        </div>
+    </div>
+</dx-popup>

@@ -1,0 +1,50 @@
+.custom.dx-popup-wrapper {
+  .dx-popup-title.dx-toolbar {
+    background-color: #fff;
+    color: hsl(0, 0%, 35%);
+    font-size: 15px;
+    font-weight: 500;
+
+    // close icon styling override
+    .dx-button-mode-contained.dx-state-hover,
+    .dx-button-mode-contained.dx-state-hover .dx-icon {
+      background-color: #fff !important;
+      color: hsl(0, 0%, 35%);
+    }
+  }
+
+  .dx-popup-title{
+    border: none;
+
+    .dx-closebutton {
+      margin-right: 4px;
+    }
+  }
+  // close icon styling override
+  .dx-popup-normal .dx-button-mode-contained .dx-icon.dx-icon-close {
+    background-color: #fff;
+    color: hsl(0, 0%, 35%);
+    font-size: 15px;
+  }
+
+  .dx-overlay-shader {
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  & > .dx-overlay-content {
+    background: #ffffff !important;
+    padding: 6px 32px;
+    font-size: 13px;
+  }
+
+  .dx-overlay-content .dx-popup-content {
+    background-color: #ffffff;
+    padding: 0 12x;
+  }
+}
+
+body{
+  .dx-overlay-wrapper{
+    font-family: "Roboto", "Helvetica Neue", sans-serif;
+  }
+}

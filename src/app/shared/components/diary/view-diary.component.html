@@ -1,0 +1,128 @@
+<div class="d-flex flex-column flex-grow-1">
+  <div class="d-flex flex-row h-100">
+    <!-- [shadeUntilCurrentTime]="true"  -->
+    <div class="d-flex flex-grow-1 h-100">
+      <div class="cssWidgetWrapper">
+        <dx-scheduler [dataSource]="appointmentData" #appointments currentView="workWeek" class="dxWidget-w-h-100 h-100"
+          [currentDate]="currentDate" [showCurrentTimeIndicator]="true" [startDayHour]="startTime" [endDayHour]="endTime" firstDayOfWeek="1"
+          [groups]="['ownerId']" appointmentTemplate="appointment-template" [showAllDayPanel]="false"
+          dataCellTemplate="dataCellTemplate" (onOptionChanged)="onOptionChangedHandler($event)"
+          [crossScrollingEnabled]="true" [views]="['agenda', 'workWeek', 'week', 'month']"
+          (onAppointmentDblClick)="appointmentDoubleClick($event)" (onAppointmentClick)="onAppointmentClick($event)"
+          (onContentReady)='onContentReady($event)' dateCellTemplate="dateCellTemplate">
+          <!-- PREVENT DRAGGING / RESIZING / DELETING -->
+          <dxo-editing [allowAdding]="false" [allowUpdating]="false" [allowDeleting]="false" [allowDragging]="false"
+            [allowResizing]="false" [allowDeleting]="false"></dxo-editing>
+
+          <!-- AGENDA VIEW -->
+          <dxi-view type="agenda" name="Agenda" groupOrientation="vertical" [agendaDuration]="7" [intervalCount]="1">
+          </dxi-view>
+
+          <!-- WORK WEEK VIEW -->
+          <dxi-view type="workWeek" name="Work Week" groupOrientation="horizontal" [cellDuration]="15">
+          </dxi-view>
+
+          <!-- WEEK VIEW -->
+          <dxi-view type="week" name="Week" groupOrientation="horizontal" [cellDuration]="15">
+          </dxi-view>
+
+          <!-- MONTH VIEW -->
+          <dxi-view type="month" name="Month" groupOrientation="vertical">
+          </dxi-view>
+
+          <dxi-resource fieldExpr="ownerId" [allowMultiple]="false" [dataSource]="selectedOwners"
+            displayExpr="displayName" valueExpr="id" label="Owner">
+          </dxi-resource>
+
+          <dxi-resource [allowMultiple]="false" fieldExpr="appointmentId" [useColorAsDefault]="true"
+            [dataSource]="appointmentData">
+          </dxi-resource>
+
+          <!-- Do a style-->
+          <div *dxTemplate="let cellData of 'appointment-template';  index as i"
+            (click)="onAppointmentEditingHandler(cellData)" [ngStyle]="{ 'background-color': setCellColour(cellData)}"
+            class="d-flex flex-row pointer-events-all"
+            (mouseenter)="showAppointmentTooltip($event, cellData.appointmentData)" (mouseleave)="hideTooltip()">
+            <div class='d-flex flex-column h-100 w-100-25px pr-1 appointment-info text-xxs'>
+              <span class="d-block text-truncate l-h-15px">
+                <i class="far fa-user-md w-1"></i>
+
+                <span class="text-semiBold">{{cellData.appointmentData.patientName}}</span>
+              </span>
+
+              <span class="d-block text-truncate l-h-15px">
+                <i class="far fa-syringe w-1"></i>
+
+                <span>{{cellData.appointmentData.appointmentType}} </span>
+              </span>
+
+              <span class="d-block text-truncate l-h-15px">
+                <i class="far fa-map-marker-alt w-1"></i>
+
+                <span>{{cellData.appointmentData.locationName}}</span>
+              </span>
+
+              <span *ngIf="cellData.appointmentData.translatorNeeded" class="d-block text-truncate l-h-15px">
+                <i class="far fa-comment w-1"></i>
+
+                <span>{{"Translator (" + cellData.appointmentData.translatorLanguage + ")"}}</span>
+              </span>
+            </div>
+
+            <div class='d-flex flex-column w-25px appointment-info px-1 text-s'>
+              <mat-icon class="small-icon" fontSet="far" [fontIcon]="getIcon(cellData.appointmentData.statusId)"
+                [matTooltip]="cellData.appointmentData.status"></mat-icon>
+
+              <!--  <dx-select-box *ngIf="" id="{{'appointment' + i}}" [dataSource]="appointmentStatuses" valueExpr="id" displayExpr="status"
+                  (onSelectionChanged)="statusChanged(cellData.appointmentData.appointmentId, $event)"
+                  class="no-bg-dropdown dx-custom-button-hovered" [value]="cellData.appointmentData.statusId">
+                </dx-select-box> -->
+            </div>
+          </div>
+
+          <div *dxTemplate="let cellData of 'dataCellTemplate'" [class]="getCellClass(cellData)"
+            (click)="onAppointmentAddingHandler(cellData)">
+            {{cellData.text}}
+          </div>
+
+          <div *dxTemplate="let dateCell of 'dateCellTemplate'">
+            {{dateCell.text}}
+          </div>
+        </dx-scheduler>
+
+        <dx-tag-box *ngIf="owners.length > 0" displayExpr="displayName" valueExpr="id" [searchEnabled]="true"
+          class="text-area-standard-height position" (onValueChanged)="ownersChanged($event)" [dataSource]="owners"
+          [showSelectionControls]="true" [value]="[owners[0].id]" placeholder="Practitioners"
+          [showDataBeforeSearch]="true">
+        </dx-tag-box>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dx-tooltip [target]="tooltipTarget" position="top" *ngIf="showTooltip" [visible]="true" [closeOnOutsideClick]="false">
+  <div *dxTemplate="let data = data of 'content'">
+    <div class='text-sm'>
+      <div>
+        <strong>{{hoveredAppointment.patientName}}</strong>
+      </div>
+
+      <div>{{hoveredAppointment.locationName}}</div>
+
+      <div>{{hoveredAppointment.description}}</div>
+
+      <div class='dropdown-appointment-dates'>
+        {{(hoveredAppointment.startDate | date:'shortTime') + ' - ' + (hoveredAppointment.endDate | date:'shortTime')}}
+      </div>
+    </div>
+  </div>
+</dx-tooltip>
+
+
+<dx-toast *ngIf="syncingEbookingData" displayTime="400000" type="custom" width="240" position="top center"
+  [elementAttr]="{id: 'loadingtoaste' }">
+  <div *dxTemplate="let data of 'content'" class="d-flex flex-row loading-toast">
+    <dx-load-indicator id="small-indicator" height="25" width="25"></dx-load-indicator>
+    <span class="ml-2">Syncing eBooking data ...</span>
+  </div>
+</dx-toast>

@@ -1,0 +1,65 @@
+<div class="d-flex flex-column">
+  <dx-pie-chart id="pie" type="doughnut" [startAngle]="90" [innerRadius]="0.75" [dataSource]="dataSource"
+    [customizePoint]="customizePoint">
+    <dxi-series argumentField="name"></dxi-series>
+    <dxo-legend [visible]="false"></dxo-legend>
+    <dxo-size [height]="120" [width]="126"></dxo-size>
+    <dxo-tooltip [enabled]="true"></dxo-tooltip>
+  </dx-pie-chart>
+</div>
+
+<div class="d-flex flex-column mt-3">
+  <div class="d-flex flex-row mb-2">
+    <span class="legend-info blue"></span>
+
+    <app-form-label class="sm-height" caption="Paid" [value]="totalClaimed | currency: currencySymbol:'symbol'">
+    </app-form-label>
+  </div>
+
+  <div class="d-flex flex-row">
+    <span class="legend-info red"></span>
+
+    <app-form-label class="sm-height" caption="Shortfall" [value]="totalShortfall | currency: currencySymbol:'symbol'">
+    </app-form-label>
+  </div>
+</div>
+
+<div class="vertical-line line-2x ml-4 mr-4 mb-3 mt-4"></div>
+
+<div class="d-flex flex-column mx-5 align-items-center">
+  <span class="label-description">Invoiced</span>
+
+  <span class="label-value">{{totalAmount | currency: currencySymbol:'symbol'}}</span>
+</div>
+
+<div class="vertical-line line-2x ml-4 mr-4 mb-3 mt-4"></div>
+
+<div class="d-flex flex-column mx-5 align-items-center">
+  <span class="label-description">Invoices</span>
+
+  <span class="label-value">{{totalClaimsCount}}</span>
+</div>
+
+<div class="vertical-line line-2x ml-4 mr-4 mb-3 mt-4"></div>
+
+<div class="d-flex flex-column mx-5 align-items-center">
+  <ng-container *ngIf="record?.archived == true">
+    <span class="label-description">Archived on:</span>
+
+    <span class="label-value-smaller">{{record?.archivedDate | date: dateFormat }}</span>
+
+    <span class="label-description">Archived by:</span>
+
+    <span class="label-value-smaller">{{record?.archivedBy}}</span>
+  </ng-container>
+
+  <ng-container *ngIf="record?.archived == false">
+    <span class="label-description">Unarchived on:</span>
+
+    <span class="label-value-smaller">{{record?.unarchivedDate | date: dateFormat }}</span>
+
+    <span class="label-description">Unarchived by:</span>
+
+    <span class="label-value-smaller">{{record?.unarchivedBy}}</span>
+  </ng-container>
+</div>

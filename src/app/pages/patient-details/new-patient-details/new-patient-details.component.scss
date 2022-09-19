@@ -1,0 +1,353 @@
+:host {
+  > .container {
+    //  max-width: 1264px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    // justify-content: space-between;
+    background: none;
+  }
+  ::ng-deep {
+    .mat-tab-group.vertical-tabs {
+      flex-direction: row;
+      > .mat-tab-header {
+        border-bottom: none;
+        background-color: #fafafa;
+
+        > .mat-tab-header-pagination {
+          display: none !important;
+        }
+
+        > .mat-tab-label-container {
+          display: flex;
+          flex-grow: 1;
+          overflow: hidden;
+          z-index: 1;
+          border-color: hsl(0, 0%, 92%);
+          border-style: solid;
+          border-width: 1px;
+          border-left: none;
+          box-shadow: 0px 4px 4px 2px #ebebeb;
+
+          >.mat-tab-list {
+            > .mat-tab-labels {
+              flex-direction: column;
+              margin: 0 0px;
+
+              .mat-tab-label {
+                border-bottom-color: #eaeaea;
+                border-bottom-style: solid;
+                border-bottom-width: 1px;
+                justify-content: left;
+
+                &.mat-tab-label-active {
+                  background-color: #eef2f5;
+                }
+              }
+            }
+
+            >.mat-ink-bar {
+             display: none;
+            }
+          }
+        }
+      }
+
+      > .mat-tab-body-wrapper {
+        flex: 1 1 auto;
+      }
+    }
+  }
+}
+
+.VertTab {
+  border-color: #eaeaea;
+  border-style: solid;
+  border-width: 1px;
+}
+.container {
+  position: relative;
+  width: 100%;
+  flex: 1 0 auto;
+  margin: 0 auto;
+  text-align: left;
+}
+
+#content {
+  box-sizing: content-box;
+  margin: 0 auto;
+  padding: 15px;
+  //  width: 1264px;
+  background-color: #ffffff;
+}
+
+#content {
+  // max-width: 1100px;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 0px;
+  box-sizing: border-box;
+  border: 1px solid hsl(0, 0%, 87%);
+  border-top: 0px;
+}
+
+#content,
+#main-content {
+  &::before,
+  &::after {
+    content: "";
+    display: table;
+  }
+  &::after {
+    clear: both;
+  }
+}
+
+.a-card {
+  background-color: rgb(231 238 244 / 1);
+  color: rgb(27 90 156 / 1);
+  padding-top: 1.1rem;
+  padding-bottom: 0.9rem;
+  border-radius: 0px 0px 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 1px solid rgb(206, 206, 206);
+  &.title {
+    // background-color: rgb(231 238 244 / 1);
+    // color: rgb(27 90 156 / 1);
+    padding-top: 1.1rem;
+    padding-bottom: 0.9rem;
+    border-radius: 9px 9px 0 0;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  // &.compact-mode{
+  //   background-color: transparent;
+  //   color: hsl(0, 0%, 40%);
+  //   padding-top: 0.85rem;
+  //   padding-bottom: 0.65rem;
+  // }
+}
+.badge {
+  font-weight: normal !important;
+}
+
+.appointment-card {
+  background-color: rgb(231 238 244 / 1);
+  color: rgb(27 90 156 / 1);
+  padding-top: 1.1rem;
+  padding-bottom: 0.9rem;
+
+  font-size: 1rem;
+  font-weight: 500;
+  min-width: 190px;
+}
+
+.Summary-card {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: white;
+  background-clip: border-box;
+  border-color: hsl(0, 0%, 87%);
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  line-height: 1.35;
+}
+
+.column-margin {
+  margin-right: 1rem !important;
+  margin-left: 1rem !important;
+}
+
+// .a-card-footer{
+//   background-color: rgb(251 251 251 / 1);
+//   padding-top: 1rem;
+//   padding-bottom: 1rem;
+//   border-radius:  0 0 9px 9px;
+// }
+
+.no-padding {
+  padding: 0;
+}
+
+.top-row-height {
+  min-height: 20rem;
+}
+
+.patient-Surname {
+  font-weight: bold;
+  font-size: larger;
+  text-transform: uppercase;
+  // background-color: yellow;
+}
+
+.patient-Firstname {
+  font-weight: bold;
+  font-size: larger;
+  text-transform: capitalize;
+}
+.label-width {
+  width: 6rem;
+}
+
+.label-width-Large {
+  width: 5rem;
+  margin-bottom: 0.35rem;
+}
+.label-width-small {
+  width: 2rem;
+  margin-bottom: 0.35rem;
+}
+.VertTabHeader {
+  min-width: 110px;
+  height: 50px;
+  font-family: "Open Sans";
+  opacity: 1;
+  color: #a6a6a6;
+  border-color: #eaeaea;
+  border-style: solid;
+  border-width: 1px;
+}
+.sub-heading {
+  font-weight: 800;
+}
+
+.red-cross {
+  color: red;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+}
+.green-cross {
+  color: green;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.top-card {
+  max-height: 5rem;
+  margin-top: 4px;
+}
+
+.content-height {
+  height: 270px;
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.height-1 {
+  flex: 0 0 128px;
+}
+
+.height-2 {
+  flex: 0 0 44px;
+}
+
+.height-3 {
+  flex: 0 0 64px;
+}
+
+.top-header {
+  background-color: white;
+  // height: 2.8rem;
+  // max-height: 4.8rem;
+  margin-top: 0.9rem;
+}
+
+.avatar-wrapper {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: block;
+}
+
+.header {
+  min-width: 135px !important;
+}
+
+.link:hover {
+  cursor: pointer;
+}
+
+.a-card {
+  background-color: rgb(231 238 244 / 1);
+  color: rgb(27 90 156 / 1);
+  padding-top: 1.1rem;
+  padding-bottom: 0.9rem;
+  border-radius: 0px 0px 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 1px solid hsl(0, 0%, 87%);
+  &.title {
+    // background-color: rgb(231 238 244 / 1);
+    // color: rgb(27 90 156 / 1);
+    padding-top: 1.1rem;
+    padding-bottom: 0.9rem;
+    border-radius: 9px 9px 0 0;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  // &.compact-mode{
+  //   background-color: transparent;
+  //   color: hsl(0, 0%, 40%);
+  //   padding-top: 0.85rem;
+  //   padding-bottom: 0.65rem;
+  // }
+}
+.badge {
+  font-weight: normal !important;
+}
+
+.popup-margin {
+  margin: 5px 10px 15px;
+}
+
+.item-center {
+  align-items: center;
+}
+
+.orange {
+  color:orange;
+}
+
+.red {
+  color:red;
+}
+
+//Safari
+@supports (overflow:-webkit-marquee) and (justify-content:inherit) 
+{
+  .safari-height {
+    height: 62px !important;
+  }
+
+  .safari-line-height {
+   line-height: 1 !important; 
+  }
+}
+
+.max-w-100 {
+  max-width: 100% !important;
+}
+
+.max-w-calc {
+  max-width: calc(100% - 207px);
+}
+
+.patient-side-bar {
+  width: 207px;
+  max-width: 207px;
+}
+
+.patient-side-bar .label-info-value {
+  max-width: 180px;
+  word-wrap: break-word;
+}

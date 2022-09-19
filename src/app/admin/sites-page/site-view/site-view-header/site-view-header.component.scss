@@ -1,0 +1,9 @@
+.address-col.a-form-group.d-col {
+  height: auto;
+}
+
+
+:host ::ng-deep .header-section-2 .a-form-group.d-col > label {
+  min-width: 15rem;
+  max-width: 15rem;
+}

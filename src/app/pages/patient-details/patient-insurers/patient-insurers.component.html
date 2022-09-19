@@ -1,0 +1,85 @@
+<dx-popup appCentralPopUpSettings *ngIf="showPopup" [width]="'380'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="isNew ? 'Add Insurer' : 'Edit Insurer'"
+      (closed)="showPopup = false"></app-pop-up-form-title>
+
+    <app-patient-insurers-edit class="central-popup-wrapper" [isNew]="isNew" [insurerDetails]="insurerDetails"
+      (formClosed)="hidePopup()" (saved)="savedInsurerHandler($event)" (delete)="delete($event)"
+      [patientId]="patientId"></app-patient-insurers-edit>
+  </div>
+</dx-popup>
+
+<div class="d-flex flex-column flex-grow-1 app-card">
+  <div class="d-flex flex-row mx-4 mt-3">
+    <!-- <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box> -->
+    <app-button icon="far fa-plus" text="New" class="ml-auto mt-auto" (clicked)="add()"></app-button>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3">
+    <div class="app-card flex-grow-1 content-height border-none">
+      <div class="cssWidgetWrapper">
+        <dx-data-grid [dataSource]="patientInsurers" gridWithRowLinesSettings keyExpr="this" [hoverStateEnabled]="true"
+          class="cssGridGeneral padd-first-lg" (onRowDblClick)="editClicked($event)" [rowAlternationEnabled]="true"
+          focusedRowIndex="0">
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+          <dxi-column dataField="isPrimary" cellTemplate="primary" alignment="center" width="85" caption="Primary"
+            [minWidth]="100">
+          </dxi-column>
+          <dxi-column dataField="insurerName" caption="Insurer" [minWidth]="150">
+          </dxi-column>
+          <dxi-column cellTemplate="insurerTemplate" caption="" [minWidth]="150">
+          </dxi-column>
+          <dxi-column dataField="registrationNumber" caption="Membership Number" [minWidth]="150">
+          </dxi-column>
+          <dxi-column dataField="scheme" caption="Scheme" [minWidth]="120"></dxi-column>
+          <dxi-column dataField="renewalDate" caption="Renewal Date" dataType="date" [format]="appInfo.getDateFormat"
+            [minWidth]="120">
+          </dxi-column>
+          <dxi-column dataField="renewalDateFlag" caption="Renewal Due" cellTemplate="flagTemplate" [minWidth]="120">
+          </dxi-column>
+          <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="120">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+          </dxi-column>
+
+          <div *dxTemplate="let cellInfo of 'primary'">
+            <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+          </div>
+
+          <div *dxTemplate="let data of 'insurerTemplate'" class="logo-holder">
+            <img src='{{data.data.logoUrl}}' class="logo" alt='' />
+          </div>
+
+          <div *dxTemplate="let data of 'flagTemplate'">
+            <span *ngIf="data.value" class="block w-100">
+              <span *ngIf="policyExpired(data.value)" class="block w-100 text-center">
+                <i class="fas fa-flag red-flag" hint="Insurance policy may have expired...."></i>
+              </span>
+
+              <span *ngIf="policyNearingExpiry(data.value)" class="block w-100 text-center">
+                <i class="fas fa-flag orange-flag" hint="Insurance policy nearing expiry...."></i>
+              </span>
+            </span>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'billingAddressTemplate'">
+            <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+            <app-button icon="far fa-unlink" type="link" color="grey" class="mr-2" matTooltip="Unlink"
+              *ngIf="!cellInfo.data.isPrimary || (cellInfo.data.isPrimary && patientInsurers.length == 1)"
+              (clicked)="deleteClicked(cellInfo)"></app-button>
+
+            <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit"
+              (clicked)="editClicked(cellInfo)"></app-button>
+
+            <app-button icon="far fa-pound-sign" type="link" color="grey" class="mr-2" matTooltip="New Invoice"
+              (clicked)="newInvoice(cellInfo)"></app-button>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

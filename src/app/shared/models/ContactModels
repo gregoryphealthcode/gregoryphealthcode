@@ -1,0 +1,68 @@
+/*
+import Guid from 'devextreme/core/guid';
+
+export class ContactTypeModel {
+    uniqueNo?: number | null;
+    contactTypeId?: Guid | null;
+    siteId?: Guid | null;
+    contactType?: string | null;
+    description?: string | null;
+    systemType?: string | null;
+    active?: boolean | null;
+    sendViaPatientzone?: boolean | null;
+    organisationType?: string | null;
+    showOnList?: boolean | null;
+    contactClassificationId?: number | null;
+    typeId?: number | null;
+    paymentAgeId?: Guid | null;
+    backgroundColor?: string | null;
+}
+
+export class ContactModel {
+    uniqueNo?: number | null;
+    contactId?: Guid | null;
+    contactTypeId?: Guid | null;
+    siteId?: Guid | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    inactive?: boolean | null;
+    inactiveReason?: boolean | null;
+    otherInitials?: string | null;
+    title?: string | null;
+    qualifications?: string | null;
+    jobTitle?: string | null;
+    preferredContactMethod?: string | null;
+    pager?: string | null;
+    comments?: string | null;
+    secretaryPA?: string | null;
+    userDefined1?: string | null;
+    userDefined2?: string | null;
+    userDefined3?: string | null;
+    userDefined4?: string | null;
+    userDefined5?: string | null;
+    knownAs?: string | null;
+    department?: string | null;
+    isPayor?: boolean | null;
+    displayName?: string | null;
+    bureauId?: Guid | null;
+    visibility?: boolean | null;
+    sendViaPatientzone?: boolean | null;
+}
+
+export class ContactModelExtended extends ContactModel {
+    contactAddresses? AddressModel[] | null;
+    contactTelecoms?: TelecomModel[] | null;
+    linkedOrganisations?: ContactModelExtended[] | null;
+    linkedContacts?: ContactModelExtended[] | null;
+    linkedPatients?: PatientDetailsModelExtended[] | null;
+}
+
+export interface AddContactToPatient {
+    patientId?: string | null;
+    contactId?: string | null;
+    organisationId?: string | null;
+    referrer?: boolean | null;
+    theirRef?: string | null;
+    isPrimary?: boolean | null;
+}
+*/

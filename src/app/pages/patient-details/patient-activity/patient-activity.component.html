@@ -1,0 +1,48 @@
+<div class="d-flex flex-column flex-grow-1 app-card">
+  <div class="d-flex flex-row mx-4 mt-3">
+    <app-grid-search-text-box (changed)="searchTerm = $event; doSearch()"></app-grid-search-text-box>
+
+    <div class="d-flex flex-row flex-wrap align-items-center ml-auto mr-4">
+      <mat-checkbox class="ml-4 CheckPadded" [checked]="isSummary" (change)="summaryChanged($event)" matInput>
+        Show Summary
+      </mat-checkbox>
+    </div>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3">
+    <div class="app-card flex-grow-1 content-height border-none">
+      <div class="cssWidgetWrapper">
+        <dx-data-grid [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="this" [hoverStateEnabled]="true"
+          class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true" focusedRowIndex="0"
+          [columnMinWidth]="175">
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+          <dxi-column dataField="eventDateTime" caption="Date/Time" [width]="150" dataType="datetime"
+            format="dd/MM/yyyy HH:mm" [sortIndex]="0" sortOrder="desc">
+          </dxi-column>
+          <dxi-column dataField="ago" caption="Ago" [allowSorting]="false" [width]="100" [allowFiltering]="false"
+            cellTemplate="agoTemplate"></dxi-column>
+          <dxi-column dataField="eventCategory" caption="Category" [width]="200"></dxi-column>
+          <dxi-column dataField="eventCode" caption="Code" [width]="200"></dxi-column>
+          <dxi-column dataField="details" caption="Details" [width]="200"></dxi-column>
+          <dxi-column dataField="userName" caption="User"></dxi-column>
+          <dxi-column dataField="userEmail" caption="Users Email" [visible]="false"></dxi-column>
+
+          <div *dxTemplate="let cellInfo of 'agoTemplate'">
+            <span *ngIf="calculateAgo(cellInfo.row.data.eventDateTime) == 1">
+              {{calculateAgo(cellInfo.row.data.eventDateTime)}} day
+            </span>
+            <span *ngIf="calculateAgo(cellInfo.row.data.eventDateTime) != 1">
+              {{calculateAgo(cellInfo.row.data.eventDateTime) <= 0 ? 0 : calculateAgo(cellInfo.row.data.eventDateTime)}} days
+            </span>
+          </div>
+
+          <dxo-summary>
+            <dxi-total-item column="eventCode" summaryType="count" displayFormat="{0}" valueFormat="fixedPoint {0}">
+            </dxi-total-item>
+          </dxo-summary>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title title="Edit Service Fee" (closed)="formClosed.emit()"></app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+        <div class="central-popup-body" appEnterKeyFocusWrapper delay="750" [formGroup]="editForm">
+            <app-form-label caption="Service" direction="row" [value]="service" class="h-20px"></app-form-label>
+
+            <app-form-label caption="Payor" direction="row" [value]="payor" class="h-20px"></app-form-label>
+
+            <app-text-box formControlName="price" class="mb-0" direction="row" caption="Main Fee" inputType="number"
+                [isCurrency]="true" [errorMessage]="rejectMessage" min="0">
+            </app-text-box>
+
+            <small *ngIf="narrativeMessage" class="font-weight-normal l-112px mt-2 mb-1">{{narrativeMessage}}</small>
+            <small *ngIf="showWarning" class="font-weight-normal l-112px mt-1 warning">{{warningMessage}}</small>
+
+            <div formArrayName="locations" class="mt-3">
+                <div *ngFor="let location of getLocationsFormArray().controls; let i = index" class="flex flex-col"
+                    [formGroupName]="i">
+                    <div class="flex flex-row">
+                        <app-text-box formControlName="value" direction="row"
+                            [caption]="getFormGroupControlValue(location, 'description')" inputType="number"
+                            [isCurrency]="true" min="0" max="1000000">
+                        </app-text-box>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="popup-form-footer-wrapper">
+            <app-button text="Close" class="ml-auto mr-3" (clicked)="formClosed.emit()" color="grey"></app-button>
+
+            <app-button text="Save" (clicked)="submitForm()" [disabled]="!editForm.valid"></app-button>
+        </div>
+    </div>
+</div>

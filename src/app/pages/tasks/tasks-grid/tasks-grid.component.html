@@ -1,0 +1,100 @@
+<app-tasks-add-edit [data]="selectedRecord" [fromPatient]="fromPatient" (saved)="saved($event)"></app-tasks-add-edit>
+
+<div class="d-flex flex-column flex-grow-1 app-card">
+  <div class="d-flex flex-row mx-4 mt-3">
+    <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+    <dx-select-box *ngIf="userStore.isMedSecUser()" [dataSource]="sites" valueExpr="siteId" displayExpr="siteName"
+      (onSelectionChanged)="setSelectedSiteItem($event)" class="no-bg-dropdown dx-custom-button-hovered ml-3"
+      [(value)]="defaultSiteId">
+    </dx-select-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">From Date</label>
+    </div>
+
+    <dx-date-box [displayFormat]="dateFormat" [(value)]="fromDate" type="date" (onValueChanged)="dateChanged()">
+    </dx-date-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">To Date</label>
+    </div>
+
+    <dx-date-box [displayFormat]="dateFormat" [(value)]="toDate" type="date" (onValueChanged)="dateChanged()">
+    </dx-date-box>
+
+    <!-- <mat-checkbox name="Debtors" class="ml-4 mt-2" [checked]="completed" (change)="checkboxChanged($event)" matInput>
+      Include Completed</mat-checkbox> -->
+
+    <app-button icon="far fa-plus" text="New" class="ml-auto mt-auto" (clicked)="add()">
+    </app-button>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3">
+    <div class="app-card flex-grow-1 content-height border-none">
+      <div class="cssWidgetWrapper hmin-275px">
+        <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" keyExpr="taskId" [hoverStateEnabled]="true"
+          class="cssGridGeneral padd-first-lg w-100" [rowAlternationEnabled]="true" [showRowLines]="true"
+          [focusedRowEnabled]="true" (onRowDblClick)="editTask($event)" [allowColumnReordering]="false"
+          [allowColumnResizing]="true">
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+          <dxi-column dataField="siteName" [allowSorting]="true"
+            [visible]="userStore.isMedSecUser() && !this.userStore.hasSelectedASite()" caption="Site" [minWidth]="120">
+          </dxi-column>
+          <dxi-column dataField="dueDateTime" caption="Follow Up Date" dataType="date" [format]="appInfo.getDateFormat"
+            [sortIndex]="0" sortOrder="asc" [minWidth]="110"></dxi-column>
+          <dxi-column dataField="isComplete" caption="Status" cellTemplate="flagTemplate" [minWidth]="80"
+            [filterValues]="['Due Withing Next 7 days', 'Outstanding', 'Upcoming']">
+          </dxi-column>
+          <dxi-column dataField="invoiceNumber" caption="Invoice Number" [minWidth]="130">
+          </dxi-column>
+          <dxi-column dataField="payorName" caption="Assignee" [minWidth]="200"></dxi-column>
+          <dxi-column *ngIf="!patientId" dataField="patient" caption="Patient" [minWidth]="200"></dxi-column>
+          <dxi-column dataField="taskTypeName" caption="Task Type" [minWidth]="200">
+          </dxi-column>
+          <dxi-column dataField="note" caption="Notes" [allowFiltering]="false" [minWidth]="200"></dxi-column>
+          <!-- <dxi-column dataField="isComplete" caption="Status" [minWidth]="130"></dxi-column> -->
+          <dxi-column type="buttons" [showInColumnChooser]="false" [width]="110">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+          </dxi-column>
+
+          <div *dxTemplate="let data of 'flagTemplate'">
+            <span *ngIf="data.data.isComplete == 'Outstanding'" class="block w-100 text-center">
+              <i class="fas fa-flag red-flag" matTooltip="Overdue"></i>
+            </span>
+            <span *ngIf="data.data.isComplete == 'Due Withing Next 7 days'" class="block w-100 text-center">
+              <i class="fas fa-flag orange-flag" matTooltip="Due Withing Next 7 days"></i>
+            </span>
+            <span *ngIf="data.data.isComplete == 'Completed'" class="block w-100 text-center">
+              <mat-icon fontSet="fa" fontIcon="fa-check" matTooltip="Completed"></mat-icon>
+            </span>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+            <app-button icon="far fa-trash" type="link" color="grey" class="mr-2" matTooltip="Delete"
+              (clicked)="deleteClicked(cellInfo)"></app-button>
+
+            <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit"
+              (clicked)="editClicked(cellInfo)"></app-button>
+
+            <app-button *ngIf="cellInfo.data.invoiceNumber" icon="far fa-external-link-square" type="link" color="grey"
+              class="mr-2" matTooltip="View Invoice" (clicked)="openInvoice(cellInfo)"></app-button>
+          </div>
+
+          <dxo-summary>
+            <dxi-total-item column="dueDateTime" summaryType="count" displayFormat="Tasks: {0}"
+              valueFormat="fixedPoint {2}" *ngIf="!userStore.isMedSecUser()">
+            </dxi-total-item>
+            <dxi-total-item column="siteName" summaryType="count" displayFormat="Tasks: {0}"
+              valueFormat="fixedPoint {2}" *ngIf="userStore.isMedSecUser()">
+            </dxi-total-item>
+          </dxo-summary>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-med-sec-site-selector (onSelected)="addClicked()"></app-med-sec-site-selector>

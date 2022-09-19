@@ -1,0 +1,76 @@
+<div class="d-flex flex-row w-100">
+  <div class="d-flex flex-column px-5 w-100 align-items-center justify-content-center">
+    <div class="d-flex d-row" *ngIf="!invoiceCodes">
+      <div class="py-3">As this patient is insured by {{payor.displayName}}, please provide a diagnosis</div>
+    </div>
+
+    <div class="d-flex flex-row flex-wrap w-100 mb-2" *ngIf="invoiceCodes && invoiceCodes.length > 0">
+      <div class="cssWidgetWrapper w-100">
+        <dx-data-grid id="diagnosisSelectedCodesGrid" class="relative compact-mode" gridWithRowLinesSettings
+          [dataSource]="invoiceCodes" [selection]="{ mode: 'single' }" [hoverStateEnabled]="true"
+          [rowAlternationEnabled]="true" [filterRow]="{ visible: false }" focusedRowIndex="0" [columnMinWidth]="175">
+
+          <dxi-column dataField="code" caption="Code" width="80"></dxi-column>
+          <dxi-column dataField="description" caption="Description" minWidth="250"></dxi-column>
+          <dxi-column dataField="isPrimary" caption="Primary" cellTemplate="referrer" width="90"></dxi-column>
+          <dxi-column width="70" cellTemplate="myCommandTemplate" cssClass="py-0"></dxi-column>
+
+          <div *dxTemplate="let cellInfo of 'referrer'">
+            <dx-check-box [value]="cellInfo.value" (onValueChanged)="updatePrimary(cellInfo)"></dx-check-box>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'myCommandTemplate'">
+            <button mat-icon-button class="alternative small-icon warning compact-height" (click)="delete(cellInfo)"
+              matTooltip="Delete">
+              <mat-icon fontSet="fad" fontIcon="fa-trash-alt"></mat-icon>
+            </button>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+
+    <span class="text-semiBold mt-4 mb-1 text-sm-1 mx-auto">Add a new diagnosis</span>
+
+    <ng-container>
+      <div class="d-flex d-row">
+        <div class="pb-4 text-grey-65">Select from {{term === '' ? 'previously used diagnosis codes or search for a new
+          one' : 'search results'}}</div>
+      </div>
+
+      <mat-form-field appearance="outline" class="marginy-1">
+        <mat-label>Search</mat-label>
+
+        <input placeholder="Search" matInput appAutoFocus [autoFocusTimeout]="0.75" preventAutoFill class="searchBox"
+          [(ngModel)]="term" tabindex="1" placeholder="Search for code / description" (input)="searchForCode()"
+          autocomplete="off">
+
+        <button *ngIf="term" matSuffix mat-icon-button class="alternative icon" aria-label="Clear"
+          (click)="searchClear()">
+          <mat-icon fontSet="fa" fontIcon="fa-times-circle"></mat-icon>
+        </button>
+        <mat-hint *ngIf="term && searchResult.length == 0">There is no match found</mat-hint>
+      </mat-form-field>
+
+      <ng-container *ngIf="searchResult && searchResult.length > 0">
+        <div class="d-flex flex-row mb-4 diagnosisGridWrapper" *appLoadingSpinner="addingDiagnosisCode">
+          <div class="cssWidgetWrapper ">
+            <dx-data-grid id="diagnosisCodesGrid" #diagnosisCodesGrid gridWithRowLinesSettings class="compact-mode"
+              [dataSource]="searchResult" [selection]="{ mode: 'single' }" [hoverStateEnabled]="true"
+              [paging]="{ enabled: true, pageSize: 10 }" [filterRow]="{ visible: false }" focusedRowIndex="0"
+              [scrolling]="{ mode: 'infinite' }" [rowAlternationEnabled]="true" (onRowClick)="add($event)"
+              [columnMinWidth]="175">
+
+              <dxi-column dataField="code" caption="Code" width="100"></dxi-column>
+              <dxi-column dataField="description" caption="Description" minWidth="360"></dxi-column>
+            </dx-data-grid>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <div class="d-flex flex-column flex-grow-1 ml-auto" *ngIf="invoiceCodes && invoiceCodes.length > 0">
+      <app-button type="secondary" iconPosition="right" text="Go To Services" icon="fad fa-chevron-double-right"
+        (clicked)="goToServices()"></app-button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header">Transactions Analysis</div>
+
+  <div class="card-body card-content">
+    <div id="pivotGrid-container">
+      <dx-chart id="chart1">
+        <dxo-common-series-settings type="bar"></dxo-common-series-settings>
+        <dxo-size [height]="'35vh'"></dxo-size>
+        <dxo-adaptive-layout [width]="450"></dxo-adaptive-layout>
+        <dxo-tooltip [enabled]="true"></dxo-tooltip>
+      </dx-chart>
+      ​
+      <dx-pivot-grid id="pivotGrid" [allowSortingBySummary]="true" [allowSorting]="true" [allowExpandAll]="true"
+        [allowFiltering]="true" [showBorders]="true" [showColumnGrandTotals]="true" [showRowGrandTotals]="true"
+        [showRowTotals]="true" [showColumnTotals]="true" [height]="'55vh'" [dataSource]="pivotGridDataSource">
+
+        <dxo-header-filter [allowSearch]="true" [showRelevantValues]="true" [width]="400" [height]="600">
+        </dxo-header-filter>
+        <dxo-field-chooser [allowSearch]="true" [enabled]="true"></dxo-field-chooser>
+        <dxo-field-panel [visible]="true">       </dxo-field-panel>
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-state-storing [enabled]="true" type="sessionStorage" storageKey="TransactionsAnalysis-storing">
+        </dxo-state-storing>
+        <dxo-load-panel [enabled]="true"></dxo-load-panel>
+        <dxo-export [enabled]="true" fileName="TransactionsAnalysis" [allowExportSelectedData]="false"></dxo-export>
+      </dx-pivot-grid>
+    </div>
+  </div>
+</div>
+
+<dx-load-panel #loadPanel [position]="{ of: '#loadingPanel' }" [visible]="isLoadPanelVisible" [showIndicator]="true"
+  [showPane]="true" [shading]="false" [closeOnOutsideClick]="false">
+</dx-load-panel>

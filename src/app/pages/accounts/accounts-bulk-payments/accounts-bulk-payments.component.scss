@@ -1,0 +1,100 @@
+.avatar-wrapper{
+  width: 5.5rem;
+  height: 5.5rem;
+  display: block;
+}
+
+
+.label-info-value, .label-info-value-title{
+  font-weight: 500;
+}
+
+.label-width{
+  width: 8rem;
+  margin-bottom: 0.85rem;
+}
+
+.left-margin-1{
+  margin-left: 0rem;
+}
+
+
+.left-margin-2{
+  margin-left: 17.5%;
+}
+
+.content-height{
+  height: 200px;   // dummy height
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.height-1{
+  flex: 0 0 128px;
+}
+
+.height-2{
+  flex: 0 0 44px;
+}
+
+.height-3{
+  flex: 0 0 64px;
+}
+
+
+.label-info-transaction
+{
+  font-size: 0.805rem;
+  color: #000000;
+}
+
+
+
+.grid-height
+{
+  height: 75px;   // dummy height
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+
+.a-card-title{
+  background-color: rgb(231 238 244 / 1);
+  color: rgb(27 90 156 / 1);
+  padding-top: 1.1rem;
+  padding-bottom: 0.9rem;
+  border-radius: 0px 0px 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.a-card-footer{
+  background-color: rgb(251 251 251 / 1);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-radius:  0 0 9px 9px;
+}
+
+.green-tick {
+  color:green;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+.red-tick {
+  color:red;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+.mt-40per {
+  margin-top: 40%;
+}
+
+.pointer-events {
+  pointer-events: all;
+}
+
+.green-flag {
+  color: green;
+  margin-top: -15px;
+  display: inline-flex;
+}

@@ -1,0 +1,21 @@
+.pointer-events {
+  pointer-events: all;
+}
+
+.w-70 {
+  width: 70%;
+}
+
+.label-width {
+  width: 112px;
+  min-width: 112px;
+}
+
+.comments {
+  display: block;
+  max-width: calc(100% - 130px);
+  height: auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;  
+}

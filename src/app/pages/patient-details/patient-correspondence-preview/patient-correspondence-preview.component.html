@@ -1,0 +1,26 @@
+<app-pop-up-form-title title="Correspondence View" (closed)="cancel()">
+</app-pop-up-form-title>
+
+<div class="modal-standard-width d-flex flex-column generic-border-left ">
+  <div class="d-flex flex-row ml-auto pb-2">
+    <button mat-icon-button class="alternative icon " [disabled]="!this.userStore.roleAllowsAccess(100)"
+      (click)="editClickHandler()" matTooltip="Edit">
+      <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
+    </button>
+  </div>
+
+  <div class="d-flex" class="content-height">
+    <iframe #previewDOCXframe *ngIf="docformatDOCX" [src]="safePreviewFilename" width='100%' height='100%'
+      frameborder='0' class="overflow-hidden"></iframe>
+
+    <iframe #previewPDFframe *ngIf="docformatPDF" [src]="safePreviewFilename" width='100%' height='100%' frameborder='0'
+      class="overflow-hidden"></iframe>
+
+    <iframe #previewImageframe *ngIf="docformatImage" [src]="safePreviewFilename" width='100%' height='100%'
+      frameborder='0' class="overflow-hidden"></iframe>
+  </div>
+</div>
+
+<button mat-button class="secondary form-cancel-btn" (click)="cancel()">
+  Cancel
+</button>

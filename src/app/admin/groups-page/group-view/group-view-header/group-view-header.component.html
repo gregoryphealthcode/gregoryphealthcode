@@ -1,0 +1,14 @@
+<div class="d-flex flex-row" *ngIf="group">
+    <app-form-section title="Group Details" class="pb-0 no-end-section header-section-1 mr-5" [showTitleUnderline]="true"
+        [showInfo]="false">
+        <div class="d-flex flex-row">
+            <div class="d-flex flex-column">
+                <app-form-label caption="Group Name" [value]="group.bureauName"></app-form-label>
+                
+            </div>
+
+            <app-button type="link" icon="far fa-edit" color="grey" class="pt-1" (clicked)="editClicked.emit()">
+            </app-button>
+        </div>
+    </app-form-section>
+</div>

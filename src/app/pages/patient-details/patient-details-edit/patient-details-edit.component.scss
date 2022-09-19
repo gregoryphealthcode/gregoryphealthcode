@@ -1,0 +1,49 @@
+.cdk-overlay-container { z-index: 9999 !important; }
+
+
+body{
+ .mat-icon-button
+ {
+   background: transparent !important;
+ }
+}
+
+ .mat-icon-button
+  {
+    background: transparent !important;
+  }
+
+  .icon {
+    background: transparent !important;
+    color : #1cb06d ;
+  }
+.noBackground
+{
+  background: transparent !important;
+}
+
+.field-width
+{
+  width : 14rem;
+}
+
+.field-width-1
+{
+  width : 9rem;
+}
+
+.short-label-width
+{
+  width : 10rem;
+}
+.small-field-width
+{
+  width : 9rem;
+}
+
+.postcode-search-btn.mat-icon-button{
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+}
+

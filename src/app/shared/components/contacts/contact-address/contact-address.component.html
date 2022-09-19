@@ -1,0 +1,71 @@
+<dx-popup appCentralPopUpSettings *ngIf="showPopup" [width]="'380'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="isNew ? 'Add Address' : 'Edit Address'"
+      (closed)="showPopup = false"></app-pop-up-form-title>
+
+    <app-edit-contact-address class="central-popup-wrapper" [addressId]="addressId" [isNew]="isNew"
+      (saveAddress)="save()" [contactId]="contactId" (formClosed)="hidePopup()">
+    </app-edit-contact-address>
+  </div>
+</dx-popup>
+
+<div class="d-flex flex-row mt-1">
+  <button mat-button class="app-button primary grid-header-btn-small" (click)="add()" matTooltip="Add new address">
+    Add Address
+  </button>
+</div>
+
+<div class="d-flex flex-row flex-grow-1 pt-2">
+  <div class="d-flex flex-column  px-0 flex-grow-1">
+    <div class="cssWidgetWrapper">
+      <dx-data-grid id="grdContactAddresses" #grdContactAddresses gridWithRowLinesSettings [dataSource]="addresses"
+        class="cssGridGeneral" [showColumnLines]="true" [showRowLines]="true" [showBorders]="true"
+        [rowAlternationEnabled]="true" (onFocusedRowChanged)="onFocusedRowChanged($event)" keyExpr="this"
+        [focusedRowEnabled]="true" focusedRowIndex="0" (onRowDblClick)="doubleClickHandled($event)"
+        [columnMinWidth]="175">
+
+        <dxi-column dataField="addressTypeDescription" caption="Type" width="150"></dxi-column>
+        <dxi-column cellTemplate="addressTemplate" caption="Address"></dxi-column>
+        <dxi-column dataField="primaryAddress" cellTemplate="primaryAddressTemplate" alignment="center"
+          caption="Primary" width="100"></dxi-column>
+        <dxi-column dataField="billingAddress" cellTemplate="billingAddressTemplate" alignment="center"
+          caption="Billing" width="70"></dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'addressTemplate'">
+          {{cellInfo.row.data.address1 != 'null' && cellInfo.row.data.address1 != null && cellInfo.row.data.address1 !=
+          ''? cellInfo.row.data.address1 + ',' : ''}}
+          {{cellInfo.row.data.address2 != 'null' && cellInfo.row.data.address2 != null && cellInfo.row.data.address2 !=
+          ''? cellInfo.row.data.address2 + ',' : ''}}
+          {{cellInfo.row.data.address3 != 'null' && cellInfo.row.data.address3 != null && cellInfo.row.data.address3 !=
+          ''? cellInfo.row.data.address3 + ',' : ''}}
+          {{cellInfo.row.data.address4 != 'null' && cellInfo.row.data.address4 != null && cellInfo.row.data.address4 !=
+          ''? cellInfo.row.data.address4 + ',' : ''}}
+          {{cellInfo.row.data.postcode != 'null' && cellInfo.row.data.postcode != null && cellInfo.row.data.postcode !=
+          ''? cellInfo.row.data.postcode : ''}}
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'primaryAddressTemplate'">
+          <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'billingAddressTemplate'">
+          <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'">
+          <button mat-icon-button class="alternative icon warning mx-1" matTooltip="Delete" (click)="delete()">
+            <mat-icon fontSet="fa" fontIcon="fa-trash"></mat-icon>
+          </button>
+
+          <button mat-icon-button class="alternative icon" (click)="editAddress()" matTooltip="Edit">
+            <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
+          </button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

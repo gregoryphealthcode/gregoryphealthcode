@@ -1,0 +1,148 @@
+<!-- Form -->
+<dx-popup appCentralPopUpSettings height="800" [enableScroll]="true" (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="d-flex flex-column popup-wrapper modal-lg-width">
+    <app-pop-up-form-title [title]="'Add patient'" [cancelConfirmation]="cancelBtn" [ofEditForm]="true">
+    </app-pop-up-form-title>
+
+    <mat-tab-group class="full-height left-aligned modal-tabs overflow-auto central-popup-body"
+      style="padding-left: 45px;">
+      <mat-tab label="Details">
+        <div class="d-flex flex-row" style="padding-right: 45px;">
+          <div *ngIf="possibleDuplicates && possibleDuplicates.length > 0" class="duplicates">
+            <label class="duplicate-label">Possible Duplicate Patient Found!</label>
+
+            <app-button text="Display" (click)="showDuplicates()" class="duplicate-button"></app-button>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row w-100 mt-3" [formGroup]="editForm" style="padding-right: 45px;"
+          appEnterKeyFocusWrapper delay="750">
+          <div class="d-flex flex-column pr-2">
+            <app-form-section title="Main" class="form-col-1/2 pb-0 no-end-section" *ngIf="editForm"
+              [showTitleUnderline]="true"
+              helperText="Please enter the contact's personal details, i.e. name and date of birth, below.">
+              <app-text-box formControlName="lastName" caption="Last name" [capitalizeEachWord]="true"></app-text-box>
+
+              <app-text-box formControlName="firstName" caption="First name" [capitalizeEachWord]="true"></app-text-box>
+
+              <app-text-box formControlName="initials" class="width-3/5" caption="Other Initials" [toUppercase]="true">
+              </app-text-box>
+
+              <app-select-box caption="Title" [dataSource]="titles" formControlName="title" valueExpr="title"
+                displayExpr="title" class="width-3/5"></app-select-box>
+
+              <app-select-box caption="Birth Gender" [dataSource]="genders" formControlName="gender" valueExpr="this"
+                displayExpr="this" class="width-3/5">
+              </app-select-box>
+
+              <app-select-box caption="Identifies As" [dataSource]="identifies" formControlName="identifiesAs"
+                valueExpr="this" displayExpr="this" class="width-3/5">
+              </app-select-box>
+
+              <div class="form-section-row">
+                <app-date-box class="width-3/5" acceptCustomValue="true" caption="Date of Birth" mask="dd/MM/yyyy"
+                  formControlName="birthDate" [maxDate]="maxDate">
+                </app-date-box>
+
+                <app-form-label [value]="isNumber(age) ? age : ''" class="width-2/5" style="padding-left: 40px;"
+                  caption="Age"></app-form-label>
+              </div>
+
+              <div class="form-section-row">
+                <app-slide-toggle formControlName="noChase" class="width-1/2" caption="Don't Chase"></app-slide-toggle>
+                <app-slide-toggle formControlName="onStop" class="width-1/2" caption="On Stop"></app-slide-toggle>
+              </div>
+
+              <div class="form-section-row">
+                <app-slide-toggle *ngIf="isSitePatientzone" formControlName="sendViaPatientzone"
+                  caption="Send invoices via patientzone"></app-slide-toggle>
+              </div>
+            </app-form-section>
+
+            <app-form-section title="Telecoms" class="form-col-1/2 pb-0 no-end-section mt-3" [showTitleUnderline]="true"
+              helperText="Please enter the patient's contact information i.e. mobile number and email below.">
+              <div class="modal-section-content" formArrayName="telecoms">
+                <div *ngFor="let telecom of getTelecomsFormArray().controls; let i = index" class="flex flex-col"
+                  [formGroupName]="i">
+                  <div class="flex flex-row">
+                    <app-text-box formControlName="value" [caption]="getFormGroupControlValue(telecom, 'description')">
+                    </app-text-box>
+                  </div>
+                </div>
+              </div>
+            </app-form-section>
+          </div>
+
+          <div class="d-flex flex-column pl-2">
+            <app-form-section title="Address" class="form-col-1/2 pb-0 no-end-section" [showTitleUnderline]="true"
+              helperText="Please enter the patient's address details below. Entering a valid postcode will find the address.">
+              <app-button *ngIf="addressNeeded" class="ml-auto mr-auto mb-2" text="Clear address"
+                (clicked)="clearAddress()"></app-button>
+
+              <app-select-box [dataSource]="addressTypes" formControlName="addressTypeId" valueExpr="uniqueNo"
+                displayExpr="description" caption="Type">
+              </app-select-box>
+
+              <div class="d-flex flex-column a-form-group d-col width-3/5">
+                <label>{{postcodeLabel}}</label>
+
+                <app-postcode-to-address formControlName="postcode"
+                  (addressSelect)="postcodeResolverAddressSelectHandler($event)"
+                  class="d-flex flex-row align-items-center">
+                </app-postcode-to-address>
+              </div>
+
+              <app-text-box formControlName="address1" [capitalizeEachWord]="true" caption="Address 1"></app-text-box>
+
+              <app-text-box formControlName="address2" [capitalizeEachWord]="true" caption="Address 2"></app-text-box>
+
+              <app-text-box formControlName="address3" [capitalizeEachWord]="true" caption="Address 3"></app-text-box>
+
+              <app-text-box formControlName="address4" [capitalizeEachWord]="true" caption="City"></app-text-box>
+            </app-form-section>
+
+            <app-form-section title="Identifiers" class="form-col-1/2 pb-0 no-end-section mt-3"
+              [showTitleUnderline]="true"
+              helperText="Please enter any additional reference information for the patient below.">
+              <div class="modal-section-content" formArrayName="referenceNumbers">
+                <div *ngFor="let reference of getReferenceNumbersFormArray().controls; let i = index;"
+                  class="flex flex-col" [formGroupName]="i">
+                  <div class="flex flex-row">
+                    <app-text-box formControlName="value" [caption]="getFormGroupControlValue(reference, 'description')"
+                      [hidden]="getFormGroupControlValue(reference, 'visible')">
+                    </app-text-box>
+                  </div>
+                </div>
+              </div>
+            </app-form-section>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Second tab -->
+      <mat-tab label="Insurers">
+        <app-new-patient-insurers (insurersChange)="insurers = $event" [isNewPatient]="true"
+          [autoPopInsurer]="autoPopInsurer" class="d-flex flex-column mt-3">
+        </app-new-patient-insurers>
+      </mat-tab>
+
+      <mat-tab label="Contacts">
+        <app-new-patient-connections (contactsChange)="contacts = $event" class="d-flex flex-column mt-3"
+          [autoPopContact]="autoPopContact">
+        </app-new-patient-connections>
+      </mat-tab>
+    </mat-tab-group>
+
+    <div class="popup-form-footer-wrapper">
+      <app-button text="Cancel" class="ml-auto mr-3" color="grey" appCancelConfirmation #cancelBtn="cancelConfirmation"
+        [form]="editForm" (cancelClick)="cancel()" [confirmButtonText]="isNew ? 'Return to patient' : 'Update patient'">
+      </app-button>
+
+      <app-button text="Save" (clicked)="submitForm()" [disabled]="submitting || !editForm?.valid"></app-button>
+    </div>
+  </div>
+</dx-popup>
+
+<app-duplicate-patient-popup *ngIf="showPossibleDuplicatesPopup" [possibleDuplicates]="possibleDuplicates"
+  [duplicateDetails]="duplicateDetails" [displayDuplicates]="displayDuplicates" (confirmAdd)="confirmAdd()"
+  (closeDuplicate)="closeDuplicate()"></app-duplicate-patient-popup>

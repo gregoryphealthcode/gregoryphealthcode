@@ -1,0 +1,30 @@
+.header-row {
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.w-40per {
+  width: 40%;
+}
+
+.w-60per {
+  width: 60%;
+}
+
+.label-tag {
+  border-radius: 20px !important;
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.border-bottom {
+  border-bottom: 1px solid black;
+}

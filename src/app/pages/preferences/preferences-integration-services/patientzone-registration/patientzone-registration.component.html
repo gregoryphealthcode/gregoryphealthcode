@@ -1,0 +1,425 @@
+<dx-popup appCentralPopUpSettings *ngIf="showRegisterPractitioner" [width]="'680'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="'Register Practitioner'"
+      (closed)="showRegisterPractitioner = false"></app-pop-up-form-title>
+
+    <app-patientzone-register-practitioner [sites]="sites" [medsecId]="medSecSettings.bureauId"
+      (cancelClick)="showRegisterPractitioner = false" (formClosed)="showRegisterPractitioner = false">
+    </app-patientzone-register-practitioner>
+  </div>
+</dx-popup>
+
+<div class="d-flex flex-grow-1 flex-column" delay="750">
+  <div class="d-flex flex-row" *ngIf="isPZRegistered && isMedsec">
+    Registration Status: <strong class="mr-2">Active</strong><span class="link"
+      (click)="showRegisterPractitioner = true">Register New Practitioner</span>
+  </div>
+
+  <div class="d-flex flex-row" *ngIf="!isPZRegistered && !isPZPending">
+    Registration Status: <span class="link" (click)="showRegPanel = true"> Register</span>
+  </div>
+
+  <div class="d-flex flex-row" *ngIf="isPZPending">
+    <app-button text="Check Pending Status" (click)="checkPending()" class="mr-3" color="grey"></app-button>
+  </div>
+
+  <div class="app-card mt-2 flex-grow-1" [formGroup]="form">
+    <app-patientzone-error-section [errors]="errors" *ngIf="errors?.length > 0"></app-patientzone-error-section>
+
+    <ng-container *ngIf="showRegPanel">
+      <div class="d-flex  flex-grow-1 flex-row">
+        <div class="d-flex flex-column  mx-3 flex-grow-1">
+          <ng-container *ngIf="isSingleSpecialist">
+            <div class="page-header">Practitioner / Practice Details</div>
+
+            <div class="d-flex flex-row mt-1 align-items-center">
+              <span class="label-info short-label-width">LAST Name</span>
+
+              <div class="field-width">
+                <dx-text-box placeholder="Last name (surname)" id="lastName" (onInput)="firstLetterCaps($event)"
+                  formControlName="lastName">
+                </dx-text-box>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row mt-1 align-items-center">
+              <span class="label-info short-label-width">First Name</span>
+
+              <div class="field-width">
+                <dx-text-box placeholder="First Name (forename)" id="firstName" (onInput)=" firstLetterCaps($event)"
+                  formControlName="firstName">
+                </dx-text-box>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row mt-1 align-items-center">
+              <span class="label-info short-label-width">Title</span>
+
+              <div class="field-width">
+                <dx-autocomplete #titlesSelectBox id="titlesSelectBox" [dataSource]="lluTitles" [width]="150"
+                  (onInput)="firstLetterCaps($event)" valueExpr="title" formControlName="title" displayExpr="title"
+                  placeholder="Title" [showDropDownButton]="true" [searchTimeout]="100" [minSearchLength]="0">
+                </dx-autocomplete>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row mt-1 align-items-center">
+              <span class="label-info short-label-width">Trading Name *</span>
+
+              <div class="field-width">
+                <dx-text-box placeholder="Trading Name" id="practiceName" formControlName="practiceName">
+                </dx-text-box>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row mt-1 align-items-center">
+              <span class="label-info short-label-width">Practice Id</span>
+
+              <div class="field-width">
+                <dx-text-box placeholder="Practice Id" id="practiceId" [disabled]="true" formControlName="practiceId">
+                </dx-text-box>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="!isSingleSpecialist">
+            <div class="page-header">Organisation Details</div>
+
+            <div class="d-flex flex-row mt-1 align-items-center">
+              <span class="label-info short-label-width">Trading Name *</span>
+
+              <div class="field-width">
+                <dx-text-box placeholder="Trading Name" id="practiceName" formControlName="practiceName">
+                </dx-text-box>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row mt-1 align-items-center">
+              <span class="label-info short-label-width">Organisation Id</span>
+
+              <div class="field-width">
+                <dx-text-box placeholder="Organisation Id" [disabled]="true" id="practiceId"
+                  formControlName="practiceId">
+                </dx-text-box>
+              </div>
+            </div>
+
+          </ng-container>
+
+          <div class="d-flex flex-row mt-1  align-items-center">
+            <span class="label-info short-label-width">Postcode</span>
+
+            <app-postcode-to-address #postcoderesolver formControlName="postcode"
+              (addressSelect)="postcodeResolverAddressSelectHandler($event)" class="d-flex flex-row align-items-center">
+            </app-postcode-to-address>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Address 1</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Address 1" formControlName="address1" name="street"
+                (onInput)="firstLetterCaps($event)">
+              </dx-text-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Address 2</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Address 2" formControlName="address2" name="address2"
+                (onInput)="firstLetterCaps($event)">
+              </dx-text-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Address 3</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Address 3" formControlName="address3" name="address3"
+                (onInput)="firstLetterCaps($event)">
+              </dx-text-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Address 4</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Address 4" formControlName="address4" name="address4"
+                (onInput)="firstLetterCaps($event)">
+              </dx-text-box>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-column mx-3 flex-grow-1">
+          <div class="page-header">User Details</div>
+
+          <div class="d-flex flex-row mr-2 flex-grow-1 mt-1 align-items-center">
+            <span class="label-info short-label-width">Use my user account details</span>
+
+            <div class="field-width">
+              <dx-check-box (onValueChanged)="useAddress()" class="float-left">
+              </dx-check-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">LAST Name</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Last name (surname)" id="lastName" (onInput)="firstLetterCaps($event)"
+                formControlName="userDetailsLastName">
+              </dx-text-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">First Name</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="First Name (forename)" id="firstName" (onInput)=" firstLetterCaps($event)"
+                formControlName="userDetailsFirstName">
+              </dx-text-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Title</span>
+
+            <div class="field-width">
+              <dx-autocomplete #titlesSelectBox id="titlesSelectBox" [dataSource]="lluTitles" [width]="150"
+                (onInput)="firstLetterCaps($event)" valueExpr="title" formControlName="userDetailsTitle"
+                displayExpr="title" placeholder="Title" [showDropDownButton]="true" [searchTimeout]="100"
+                [minSearchLength]="0" [openOnFieldClick]="true">
+              </dx-autocomplete>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Email *</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Email" id="email" formControlName="userDetailsEmail">
+              </dx-text-box>
+            </div>
+
+            <ng-container
+              *ngIf="form.controls['userDetailsEmail'].invalid  && (form.controls['userDetailsEmail'].dirty || form.controls['userDetailsEmail'].touched)">
+              <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip=" Invalid email address"
+                *ngIf="form.controls['userDetailsEmail'].hasError('email')"></i>
+              <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Email address is required"
+                *ngIf="form.controls['userDetailsEmail'].hasError('required')"></i>
+            </ng-container>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Mobile *</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Mobile" formControlName="mobile">
+              </dx-text-box>
+            </div>
+
+            <ng-container
+              *ngIf="form.controls['mobile'].invalid  && (form.controls['mobile'].dirty || form.controls['mobile'].touched)">
+              <i class="fas fa-exclamation-triangle warning mx-2 "
+                matTooltip="Invalid mobile number must start with either +447 or 07"
+                *ngIf="form.controls['mobile'].hasError('pattern')"></i>
+              <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Mobile is required"
+                *ngIf="form.controls['mobile'].hasError('required')"></i>
+            </ng-container>
+          </div>
+
+          <div class="d-flex flex-row mt-1  align-items-center">
+            <span class="label-info short-label-width">Postcode</span>
+
+            <app-postcode-to-address #postcoderesolver formControlName="userDetailsPostcode"
+              (addressSelect)="postcodeResolverUserDetailsAddressSelectHandler($event)"
+              class="d-flex flex-row align-items-center"></app-postcode-to-address>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Address 1</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Address 1" formControlName="userDetailsAddress1" name="street"
+                (onInput)="firstLetterCaps($event)">
+              </dx-text-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Address 2</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Address 2" formControlName="userDetailsAddress2" name="address2"
+                (onInput)="firstLetterCaps($event)">
+              </dx-text-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Address 3</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Address 3" formControlName="userDetailsAddress3" name="address3"
+                (onInput)="firstLetterCaps($event)">
+              </dx-text-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Address 4</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Address 4" formControlName="userDetailsAddress4" name="address4"
+                (onInput)="firstLetterCaps($event)">
+              </dx-text-box>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-row flex-grow-1">
+        <div class="d-flex flex-column mx-2 flex-grow-1">
+          <div class="page-header">Direct Debit Details</div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Account Name</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Account Name" id="accountName" formControlName="accountName">
+              </dx-text-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Sort Code</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Sort Code" id="sortCode" formControlName="sortCode" mask="00-00-00"
+                [showClearButton]="true">
+              </dx-text-box>
+            </div>
+
+            <ng-container
+              *ngIf="form.controls['sortCode'].invalid  && (form.controls['sortCode'].dirty || form.controls['sortCode'].touched)">
+              <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="  Sort code must be 9 digits"
+                *ngIf="form.controls['sortCode'].hasError('maxlength')"></i>
+            </ng-container>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Account Number</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Account Number" id="accountNumber" formControlName="accountNumber">
+              </dx-text-box>
+            </div>
+
+            <ng-container
+              *ngIf="form.controls['accountNumber'].invalid  && (form.controls['accountNumber'].dirty || form.controls['accountNumber'].touched)">
+              <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Account number should be 8 digits"
+                *ngIf="form.controls['accountNumber'].hasError('maxlength')"></i>
+              <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Account number should be 8 digits"
+                *ngIf="form.controls['accountNumber'].hasError('minlength')"></i>
+            </ng-container>
+          </div>
+
+          <div class="d-flex flex-row mt-1 align-items-center">
+            <span class="label-info short-label-width">Bank Name</span>
+
+            <div class="field-width">
+              <dx-text-box placeholder="Bank Name" id="bankName" formControlName="bankName">
+              </dx-text-box>
+            </div>
+          </div>
+
+          <div class="d-flex flex-row mr-2 flex-grow-1 mt-1 align-items-center">
+            <span class="label-info short-label-width">Accept Terms</span>
+
+            <div class="field-width">
+              <dx-check-box required class="float-left" formControlName="terms" name="terms"
+                [isValid]="termsControl.valid || termsControl.pristine">
+              </dx-check-box>
+            </div>
+
+            <div
+              *ngIf="form.controls['terms'].invalid && (form.controls['terms'].dirty || form.controls['terms'].touched)"
+              class="col-md-10 offset-md-2 alert alert-danger">
+              <div *ngIf="form.controls['terms'].hasError('required')">
+                You must accept the terms
+              </div>
+            </div>
+          </div>
+
+          <ng-container *ngIf="isMedsec && isPZRegistered">
+            <div class="page-header">Select Practitioners</div>
+
+            <div class="d-flex flex-row mr-2 flex-grow-1 mt-1 align-items-center">
+              <table class="a-table">
+                <thead>
+                  <tr>
+                    <th class="w-6r"></th>
+
+                    <th> Practioner</th>
+
+                    <th class="text-center w-15r"> Which bank account should we use</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>
+                      <dx-check-box></dx-check-box>
+                    </td>
+
+                    <td><span class="label-info-value light">Select All</span></td>
+
+                    <td></td>
+                  </tr>
+
+                  <tr *ngFor="let item of sites;index as i ">
+                    <td>
+                      <dx-check-box [(value)]="item.isSelected"></dx-check-box>
+                    </td>
+
+                    <td class="pt-2">
+                      <span class="label-info-value light">
+                        {{item.displayName}}
+                      </span>
+                    </td>
+
+                    <td>
+                      <dx-radio-group [items]="bankAcounts" [(value)]="item.useOwnBank" layout="horizontal">
+                      </dx-radio-group>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="popup-form-footer-wrapper ml-auto">
+        <app-button text="Register" (clicked)="validateClick()" *ngIf="!isMedsec" [disabled]="!form.valid"></app-button>
+
+        <app-button text="Register" (clicked)="validateMedsec()" *ngIf="isMedsec" [disabled]="!form.valid"></app-button>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="app-card  flex-grow-1 iframe-height mt-2 " *ngIf="!showRegPanel && !isPZRegistered">
+    <iframe src="https://www.uat.patientzone.co.uk/ext-intro" class="w-100 h-100 borderless"></iframe>
+  </div>
+
+  <div class="mt-2" *ngIf="isPZRegistered">
+    <app-patientzone-edit-details class="d-flex flex-grow-1 " [siteVM]="siteVM"></app-patientzone-edit-details>
+  </div>
+</div>

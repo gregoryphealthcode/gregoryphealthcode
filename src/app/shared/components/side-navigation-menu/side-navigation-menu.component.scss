@@ -1,0 +1,313 @@
+@import "../../../../dx-styles.scss";
+@import "../../../../themes/generated/variables.additional.scss";
+@import "../../../../assets/scss/variables.scss";
+
+$menu-main-bg-color: #eef2f5;
+$menu-main-border-color: hsl(0, 0%, 92%);
+$counts-bg-color: hsl(0, 65%, 60%);
+$upcounts-bg-color: orange;
+
+$menu-section-expanded-bg-color: #fff;
+$menu-section-expanded-border-color: $menu-main-border-color;
+$menu-item--selected: #fff;
+
+//menu item 1stLevel
+$menu-item-1stLevel-bg-color--hovered: hsl(210, 75%, 85%, 0.35);
+$menu-item-1stLevel-bg-color--focused: hsl(210, 75%, 85%, 0.35);
+$menu-item-1stLevel-bg-color--selected: $menu-item--selected;
+
+//menu item 2ndLevel
+$menu-item-2ndLevel-bg-color--hovered: hsl(203, 67%, 28%);
+$menu-item-2ndLevel-bg-color--selected: #71a1d0;
+
+// text
+
+$text-font-size: 13.5px;
+$main-text-color: hsl(204, 29%, 50%);
+$main-text-color--selected: hsl(204, 42%, 50%);
+$main-text-color--hovered: $main-text-color;
+$text-color-2ndLevel: darken($main-text-color, 3%);
+$text-color-2ndLevel--selected: $menu-item--selected;
+$text-color-2ndLevel--hovered: $text-color-2ndLevel;
+
+//icon
+$icon-font-size: 22px;
+$icon-2nd-level-font-size: 18px;
+
+//icon - first level
+$icon-1st-level-color1: hsl(206, 35%, 52%);
+$icon-1st-level-color2: hsl(210, 100%, 37%);
+$icon-1st-level-color1--selected: $icon-1st-level-color1;
+$icon-1st-level-color2--selected: $icon-1st-level-color2;
+$icon-1st-level-color1--hovered: $icon-1st-level-color1;
+$icon-1st-level-color2--hovered: $icon-1st-level-color2;
+
+$menu-main-bg-color: hsl(206, 65%, 20%);
+$main-text-color: hsl(204, 30%, 80%);
+
+$menu-section-expanded-bg-color: hsl(203, 66%, 14%);
+$menu-section-expanded-border-color: hsl(206, 40%, 25%);
+$text-color-2ndLevel: hsl(0, 0%, 84%);
+$text-color-2ndLevel--selected: #fff;
+$text-color-2ndLevel--hovered: #fff;
+
+$main-text-color--selected: #fff;
+$main-text-color--hovered: #fff;
+
+
+$icon-1st-level-color1: hsl(204, 34%, 73%);
+$icon-1st-level-color2: hsl(204, 34%, 93%);
+$icon-1st-level-color1--selected: #fff;
+$icon-1st-level-color2--selected: #fff;
+$icon-1st-level-color1--hovered: #fff;
+$icon-1st-level-color2--hovered: #fff;
+
+$menu-item-1stLevel-bg-color--hovered: hsl(203, 67%, 28%);
+$menu-item-1stLevel-bg-color--focused: hsl(203, 66%, 14%);
+$menu-item-1stLevel-bg-color--selected: #71a1d0;
+
+//menu item 2ndLevel
+$menu-item-2ndLevel-bg-color--hovered: hsl(203, 67%, 28%);
+
+
+
+
+//icon - second level
+$icon-2nd-level-color1: $icon-1st-level-color1;
+$icon-2nd-level-color2: $icon-1st-level-color2;
+$icon-2nd-level-color1--selected: #044586;
+$icon-2nd-level-color2--selected: #000000;
+$icon-2nd-level-color1--hovered: #ffffff;
+$icon-2nd-level-color2--hovered: hsl(204, 34%, 93%);
+
+
+
+
+#imagelogo {
+  bottom: 5px;
+  left: 27px;
+  position: absolute;
+  display: block;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  border-right: 1px solid lighten($base-border-color, 2%);
+  border-top: 1px solid $menu-main-border-color;
+
+  ::ng-deep .menu-container {
+    background-color: $menu-main-bg-color;
+    display: flex;
+    flex: 1;
+
+    .label-tag.tab-count {
+      position: absolute;
+      background-color: $counts-bg-color;
+      right: 16px;
+    }
+
+    .label-tag.tab-upcount {
+      position: absolute;
+      background-color: $upcounts-bg-color;
+      right: 16px;
+    }
+
+    .count-compact {
+      bottom: 1px;
+      left: 5px;
+    }
+
+    .dx-treeview {
+
+      // hide expand icon
+      .dx-treeview-toggle-item-visibility {
+        font-size: 0px !important;
+      }
+
+      // ## Long text positioning
+      white-space: nowrap;
+
+      .dx-treeview-node-container {
+        .dx-treeview-node {
+          // padding: 0px;
+          padding: 4px;
+
+          .menu-item-padding-y {
+            padding-top: 12px;
+            padding-bottom: 12px;
+          }
+
+          // default state
+          &.dx-treeview-item-without-checkbox {
+            .dx-treeview-item {
+              border-radius: 3px;
+              padding: 0;
+              color: $main-text-color;
+
+              .item-text {
+                font-size: $text-font-size;
+                color: $main-text-color;
+              }
+
+              .dx-icon {
+                font-size: 16px;
+                min-width: 38px;
+                height: auto;
+                margin-right: 6px;
+
+                &.duo-icon {
+                  --fa-primary-color: #{$icon-1st-level-color1};
+                  --fa-secondary-color: #{$icon-1st-level-color2};
+                  font-size: $icon-font-size;
+                }
+              }
+            }
+          }
+
+          //selected
+          &[aria-selected="true"],
+          &.dx-state-selected:not(.dx-state-focused) {
+            >.dx-treeview-item {
+              border-color: $primary;
+              background-color: $menu-item-1stLevel-bg-color--selected;
+              color: $main-text-color--selected;
+
+              .dx-icon,
+              .dx-icon.duo-icon {
+                --fa-primary-color: #{$icon-1st-level-color1--selected};
+                --fa-secondary-color: #{$icon-1st-level-color2--selected};
+                color: $main-text-color--selected;
+              }
+
+              .item-text {
+                color: $main-text-color--selected;
+                font-weight: 500;
+              }
+            }
+          }
+
+          //hovered
+          &:not(.dx-state-focused),
+          &:not([aria-selected="true"]) {
+            >.dx-treeview-item.dx-state-hover {
+              border-color: $menu-item-1stLevel-bg-color--hovered;
+              background-color: $menu-item-1stLevel-bg-color--hovered;
+              color: $main-text-color--hovered;
+
+              .dx-icon.duo-icon {
+                --fa-primary-color: #{$icon-1st-level-color1--hovered};
+                --fa-secondary-color: #{$icon-1st-level-color2--hovered};
+              }
+
+              .item-text {
+                color: $main-text-color--hovered;
+              }
+            }
+          }
+
+          //focused
+          &.dx-state-focused>.dx-treeview-item {
+            border-color: $menu-item-1stLevel-bg-color--focused;
+            background-color: $menu-item-1stLevel-bg-color--focused;
+            color: $main-text-color--selected;
+
+            .dx-icon.duo-icon {
+              --fa-primary-color: #{$icon-1st-level-color1--selected};
+              --fa-secondary-color: #{$icon-1st-level-color2--selected};
+              color: $main-text-color--selected;
+            }
+
+            .item-text {
+              color: $main-text-color--selected;
+            }
+          }
+
+          //2nd level
+          &.dx-treeview-item-without-checkbox {
+            &[aria-expanded="true"] {
+              background-color: $menu-section-expanded-bg-color;
+              border-top: 1px solid $menu-section-expanded-border-color;
+              border-bottom: 1px solid $menu-section-expanded-border-color;
+
+              //default
+              .dx-treeview-item {
+                .item-text {
+                  color: $text-color-2ndLevel;
+                }
+
+                .dx-icon {
+                  &.duo-icon {
+                    font-size: $icon-2nd-level-font-size;
+                  }
+                }
+              }
+
+              //selected state
+              [aria-selected="true"]>.dx-treeview-item {
+                background-color: $menu-item-2ndLevel-bg-color--selected;
+
+                .dx-icon,
+                .dx-icon.duo-icon {
+                  --fa-primary-color: #{$icon-2nd-level-color1--selected};
+                  --fa-secondary-color: #{$icon-2nd-level-color2--selected};
+                  color: $main-text-color--selected;
+                }
+
+                .item-text {
+                  color: $text-color-2ndLevel--selected;
+                }
+              }
+
+              //hovered state
+              .dx-treeview-item-without-checkbox:not([aria-selected="true"]),
+              .dx-treeview-item-without-checkbox:not(.dx-state-selected) {
+                .dx-treeview-item.dx-state-hover {
+                  background-color: $menu-item-2ndLevel-bg-color--hovered;
+
+                  .dx-icon,
+                  .dx-icon.duo-icon {
+                    --fa-primary-color: #{$icon-2nd-level-color1--hovered};
+                    --fa-secondary-color: #{$icon-2nd-level-color2--hovered};
+                  }
+
+                  .item-text {
+                    color: $text-color-2ndLevel--hovered;
+                  }
+                }
+              }
+            }
+          }
+
+          &[aria-level="2"] {
+            padding: 0;
+
+            .dx-treeview-item-content {
+              font-weight: normal;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.pb-1px {
+  padding-bottom: 1px;
+}
+
+.r-45px {
+  right: 45px !important;
+}
+
+.task-counts {
+  position: absolute;
+  right: 0;
+}
+
+::ng-deep .dx-treeview-node-container.dx-treeview-node-container-opened {
+  margin-left: 15px !important;
+}

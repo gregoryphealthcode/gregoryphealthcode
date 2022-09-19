@@ -1,0 +1,97 @@
+<div class="cssWidgetWrapper disable-select">
+    <dx-data-grid #transactionsGrid [dataSource]="dataSource" [focusedRowEnabled]="true" gridWithRowLinesSettings
+        appGridWithStateStore gridId="transactionsGrid1V1" focusedRowIndex="0" [allowColumnReordering]="true"
+        [allowColumnResizing]="true" [columnHidingEnabled]="true" [showColumnLines]="true"
+        [rowAlternationEnabled]="true" columnResizingMode="widget" (onContentReady)="onContentReady($event)"
+        (onOptionChanged)="onOptionChanged($event)" [columnMinWidth]="175"
+        (onToolbarPreparing)="onToolbarPreparing($event)"
+        [masterDetail]="{ enabled: false, template: 'transactiondetail' }">
+        <dxo-remote-operations [filtering]="true" [paging]="true" [sorting]="true" [summary]="false" [grouping]="false"
+            [groupPaging]="false">
+        </dxo-remote-operations>
+        <dxo-scrolling mode="virtual" preloadEnabled="true" [useNative]="false" [scrollByContent]="true"
+            [scrollByThumb]="true" showScrollbar="onHover"></dxo-scrolling>
+        <dxo-export [enabled]="true" fileName="TransactionsReport" [allowExportSelectedData]="false"></dxo-export>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-grouping [autoExpandAll]="expanded"></dxo-grouping>
+        <dxo-search-panel [visible]="true" [width]="140" placeholder="Search...">
+        </dxo-search-panel>
+        <dxo-load-panel [enabled]="true"></dxo-load-panel>
+        <dxo-state-storing [enabled]="saveReportLayout" type="sessionStorage" storageKey="transactionsreport_storage">
+        </dxo-state-storing>
+        <dxo-pager [showPageSizeSelector]="false" [allowedPageSizes]="[10, 20, 50, 100]"></dxo-pager>
+        <dxo-column-chooser [enabled]="true" mode="select" [height]="550">
+        </dxo-column-chooser>
+        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+        <dxo-paging [pageSize]="250"></dxo-paging>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+        </dxo-editing>
+        <dxo-grouping [contextMenuEnabled]="true">
+        </dxo-grouping>
+        <dxo-group-panel [visible]="true" [allowColumnDragging]="true">
+        </dxo-group-panel>
+        <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+        <dxi-column dataField="transactionDate" caption="Date" dataType="date" [width]="140" [sortIndex]="0"
+            sortOrder="desc" [format]="appInfo.getDateFormat">
+        </dxi-column>
+        <dxi-column dataField="paidAmount" caption="Amount" [width]="110" [fixed]="true" fixedPosition="right">
+            <dxo-header-filter [groupInterval]="250"></dxo-header-filter>
+            <dxo-format type="fixedPoint" [precision]="2">
+            </dxo-format>
+        </dxi-column>
+        <dxi-column dataField="transactionType.Description" caption="Transaction Type" [width]="140"> </dxi-column>
+        <dxi-column dataField="Method.Description" caption="Method" [width]="140"> </dxi-column>
+        <dxi-column dataField="Invoice.InvoiceNumber" caption="Inv. No." [width]="130"> </dxi-column>
+        <dxi-column dataField="Invoice.PatientText" caption="Patient" [minWidth]="180"> </dxi-column>
+        <dxi-column dataField="Invoice.Patient.BirthDate" caption="DOB" dataType="date" [width]="100"
+            [format]="appInfo.getDateFormat" [allowSorting]="true" [allowFiltering]="false">
+        </dxi-column>
+        <dxi-column dataField="Invoice.Patient.Patient_ReferenceNumbers[0].RefNoValue" caption="Patient No."
+            [allowSorting]="false" [allowFiltering]="false" [width]="80">
+        </dxi-column>
+        <dxi-column [calculateCellValue]="calculateAgeValue" caption="Age" [allowSorting]="false" [visible]="false"
+            cellTemplate="warnifchildCellTemplate" [allowFiltering]="false" [width]="80" [allowGrouping]="true">
+        </dxi-column>
+        <dxi-column dataField="Invoice.Invoice_Episode.Owner.DisplayName" caption="Owner" [allowSorting]="false"
+            [visible]="true" [allowFiltering]="true" [allowGrouping]="true" [width]="80">
+        </dxi-column>
+        <dxi-column dataField="Comments" caption="Comments" [width]="220"> </dxi-column>
+        <dxi-column dataField="Invoice.Patient.Patient_Addresses[0].Postcode" caption="Postcode" [allowSorting]="false"
+            [visible]="false" [allowFiltering]="false" [width]="110">
+        </dxi-column>
+
+        <dxo-summary>
+            <dxi-total-item column="Date" summaryType="count" displayFormat="{0}" valueFormat="fixedPoint {2}">
+                <dxo-format [precision]="2">
+                </dxo-format>
+            </dxi-total-item>
+
+            <dxi-total-item column="Amount" summaryType="sum" displayFormat="{{this.appInfo.getCurrencySymbol}} {0}"
+                valueFormat="fixedPoint {2}">
+                <dxo-format [precision]="2">
+                </dxo-format>
+            </dxi-total-item>
+
+            <dxi-group-item column="TransactionDate" summaryType="count" displayFormat="{0} transactions">
+            </dxi-group-item>
+
+            <dxi-group-item column="PaidAmount" summaryType="sum" valueFormat="fixedPoint {2}"
+                displayFormat="{{this.appInfo.getCurrencySymbol}} {0}" [showInGroupFooter]="false">
+                <dxo-format [precision]="2" type="fixedPoint">
+                </dxo-format>
+            </dxi-group-item>
+
+            <dxi-group-item column="PaidAmount" summaryType="sum" valueFormat="fixedPoint {2}"
+                displayFormat="{{this.appInfo.getCurrencySymbol}} {0}" [showInGroupFooter]="true">
+                <dxo-format [precision]="2" type="fixedPoint">
+                </dxo-format>
+            </dxi-group-item>
+        </dxo-summary>
+
+        <div *dxTemplate="let d of 'warnifchildCellTemplate'" [class]="(d.value) >= 18 ? 'adult' : 'child'">
+            <div class="current-value">{{d.value}}</div>
+        </div>
+    </dx-data-grid>
+</div>

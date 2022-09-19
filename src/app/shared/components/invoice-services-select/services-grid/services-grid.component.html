@@ -1,0 +1,67 @@
+<table class="a-table">
+  <thead>
+    <tr>
+      <th class="w-6r"> Date </th>
+      <th class="wmin-6r"> Service </th>
+      <th class="text-center w-5r"> Unit(s) </th>
+      <th class="text-center w-5r" *ngIf="showFee"> Fee(s) </th>
+      <th class="w-4-5r"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let item of services;index as i ">
+      <td class="pt-2">
+        <ng-container>
+          <span class="label-info-value light my-auto"> {{item.startTime | date: "dd/MM/yyyy"}}
+            <ng-container *ngIf="(item.endTime !== null) && item.startTime  !== item.endTime">
+              to {{item.endTime | date: "dd/MM/yyyy"}}
+            </ng-container>
+          </span>
+        </ng-container>
+      </td>
+
+      <td>
+        <div class="d-flex flex-row">
+          <span class="label-info-value light mb-"> {{item.description}}</span>
+        </div>
+
+        <div class="d-flex flex-row align-items-center" *ngFor="let procedure of item.procedures;index as i">
+          <span class="label-info-value light-2 leading-1.5">{{procedure.code}} - {{procedure.description}} </span>
+
+          <app-button type="link" icon="fad fa-trash-alt" class="pl-2"
+            (clicked)="store.removeProcedure(procedure, item)" matTooltip="Delete procedure"></app-button>
+        </div>
+
+        <app-service-procedure [service]="item" class="d-flex flex-column" *ngIf="item.showEditProcedure"
+          [showFee]="showFee">
+        </app-service-procedure>
+      </td>
+
+      <td class="pt-2 text-center">
+        <span class="label-info-value light my-auto">{{item.units}}</span>
+      </td>
+
+      <td class="pt-2 text-right" *ngIf="showFee">
+        <span *ngIf="item.fee >= 0" class="label-info-value light my-auto">{{item.fee | currency:
+          appInfo.getCurrencySymbol}}</span>
+      </td>
+
+      <td>
+        <div class="d-flex flex-row mt-2">
+          <app-button class="pointer-events" type="link" icon="fad fa-trash-alt" (clicked)="delete(item)"
+            matTooltip="Delete service">
+          </app-button>
+
+          <app-button class="pointer-events" type="link" icon="fad fa-edit" (clicked)="store.showEditService(item)"
+            matTooltip="Edit service">
+          </app-button>
+
+          <app-button class="pointer-events" type="link" icon="fad fa-plus" (clicked)="store.showEditProcedures(item)"
+            matTooltip="Add/Edit procedures">
+          </app-button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

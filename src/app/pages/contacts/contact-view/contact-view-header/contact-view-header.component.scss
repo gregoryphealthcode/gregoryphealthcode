@@ -1,0 +1,34 @@
+:host ::ng-deep .header-section-1 .a-form-group.d-col > label {
+  min-width: 15rem;
+  max-width: 15rem;
+}
+
+:host ::ng-deep .header-section-2 .a-form-group.d-col > label {
+  min-width: 15rem;
+  max-width: 15rem;
+}
+
+:host ::ng-deep .header-section-3 .a-form-group.d-col > label {
+  min-width: 18rem;
+  max-width: 20rem;
+}
+
+app-form-section .mr-5{
+  margin-right: 4rem !important;
+}
+
+:host ::ng-deep .a-form-group.d-col {
+  .label-value {
+    margin-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+.address-col.a-form-group.d-col {
+  height: auto;
+}
+
+.contact-telecom-row{
+  min-width: 18rem;
+  max-width: 20rem;
+}

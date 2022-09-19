@@ -1,0 +1,12 @@
+<dx-popup appCentralPopUpSettings *ngIf="show" [width]="'380'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="isNew ? 'Add Address' : 'Edit Address'" (closed)="show = false">
+    </app-pop-up-form-title>
+
+    <app-edit-contact-address class="central-popup-wrapper" [addressId]="addressId" [isNew]="isNew"
+      (saveAddress)="saved.emit($event); show=false" [addressesCount]="addressesCount" [contactId]="contact?.contactId"
+      (formClosed)="show = false">
+    </app-edit-contact-address>
+  </div>
+</dx-popup>

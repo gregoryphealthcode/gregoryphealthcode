@@ -1,0 +1,34 @@
+<ng-container *ngIf="controlType === 'm'; else devExpress">
+  <mat-form-field appearance="outline" class="w-100" *ngIf="!readonly; else Label">
+    <mat-label *ngIf="caption">{{caption}}</mat-label>
+
+    <mat-select [(value)]="value" [placeholder]="placeholder" [disabled]="disabled">
+      <mat-option *ngFor="let item of dataSource" [value]="item[valueExpr]">
+        {{item[displayExpr]}}
+      </mat-option>
+    </mat-select>
+
+    <mat-hint align="end" *ngIf="hint">{{hint}}</mat-hint>
+  </mat-form-field>
+</ng-container>
+
+<ng-template #devExpress>
+  <ng-container *ngIf="!readonly; else Label">
+    <label *ngIf="caption">{{caption}}</label>
+
+    <dx-select-box [searchEnabled]="searchEnabled" [dataSource]="dataSource" [valueExpr]="valueExpr"
+      [displayExpr]="displayExpr" class="no-bg-dropdown dx-custom-button-hovered" [(value)]="value"
+      [placeholder]="placeholder" [stylingMode]="stylingMode" [disabled]="disabled" [isValid]="!isInvalid"
+      [validationError]="error" [inputAttr]="{ autocomplete: 'chrome-off' }">
+    </dx-select-box>
+
+    <small class="font-weight-normal" *ngIf="hint && !isInvalid">{{hint}}</small>
+    
+    <small class="font-weight-normal control-error" *ngIf="isInvalid">{{error}}</small>
+  </ng-container>
+</ng-template>
+
+<ng-template #Label>
+  <app-form-label [direction]="direction" [caption]="caption" [value]="displayValue" [hasBottomMargin]="false">
+  </app-form-label>
+</ng-template>

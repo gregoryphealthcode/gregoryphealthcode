@@ -1,0 +1,33 @@
+<div class="content-block dx-card responsive-paddings dx-swatch-additional p-5px m-5px">
+    <dx-data-grid class="dx-card wide-card wm-100" #usersGrid id="usersGrid" height="100%" width="100%"
+        [dataSource]="dataSource" [showBorders]="false" [focusedRowEnabled]="true" focusedRowIndex="0"
+        [allowColumnReordering]="true" [allowColumnResizing]="true" [columnHidingEnabled]="true"
+        [rowAlternationEnabled]="true" columnResizingMode="widget" (onContentReady)="onContentReady($event)"
+        (onToolbarPreparing)="onToolbarPreparing($event)" (onFocusedRowChanged)="onFocusedRowChanged($event)"
+        [columnMinWidth]="175">
+        <dxo-remote-operations [filtering]="true" [paging]="false" [sorting]="true" [summary]="false" [grouping]="true"
+            [groupPaging]="true">
+        </dxo-remote-operations>
+        <dxo-scrolling mode="virtual" preloadEnabled="true" [useNative]="false" [scrollByContent]="true"
+            [scrollByThumb]="true" showScrollbar="onHover"></dxo-scrolling>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-search-panel [visible]="false" [width]="240" placeholder="Search...">
+        </dxo-search-panel>
+        <dxo-load-panel [enabled]="true"></dxo-load-panel>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50, 100]"></dxo-pager>
+        <dxo-paging [pageSize]="50"></dxo-paging>
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+        </dxo-editing>
+
+        <dxi-column dataField="Active" caption="Active?" [width]="85"> </dxi-column>
+        <dxi-column dataField="User.DisplayValue" caption="User" [width]="200"> </dxi-column>
+        <dxi-column dataField="AccessRole" caption="Access Role" [width]="200"> </dxi-column>
+        <dxi-column dataField="User.Email" caption="Email"> </dxi-column>
+        <dxi-column dataField="User.LastLogin" caption="Last Login" dataType="Date" format="dd/MM/yy HH:mm">
+        </dxi-column>
+        <dxi-column [calculateCellValue]="this.calculateAgo" caption="Ago" [allowSorting]="false"
+            [allowFiltering]="false">
+        </dxi-column>
+    </dx-data-grid>
+</div>

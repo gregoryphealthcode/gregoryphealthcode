@@ -1,0 +1,28 @@
+<div class="warning-prompt">
+  <div class="d-flex flex-column mt-1">
+    <span class="d-flex flex-row text-semiBold mb-1" *ngIf="title">{{title}}</span>
+    <div *ngFor="let item of errors" class="d-flex flex-row mb-2">
+      <span class="mr-1">&#8226;</span>
+
+      <div class="d-flex flex-column">
+        <div *ngIf="item.invoiceFieldName"></div>
+
+        <div *ngIf="item.invoiceFieldName;else noField" class="d-flex flex-row">
+          <span>{{item.invoiceFieldName}}</span>
+
+          <span>&nbsp;-&nbsp;{{item.errorMessage}}</span>
+        </div>
+
+        <ng-template #noField>
+          <span class="d-flex flex-row text-semiBold">{{item.errorMessage}}</span>
+        </ng-template>
+
+        <div class="d-flex flex-row text-left" *ngIf="item.recommendation">
+          <span class="text-recomm">Recomm:&nbsp;</span>
+          
+          <span class="text-semiBold">{{item.recommendation}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

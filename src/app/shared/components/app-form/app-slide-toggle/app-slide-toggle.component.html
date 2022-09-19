@@ -1,0 +1,3 @@
+<label *ngIf="caption">{{caption}}</label>
+
+<mat-slide-toggle [(ngModel)]="value" color="primary" [disabled]="disabled">{{value? 'Yes' : 'No'}}</mat-slide-toggle>

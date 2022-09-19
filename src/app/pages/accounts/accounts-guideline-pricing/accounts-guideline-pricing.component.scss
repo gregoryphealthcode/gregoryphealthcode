@@ -1,0 +1,30 @@
+.text-center {
+    text-align: center;
+}
+
+.w-90px {
+    width: 90px;
+}
+
+.w-30px {
+    width: 30px;
+}
+
+
+body :host ::ng-deep .cssGridGeneral .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row>td,
+body .cssGridGeneral .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row>td.dx-cell-modified:not(.dx-field-item-content),
+body .cssGridGeneral .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row>td.dx-datagrid-invalid:not(.dx-field-item-content),
+body .cssGridGeneral .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row>td,
+body .cssGridGeneral .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row>td.dx-cell-modified:not(.dx-field-item-content),
+body .cssGridGeneral .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row>td.dx-treelist-invalid:not(.dx-field-item-content) {
+    padding-right: 0.3rem !important;
+    padding-left: 0.3rem !important;
+}
+
+.position {
+    position: absolute;
+    z-index: 1000;
+    width: calc(10%);
+    left: 458px;
+    margin-top: 2px;
+}

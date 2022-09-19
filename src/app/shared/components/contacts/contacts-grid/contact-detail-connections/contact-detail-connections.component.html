@@ -1,0 +1,57 @@
+<div class="d-flex flex-column flex-grow-1 mb-3 ml-2">
+  <div class="d-flex flex-row mb-2 align-items-center">
+    <span class="text-semiBold">Connections</span>
+
+    <span class="label-tag tab-count ml-1 type5-1 my-auto" *ngIf="count">{{count}}</span>
+  </div>
+
+  <div class="cssWidgetWrapper generic-border">
+    <dx-data-grid gridWithRowLinesSettings [dataSource]="records" class="cssGridGeneral" keyExpr="this"
+      focusedRowIndex="0" [columnMinWidth]="50">
+
+      <dxi-column dataField="displayName" cellTemplate="nameTemplate" caption="Name"></dxi-column>
+      <dxi-column dataField="contactType.contactType" alignment="center" cellTemplate="typeTemplate" caption="Type">
+      </dxi-column>
+      <dxi-column cellTemplate="addressTemplate" caption="Address"></dxi-column>
+      <dxi-column type="buttons" [showInColumnChooser]="false">
+        <dxi-button template="myCommandTemplate"></dxi-button>
+      </dxi-column>
+
+      <div *dxTemplate="let cellInfo of 'addressTemplate'">
+        <div *ngIf="cellInfo.row.data.address as address; else noAddress" class="d-flex flex-column">
+          <div class="d-flex flex-row">
+            <span *ngIf="address.postcode" class="text-semiBold">{{address.postcode}}</span>
+
+            <span class="label-tag type3 my-auto ml-2" *ngIf="cellInfo.row.data.primaryAddress">Primary</span>
+
+            <span class="label-tag type4 my-auto ml-2" *ngIf="cellInfo.row.data.billingAddress">Billing</span>
+
+            <span>, {{address.address1}}</span>
+
+            <span *ngIf="address.address2">, {{address.address2}}</span>
+
+            <span *ngIf="address.address3">, {{address.address3}}</span>
+          </div>
+        </div>
+
+        <ng-template #noAddress>
+          <span class="text-grey-70">No address</span>
+        </ng-template>
+      </div>
+
+      <div *dxTemplate="let data of 'typeTemplate'" class="d-flex flex-row justify-content-center">
+        <span class="label-tag md type5-1"
+          [ngStyle]="{'background-color': getBackgroundColor(data)}">{{data.data.contactType.contactType}}</span>
+      </div>
+
+      <div *dxTemplate="let data of 'myCommandTemplate'" class="d-flex flex-row">
+        <app-button text="Add connection" type="link" iconPosition="left" icon="far fa-plus"
+          matTooltip="Add as Connection" (clicked)="connectionSelected(data.data)"></app-button>
+      </div>
+
+      <div *dxTemplate="let data of 'nameTemplate'" class="d-flex flex-column">
+        <span class="text-semiBold">{{data.data.displayName}}</span>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>

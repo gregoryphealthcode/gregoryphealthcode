@@ -1,0 +1,126 @@
+<!-- SELECT ADDRESS SCREEN STARTS HERE -->
+<div class="card m-1 p-1">
+    <div class="card-body">
+        <!-- FORM -->
+        <form action="selectAddressFormSubmit" (submit)="onFormSubmit($event)">
+            <dx-form #selectaddressform name="selectaddressform" [formData]="selectAddressData" [minColWidth]="300"
+                colCount="2" focusStateEnabled="true" activeStateEnabled="true" hoverStateEnabled="true"
+                [elementAttr]="{autocomplete: 'off'}" scrollingEnabled="true"
+                [labelLocation]="appInfo.getPreflabelLocation()">
+                <!-- validationGroup="selectAddressValidation"  
+        showValidationSummary="true"-->
+
+                <!-- FORM CAPTION -->
+                <dxi-item itemType="group" caption="" [colSpan]="2" ngStyle.height="!issmallscreen ? '600px' : 'auto'"
+                    [colCount]="2" [alignItemLabels]="true">
+                    <dxi-item [colSpan]=2>
+                        <span>
+                            <h4 class="content-block noselect"><i class="fas fa-search-location fa-2x"></i> Find Address
+                            </h4>
+                        </span>
+                    </dxi-item>
+
+                    <!-- SEARCH TERM (ie postcode) -->
+                    <dxi-item #searchTerm name="searchTerm" editorType='dxTextBox' [colSpan]="1"
+                        [label]="{text: 'Postcode'}" dataField="searchTerm" [editorOptions]="{
+                                        stylingMode: appInfo.prefstylingmode, 
+                                        focusStateEnabled: true, 
+                                        placeholder: 'Postcode', 
+                                        onInput: allCaps, 
+                                        buttons: [{  
+                                            name: 'find',  
+                                            location: 'after',  
+                                            options: searchButton
+                                        }]      
+                                    }">
+                        <!-- <dxi-validation-rule type="required" message="Patient is required"></dxi-validation-rule> -->
+                    </dxi-item>
+
+                    <dxi-item itemType="empty" [colSpan]="1">
+                    </dxi-item>
+
+                    <dxi-item *ngIf="(showPostcodeData === true)" [colSpan]="2">
+                        <p class="pl-50px white-space-pre">{{postcodeData}}</p>
+                    </dxi-item>
+
+                    <dxi-item *ngIf="(numMatches > 0)" [colSpan]="2" class="text-center">
+                        <h4><b>{{numMatches}} </b>addresses found. Select from list below.</h4>
+                    </dxi-item>
+
+                    <dxi-item *ngIf="(numMatches === 0)" [colSpan]="2" class="text-center">
+                        <p><b>Type postcode above & click magnifying glass to search for matching addresses.</b></p>
+                    </dxi-item>
+
+                    <!-- ADDRESS MATCHES (dropdown) -->
+                    <dxi-item #addressDropdown name="addressDropdown" dataField="selectedAddress"
+                        editorType='dxSelectBox' [colSpan]="2" [label]="{text: 'Address'}" [editorOptions]="{  stylingMode: appInfo.prefstylingmode, 
+                                        items: addressMatches, 
+                                        displayExpr: getDisplayAddress,
+                                        valueExpr: 'line_1',
+                                        onSelectionChanged: addressSelectChange.bind(this)
+                                    }">
+                        <!-- <dxi-validation-rule type="required" message="Address selection is required"></dxi-validation-rule> -->
+                    </dxi-item>
+
+                    <dxi-item itemType="empty" [colSpan]="2">
+                    </dxi-item>
+
+                    <dxi-item editorType='dxTextBox' [colSpan]="2" [label]="{text: 'Address Line 1'}"
+                        dataField="AddressLine1"
+                        [editorOptions]="{ stylingMode: appInfo.prefstylingmode, readOnly: true, focusStateEnabled: false }">
+                    </dxi-item>
+
+                    <dxi-item editorType='dxTextBox' [colSpan]="2" [label]="{text: 'Address Line 2'}"
+                        dataField="AddressLine2"
+                        [editorOptions]="{ stylingMode: appInfo.prefstylingmode, readOnly: true, focusStateEnabled: false }">
+                    </dxi-item>
+
+                    <dxi-item editorType='dxTextBox' [colSpan]="2" [label]="{text: 'Address Line 3'}"
+                        dataField="AddressLine3"
+                        [editorOptions]="{ stylingMode: appInfo.prefstylingmode, readOnly: true, focusStateEnabled: false }">
+                    </dxi-item>
+
+                    <dxi-item editorType='dxTextBox' [colSpan]="2" [label]="{text: 'Address Line 4'}"
+                        dataField="AddressLine4"
+                        [editorOptions]="{ stylingMode: appInfo.prefstylingmode, readOnly: true, focusStateEnabled: false }">
+                    </dxi-item>
+
+                    <!-- <dxi-item editorType='dxTextBox' 
+                [colSpan]="2" 
+                [label]="{text: 'Address Line 4'}"
+                dataField="AddressLine4" 
+                [editorOptions]="{ stylingMode: appInfo.prefstylingmode, readOnly: true }"></dxi-item> -->
+
+                    <dxi-item itemType="group" caption="" [colSpan]="2" [colCount]="3" class="m-7px">
+                        <dxi-item editorType='dxTextBox' [colSpan]="1" [label]="{text: 'Latitude'}" dataField="Latitude"
+                            [editorOptions]="{ stylingMode: appInfo.prefstylingmode, readOnly: true, focusStateEnabled: false }">
+                        </dxi-item>
+
+                        <dxi-item editorType='dxTextBox' [colSpan]="1" [label]="{text: 'Longitude'}"
+                            dataField="Longitude"
+                            [editorOptions]="{ stylingMode: appInfo.prefstylingmode, readOnly: true, focusStateEnabled: false }">
+                        </dxi-item>
+
+                        <dxi-item itemType="button" [buttonOptions]="AddressMapButtonOptions" [colSpan]="1">
+                        </dxi-item>
+                    </dxi-item>
+                </dxi-item>
+            </dx-form>
+        </form>
+
+        <dx-box direction="row" width="100%" class="mt-10px">
+            <dxi-item direction="col" [ratio]="1">
+                <span class="text-center ml-auto mr-auto">
+                    <!-- !!!! OK - Select Address Button -->
+                    <dx-button text="OK - Select Address" (onClick)="selectAddressOKClicked($event)" type="default"
+                        icon="fas fa-check" class="mr-10px" useSubmitBehavior="true">
+                    </dx-button>
+                    <!-- !!! CANCEL Button -->
+                    <dx-button text="Cancel" (onClick)="cancelClicked($event)" type="default" icon="fas fa-times"
+                        class="ml-10px">
+                    </dx-button>
+                </span>
+            </dxi-item>
+        </dx-box>
+    </div>
+</div>

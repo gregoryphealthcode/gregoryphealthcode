@@ -1,0 +1,153 @@
+@import "../../../../../assets/scss/variables.scss";
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 0.75rem;
+
+  &.form-col-1\/2{
+    min-width: 17rem;
+  }
+
+  label {
+    color: hsl(0, 0%, 60%);
+  }
+
+  &.pr-4 {
+    padding-right: 2.5rem !important;
+  }
+
+  &.pl-4 {
+    padding-left: 2.5rem !important;
+  }
+
+  &:last-of-type,
+  &.no-end-section {
+    .section-end {
+      display: none;
+    }
+  }
+}
+
+.title-underline{
+  margin-top: 3px;
+  margin-bottom: 2px;
+}
+
+.modal-section-title {
+  display: flex;
+  min-width: 27%;
+  color: hsl(0, 0%, 40%);
+  font-weight: 500;
+  font-size: 0.825rem;
+}
+
+.modal-section-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  max-width: 73%;
+}
+
+.section-heading {
+  display: flex;
+  color: hsl(215, 5%, 30%);
+  font-weight: 600;
+  font-size: 12px;
+  font-family: "Montserrat", "Helvetica Neue", "Segoe UI", Helvetica, Verdana,
+  sans-serif;
+}
+
+.text-wrapper {
+  display: flex;
+  flex-direction: row;
+  padding: 0.25rem 0rem 0.15rem 0.8rem;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  position: relative;
+
+  .mat-icon-button {
+    position: absolute;
+    right: 0;
+    .mat-icon {
+      font-size: 15px;
+    }
+  }
+
+  &.help {
+    background-color: hsl(215, 35%, 98%);
+    color: hsl(215, 17%, 60%);
+    border-left: 3px solid #738cb0;
+  }
+
+  &.danger {
+    background-color: #fff5e5;
+    border-left: 3px solid #ebbe70;
+    color: hsl(38, 75%, 55%);
+  }
+
+  &.warning {
+    $warning-color: hsl(10, 91%, 59%);
+    color: $warning-color;
+    background-color: lighten($warning-color, $amount: 36%);
+    border-left: 3px solid $warning-color;
+  }
+}
+
+.section-end {
+  margin: 0.3rem 0.5rem 0.2rem;
+}
+
+:host ::ng-deep .small-icon {
+  width: 23px;
+}
+
+:host ::ng-deep .section-icon {
+  height: 20px;
+  line-height: 20px;
+
+  .mat-icon {
+    font-size: 17px;
+  }
+
+  .text-wrapper {
+    .mat-icon {
+      font-size: 13px;
+    }
+  }
+}
+
+.vertical-line.line-2x {
+  width: 1px;
+  background-color: hsl(220, 77%, 85%);
+  height: 4px;
+  margin: auto 5px auto;
+}
+
+:host ::ng-deep .add-button{
+  .btn-icon {
+    font-size: 12px !important;
+    height: 12px !important;
+    line-height: 11px !important;
+}
+}
+
+.w-85per {
+  width: 85%;
+}
+
+.block {
+  display: block;
+}
+
+.no-wrap {
+  flex-wrap: nowrap !important;
+}
+
+.sub-heading {
+    color: #506d95 !important;
+    font-size: 1.15em !important;
+    font-weight: 500 !important;
+    padding: 0.5rem 0 !important;
+    font-family: Roboto, "Helvetica Neue", sans-serif !important;
+}

@@ -1,0 +1,77 @@
+<div class="responsive-margins h-100">
+  <div class="d-flex flex-row flex-grow-1 row-padding h-100" [formGroup]="editForm" delay="750">
+    <div class="d-flex flex-column flex-grow-1 col-8 h-100">
+      <dx-data-grid id="lluPatientNumberTypesGrid" [dataSource]="telecomTypes" class="cssGridGeneral"
+        [showColumnLines]="true" [showRowLines]="true" [showBorders]="true" [rowAlternationEnabled]="true"
+        [columnMinWidth]="175"
+        (onFocusedRowChanged)="onFocusedRowChanged($event)" keyExpr="this" [focusedRowEnabled]="true"
+        focusedRowIndex="0">
+        <dxo-remote-operations [filtering]="true" [paging]="true" [sorting]="true" [summary]="false" [grouping]="false"
+          [groupPaging]="false"></dxo-remote-operations>
+        <dxo-scrolling mode="virtual" preloadEnabled="true" [useNative]="false" [scrollByContent]="true"
+          [scrollByThumb]="true" showScrollbar="onHover"></dxo-scrolling>
+        <dxo-search-panel [visible]="false" [width]="240"></dxo-search-panel>
+        <dxo-pager [showPageSizeSelector]="false" [allowedPageSizes]="[10, 20, 30, 40]"></dxo-pager>
+        <dxo-paging [pageSize]="20"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+
+        <dxi-column dataField="description" caption="Type"></dxi-column>
+        <dxi-column dataField="alwaysAdd" caption="Add" cellTemplate="addTemplate"></dxi-column>
+        <dxi-column dataField="active" caption="Active" cellTemplate="activeTemplate"></dxi-column>
+        <dxi-column dataField="description" caption="Description"></dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false" headerCellTemplate="header-cell-template">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'addTemplate'">
+          <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'activeTemplate'">
+          <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'">
+          <button mat-icon-button class="alternative small-icon warning left-shift" (click)="delete(cellInfo)"
+            matTooltip="Delete">
+            <mat-icon fontSet="fa" fontIcon="fa-trash"></mat-icon>
+          </button>
+        </div>
+
+        <div *dxTemplate="let data of 'header-cell-template'">
+          <button mat-button class="app-button primary grid-header-btn grid-add-btn" (click)="addNew()">
+            Add
+          </button>
+        </div>
+      </dx-data-grid>
+    </div>
+
+    <div class="d-flex flex-column flex-grow-1 col-4 align-items-center padding-left h-100">
+      <app-text-box formControlName="telecomType" caption="Telecom Type" direction="row" [disabled]="true"></app-text-box>
+
+      <app-text-box formControlName="description" caption="Description" direction="row" [capitalizeEachWord]="true">
+      </app-text-box>
+
+      <app-slide-toggle formControlName="alwaysAdd" class="toggle-shift" caption="Always Add" direction="row">
+      </app-slide-toggle>
+
+      <app-slide-toggle formControlName="numericOnly" class="toggle-shift" caption="Numbers Only" direction="row">
+      </app-slide-toggle>
+
+      <app-slide-toggle formControlName="active" class="toggle-shift" caption="Active" direction="row">
+      </app-slide-toggle>
+
+      <div class="d-flex flex-row row-padding w-100">
+        <button mat-button class="app-button primary grid-header-btn ml-auto mr-2" (click)="submitForm()"
+          matTooltip="Save patient telecom">
+          <span>Save</span>
+        </button>
+    
+        <button mat-button class="app-button secondary grid-header-btn mr-2" (click)="close()"
+          matTooltip="Close patient telecom">
+          <span>Close</span>
+        </button>
+      </div>
+    </div>
+  </div>  
+</div>

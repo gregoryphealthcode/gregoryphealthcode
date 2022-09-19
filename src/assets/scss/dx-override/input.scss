@@ -1,0 +1,28 @@
+.dx-swatch-additional .dx-editor-filled .dx-texteditor-input {
+  background: #fff;
+}
+
+body {
+  .dx-texteditor-input {
+    color: hsl(0, 0%, 30%);
+  }
+
+  .dx-list-item-before-bag .dx-list-select-checkbox,
+  .dx-list-item-before-bag .dx-list-select-radiobutton {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 5px;
+  }
+
+  .dx-lookup {
+    height: auto;
+    .dx-lookup-field {
+      padding: 10px 9px 10px 12px;
+      font-size: 1em;
+    }
+
+    .dx-lookup-empty .dx-lookup-field {
+      color: hsl(0, 0%, 67%);
+    }
+  }
+}

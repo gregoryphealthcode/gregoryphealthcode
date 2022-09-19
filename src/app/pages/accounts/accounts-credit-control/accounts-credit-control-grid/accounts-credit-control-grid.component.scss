@@ -1,0 +1,9 @@
+body :host ::ng-deep .cssGridGeneral .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row>td,
+body .cssGridGeneral .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row>td.dx-cell-modified:not(.dx-field-item-content),
+body .cssGridGeneral .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row>td.dx-datagrid-invalid:not(.dx-field-item-content),
+body .cssGridGeneral .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row>td,
+body .cssGridGeneral .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row>td.dx-cell-modified:not(.dx-field-item-content),
+body .cssGridGeneral .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row>td.dx-treelist-invalid:not(.dx-field-item-content) {
+    padding-right: 0.3rem !important;
+    padding-left: 0.3rem !important;
+}

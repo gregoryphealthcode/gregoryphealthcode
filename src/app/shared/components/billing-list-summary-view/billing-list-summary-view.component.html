@@ -1,0 +1,82 @@
+<div class="d-flex flex-column flex-grow-1">
+  <span class="d-flex a-card-title responsive-paddings">{{patientDetails.lastName}}, {{patientDetails.firstName}} {{patientDetails.title}}
+    </span>
+
+  <div class=" content-height custom-scroll disable-select responsive-paddings">
+    <div class="d-flex flex-column flex-grow-1 left-margin-1 h-100 ">
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">DOB</span>
+
+        <span class="label-info-value">{{patientDetails.birthDate | date: "dd/MM/yyyy"}}</span>
+      </div>
+
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">Gender:</span>
+
+        <span class="label-info-value">{{patientDetails.gender}}</span>
+      </div>
+
+      <span class="horizontal-line my-3"></span>
+
+      <ng-container *ngIf="appointment">
+        <div class="d-flex flex-row">
+          <span class="label-info label-width">Appointment Type</span>
+
+          <span class="label-info-value">{{appointment.appointmentType}}</span>
+        </div>
+
+        <div class="d-flex flex-row">
+          <span class="label-info label-width">On</span>
+
+          <span class="label-info-value">{{appointment.startDate | date: appInfo.getDateTimeFormat}}</span>
+        </div>
+
+        <div class="d-flex flex-row">
+          <span class="label-info label-width">Practitioner</span>
+
+          <span class="label-info-value">{{appointment.ownerName}}</span>
+        </div>
+
+        <div class="d-flex flex-row">
+          <span class="label-info label-width">Location</span>
+
+          <span class="label-info-value">{{appointment.locationName}}</span>
+        </div>
+      </ng-container>
+
+      <span class="horizontal-line mt-2 mb-3"></span>
+
+      <div class="d-flex align-items-center" *ngFor="let item of telecoms; let i = index">
+        <div class="d-flex flex-row">
+          <div class="label-info label-width mr-1">{{item.description}}:</div>
+
+          <span *ngIf="item.description != 'Email'" class="label-info-value">
+            <a [href]="'tel:' + item.telecomValue">{{item.telecomValue}}</a></span>
+
+          <span *ngIf="item.description == 'Email'" class="label-info-value">
+            <a [href]="'mailto:' + item.telecomValue">{{item.telecomValue}}</a></span>
+        </div>
+      </div>
+
+      <span class="horizontal-line mt-2 mb-3"></span>
+
+      <div class="d-flex align-items-center" *ngFor="let item of referenceNumbers; let i = index">
+        <div class="d-flex flex-row">
+          <div class="label-info label-width mr-1">{{item.refNoType}}:</div>
+
+          <div class="label-info-value">{{item.refNoValue}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class="horizontal-line"></span>
+
+  <div class="d-flex flex-row w-100 a-card-footer justify-content-center">
+    <app-card-action-button icon="pound-sign" text="Create Invoice" (clicked)="createInvoice()">
+    </app-card-action-button>
+
+    <app-card-action-button icon="clipboard-user" text="Patient Details" (clicked)="showPatientDetails()">
+    </app-card-action-button>
+  </div>
+</div>

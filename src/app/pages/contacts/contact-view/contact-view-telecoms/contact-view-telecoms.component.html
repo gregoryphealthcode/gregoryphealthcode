@@ -1,0 +1,33 @@
+<div class="cssWidgetWrapper">
+  <dx-data-grid gridWithRowLinesSettings [dataSource]="telecoms" class="cssGridGeneral" keyExpr="this"
+    [rowAlternationEnabled]="true" focusedRowIndex="0">
+    <dxi-column dataField="description" cssClass="text-semiBold" caption="Type" [minWidth]="120">
+    </dxi-column>
+    <dxi-column dataField="value" cellTemplate="valueTemplate" caption="Description" [minWidth]="200">
+    </dxi-column>
+    <dxi-column dataField="preferred" [visible]="false" sortOrder="desc" [minWidth]="120"></dxi-column>
+    <dxi-column dataField="primary" [visible]="false" sortOrder="desc" [minWidth]="120"></dxi-column>
+    <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="120">
+      <dxi-button template="myCommandTemplate"></dxi-button>
+    </dxi-column>
+
+    <div *dxTemplate="let cellInfo of 'valueTemplate'" class="d-flex flex-row">
+      <span *ngIf="cellInfo.row.data.description != 'Email'" class="label-info-value">
+        <a [href]="'tel:' + cellInfo.row.data.value">{{cellInfo.row.data.value}}</a></span>
+
+      <span *ngIf="cellInfo.row.data.description == 'Email'" class="label-info-value">
+        <a [href]="'mailto:' + cellInfo.row.data.value">{{cellInfo.row.data.value}}</a></span>
+
+      <span class="label-tag type3 my-auto ml-2" *ngIf="cellInfo.row.data.preferred">Preferred</span>
+      <span class="label-tag type3 my-auto ml-2" *ngIf="cellInfo.row.data.primary">Primary</span>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+      <app-button type="link" iconPosition="left" icon="far fa-trash" color="grey" matTooltip="Delete Telecom"
+        (clicked)="store.deleteTelecom(cellInfo.row.data.id)"></app-button>
+
+      <app-button type="link" iconPosition="right" icon="far fa-edit" color="grey" matTooltip="Edit Telecom"
+        (clicked)="store.showUpdateTelecom(cellInfo.row.data.id)"></app-button>
+    </div>
+  </dx-data-grid>
+</div>

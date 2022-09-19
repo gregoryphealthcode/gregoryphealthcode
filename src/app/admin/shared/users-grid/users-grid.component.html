@@ -1,0 +1,32 @@
+<app-epractice-user-add-edit [data]="selectedRecord" (saved)="saved($event)"></app-epractice-user-add-edit>
+
+<div class="cssWidgetWrapper">
+    <dx-data-grid id="userGrid" [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="this" height="100%"
+        [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg" (onRowDblClick)="editClicked($event)"
+        [rowAlternationEnabled]="true" focusedRowIndex="0" (onFocusedRowChanged)="onFocusedRowChanged($event)"
+        [focusedRowEnabled]="true"
+        [columnMinWidth]="175">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+        <dxi-column dataField="userName" caption="User Name" sortOrder="asc"></dxi-column>
+        <dxi-column dataField="userType" caption="User Type"></dxi-column>
+        <dxi-column dataField="forename" caption="First Name"></dxi-column>
+        <dxi-column dataField="surname" caption="Last Name"></dxi-column>
+        <dxi-column dataField="email" caption="Email"></dxi-column>
+        <dxi-column dataField="contactTel" caption="Contact Number"></dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false" width="85">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+            <!-- <app-button icon="far fa-trash" type="link" color="grey" class="mr-2" matTooltip="Delete"
+              (clicked)="deleteClicked(cellInfo)"></app-button> -->
+
+            <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit User"
+                (clicked)="editClicked(cellInfo)"></app-button>
+
+            <app-button type="link" iconPosition="left" icon="far fa-unlink" color="warning" matTooltip="Unlink User"
+                *ngIf="showUnlink" (clicked)="unlinkClicked.emit(cellInfo.data)"></app-button>
+        </div>
+    </dx-data-grid>
+</div>

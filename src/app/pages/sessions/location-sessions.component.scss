@@ -1,0 +1,156 @@
+:host{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.session-height
+{
+  height: 800px;
+}
+
+:host ::ng-deep .item-badge {
+  text-align: center;
+    float: left;
+    margin-right: 12px;
+    color: white;
+  width: 18px;
+    height: 18px;
+    font-size: 19.5px;
+    border-radius: 18px;
+    margin-top: 2px;
+}
+:host ::ng-deep .item-leftbar {
+  text-align: center;
+    float: left;
+    margin-right: 12px;
+    background: lightgray;
+  width: 18px;
+    height: 18px;
+    font-size: 19.5px;
+    border-radius: 0px;
+    margin-top: 2px;
+    border: none;
+    border-left-width: 8px;
+    border-left-style: solid;
+}
+
+:host ::ng-deep .item-rightbar {
+  text-align: center;
+    float: left;
+    margin-right: 12px;
+    background: lightgray;
+  width: 18px;
+    height: 18px;
+    font-size: 19.5px;
+    border-radius: 0px;
+    margin-top: 2px;
+    border: none;
+    border-right-width: 8px;
+    border-right-style: solid;
+}
+
+:host ::ng-deep .appt-leftbar {
+    border-left-width: 12px;
+    border-left-style: solid;
+}
+
+:host ::ng-deep .appt-rightbar {
+  border-right-width: 12px;
+  border-right-style: solid;
+}
+
+:host ::ng-deep .appointment-description {
+font-size: 14px;
+line-height: 16px;
+}
+
+:host ::ng-deep .appt-unavailable {
+background: rgba(182, 21, 21, 0.856);
+border-left: none;
+}
+
+:host ::ng-deep .appt-available {
+background: rgba(171, 224, 161, 0.356);
+border-left: none;
+}
+
+:host ::ng-deep .appt-available-clinic {
+background: rgba(171, 224, 161, 0.356);
+border-left: solid 9px #3c82be;
+}
+
+
+:host ::ng-deep .appt-available-theatre {
+background: rgba(171, 224, 161, 0.356);
+border-left: solid 9px #8f3cbe;
+}
+
+
+:host ::ng-deep .dx-scheduler-appointment-popup > .dx-overlay-content.dx-popup-normal {
+max-height: calc(100vh - 50px)!important;
+max-width: calc(100vw - 20px)!important;
+width: 1200px!important;
+// height: 700px!important;
+}
+
+:host ::ng-deep .diary-weekend {
+background-color: rgba(195, 229, 235, 0.4);
+height: 100%;
+}
+
+:host ::ng-deep .diary-publichol {
+background-color: rgba(235, 91, 91, 0.2);
+height: 100%;
+}
+
+:host ::ng-deep .dx-checkbox-text {
+color: #337ab7!important;
+}
+
+div.dx-tabpanel-container  div.dx-multiview-wrapper {
+background: aliceblue;
+background-color: aliceblue;
+}
+
+.dx-layout-manager .dx-tabpanel .dx-multiview-item-content { padding: 3px;}
+
+:host ::ng-deep .dx-scheduler-navigator-caption.dx-widget.dx-button-has-text > .dx-button-content {padding-left: 4px; padding-right: 4px;}
+
+
+body :host ::ng-deep .cssGridGeneral .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td, body .cssGridGeneral .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content), body .cssGridGeneral .dx-datagrid .dx-datagrid-content .dx-datagrid-table .dx-row > td.dx-datagrid-invalid:not(.dx-field-item-content), body .cssGridGeneral .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td, body .cssGridGeneral .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td.dx-cell-modified:not(.dx-field-item-content), body .cssGridGeneral .dx-treelist .dx-treelist-content .dx-treelist-table .dx-row > td.dx-treelist-invalid:not(.dx-field-item-content){
+  padding-right: 0.3rem;
+  padding-left: 0.3rem;
+}
+
+.grid-width{
+  min-width: 250px;
+  max-width: 250px;
+}
+
+body :host ::ng-deep  .custom-Grid .dx-datagrid-headers .dx-datagrid-table .dx-row.dx-header-row > td {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+
+// :host ::ng-deep .dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-select, :host ::ng-deep .dx-datagrid-table.dx-datagrid-table-fixed colgroup>col
+// {
+//   width: 50px !important;
+//   max-width: 50px !important;
+// }
+
+.white-space {
+  white-space:normal
+}
+
+.w-2-5r {
+  width: 2.5rem; 
+}
+
+.h-2-5r {
+height: 2.5rem
+}
+
+.border-rad-50per {
+  border-radius: 50%;
+}

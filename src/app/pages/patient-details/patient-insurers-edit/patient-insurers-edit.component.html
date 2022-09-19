@@ -1,0 +1,27 @@
+<div class="central-popup-body" appEnterKeyFocusWrapper delay="750" [formGroup]="editForm">
+  <app-select-box [dataSource]="insurers" direction="row" valueExpr="insurerId" displayExpr="insurerName" [disabled]="!isNew"
+    formControlName="insurerId" caption="Insurer"></app-select-box>
+
+  <div class="d-flex flex-row">
+    <app-text-box formControlName="registrationNumber" [externalError]="getMembershipNoError" direction="row"
+      caption="Membership No."></app-text-box>
+
+    <ng-container *ngIf="getFormPropertyValue('insurerId') && !gotMembershipNo">
+      <app-button type="link" icon="fas fa-search lg-icon" class="membershipNo--btn pl-3"
+        [loading]="gettingMembershipNo" (clicked)="getMembershipNo()" matTooltip="Get Membership No."></app-button>
+    </ng-container>
+  </div>
+
+  <app-text-box formControlName="scheme" direction="row" caption="Scheme"></app-text-box>
+
+  <app-date-box class="width-3/4" caption="Renewal Date" formControlName="renewalDate" direction="row"></app-date-box>
+
+  <app-slide-toggle formControlName="isPrimary" class="mt-1 md-height" direction="row" caption="Primary ?" [disabled]="insurerDetails?.isPrimary">
+  </app-slide-toggle>
+</div>
+
+<div class="popup-form-footer-wrapper">
+  <app-button text="Close" class="ml-auto mr-3" (clicked)="formClosed.emit()" color="grey"></app-button>
+  
+  <app-button [text]="isNew? 'Add' : 'Save'" (clicked)="submitForm()"></app-button>
+</div>

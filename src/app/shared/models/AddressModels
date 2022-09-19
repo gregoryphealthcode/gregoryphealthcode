@@ -1,0 +1,26 @@
+/*
+import Guid from 'devextreme/core/guid';
+
+export class AddressModel {
+    uniqueNo?: number | null;
+    addressId?: Guid | null;
+    patientId?: Guid | null;
+    contactId?: Guid | null;
+    siteId?: Guid | null;
+    addressTypeId?: number | null;
+    rank?: number | null;
+    primaryAddress?: boolean | null;
+    billingAddress?: boolean | null;
+    address1?: string | null;
+    address2?: string | null;
+    address3?: string | null;
+    address4?: string | null;
+    postcode?: string | null;
+    country?: string | null;
+    longitude?: number | null;
+    latitude?: number | null;
+    data?: any | null;
+    errors?: any | null;
+    success?: boolean | null;
+}
+*/

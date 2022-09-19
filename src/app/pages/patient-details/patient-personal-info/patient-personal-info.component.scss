@@ -1,0 +1,24 @@
+.content-height {
+  min-height: 150px; // dummy height
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.heading {
+  height: 27px !important;
+
+}
+
+.full-height2 {
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+}
+
+.margin-left {
+  margin-left: 8px;
+}
+
+.notes-badge-red {
+  background-color: crimson;
+}

@@ -1,0 +1,29 @@
+$btn-color: hsl(0, 0%, 40%);
+
+:host{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex: auto;
+  padding: 18px 12px 16px;
+  background-color: hsl(0, 0%, 92%);
+
+  ::ng-deep .app-btn.btn-primary-color.btn-link{
+    color: $btn-color;
+
+    &[disabled]{
+      color: lighten($btn-color, 20%);
+
+      &:hover{
+        color: lighten($btn-color, 20%);
+      }
+    }
+
+    .btn-icon{
+      margin-right: 6px;
+    }
+  }
+
+}
+
+

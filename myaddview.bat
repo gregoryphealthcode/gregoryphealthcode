@@ -1,0 +1,1 @@
+npx devextreme add view %1

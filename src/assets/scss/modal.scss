@@ -1,0 +1,58 @@
+.right-modal--padding{
+  padding-left: 42px;
+  padding-right: 42px;
+}
+
+.right-popup-wrapper{
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  height: 100%;
+}
+
+
+.central-popup-wrapper{
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  height: 100%;
+  overflow: auto;
+
+  .central-popup-body{
+    max-height: 800px;
+    overflow-y: auto;
+    padding: 1.25rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+
+    app-form-section .title-underline{
+      margin-bottom: 10px !important;
+    }
+  }
+
+}
+
+.dx-popup-wrapper > .dx-overlay-content, .dx-popup-wrapper > .dx-overlay-content.dx-state-focused {
+  border: none;
+  // background: none;
+  border-radius: 6px;
+
+  .dx-popup-content {
+    border-radius: 7px;
+}
+}
+
+.popup-wrapper{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  border-radius: 7px;
+}
+
+.no-padding.cdk-overlay-pane{
+  .mat-dialog-container{
+    padding:0
+  }
+}

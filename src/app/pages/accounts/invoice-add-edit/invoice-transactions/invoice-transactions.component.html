@@ -1,0 +1,30 @@
+<div class="d-flex flex-row mt-2">
+    <span class="label-info label-width-view"><strong>Invoice Details</strong></span>
+</div>
+
+<div class="d-flex flex-row ml-auto">
+    <div class="d-flex">
+        <div class="d-flex flex-column mr-2">
+            <span class="label-info label-width-view"><strong>Total</strong></span>
+            <span class="label-info label-width-view"><strong>Paid</strong></span>
+            <span *ngIf="outstanding > 0" class="label-info label-width-view"><strong>Outstanding</strong></span>
+        </div>
+
+        <div class="d-flex flex-column right-text">
+            <span class="label-info-value "><strong>{{invoiceTotal | currency: currencySymbol:'symbol' :
+                    '1.2-2'}}</strong></span>
+            <span class="label-info-value "><strong>{{paid | currency: currencySymbol:'symbol' :
+                    '1.2-2'}}</strong></span>
+            <span *ngIf="outstanding > 0" class="label-info-value red"><strong>{{outstanding | currency:
+                    currencySymbol:'symbol': '1.2-2'}}</strong></span>
+        </div>
+    </div>
+</div>
+
+<app-invoice-transactions-view [transactions]="transactions"></app-invoice-transactions-view>
+
+<app-invoice-transactions-add *ngIf="showAdd" [invoiceId]="invoiceId" [transactions]="transactions"
+    (closed)="showAdd = false" (saved)="store.transactionsUpdated(); showAdd = false"></app-invoice-transactions-add>
+
+<app-button *ngIf=" !showAdd" text="New Transaction" color="grey" icon="far fa-plus" class="mx-auto mt-2"
+    (clicked)="showAdd = true"></app-button>

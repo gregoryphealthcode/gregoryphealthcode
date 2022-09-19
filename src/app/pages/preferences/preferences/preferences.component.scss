@@ -1,0 +1,73 @@
+@import "../../../../assets/scss/variables.scss";
+
+$preferences-active-color: lighten($primary,2%);
+
+:host ::ng-deep{
+  .label-info-value-title+.label-description{
+    font-family: "Montserrat", "Helvetica Neue", sans-serif;
+  }
+}
+
+.preferences-menu-item{
+  padding: 0.9rem 1.2rem;
+  border-bottom: 2px solid hsl(0%, 0%, 96%);
+  border-right: 3px solid transparent;
+  text-decoration: none;
+  .label-description{
+    font-family: "Montserrat", "Helvetica Neue", sans-serif;
+  }
+
+
+  &.active{
+    border-right-color: $preferences-active-color;
+  }
+
+  &.active, &:hover{
+
+    .preferences-menu-icon{
+      // color: lighten($preferences-active-color,5%);
+      --fa-primary-color: #{darken($preferences-active-color,2%)};
+      --fa-secondary-color: #{desaturate(lighten($preferences-active-color, 30%),40%)};
+    }
+
+    .preferences-menu-item-title{
+       color: darken($preferences-active-color,5%);
+    }
+
+    .label-description{
+      color: desaturate(lighten($preferences-active-color,25%),45%);
+    }
+  }
+
+  .preferences-menu-icon{
+    font-size: 22px;
+    width: 2.25rem;
+    padding-top: 2px;
+    color: hsl(0%, 0%, 72%);
+  }
+
+  .preferences-menu-item-title{
+    font-size: 1rem;
+    font-weight: 500;
+    padding-bottom: 2px;
+    color: hsl(0%, 0%, 30%);
+  }
+
+}
+
+.width-limit {
+  flex: auto;
+  width: 100px;
+  margin-left: 1.5rem;
+
+  ::ng-deep router-outlet + *{
+    display: flex;
+    width: 100%;
+  }
+}
+
+:host ::ng-deep .page-header{
+  color: hsl(0, 0%, 30%);
+  padding: 1rem 0px;
+  font-size: 15px;
+}

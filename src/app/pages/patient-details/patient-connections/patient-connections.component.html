@@ -1,0 +1,100 @@
+<div class="d-flex flex-column flex-grow-1 app-card">
+  <div class="d-flex flex-row mx-4 mt-3 safari-height">
+    <!-- <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box> -->
+
+    <app-button icon="far fa-plus" text="New" class="ml-auto mt-auto" (clicked)="showExistingContactsList = true">
+    </app-button>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3">
+    <div class="app-card flex-grow-1 content-height border-none">
+      <div class="cssWidgetWrapper">
+        <dx-data-grid [dataSource]="contacts" gridWithRowLinesSettings keyExpr="this" [hoverStateEnabled]="true"
+          class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true" [focusedRowEnabled]="true"
+          (onFocusedRowChanged)="onFocusedRowChanged($event)" focusedRowIndex="0">
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+          <dxi-column dataField="displayName" caption="Contact Name" [minWidth]="300"></dxi-column>
+          <dxi-column dataField="contactType" caption="Contact Type" cellTemplate="typeTemplate" alignment="center"
+            [minWidth]="150"></dxi-column>
+          <dxi-column dataField="theirRef" caption="Contact Reference" [minWidth]="150"></dxi-column>
+          <dxi-column dataField="referrer" cellTemplate="referrerTemplate" caption="Referrer" [minWidth]="200">
+          </dxi-column>
+          <dxi-column dataField="isPrimary" cellTemplate="primaryTemplate" caption="Primary" [minWidth]="120">
+          </dxi-column>
+          <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="100">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+          </dxi-column>
+
+          <div *dxTemplate="let cellInfo of 'primaryTemplate'">
+            <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'referrerTemplate'">
+            <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+          </div>
+
+          <div *dxTemplate="let data of 'typeTemplate'" class="d-flex flex-row justify-content-center">
+            <span *ngIf="data.contactClassification != 3" class="label-tag md type5-1"
+              [ngStyle]="{'background-color': getBackgroundColor(data)}">{{data.data.contactType}}</span>
+
+            <span *ngIf="data.contactClassification == 3" class="label-tag md type5-1">Department</span>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+            <app-button icon="far fa-unlink" type="link" color="grey" class="mr-2" matTooltip="Unlink"
+              style="width: 15px; height: 15px;" (clicked)="deleteClicked(cellInfo)"></app-button>
+
+            <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit"
+              (clicked)="editClicked(cellInfo)"></app-button>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+
+  <div class="pr-1 flex-row d-none d-lg-flex bottom-panel">
+    <div class="app-card responsive-paddings h-100 ml-2 w-100">
+      <app-no-data *ngIf="!showPanel" [showTitle]="false" text="Please select a contact from the list."
+        class="w-100 flex"></app-no-data>
+
+      <app-contacts-summary-view [contactId]="selectedRowsData.contactId" [showTitle]="false" [showButton]="false"
+        [isInPatientDetails]="true" (editSelected)="editClicked($event)" *ngIf="showPanel" [showButtons]="false"
+        class="d-flex flex-grow-1">
+      </app-contacts-summary-view>
+    </div>
+  </div>
+</div>
+
+<!-- Contacts Grid -->
+<dx-popup appCentralPopUpSettings [width]="'1200'" *ngIf="showExistingContactsList" [height]="'650'"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" title="Link Contact" (closed)="showExistingContactsList = false;">
+    </app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body">
+        <app-contact-add-to-patient-btn class="mt-auto ml-auto" [patientId]="patientId" [contactId]="contactId"
+          (connectionAdded)="getPatientContacts(); showExistingContactsList = false;"></app-contact-add-to-patient-btn>
+
+        <app-contacts-grid class="d-flex flex-grow-1 flex-column " [patientId]="patientId" [isConnectionView]="true"
+          [fromPatient]="true" (addedConnection)="selectedExistingContact($event)"></app-contacts-grid>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup appCentralPopUpSettings *ngIf="showReferrers" [width]="'380'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="'Link to Patient'" (closed)="showReferrers = false">
+    </app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <app-contact-add-to-patient (saved)="getPatientContacts(); showReferrers = false;" [contactId]="contactId"
+        [isEdit]="isEdit" [patientId]="patientId" (formClosed)="showReferrers=false">
+      </app-contact-add-to-patient>
+    </div>
+  </div>
+</dx-popup>

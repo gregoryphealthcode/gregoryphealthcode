@@ -1,0 +1,192 @@
+<div class="d-flex d-flex-column">
+  <div class="d-flex flex-grow-1">
+    <div class="page-header responsive-margins">Bulk Payments</div>
+  </div>
+
+  <div class="d-flex flex-grow-1 mr-4 mt-2">
+    <app-button icon="far fa-plus" class="ml-auto mt-2 mr-1" text="Add" iconPosition="left" (clicked)="add()">
+    </app-button>
+  </div>
+</div>
+
+<div class="d-flex flex-grow-1 responsive-margins">
+  <div class="app-card flex-grow-1">
+    <div class="d-flex flex-row flex-wrap w-100 mb-3 pt-3 pl-4">
+      <app-grid-search-text-box class="mr-3" (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+      <dx-select-box *ngIf="userStore.isMedSecUser()" [dataSource]="sites" valueExpr="siteId" displayExpr="siteName"
+        (onSelectionChanged)="setSelectedSiteItem($event)" class="no-bg-dropdown dx-custom-button-hovered"
+        [(value)]="defaultSiteId">
+      </dx-select-box>
+
+      <dx-select-box [dataSource]="insurers" valueExpr="insurerName" displayExpr="insurerName"
+        (onSelectionChanged)="insurerChanged($event)" class="no-bg-dropdown dx-custom-button-hovered mr-3 ml-3"
+        [(value)]="selectedInsurer">
+      </dx-select-box>
+
+      <dx-select-box [dataSource]="allocations" valueExpr="id" displayExpr="value"
+        (onSelectionChanged)="allocationChanged($event)" class="no-bg-dropdown dx-custom-button-hovered mr-3"
+        [(value)]="selectedAllocation">
+      </dx-select-box>
+
+      <!-- <app-button text="Export" icon="far fa-file-download" class="mt-auto mb-auto ml-auto mr-4" type="link"
+      (clicked)="export()"></app-button> -->
+    </div>
+
+    <div class="cssWidgetWrapper disable-select hmin-275px">
+      <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" keyExpr="bulkPaymentId"
+        [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true"
+        [showRowLines]="true" focusedRowIndex="0" (onFocusedRowChanged)="onFocusedRowChanged($event)"
+        [focusedRowEnabled]="true" (onRowDblClick)="edit($event)" [remoteOperations]="false">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-state-storing [enabled]="true" type="sessionStorage" storageKey="bulkPaymentListStorage">
+        </dxo-state-storing>
+
+        <dxi-column dataField="siteName" [allowSorting]="true"
+          [visible]="userStore.isMedSecUser() && !this.userStore.hasSelectedASite()" caption="Site" [minWidth]="120">
+        </dxi-column>
+        <dxi-column dataField="dateCreated" caption="Date" dataType="date" [format]="appInfo.getDateFormat"
+          [sortIndex]="0" sortOrder="desc" [minWidth]="120"></dxi-column>
+        <dxi-column dataField="payorName" caption="Payor" [minWidth]="220"></dxi-column>
+        <dxi-column dataField="payorType" caption="Payor Type" [minWidth]="120"></dxi-column>
+        <dxi-column dataField="payorRef" caption="Payor Ref" [minWidth]="150"></dxi-column>
+        <dxi-column dataField="method" caption="Method" [minWidth]="100"></dxi-column>
+        <dxi-column dataField="isPrinted" caption="Printed" [minWidth]="80" cellTemplate="flagTemplate"></dxi-column>
+        <dxi-column caption="Fully Allocated" cellTemplate="allocatedTemplate" alignment="center" [minWidth]="120">
+        </dxi-column>
+        <dxi-column dataField="total" caption="Total" cellTemplate="currency" [minWidth]="150">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="pending" caption="Pending Allocations" cellTemplate="currency" [minWidth]="150">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="allocated" caption="Allocated" cellTemplate="currency" [minWidth]="150">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="shortfalls" caption="Shortfalls" cellTemplate="currency" [minWidth]="150">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="unallocated" caption="Unallocated" cellTemplate="currency" [minWidth]="150">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="comments" caption="Comment" [minWidth]="120"></dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="100">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <dxo-summary>
+          <dxi-total-item column="Date" summaryType="count" displayFormat="{0}">
+          </dxi-total-item>
+          <dxi-total-item column="total" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+            [valueFormat]="{type:'fixedPoint',precision:2}"> </dxi-total-item>
+          <dxi-total-item column="pending" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+            [valueFormat]="{type:'fixedPoint',precision:2}"> </dxi-total-item>
+          <dxi-total-item column="allocated" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+            [valueFormat]="{type:'fixedPoint',precision:2}"> </dxi-total-item>
+          <dxi-total-item column="shortfalls" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+            [valueFormat]="{type:'fixedPoint',precision:2}"> </dxi-total-item>
+          <dxi-total-item column="unallocated" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+            [valueFormat]="{type:'fixedPoint',precision:2}">
+          </dxi-total-item>
+        </dxo-summary>
+
+        <div *dxTemplate="let data of 'flagTemplate'">
+          <span *ngIf="data.data.isPrinted" class="block w-100 text-center">
+            <i class="fas fa-flag green-flag" matTooltip="Printed"></i>
+          </span>
+          <span *ngIf="!data.data.isPrinted" class="block w-100 text-center">
+            <i class="fa" matTooltip="Overdue"></i>
+          </span>
+        </div>
+
+        <div *dxTemplate="let data of 'allocatedTemplate'">
+          <div *ngIf="data.key.unallocated === 0">
+            <i class="fas fa-check" class="green-tick"></i>
+          </div>
+
+          <div *ngIf="data.key.unallocated  > 0">
+            <i class="fas fa-times" class="red-tick"></i>
+          </div>
+        </div>
+
+        <div *dxTemplate="let d of 'currency'">
+          <div class="current-value">{{appInfo.getCurrencySymbol}} {{d.value | number : '1.2-2'}}</div>
+        </div>
+
+        <div class="d-flex flex-row align-items-center" *dxTemplate="let data of 'payorType'">
+          <div class="d-flex flex-column mr-2 ">
+            <span class="label-info label-width">Payor Type</span>
+          </div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+          <app-button icon="far fa-edit pointer-events" type="link" color="grey" class="mr-2"
+            matTooltip="Edit Bulk Payment" style="width: 15px; height: 15px;" (clicked)="edit(cellInfo)"></app-button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+
+  <!-- <div class="d-none d-lg-flex flex-w-22">
+    <div class="app-card h-100 ml-4 flex-grow-1">
+      <app-no-data *ngIf="!showPanel" [showTitle]="false" text="Please select a patient from the list."
+        class="w-100 flex responsive-paddings px-4 mt-40per"></app-no-data>
+
+      <div class="d-flex flex-column flex-grow-1" *ngIf="showPanel">
+        <span class="d-flex a-card-title responsive-paddings">Payment Details</span>
+
+        <div class=" content-height custom-scroll disable-select responsive-paddings">
+          <div class="d-flex flex-column flex-grow-1 left-margin-1 h-100 ">
+            <div class="d-flex flex-row">
+              <span class="label-info label-width">Date</span>
+
+              <span class="label-info-value">{{bulkPayment.dateCreated | date: appInfo.getDateFormat}}</span>
+            </div>
+
+            <div class="d-flex flex-row">
+              <span class="label-info label-width">Payor</span>
+
+              <span class="label-info-value">{{bulkPayment.payorName}}</span>
+            </div>
+
+            <div class="d-flex flex-row">
+              <span class="label-info label-width">Payor Type</span>
+
+              <span class="label-info-value">{{bulkPayment.payorType}}</span>
+            </div>
+
+            <div class="d-flex flex-row">
+              <span class="label-info label-width">Total</span>
+
+              <span class="label-info-value">{{appInfo.getCurrencySymbol}}{{bulkPayment.total | number :
+                '1.2-2'}}</span>
+            </div>
+
+            <div class="d-flex flex-row">
+              <span class="label-info label-width">Method</span>
+
+              <span class="label-info-value">{{gluTransactionMethodTypesEnum[bulkPayment.methodId]}}</span>
+            </div>
+
+            <div class="d-flex flex-row">
+              <span class="label-info label-width">Payor Ref</span>
+
+              <span class="label-info-value">{{bulkPayment.payorRef}}</span>
+            </div>
+          </div>
+        </div>
+
+        <span class="horizontal-line"></span>
+
+        <div class="d-flex flex-row w-100 a-card-footer justify-content-center">
+          <app-card-action-button icon="pound-sign" text="View Bulk Payment" (clicked)="edit(bulkPayment.bulkPaymentId)">
+          </app-card-action-button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+</div>
+
+<app-add-bulk-payment-form [data]="selectedRecord" (saved)="saved($event)"></app-add-bulk-payment-form>
+
+<app-med-sec-site-selector (onSelected)="addClicked()"></app-med-sec-site-selector>

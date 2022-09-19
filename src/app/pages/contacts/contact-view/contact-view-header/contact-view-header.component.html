@@ -1,0 +1,76 @@
+<div class="d-flex flex-row" *ngIf="contact">
+  <ng-container *ngIf="!isOrganisation">
+    <app-form-section title="Main Details" class="pb-0 no-end-section header-section-1 mr-5" [showTitleUnderline]="true"
+      [showInfo]="false">
+      <div class="d-flex flex-row">
+        <div class="d-flex flex-column">
+          <app-form-label caption="Job Title" [value]="contact.jobTitle ? contact.jobTitle : '-'"></app-form-label>
+
+          <app-form-label caption="Qualifications" [value]="contact.qualifications ? contact.qualifications : '-'">
+          </app-form-label>
+
+          <app-form-label *ngIf="contact.inactive" caption="Inactive Reason" [value]="contact.inactiveReason">
+          </app-form-label>
+        </div>
+
+        <app-button type="link" icon="far fa-edit" color="grey" class="pt-1" (clicked)="editContactClicked.emit()">
+        </app-button>
+      </div>
+    </app-form-section>
+  </ng-container>
+
+  <app-form-section title="Addresses" class="pb-0 no-end-section header-section-2 mr-5" [showAddButton]="true"
+    [showInfo]="false" [showTitleUnderline]="true" (addClicked)="store.showAddAddress()" [count]="addressesCount">
+    <div class="d-flex flex-row">
+      <div class="a-form-group d-col d-flex flex-column address-col">
+        <ng-container *ngIf="contact?.primaryAddress as address; else noAddress">
+          <label>Main</label>
+
+          <label *ngIf="address.address1" class="label-value">{{address.address1}}</label>
+
+          <label *ngIf="address.address2" class="label-value">{{address.address2}}</label>
+
+          <label *ngIf="address.address3" class="label-value">{{address.address3}}</label>
+
+          <label *ngIf="address.postcode" class="label-value">{{address.postcode}}</label>
+        </ng-container>
+
+        <ng-template #noAddress>
+          <label>No primary address found</label>
+        </ng-template>
+      </div>
+
+      <app-button type="link" icon="far fa-edit" *ngIf="contact?.primaryAddress" color="grey" class="pt-1"
+        (clicked)="store.showUpdateAddress(contact.primaryAddress.addressId)"></app-button>
+    </div>
+  </app-form-section>
+
+  <app-form-section title="Telecoms" class="pb-0 no-end-section header-section-3" [showAddButton]="true"
+    [showTitleUnderline]="true" [showInfo]="false" (addClicked)="store.showAddTelecom()" [count]="telecomsCount">
+    <ng-container *ngIf="contact.telecoms && contact.telecoms.length > 0; else noTelecoms">
+      <div *ngFor="let item of contact.telecoms | slice:0:3; let i=index"
+        class="d-flex flex-row pb-1 contact-telecom-row align-items-center">
+        <span class="w-6 text-grey-60 text-truncate">{{item.description}}</span>
+
+        <span *ngIf="item.description != 'Email'" class="text-semiBold mr-1">
+          <a [href]="'tel:' + item.value">{{item.value}}</a></span>
+
+        <span *ngIf="item.description == 'Email'" class="text-semiBold mr-1">
+          <a [href]="'mailto:' + item.value">{{item.value}}</a></span>
+
+        <span class="label-tag type3 my-auto" *ngIf="item.preferred">Preferred</span>
+
+        <app-button type="link" iconPosition="right" icon="far fa-edit" color="grey" class="ml-auto"
+          (clicked)="store.showUpdateTelecom(item.id)"></app-button>
+      </div>
+    </ng-container>
+
+    <ng-template #noTelecoms>
+      <div class="d-flex flex-row">
+        <div class="a-form-group d-col d-flex flex-column address-col">
+          <label>No telecoms found</label>
+        </div>
+      </div>
+    </ng-template>
+  </app-form-section>
+</div>

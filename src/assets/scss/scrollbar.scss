@@ -1,0 +1,46 @@
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background:  hsl(0, 0, 90);
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background:  rgb(52, 100, 141);
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(0, 0, 75);
+  }
+
+@mixin custom-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(0, 0, 85);
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background:  hsl(0, 0, 90);
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background:  rgb(52, 100, 141);
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: hsl(0, 0, 75);
+  }
+}

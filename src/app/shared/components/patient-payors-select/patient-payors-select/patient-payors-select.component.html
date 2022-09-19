@@ -1,0 +1,92 @@
+<div class="d-flex flex-row pt-4 pb-3 justify-content-center" *appLoadingSpinner="!payors">
+  <!-- col 2 Chevron left -->
+  <div class="d-flex flex-row align-items-center chevron mr-3" *ngIf="payors.length > 3">
+    <button mat-button class="chevron-btn" [disableRipple]="true" (click)="previousInsurer(previousIndex)"
+      [disabled]="!showPreviousButton">
+      <i class="fad fa-chevron-double-left"></i>
+    </button>
+  </div>
+
+  <!-- col 3 + main payees -->
+  <div class="d-flex" *ngFor="let payor of slides; let i = index">
+    <div class="invoice-mini-card mx-2 pb-1 insurers-row" (click)="choosePayor(payor)"
+      [ngClass]="{'itemSelected' : selectedItem?.payorId === payor.payorId}">
+      <!-- Title -->
+      <div class="d-flex flex-row mt-2">
+        <span class="label-info-value text-truncate ml-2 mr-2 text-semiBold">{{payor.displayName}}</span>
+        <app-button type="link" class="d-flex ml-auto" [color]="payor.invalid ? 'warning' :'primary'"
+          [icon]="payor.invalid ? 'fad fa-exclamation-triangle' :'fad fa-edit'" matTooltip="Edit Details"
+          (clicked)="showEditPayorPopup(payor, $event);"></app-button>
+      </div>
+
+      <span class="horizontal-line ml-1 mr-1 my-1"></span>
+
+      <!-- Insurer Only -->
+      <ng-container *ngIf="payor.isInsurer; else notAnInsurer">
+        <div class="d-flex flex-row align-items-center">
+          <span class="label-info light sm label-width ml-2">Membership number</span>
+        </div>
+        <div class="d-flex flex-row align-items-center">
+          <span class="label-info-value ml-2" *ngIf="payor.insRegistrationNumber != 'N/A'"> {{payor.insRegistrationNumber}} </span>
+          <span class="label-info-value ml-2" *ngIf="payor.insRegistrationNumber == 'N/A'"> Not recorded </span>
+        </div>
+        <div class="d-flex flex-row align-items-center mt-1">
+          <span class="label-info light sm label-width ml-2">{{needsRenewalLabel(payor.insRenewalDate)}}</span>
+        </div>
+        <div class="d-flex flex-row flex-fill">
+          <span [class.warning-text]="needsRenewal(payor.insRenewalDate)" class="label-info-value ml-2"> {{(payor.insRenewalDate | date: appInfo.getDateFormat) || 'Not recorded'}} </span>
+        </div>
+      </ng-container>
+
+      <!-- Contact or relative -->
+      <ng-template #notAnInsurer>
+        <div class="d-flex flex-row align-items-center" *ngIf="payor.contactType">
+          <span class="label-tag md type5-1 w-100 ml-2 mr-2" style="text-align: center;" [ngStyle]="{'background-color': payor.backgroundColor}">{{payor.contactType}}</span>
+        </div>
+        <div class="d-flex flex-row align-items-center">
+          <span class="label-info light sm label-width ml-2">Address</span>
+        </div>
+        <div class="d-flex flex-row align-items-center">
+          <span class="label-width ml-2">
+            <div *ngIf="payor.address?.address1" class="label-info-value">{{payor.address?.address1}}</div>
+            <div *ngIf="payor.address?.address2" class="label-info-value">{{payor.address?.address2}}</div>
+            <div *ngIf="payor.address?.address3" class="label-info-value">{{payor.address?.address3}}</div>
+            <div *ngIf="payor.address?.address3" class="label-info-value">{{payor.address?.address4}}</div>
+            <div *ngIf="payor.address?.postcode" class="label-info-value">{{payor.address?.postcode}}</div>
+          </span>
+        </div>
+        <div class="d-flex flex-row" *ngIf="payor.invoiceType === 'Relative'">
+          <div class="d-flex flex-column flex-grow-1">
+            <div class="d-flex flex-row right">
+              <button mat-icon-button class="alternative small-icon section-icon" matTooltip="Edit Patient Details"
+                (click)="showEditPayorPopup(payor)">
+                <mat-icon fontSet="fad" fontIcon="fa-edit"> </mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- col n Chevron right -->
+
+  <div class="d-flex flex-row align-items-center chevron ml-3" *ngIf="payors.length > 3">
+    <button mat-button class="chevron-btn" [disableRipple]="true" (click)="nextInsurer(nextIndex)"
+      [disabled]="!showNextButton">
+      <i class="fad fa-chevron-double-right"></i>
+    </button>
+  </div>
+</div>
+
+<div class="d-flex flex-row pt-2 justify-content-center">
+  <app-button text="Add Payor" size="sm" color="grey" icon="fal fa-plus" id="addPayorBtn" (clicked)="addMenu.show()">
+  </app-button>
+</div>
+
+<app-payor-details-edit *ngIf="showEditPayorFormPopup" [payorId]="selectedItem.payorId"
+  [payorTypeId]="selectedItem.type" (closed)="showEditPayorFormPopup=false" (updated)="payorUpdatedHandler()">
+</app-payor-details-edit>
+
+<app-add-payor-logic [patientId]="patientId" [showInsurers]="true" (added)="addedPayor($event)" #addMenu
+  targetId="addPayorBtn"></app-add-payor-logic>

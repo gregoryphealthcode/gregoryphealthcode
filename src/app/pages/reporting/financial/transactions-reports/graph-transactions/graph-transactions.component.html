@@ -1,0 +1,175 @@
+<div class="card">
+  <div class="card-body m-0 p-0 hc-100-110px">
+    <div class="card-header">Transactions Graphs</div>
+    <dx-toolbar>
+      <dxi-item widget="dxDateBox" location="before" locateInMenu="auto" [options]="startdateOptions"></dxi-item>
+
+      <dxi-item widget="dxDateBox" location="before" locateInMenu="auto" [options]="enddateOptions"></dxi-item>
+
+      <dxi-item widget="dxDropDownButton" location="before" locateInMenu="auto" [options]="presetdatesOptions">
+      </dxi-item>
+    </dx-toolbar>
+
+    <dx-responsive-box singleColumnScreen="sm" [(screenByWidth)]="screen">
+      <dxi-row [ratio]="1"></dxi-row>
+
+      <dxi-row [ratio]="1"></dxi-row>
+
+      <dxi-row [ratio]="1"></dxi-row>
+
+      <dxi-col [ratio]="1" screen="lg"></dxi-col>
+
+      <dxi-col [ratio]="1" screen="lg"></dxi-col>
+
+      <dxi-item>
+        <dxi-location [row]="0" [col]="0" [colspan]="1" screen="lg"></dxi-location>
+
+        <dxi-location [row]="0" [col]="0" [colspan]="1" screen="sm"></dxi-location>
+
+        <div *dxTemplate class="chart1">
+          <dx-chart #chart1 id="chart1" [dataSource]="this.invoices" class="hc-chart">
+            <dxo-zoom-and-pan valueAxis="both" argumentAxis="both" [dragToZoom]="true" [allowMouseWheel]="true"
+              panKey="shift"></dxo-zoom-and-pan>
+
+            <dxo-loading-indicator [show]="isLoadPanelVisible"></dxo-loading-indicator>
+
+            <dxo-title text="Transactions By Month">
+              <dxo-font size="large"></dxo-font>
+            </dxo-title>
+
+            <dxi-value-axis title="£ Value"></dxi-value-axis>
+
+            <dxo-common-series-settings argumentField="Month" valueField="PaidAmount" type="bar"
+              [ignoreEmptyPoints]="true">
+              <dxo-aggregation [enabled]="true"></dxo-aggregation>
+            </dxo-common-series-settings>
+
+            <dxo-argument-axis #argumentAxisSettings [aggregateByCategory]="true" [valueMarginsEnabled]="false">
+            </dxo-argument-axis>
+
+            <dxo-legend verticalAlignment="bottom" horizontalAlignment="center"></dxo-legend>
+
+            <dxo-export [enabled]="true"></dxo-export>
+
+            <dxo-series-template nameField="Month"></dxo-series-template>
+
+            <dxo-size [height]="'calc(50vh - 60px)'"></dxo-size>
+
+            <dxo-tooltip [enabled]="true"></dxo-tooltip>
+          </dx-chart>
+        </div>
+      </dxi-item>
+
+      <dxi-item>
+        <dxi-location [row]="0" [col]="1" [colspan]="1" screen="lg"></dxi-location>
+
+        <dxi-location [row]="1" [col]="0" [colspan]="1" screen="sm"></dxi-location>
+
+        <div *dxTemplate class="chart2">
+          <dx-chart id="chart2" #chart2 [dataSource]="invoices" palette="Material" class="hc-chart">
+            <dxo-zoom-and-pan valueAxis="both" argumentAxis="both" [dragToZoom]="true" [allowMouseWheel]="true"
+              panKey="shift"></dxo-zoom-and-pan>
+
+            <dxo-loading-indicator [show]="isLoadPanelVisible"></dxo-loading-indicator>
+
+            <dxo-title text="£ Value By Month + Method">
+              <dxo-font size="large"></dxo-font>
+            </dxo-title>
+
+            <dxo-common-series-settings argumentField="Month" valueField="PaidAmount" type="stackedBar">
+              <dxo-aggregation [enabled]="true"></dxo-aggregation>
+            </dxo-common-series-settings>
+
+            <dxo-argument-axis #argumentAxisSettings [aggregateByCategory]="true" [valueMarginsEnabled]="false">
+            </dxo-argument-axis>
+
+            <dxo-series-template nameField="Method">
+              <dxo-aggregation [enabled]="true"></dxo-aggregation>
+            </dxo-series-template>
+
+            <dxo-legend verticalAlignment="bottom" horizontalAlignment="center"></dxo-legend>
+
+            <dxo-export [enabled]="true"></dxo-export>
+
+            <dxo-tooltip [enabled]="true"></dxo-tooltip>
+          </dx-chart>
+        </div>
+      </dxi-item>
+
+      <dxi-item>
+        <dxi-location [row]="1" [col]="0" [colspan]="1" screen="lg"></dxi-location>
+
+        <dxi-location [row]="2" [col]="0" [colspan]="1" screen="sm"></dxi-location>
+
+        <div *dxTemplate class="chart3">
+          <dx-pie-chart #chart3 id="chart3" [dataSource]="byMethod" class="chart" type="doughnut"
+            resolveLabelOverlapping="shift">
+
+            <dxo-loading-indicator [show]="isLoadPanelVisible"></dxo-loading-indicator>
+
+            <dxo-zoom-and-pan valueAxis="both" argumentAxis="both" [dragToZoom]="true" [allowMouseWheel]="true"
+              panKey="shift"></dxo-zoom-and-pan>
+
+            <dxo-title text="Transactions By Method">
+              <dxo-font size="large"></dxo-font>
+            </dxo-title>
+
+            <dxi-series argumentField="Method" valueField="Count" name="method">
+              <dxo-label [visible]="true" format="fixedPoint">
+                <dxo-font [size]="16"></dxo-font>
+
+                <dxo-connector [visible]="true"></dxo-connector>
+              </dxo-label>
+            </dxi-series>
+
+            <dxo-legend [visible]="true"> </dxo-legend>
+
+            <dxo-export [enabled]="true"></dxo-export>
+
+            <dxo-tooltip [enabled]="true"></dxo-tooltip>
+          </dx-pie-chart>
+        </div>
+      </dxi-item>
+
+      <dxi-item>
+        <dxi-location [row]="1" [col]="1" [colspan]="1" screen="lg"></dxi-location>
+
+        <dxi-location [row]="3" [col]="0" [colspan]="1" screen="sm"></dxi-location>
+
+        <div *dxTemplate class="chart4">
+          <dx-chart id="chart4" #chart4 [dataSource]="invoices" palette="Office" class="hc-chart">
+            <dxo-zoom-and-pan valueAxis="both" argumentAxis="both" [dragToZoom]="true" [allowMouseWheel]="true"
+              panKey="shift"></dxo-zoom-and-pan>
+
+            <dxo-loading-indicator [show]="isLoadPanelVisible"></dxo-loading-indicator>
+
+            <dxo-title text="£ Value By Month + Transaction Type">
+              <dxo-font size="large"></dxo-font>
+            </dxo-title>
+
+            <dxo-common-series-settings argumentField="Month" valueField="PaidAmount" type="stackedBar">
+              <dxo-aggregation [enabled]="true"></dxo-aggregation>
+            </dxo-common-series-settings>
+
+            <dxo-argument-axis #argumentAxisSettings [aggregateByCategory]="true" [valueMarginsEnabled]="false">
+            </dxo-argument-axis>
+
+            <dxo-series-template nameField="Type">
+              <dxo-aggregation [enabled]="true"> </dxo-aggregation>
+            </dxo-series-template>
+
+            <dxo-legend verticalAlignment="bottom" horizontalAlignment="center"></dxo-legend>
+
+            <dxo-export [enabled]="true"></dxo-export>
+
+            <dxo-tooltip [enabled]="true"></dxo-tooltip>
+          </dx-chart>
+        </div>
+      </dxi-item>
+    </dx-responsive-box>
+  </div>
+</div>
+
+<dx-load-panel #loadPanel [position]="{ of: '#loadingPanel' }" [visible]="isLoadPanelVisible" [showIndicator]="true"
+  [showPane]="true" [shading]="false" [closeOnOutsideClick]="false">
+</dx-load-panel>

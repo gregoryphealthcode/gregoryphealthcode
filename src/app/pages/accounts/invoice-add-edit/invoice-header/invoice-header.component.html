@@ -1,0 +1,75 @@
+<ng-container *ngIf="patientDetails">
+  <div class="d-flex py-1">
+    <div class="d-flex flex-column mb-auto">
+      <span class="label-info light label-width my-0 text-xxs text-uppercase mb-1">Patient</span>
+
+      <span class="label-info-value leading-1.5">{{patientDetails.lastName}} {{patientDetails.firstName}}
+        {{patientDetails.title}}</span>
+
+      <span class="label-info-value light-2 leading-1.25">{{patientDetails.birthDate | date: appInfo.getDateFormat}}
+        ({{calculateAge(patientDetails.birthDate )}})</span>
+    </div>
+  </div>
+
+  <div class="d-flex py-1 mb-auto">
+    <div class="d-flex flex-column mb-auto ml-4 mr-3">
+      <span class="label-info light label-width my-0 text-xxs text-uppercase mb-1">Payor</span>
+
+      <span class="label-info-value leading-1.5"> {{payor?.displayName}}</span>
+
+      <span class="label-info-value light-2 leading-1.25"> {{payor?.deliveryType}}</span>
+    </div>
+  </div>
+</ng-container>
+
+<div class="d-flex flex-column mb-auto py-1">
+  <span class="label-info light label-width my-0 text-xxs text-uppercase mb-1">Invoice</span>
+
+  <div class="label-info-value leading-1.5">{{invoiceDetails?.invoiceNo}}</div>
+
+  <div *ngIf="!invoiceDetails; else elseBlock" class="label-tag md-2 type5">New</div>
+
+  <ng-template #elseBlock>
+    <div [ngSwitch]="invoiceDetails.status">
+      <div class="label-tag md-2 type-success" *ngSwitchCase="'Draft'">{{invoiceDetails.status}}</div>
+
+      <div class="label-tag md-2 type-danger" *ngSwitchCase="'FailedValidation'">Failed Validation</div>
+
+      <div class="label-tag md-2 type-primary" *ngSwitchCase="'Issued'">{{invoiceDetails.status}}</div>
+
+      <div class="label-tag md-2 type-warning" *ngSwitchCase="'Review'">{{invoiceDetails.status}}</div>
+
+      <div class="label-tag md-2 type-cancelled" *ngSwitchCase="'Cancelled'">{{invoiceDetails.status}}</div>
+
+      <div class="label-tag md-2 type4" *ngSwitchDefault>{{invoiceDetails.status}}</div>
+    </div>
+  </ng-template>
+</div>
+
+<!-- <div class="d-flex flex-column mb-auto py-1">
+  <span class="label-info light label-width my-0 text-xxs text-uppercase mb-1">Status</span>
+
+  
+</div> -->
+
+<div class="d-flex ml-auto py-1">
+  <app-button text="Regenerate" color="grey" icon="far fa-arrow-rotate-right" matTooltip="Regenerate Invoice"
+    *ngIf="invoiceDetails && invoiceDetails.statusId == 3 && !payor.sendViaPatientzone" class="mx-auto"
+    (clicked)="regenerateInvoice()"></app-button>
+</div>
+
+<div class="d-flex ml-auto py-1">
+  <app-button text="Copy Invoice" color="grey" icon="far fa-clone" matTooltip="Copy Invoice"
+    *ngIf="invoiceDetails && (invoiceDetails.statusId == 3 || invoiceDetails.statusId == 4)" class="mx-auto"
+    (clicked)="cloneInvoice()"></app-button>
+</div>
+
+<div class="d-flex ml-auto align-items-center py-1">
+  <app-button class="mr-3" text="Close" type="link" (clicked)="close()" matTooltip="Close invoice"></app-button>
+
+  <app-button *ngIf="store.hasInvoiceId && (invoiceDetails.statusId != 3 && invoiceDetails.statusId != 5)" text="Cancel"
+    type="secondary" (clicked)="cancel()" matTooltip="Cancel invoice"></app-button>
+</div>
+
+<app-invoice-cancel [invoiceId]="store.getInvoiceId" *ngIf="store.showCancel" (closed)="store.showCancel = false;"
+  (saved)="savedHandler()"></app-invoice-cancel>

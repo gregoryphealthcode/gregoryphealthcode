@@ -1,0 +1,50 @@
+<dx-popup appCentralPopUpSettings *ngIf="showInsurerPopup" [width]="'380'" [enableScroll]="true">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper" (onInitialized)="appInfo.disableESC($event)">
+    <app-pop-up-form-title [hasBorder]="true" title="Add Insurer" (closed)="showInsurerPopup = false">
+    </app-pop-up-form-title>
+
+    <app-patient-insurers-edit class="central-popup-wrapper" [patientId]="patientId" [isNew]="true"
+      (formClosed)="showInsurerPopup=false" (saved)="insurerAddedHandler($event); showInsurerPopup=false">
+    </app-patient-insurers-edit>
+  </div>
+</dx-popup>
+
+<dx-context-menu [dataSource]="dataSource" [width]="200" [target]="'#' + targetId" (onItemClick)="itemClick($event)">
+  <div *dxTemplate="let e of 'item'" [class.generic-border-bottom]="e.break">
+    <div class="d-flex flex-row align-items-center">
+      <span class="w-1 d-flex justify-content-center">
+        <i [ngClass]="e.icon"></i>
+      </span>
+      <span class="text-xs ml-2">{{e.firstName}}</span>
+      <span class="text-xs" *ngIf="e.lastName">{{' ' + e.lastName}}</span>
+      <span *ngIf="e.items" class="dx-icon-spinright ml-auto"></span>
+    </div>
+  </div>
+  <dxo-position>
+    <dxo-offset [y]="15"></dxo-offset>
+  </dxo-position>
+</dx-context-menu>
+
+
+<app-add-contact *ngIf="showAddContact" [contactClassification]="contactClassification"
+  class="d-flex flex-column flex-grow-1" (saved)="contactAdded($event)" [fromInvoice]="true"
+  (closed)="showAddContact = false">
+</app-add-contact>
+
+<app-related-persons-edit *ngIf="showRelatedPopup" [patientId]="patientId" class="d-flex flex-column flex-grow-1"
+  (saved)="relatedAdded($event)" (closed)="showRelatedPopup = false" [fromInvoice]="true">
+</app-related-persons-edit>
+
+<!-- Contacts Grid -->
+<dx-popup appCentralPopUpSettings [width]="'1200'" *ngIf="showExistingContactsList" [height]="'650'">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper" (onInitialized)="appInfo.disableESC($event)">
+    <app-pop-up-form-title [hasBorder]="true" title="Add Connection" (closed)="showExistingContactsList = false;">
+    </app-pop-up-form-title>
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body">
+        <app-contacts-grid class="d-flex flex-grow-1 flex-column" [patientId]="patientId" [isConnectionView]="true"
+          (addedConnection)="contactAdded($event)"></app-contacts-grid>
+      </div>
+    </div>
+  </div>
+</dx-popup>

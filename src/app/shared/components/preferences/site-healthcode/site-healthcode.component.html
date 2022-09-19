@@ -1,0 +1,18 @@
+<div id="pageMainHC" class="d-flex flex-grow-1 flex-column page-main" (wheel)="onMouseWheel($event)">
+    <div class="d-flex flex-grow-1 flex-row responsive-margins" [formGroup]="editForm">  
+        <div class="d-flex flex-column flex-grow-1 col-6 h-100">
+            <div class="label-info-value-title sm mb-2 mt-2">Healthcode Settings</div>
+            <app-text-box formControlName="hcApiUserId" caption="User Id" direction="row">
+            </app-text-box>
+
+            <app-text-box formControlName="hcApiPassword" caption="Password" direction="row" [mode]="'password'">
+            </app-text-box>
+        </div>
+    </div>
+</div>
+
+<div class="page-footer">
+    <div class="horizontal-line"></div>
+    <app-button class="mt-2 mb-2 page-footer-button" text="Save" (clicked)="submitForm()"
+        [disabled]="submitting || editForm?.pristine"></app-button>
+</div>

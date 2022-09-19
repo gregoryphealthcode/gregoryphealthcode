@@ -1,0 +1,66 @@
+<div class="d-flex app-card flex-grow-1">
+    <div class="d-flex flex-column responsive-margins">
+        <div class="label-info-value-title mt-3">Templates</div>
+        
+        <span class="label-description mt-2 mb-2">You can manage your document templates here</span>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1">
+        <mat-tab-group class="full-height settings-tabs left-aligned wm-100">
+            <mat-tab class="header">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">Accounts</span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-preferences-templates-grid class="d-flex flex-column flex-grow-1" [category]="'4'" [isMedsec]="isMedsec">
+                    </app-preferences-templates-grid>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">Appointments</span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-preferences-templates-grid class="d-flex flex-column flex-grow-1" [category]="'5'" [isMedsec]="isMedsec"> 
+                    </app-preferences-templates-grid>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">Practitioners</span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-preferences-appointment-owners class="d-flex flex-column flex-grow-1" > 
+                    </app-preferences-appointment-owners>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">Import</span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-preferences-templates-grid class="d-flex flex-column flex-grow-1" [category]="'2'" [isMedsec]="isMedsec">
+                    </app-preferences-templates-grid>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">Letters</span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-preferences-templates-grid class="d-flex flex-column flex-grow-1" [category]="'1'" [isMedsec]="isMedsec">
+                    </app-preferences-templates-grid>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

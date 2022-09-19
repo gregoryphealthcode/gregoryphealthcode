@@ -1,0 +1,118 @@
+<dx-popup appCentralPopUpSettings [width]="'800'" *ngIf="show" [enableScroll]="true"
+    (onInitialized)="appInfo.disableESC($event)">
+    <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+        <app-pop-up-form-title title="Edit Site" (closed)="closeForm()"></app-pop-up-form-title>
+
+        <div class="central-popup-wrapper">
+            <div class="central-popup-body flex-row" appEnterKeyFocusWrapper delay="750" [formGroup]="editForm">
+                <div class="d-flex flex-column pr-4 flex-grow-1">
+                    <app-form-section title="Site Details" class="d-flex flex-column pb-0 no-end-section"
+                        [showTitleUnderline]="true" helperText="Please enter the site's basic details.">
+                        <app-text-box formControlName="siteRef" direction="row" caption="Site Ref">
+                        </app-text-box>
+
+                        <app-text-box formControlName="siteName" direction="row" caption="Site Name"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-select-box [dataSource]="ePracticeVariants" direction="row"
+                            formControlName="ePracticeVariant" caption="ePractice Variant"></app-select-box>
+
+                        <app-slide-toggle *ngIf="!isNew" formControlName="siteActive" class="md-height" direction="row"
+                            caption="Active" [(ngModel)]="siteActive">
+                        </app-slide-toggle>
+                    </app-form-section>
+
+                    <app-form-section title="Site Address" class="d-flex flex-column pb-0 no-end-section"
+                        [showTitleUnderline]="true" helperText="Please enter the site's address.">
+
+                        <div class="d-flex flex-row a-form-group mb-3 align-items-center">
+                            <label style="width: 112px">Postcode *</label>
+
+                            <app-postcode-to-address formControlName="sitePostcode"
+                                (addressSelect)="postcodeResolverAddressSelectHandler($event)" class="flex-grow-1">
+                            </app-postcode-to-address>
+                        </div>
+
+                        <app-text-box formControlName="siteAddress1" direction="row" caption="Address 1"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-box formControlName="siteAddress2" direction="row" caption="Address 2"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-box formControlName="siteAddress3" direction="row" caption="Address 3"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-box formControlName="siteAddress4" direction="row" caption="Address 4"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+                    </app-form-section>
+                </div>
+
+                <div class="d-flex flex-column pl-4 flex-grow-1">
+                    <app-form-section title="Payee Provider" class="d-flex flex-column pb-0 no-end-section"
+                        [showTitleUnderline]="true" helperText="Please enter the site's payee provider details.">
+                        <app-text-box formControlName="payeeProviderHcCode" direction="row" caption="HC Code">
+                        </app-text-box>
+
+                        <app-text-box formControlName="payeeProviderPractitionerCode" direction="row"
+                            caption="Practitioner Code">
+                        </app-text-box>
+
+                        <app-text-box formControlName="payeeProviderDisplayName" direction="row" caption="Display Name">
+                        </app-text-box>
+
+                        <app-text-box formControlName="payeeProviderLastName" direction="row" caption="Last Name"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-box formControlName="payeeProviderFirstName" direction="row" caption="First Name"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-select-box [dataSource]="titles" direction="row" formControlName="payeeProviderTitle"
+                            valueExpr="title" displayExpr="title" caption="Title"></app-select-box>
+                    </app-form-section>
+
+                    <app-form-section title="Payee Address" class="d-flex flex-column pb-0 no-end-section"
+                        [showTitleUnderline]="true" helperText="Please enter the site's payee provider address.">
+
+                        <div class="d-flex flex-row a-form-group mb-3 align-items-center">
+                            <label style="width: 112px">Postcode</label>
+
+                            <app-postcode-to-address formControlName="payeeProviderPostcode"
+                                (addressSelect)="postcodeResolverAddressSelectHandler($event)" class="flex-grow-1">
+                            </app-postcode-to-address>
+                        </div>
+
+                        <app-text-box formControlName="payeeProviderAddress1" direction="row" caption="Address 1"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-box formControlName="payeeProviderAddress2" direction="row" caption="Address 2"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-box formControlName="payeeProviderAddress3" direction="row" caption="Address 3"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+
+                        <app-text-box formControlName="payeeProviderAddress4" direction="row" caption="Address 4"
+                            [capitalizeEachWord]="true">
+                        </app-text-box>
+                    </app-form-section>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="popup-form-footer-wrapper">
+                <app-button text="Close" class="ml-auto mr-3" (clicked)="closeForm()" color="grey"></app-button>
+
+                <app-button text="Save" (clicked)="submitForm()" [disabled]="!editForm.valid"></app-button>
+            </div>
+        </div>
+    </div>
+</dx-popup>

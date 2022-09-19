@@ -1,0 +1,44 @@
+<div class="central-popup-body" [formGroup]="editForm" appEnterKeyFocusWrapper delay="750">
+  <div class="d-flex flex-row mb-2">
+    <i class="fal fa-info-circle fa-lg" style="margin-top: 6px;"></i>
+
+    <span class="d-flex ml-3">Updates made here will reflect globally and will be visible on other patients this
+      contact
+      is linked to.</span>
+  </div>
+
+  <app-select-box [dataSource]="addressTypes" class="width-3/4" direction="row" formControlName="addressType"
+    valueExpr="uniqueNo" displayExpr="description" caption="Type"></app-select-box>
+
+  <div class="d-flex flex-row a-form-group d-row width-3/4">
+    <label>Postcode *</label>
+
+    <app-postcode-to-address #postcoderesolver formControlName="postcode"
+      (addressSelect)="postcodeResolverAddressSelectHandler($event)" class="d-flex flex-row align-items-center">
+    </app-postcode-to-address>
+  </div>
+
+  <app-text-box formControlName="address1" direction="row" caption="Address 1" [capitalizeEachWord]="true"></app-text-box>
+
+  <app-text-box formControlName="address2" direction="row" caption="Address 2" [capitalizeEachWord]="true"></app-text-box>
+
+  <app-text-box formControlName="address3" direction="row" caption="Address 3" [capitalizeEachWord]="true"></app-text-box>
+
+  <app-text-box formControlName="address4" class="mb-0" direction="row" caption="Address 4" [capitalizeEachWord]="true"></app-text-box>
+
+  <ng-container *ngIf="(isNew && addressesCount >=1) || (!isNew && addressesCount > 1)">
+    <app-slide-toggle formControlName="primaryAddress" class="mb-0 mt-3 md-height" direction="row" caption="Primary"
+      [disabled]="(isNew && addressesCount < 1) || (!isNew && getFormPropertyValue('primaryAddress') == true)">
+    </app-slide-toggle>
+
+    <app-slide-toggle formControlName="billingAddress" class="mb-0" direction="row" caption="Billing"
+      [disabled]="(isNew && addressesCount < 1) || (!isNew && getFormPropertyValue('billingAddress') == true)">
+    </app-slide-toggle>
+  </ng-container> 
+</div>
+
+<div class="popup-form-footer-wrapper">
+  <app-button text="Close" class="ml-auto mr-3" (clicked)="formClosed.emit()" color="grey"></app-button>
+  
+  <app-button text="Save" (clicked)="submitForm()"></app-button>
+</div>

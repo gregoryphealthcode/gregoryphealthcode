@@ -1,0 +1,266 @@
+@import "../../../../assets/scss/variables.scss";
+
+$left-right-padding: 1.75rem;
+
+.summary-card {
+  margin: 0.75rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px;
+  font-size: 1rem;
+  // box-shadow: 0px 3px 7px 1px hsl(0, 0%, 93%);
+  width: 28rem;
+  
+
+  .summary-card-body {
+    border-left: 1px solid hsl(0, 0%, 93%);
+    border-right: 1px solid hsl(0, 0%, 93%);
+    border-bottom: 1px solid hsl(0, 0%, 93%);
+    padding: 0.6rem $left-right-padding 0.7rem $left-right-padding;
+    flex: auto;
+
+    &.has-border-bottom {
+      border-bottom: 1px solid hsl(0, 0%, 93%);
+    }
+  }
+
+  &.bg-blue {
+    .summary-card-body {
+      border-left-color: #d8d8d8;
+      border-right-color: #d8d8d8;
+      border-bottom: 1px solid #d8d8d8;
+    }
+
+    background-color: #f2f7fd;
+    .label-info-value {
+      color: hsl(204, 80%, 35%);
+    }
+  }
+
+  &.bg-red {
+    .summary-card-body {
+      border-left-color: hsl(355, 80%, 75%);
+      border-right-color: hsl(355, 80%, 75%);
+      border-bottom: 1px solid hsl(355, 80%, 75%);
+    }
+
+    .summary-card-title {
+      background-color: hsl(355, 70%, 46%);
+      border: 1px solid #c72331;
+      color: white;
+    }
+
+    background-color: hsl(355, 60%, 94%);
+    color: hsl(355, 70%, 36%);
+
+    .label-info {
+      color: hsl(355, 70%, 36%);
+    }
+  }
+
+  &.width-sm {
+    width: 19rem;
+  }
+
+  &.width-lg {
+    width: 48.7rem;
+  }
+
+  :host ::ng-deep .app-btn.btn-link {
+    height: 24px;
+  }
+
+  .card-row{
+    padding-bottom: 4px;    
+  }
+}
+
+.summary-card-title {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.825rem;
+  font-weight: 500;
+  border-radius: 4px 4px 0 0;
+  padding: 0.7rem $left-right-padding;
+  background-color: #e7eef4;
+  color: #1b5a9c;
+  border: 1px solid hsl(0, 0%, 90%);
+}
+
+.summary-card-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: hsl(0, 0%, 97%);
+  color: hsl(210, 75%, 88%);
+  padding: 0.65rem 1rem 0.6rem 0.5rem;
+  border: 1px solid hsl(0, 0%, 90%);
+  height: 48px;
+
+  > span {
+    line-height: 1;
+  }
+
+  ::ng-deep .app-btn.btn-primary-color.btn-link {
+    color: hsl(0, 0%, 30%);
+    font-weight: 500;
+    i{
+      color: hsl(0, 0%, 15%);
+      font-size: 13px;
+      line-height: 12px;
+    }
+}
+}
+
+.label-width {
+  width: 12rem;
+  text-transform: uppercase;
+  color: hsl(0, 0%, 70%);
+  font-size: 11px;
+}
+
+.Quick-Link {
+  font-size: 14px !important;
+}
+.Quick-Icon {
+  font-size: 19px !important;
+}
+
+.label-width-Large {
+  width: 5rem;
+}
+.label-width.label-width-small {
+  width: 8rem;
+}
+.content-height {
+  min-height: 100px;
+}
+
+.label-info-value {
+  padding-top: 5px !important;
+  font-weight: 500;
+  word-wrap: break-word;
+  max-width: 12rem;
+}
+
+.top-row,
+.bottom-row {
+  min-height: min-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.grid-height {
+  min-height: 200px;
+}
+
+.grid-height2 {
+  min-height: 100px;
+}
+
+.link:hover {
+  cursor: pointer;
+}
+.notes-height {
+  min-height: 10rem;
+}
+
+.allergies-label-info-value {
+  width: 5rem;
+}
+
+.small-col {
+  width: 2rem;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 1767px) {
+  .notes-card {
+    order: 2;
+    width: 48.7rem;
+  }
+
+  .kin-card {
+    width: 48.7rem;
+  }
+}
+
+@media (min-width: 1280px) {  
+  @media (max-width: 1290px) {
+    .single-column {  
+      width: 28rem !important;
+    }
+
+    .button-align-right {
+      margin-left: auto !important;
+      margin-right: 15px !important;
+    }
+  }
+}
+
+@media (max-width: 1078px) {
+  .single-column {  
+    width: 28rem !important;
+  }
+  
+  .button-align-right {
+    margin-left: auto !important;
+    margin-right: 15px !important;
+  }
+}
+
+.font-light {
+  font-weight: normal;
+}
+
+.width-80 {
+  flex-grow: 4;
+}
+
+.width-20 {
+  flex-grow: 1;
+}
+
+// @include for-large-screen-up {
+//   .responsive-margins {
+//     margin: 0px 1.2rem;
+//   }
+
+//   .responsive-paddings {
+//     padding: 0.8rem 0.8rem 0.3rem;
+//   }
+// }
+
+.orange {
+  color: orange;
+}
+
+.red {
+  color: red;
+}
+
+.ml--16px {
+  margin-left: -16px;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.wrap { 
+  word-wrap: break-word;
+  max-width: 156px;
+}
+
+.overflow-y {
+  overflow-y: auto !important;
+}

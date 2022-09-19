@@ -1,0 +1,149 @@
+$disabled--color: hsl(0, 0%, 95%);
+
+.content-height {
+  height: 250px; // dummy height
+  flex: 1 1 auto;
+  // overflow: auto;
+}
+
+body .dx-scheduler-navigator .dx-button {
+  margin-right: 5px !important;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.width-1 {
+  flex: 0 0 30em;
+}
+
+.height-1 {
+  flex: 0 0 128px;
+}
+
+.buttons {
+  justify-content: center;
+}
+
+:host ::ng-deep {
+  .unavailable-date {
+    background-color: rgb(102, 102, 102);
+    color: white;
+  }
+
+  .unavailable-date,
+  .session-date {
+    height: 100%;
+    width: 100%;
+    padding-left: 3px;
+    padding-top: 3px;
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  .dx-scheduler-appointment-content {
+    padding-left: 3px;
+    padding-top: 4px;
+    border-radius: 6px;
+    margin: 0;
+  }
+
+  .session-date {
+    background-color: hsl(100, 45%, 91%);
+    color: hsl(167, 52%, 30%);
+  }
+
+  .dx-scheduler-header-panel {
+    padding-top: 6px;
+    margin-top: 0px;
+    border-left: 1px solid hsl(0, 0%, 92%);
+
+    .dx-scheduler-group-header {
+      border-bottom: 1px solid hsl(0, 0%, 92%);
+    }
+  }
+
+  .dx-scheduler-time-panel-cell {
+    padding-right: 32px;
+    border-bottom: 1px solid hsl(0, 0%, 92%);
+
+    >div {
+      margin-top: -16px;
+    }
+  }
+
+  .dx-scheduler-date-table-cell {
+    padding: 0;
+  }
+
+  .dx-scheduler-header {
+    background-color: hsl(215 0% 97% / 1);
+  }
+
+  .dx-scheduler-group-flex-container .dx-scheduler-group-header,
+  .dx-scheduler-header-panel-cell,
+  .dx-scheduler-time-panel-cell {
+    color: hsl(0 0% 35% / 1);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .dx-scheduler-header-panel .dx-scheduler-group-header,
+  .dx-scheduler-group-header-content {
+    color: hsl(0 0% 35% / 1);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .appointment-info {
+    color: #fff;
+  }
+
+  .item-badge {
+    border-radius: 50%;
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-left: 2rem;
+    margin-right: 0.25rem;
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.outline {
+  border: 1px solid rgba(221, 228, 232, 0.6);
+  border-radius: 3px;
+}
+
+.overflow-y {
+  overflow-y: auto;
+}
+
+.l-h-15px {
+  line-height: 15px;
+}
+
+.w-100-25px {
+  width: calc(100% - 25px);
+}
+
+.w-25px {
+  width: 25px;
+}
+
+.small-icon {
+  width: 23px;
+  height: auto;
+  margin: 0 1px;
+}
+
+.position {
+  position: absolute;
+  z-index: 1000;
+  width: calc(100% - 650px);
+  left: 260px;
+  margin-top: 2px;
+}

@@ -1,0 +1,57 @@
+<div id="pageMainDocuments" class="d-flex flex-grow-1 flex-column page-main" (wheel)="onMouseWheel($event)">
+    <div class="d-flex flex-grow-1 flex-row responsive-margins" [formGroup]="editForm">
+        <div class="d-flex flex-column flex-grow-1 col-6 h-100">
+            <div class="label-info-value-title sm mb-2 mt-2">Date/Time Format </div>
+
+            <app-select-box caption="Date Time" [dataSource]="dateTimeFormatList" formControlName="dateTimeFormat"
+                direction="row">
+            </app-select-box>
+
+            <app-select-box caption="Short Date" [dataSource]="shortDateFormatList" formControlName="shortDateFormat"
+                direction="row">
+            </app-select-box>
+
+            <app-select-box caption="Long Date" [dataSource]="longDateFormatList" formControlName="longDateFormat"
+                direction="row">
+            </app-select-box>
+
+            <div class="horizontal-line mb-2"></div> 
+
+            <div class="label-info-value-title sm mt-2 mb-2">Default Documents</div>
+
+            <app-slide-toggle formControlName="useDefaultReceipt" class="md-height" direction="row"
+                caption="Use Default Receipt">
+            </app-slide-toggle> 
+
+            <app-slide-toggle formControlName="useDefaultConfirmationEmail" class="md-height" direction="row"
+                caption="Use Default Confirmation Email">
+            </app-slide-toggle>
+
+            <app-slide-toggle formControlName="useDefaultConfirmationLetter" class="md-height" direction="row"
+                caption="Use Default Confirmation Letter">
+            </app-slide-toggle>
+
+            <app-slide-toggle formControlName="useDefaultConfirmationSms" class="md-height" direction="row"
+                caption="Use Default Confirmation SMS">
+            </app-slide-toggle>
+
+            <app-slide-toggle formControlName="useDefaultCancellationEmail" class="md-height" direction="row"
+                caption="Use Default Cancellation Email">
+            </app-slide-toggle>
+
+            <app-slide-toggle formControlName="useDefaultCancellationLetter" class="md-height" direction="row"
+                caption="Use Default Cancellation Letter">
+            </app-slide-toggle>
+
+            <app-slide-toggle formControlName="useDefaultCancellationSms" class="md-height" direction="row"
+                caption="Use Default Cancellation SMS">
+            </app-slide-toggle>
+        </div>
+    </div>
+</div>
+
+<div class="page-footer">
+    <div class="horizontal-line"></div>
+    <app-button class="mt-2 mb-2 page-footer-button" text="Save" (clicked)="submitForm()"
+        [disabled]="submitting || editForm?.pristine"></app-button>
+</div>

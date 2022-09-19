@@ -1,0 +1,137 @@
+<div class="d-flex flex-row flex-wrap w-100 mb-3 pt-2" [class.pl-4]="!isConnectionView && !contactClassificationId">
+  <app-grid-search-text-box (changed)="searchValue = $event; onSearchInputChangedHandler()" class="mr-3">
+  </app-grid-search-text-box>
+
+  <dx-select-box *ngIf="userStore.isMedSecUser()" [dataSource]="sites" valueExpr="siteId" displayExpr="siteName"
+    (onSelectionChanged)="setSelectedSiteItem($event)" class="no-bg-dropdown dx-custom-button-hovered"
+    [(value)]="defaultSiteId">
+  </dx-select-box>
+
+  <dx-select-box [dataSource]="searchOptions" valueExpr="value" displayExpr="viewValue"
+    (onSelectionChanged)="setSearchItem($event)" class="no-bg-dropdown dx-custom-button-hovered ml-3"
+    [(value)]="searchField">
+  </dx-select-box>
+
+  <div class="d-flex flex-row flex-wrap align-items-center ml-auto mr-4">
+    <mat-checkbox class="ml-4 CheckPadded" [checked]="showInactive" (change)="checkboxChanged($event)" matInput>
+      Include inactive
+    </mat-checkbox>
+  </div>
+</div>
+
+<div class="cssWidgetWrapper" [class.generic-border]="isConnectionView || contactClassificationId">
+  <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" [remoteOperations]="true" class="cssGridGeneral"
+    [class.padd-first-lg]="!isConnectionView" focusedRowEnabled="true" focusedRowIndex="0" [remoteOperations]="false"
+    (onFocusedRowChanged)="onFocusedRowChanged($event)" (onRowClick)="onRowClick($event)" [rowAlternationEnabled]="true"
+    (onRowDblClick)="onRowDoubleClick($event)" [masterDetail]="masterDetailOptions">
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-search-panel [visible]="false"></dxo-search-panel>
+
+    <dxi-column dataField="siteName" [allowSorting]="true" [visible]="userStore.isMedSecUser()" caption="Site"
+      [minWidth]="120">
+    </dxi-column>
+    <dxi-column dataField="displayName" cellTemplate="nameTemplate" caption="Name" [allowSorting]="true"
+      [minWidth]="150" sortOrder="asc">
+    </dxi-column>
+    <dxi-column dataField="contactType" cellTemplate="typeTemplate" [minWidth]="120" [allowSorting]="true"
+      alignment="center" caption="Type">
+    </dxi-column>
+    <dxi-column dataField="contactClassification" cellTemplate="classificationTemplate" [allowSorting]="true"
+      alignment="center" caption="Classification" [minWidth]="120">
+    </dxi-column>
+    <dxi-column [minWidth]="200" cellTemplate="addressTemplate" caption="Address" [allowSorting]="true">
+    </dxi-column>
+    <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="120">
+      <dxi-button template="myCommandTemplate"></dxi-button>
+    </dxi-column>
+
+    <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+      <app-button type="link"
+        [text]="fromPatient ? 'Link to patient' : contactClassificationId ? contactClassificationId == 1? 'Link to person' : 'Link to organisation' : 'Link to contact'"
+        size="sm" iconPosition="left" *ngIf="isConnectionView || contactClassificationId" icon="far fa-plus"
+        matTooltip="Add connection" (clicked)="addedConnectionFromContact(cellInfo.row.data)">
+      </app-button>
+
+      <app-button type="link" iconPosition="right" icon="far fa-external-link-square"
+        *ngIf="!isConnectionView && !contactClassificationId" color="grey" matTooltip="View Contact"
+        (clicked)="doubleClickedRow.emit(cellInfo.row.data)">
+      </app-button>
+    </div>
+
+    <div *dxTemplate="let  data of 'addressTemplate'" [class.text-grey-65]="data.data.inactive">
+      <div *ngIf="data.data.address as address; else noAddress" class="d-flex flex-column">
+        <div class="d-flex flex-row">
+          <span>{{address.address1}}</span>
+
+          <span *ngIf="address.address2">, {{address.address2}}</span>
+
+          <span *ngIf="address.address3">, {{address.address3}}</span>
+
+          <span *ngIf="address.postcode">, {{address.postcode}}</span>
+        </div>
+      </div>
+
+      <ng-template #noAddress>
+        <div class="d-flex flex-row">
+          <span class="text-grey-70 py-2">No address</span>
+          <!-- dummy to match row height -->
+          <div class="d-flex flex-column"><span>&nbsp;</span><span>&nbsp;</span></div>
+        </div>
+      </ng-template>
+    </div>
+
+    <div *dxTemplate="let data of 'nameTemplate'" class="d-flex flex-column" [class.text-grey-65]="data.data.inactive">
+      <div class="d-flex" style="align-items: center;">
+        <span class="text-semiBold">{{data.data.displayName}}</span>
+
+        <span class="label-tag md badge-danger ml-1" *ngIf="data.data.inactive">Inactive</span>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="!isConnectionView">
+        <span>{{data.data.contactClassification === 1 ? data.data.parentsCount : data.data.childrensCount}}</span>
+
+        <span class="text-grey-70" *ngIf="(data.data.contactClassification === 1 && data.data.parentsCount == 1) ||
+        (data.data.contactClassification != 1 &&  data.data.childrensCount == 1)">&nbsp;Connection</span>
+
+        <span class="text-grey-70" *ngIf="(data.data.contactClassification === 1 && data.data.parentsCount != 1) ||
+        (data.data.contactClassification != 1 &&  data.data.childrensCount != 1)">&nbsp;Connections</span>
+      </div>
+
+      <div class="d-flex flex-row" *ngIf="isConnectionView">
+        <span>{{data.data.contactClassification === 1 ? data.data.parentsDeptCount :
+          data.data.childrensDeptCount}}</span>
+
+        <span class="text-grey-70" *ngIf="(data.data.contactClassification === 1 && data.data.parentsDeptCount == 1) ||
+        (data.data.contactClassification != 1 &&  data.data.childrensDeptCount == 1)">&nbsp;Connection</span>
+
+        <span class="text-grey-70" *ngIf="(data.data.contactClassification === 1 && data.data.parentsDeptCount != 1) ||
+        (data.data.contactClassification != 1 &&  data.data.childrensDeptCount != 1)">&nbsp;Connections</span>
+      </div>
+    </div>
+
+    <div *dxTemplate="let data of 'contactTemplate'" class="d-flex flex-row" [class.text-grey-65]="data.data.inactive">
+      <div *ngIf="data.data.preferredTelecom as telecom" class="d-flex flex-column">
+        <span class="text-semiBold">{{telecom.description}}</span>
+
+        <span>{{telecom.value}}</span>
+      </div>
+    </div>
+
+    <div *dxTemplate="let data of 'classificationTemplate'" class="d-flex flex-row justify-content-center">
+      <span class="text-semiBold">{{data.data.contactClassification == 1 ? 'Person' : data.data.contactClassification ==
+        2 ? 'Organisation' : 'Department'}}</span>
+    </div>
+
+    <div *dxTemplate="let data of 'typeTemplate'" class="d-flex flex-row justify-content-center">
+      <span *ngIf="data.contactClassification != 3" class="label-tag md type5-1"
+        [ngStyle]="{'background-color': getBackgroundColor(data)}">{{data.data.contactType}}</span>
+
+      <span *ngIf="data.contactClassification == 3" class="label-tag md type5-1">Department</span>
+    </div>
+
+    <div *dxTemplate="let item of 'detail'">
+      <app-contact-detail-connections class="d-flex flex-grow-1 h-250px" [contactId]="item.data.contactId"
+        (addedConnection)="addedConnectionFromConnection(item.data, $event)"></app-contact-detail-connections>
+    </div>
+  </dx-data-grid>
+</div>

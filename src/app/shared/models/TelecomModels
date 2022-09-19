@@ -1,0 +1,35 @@
+/*
+import Guid from 'devextreme/core/guid';
+
+export class TelecomModelBase {
+    uniqueNo?: number | null;
+    siteId?: Guid | null;
+    telecomType?: number | null;
+    description?: string | null;
+    rank?: number | null;
+    editMask?: string | null;
+    minLength?: number | null;
+    maxLegnth?: number | null;
+    numericOnly?: boolean | null;
+    active?: boolean | null;
+    alwaysAdd?: boolean | null;
+    isOrganisation?: boolean | null;
+}
+
+export class TelecomModel extends TelecomModelBase {
+    uniqueNo?: number | null;
+    telecomId?: Guid | null;
+    siteId?: Guid | null;
+    patientId?: Guid | null;
+    contactId?: Guid | null;
+    telecomValue?: string | null;
+    usage?: number | null;
+    rank?: number | null;
+    preferred?: boolean | null;
+    primary?: boolean | null;
+    telecomTypeId?: number | null;
+    data: any | null;
+    errors: any | null;
+    success: boolean | null;
+}
+*/

@@ -1,0 +1,122 @@
+<div class="d-flex flex-column flex-grow-1 flex-auto top-row-height mt-2" *ngIf="selectedRowsData">
+  <div class="d-flex flex-row">
+   <div class="d-flex flex-column">
+
+    <div class="d-flex flex-row  align-items-center px-0 mb-1">
+      <label for="inputEmail3" class="label-info short-label-width" >First Name</label>
+      <div class="field-width">
+         {{selectedRowsData?.firstName}}
+     </div>
+
+    </div>
+
+    <div class="d-flex flex-row  align-items-center px-0 mb-1">
+      <label for="inputEmail3" class="label-info short-label-width" >Last Name</label>
+      <div class="field-width">
+         {{selectedRowsData?.lastName}}
+     </div>
+
+    </div>
+
+    <div class="d-flex flex-row  align-items-center px-0 mb-3">
+      <label for="inputEmail3" class="label-info short-label-width" >Title</label>
+      <div class="field-width">
+         {{selectedRowsData?.title}}
+     </div>
+
+    </div>
+
+    <div class="d-flex flex-row align-items-center mb-3">
+          <label for="inputEmail3" class="label-info short-label-width">Relationship</label>
+          <div class="field-width">
+            {{selectedRowsData?.relationshipToPatient}}
+    </div>
+
+</div>
+
+<div class="d-flex flex-row align-items-center mb-0">
+  <label for="inputEmail3" class="label-info short-label-width">Email</label>
+  <div class="field-width">
+      <a [href]="'mailto:' + selectedRowsData?.email">{{selectedRowsData?.email}}</a>
+  </div>
+
+</div>
+<div class="d-flex flex-row align-items-center mt-1">
+  <label for="inputEmail3" class="label-info short-label-width">Contact Number</label>
+  <div class="field-width">
+    <a [href]="'tel:' + selectedRowsData?.contactNumber">{{selectedRowsData?.contactNumber}}</a>
+  </div>
+
+</div>
+
+<div class="d-flex flex-row mt-0 align-items-center mb-0 mt-3">
+  <span class="label-info short-label-width">Address </span>
+
+  <div class="field-width" *ngIf="selectedRowsData?.address?.address1">
+    {{selectedRowsData?.address?.address1}},
+  </div>
+</div>
+
+<div class="d-flex flex-row mt-0 align-items-center mb-0" *ngIf="selectedRowsData?.address?.address2">
+  <span class="label-info short-label-width"></span>
+  <div class="field-width">
+    {{selectedRowsData?.address?.address2}},
+  </div>
+</div>
+
+<div class="d-flex flex-row mt-0 align-items-center mb-0" *ngIf="selectedRowsData?.address?.address3">
+  <span class="label-info short-label-width"></span>
+
+  <div class="field-width">
+    {{selectedRowsData?.address?.address3}},
+  </div>
+</div>
+
+<div class="d-flex flex-row mt-0 align-items-center mb-0" *ngIf="selectedRowsData?.address?.address4">
+  <span class="label-info short-label-width"></span>
+
+  <div class="field-width">
+    {{selectedRowsData?.address?.address4}},
+  </div>
+</div>
+
+<div class="d-flex flex-row mt-0 align-items-center mb-3" *ngIf="selectedRowsData?.address?.postcode">
+  <span class="label-info short-label-width"></span>
+
+  <div class="field-width">
+    {{selectedRowsData?.address?.postcode}}
+  </div>
+</div>
+
+<div class="d-flex flex-row align-items-center mb-1">
+  <label for="inputEmail3" class="label-info short-label-width">Send Invoices via patientzone</label>
+  <div class="field-width">
+    {{selectedRowsData?.sendViaPatientzone ? 'Yes' : 'No'}}
+  </div>
+
+</div>
+
+<div class="d-flex flex-row align-items-center mb-3">
+  <label for="inputEmail3" class="label-info short-label-width">Is Payor</label>
+  <div class="field-width">
+    {{selectedRowsData?.isPayor ? 'Yes' : 'No'}}
+  </div>
+</div>
+
+
+<div class="d-flex flex-row mt-1 align-items-center mb-2">
+  <label for="inputEmail3" class="label-info short-label-width">Comments</label>
+  <div class="field-width">
+    {{selectedRowsData?.comments}}
+    </div>
+
+
+</div>
+  <!-- <div class="d-flex flex-row mt-4 mb-3 buttons-right">
+    <button mat-button class="app-button primary grid-header-btn mr-2" [disabled]="!form.valid" (click)="save()">Save</button>
+    <button mat-button class="app-button warning grid-header-btn mr-2 " (click)="delete(relatedPersonVM.relatedPersonId)" *ngIf="isEdit">Delete</button>
+    <button mat-button class="app-button secondary grid-header-btn mx-1" (click)="discard()" *ngIf="!isEdit">Clear Form</button>
+  </div> -->
+</div>
+</div>
+</div>

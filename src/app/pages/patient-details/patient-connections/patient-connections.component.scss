@@ -1,0 +1,26 @@
+//Safari
+@supports (overflow:-webkit-marquee) and (justify-content:inherit) 
+{
+  .safari-height { 
+    min-height: 40px;
+  }
+
+  .bottom-panel {
+    flex: 0;
+  }
+}
+
+.mat-menu-item
+{
+  line-height: 30px !important;
+  height: 30px !important;
+}
+
+app-contacts-summary-view > .side-card > div > div > div > .label-width {
+  min-width: 9rem !important;
+  width: 9rem !important;
+  max-width: 9rem !important;
+  }   
+
+
+

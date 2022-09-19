@@ -1,0 +1,64 @@
+<app-page-wrapper [title]="remittance?.insurerName" [hasTabs]="false" [hasBackButton]="false">
+  <div role="extra" class="d-flex flex-row">
+    <span class="label-tag md badge-secondary ml-2" *ngIf="remittance?.archived">Archived</span>
+  </div>
+
+  <app-page-header-buttons class="mt-2">
+    <app-button text="Export" icon="far fa-file-download" class="ml-auto my-auto mr-4" type="link" (clicked)="export()">
+    </app-button>
+
+    <app-button *ngIf="remittance?.archived" text="Unarchive" class="ml-3" (clicked)="unarchive()"></app-button>
+    <app-button *ngIf="!remittance?.archived" text="Archive" class="ml-3" (clicked)="archive()"></app-button>
+  </app-page-header-buttons>
+
+  <app-page-header-content>
+    <app-remittances-header class="d-flex flex-row mt-2" [record]="remittance" [currencySymbol]="currencySymbol">
+    </app-remittances-header>
+  </app-page-header-content>
+
+  <app-page-body>
+    <app-card class="d-flex flex-row flex-grow-1" [hasFullWidth]="true">
+      <div class="cssWidgetWrapper">
+        <dx-data-grid id="remittanceGrid" [dataSource]="dataSource" gridWithRowLinesSettings [hoverStateEnabled]="true"
+          class="cssGridGeneral padd-first-lg full-height" [rowAlternationEnabled]="true">
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+          <dxo-export fileName="RemittanceReport"></dxo-export>
+
+          <dxi-column dataField="patientName" [minWidth]="250" caption="Patient" cssClass="text-semiBold">
+          </dxi-column>
+          <dxi-column dataField="invoiceId" [minWidth]="100" caption="Invoice"></dxi-column>
+          <dxi-column dataField="chBillNo" [minWidth]="100" caption="CH Bill No"></dxi-column>
+          <dxi-column dataField="paid" caption="Paid" [minWidth]="100" cellTemplate="currency"></dxi-column>
+          <dxi-column dataField="shortfall" caption="Shortfall" [minWidth]="100" cellTemplate="currency"></dxi-column>
+          <dxi-column dataField="broughtForward" caption="Brought Forward" [minWidth]="100" cellTemplate="currency">
+          </dxi-column>
+          <dxi-column dataField="carriedForward" caption="Carried Forward" [minWidth]="100" cellTemplate="currency">
+          </dxi-column>
+          <dxi-column dataField="prevPaid" caption="Prev Paid" [minWidth]="100" cellTemplate="currency"></dxi-column>
+
+          <dxo-summary>
+            <dxi-total-item column="broughtForward" summaryType="sum" displayFormat="{{currencySymbol}} {0}"
+              [valueFormat]="{type:'fixedPoint',precision:2}">
+            </dxi-total-item>
+            <dxi-total-item column="carriedForward" summaryType="sum" displayFormat="{{currencySymbol}} {0}"
+              [valueFormat]="{type:'fixedPoint',precision:2}">
+            </dxi-total-item>
+            <dxi-total-item column="prevPaid" summaryType="sum" displayFormat="{{currencySymbol}} {0}"
+              [valueFormat]="{type:'fixedPoint',precision:2}">
+            </dxi-total-item>
+            <dxi-total-item column="paid" summaryType="sum" displayFormat="{{currencySymbol}} {0}"
+              [valueFormat]="{type:'fixedPoint',precision:2}">
+            </dxi-total-item>
+            <dxi-total-item column="shortfall" summaryType="sum" displayFormat="{{currencySymbol}} {0}"
+              [valueFormat]="{type:'fixedPoint',precision:2}">
+            </dxi-total-item>
+          </dxo-summary>
+
+          <div *dxTemplate="let d of 'currency'">
+            <div class="current-value">{{currencySymbol}}{{d.value | number : '1.2-2'}}</div>
+          </div>
+        </dx-data-grid>
+      </div>
+    </app-card>
+  </app-page-body>
+</app-page-wrapper>

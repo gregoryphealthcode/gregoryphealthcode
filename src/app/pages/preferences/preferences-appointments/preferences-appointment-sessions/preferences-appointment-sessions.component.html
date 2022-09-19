@@ -1,0 +1,112 @@
+<app-preferences-appointment-sessions-add-edit [data]="selectedRecord" (saved)="refreshDataGrid()"></app-preferences-appointment-sessions-add-edit>
+
+<div class="d-flex flex-row mr-4 mt-2 ml-4">
+  <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+  <app-button icon="far fa-plus" text="Add" class="ml-auto mt-auto" (clicked)="addClicked()">
+  </app-button>
+</div>
+
+<div class="d-flex flex-grow-1 mt-2">
+  <div class="app-card flex-grow-1 content-height border-none px-4">
+    <div class="cssWidgetWrapper">
+      <dx-data-grid [dataSource]="dataSource" keyExpr="this" [hoverStateEnabled]="true"
+        gridWithRowLinesSettings class="cssGridGeneral padd-first-sm" focusedRowIndex="0" [columnMinWidth]="125">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+        <dxi-column dataField="description" caption="Description" cellTemplate="descriptionTemplate"></dxi-column>
+        <dxi-column dataField="ownerName" caption="Practitioner" [sortIndex]="1" sortOrder="desc"></dxi-column>
+        <dxi-column dataField="startDate" caption="Start Date" [sortIndex]="2" sortOrder="asc" dataType="date" [format]="appInfo.getDateFormat"></dxi-column>
+        <dxi-column dataField="endDate" caption="End Date" dataType="date" [format]="appInfo.getDateFormat"></dxi-column>
+        <dxi-column dataField="repeatsEvery" caption="Repeats Every" cellTemplate="repeatTemplate"></dxi-column>
+        <dxi-column dataField="eBooking" caption="eBooking" cellTemplate="tickTemplate"></dxi-column>
+        <dxi-column caption="Unavailable" cellTemplate="unavailableTemplate"></dxi-column>
+        <dxi-column dataField="locationName" caption="Location"></dxi-column>
+        <dxi-column dataField="appointmentTypeNames" caption="Appointment Types" cellTemplate="appointmentTemplate" [minWidth]="200"></dxi-column>
+        <dxi-column caption="Monday" cellTemplate="monTemplate"></dxi-column>
+        <dxi-column caption="Tuesday" cellTemplate="tuesTemplate"></dxi-column>
+        <dxi-column caption="Wednesday" cellTemplate="wedTemplate"></dxi-column>
+        <dxi-column caption="Thursday" cellTemplate="thursTemplate"></dxi-column>
+        <dxi-column caption="Friday" cellTemplate="friTemplate"></dxi-column>
+        <dxi-column caption="Saturday" cellTemplate="satTemplate"></dxi-column>
+        <dxi-column caption="Sunday" cellTemplate="sunTemplate"></dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false" width="85" [fixed]="true" fixedPosition="right">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'descriptionTemplate'" class="d-flex flex-row align-items-center">
+          <!-- <div class="type-color" [ngStyle]="{'background-color': getBackgroundColour(cellInfo)}"></div>
+ -->
+          <div class="ml-2 text-semiBold">{{cellInfo.data.description}}</div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'repeatTemplate'" [ngSwitch]="cellInfo.value">
+          <div *ngSwitchCase="0">Don't Repeat</div>
+          <div *ngSwitchCase="1">Week</div>
+          <div *ngSwitchCase="2">Two weeks</div>
+          <div *ngSwitchCase="4">Month</div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'tickTemplate'">
+          <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'unavailableTemplate'" class="d-flex flex-column align-items-center">
+          <ng-container *ngIf="cellInfo.row.data.unavailable">
+            <div>
+              {{cellInfo.row.data.unavailableStartDateTime | date: 'dd/MM/yyyy HH:mm'}}
+            </div>
+            <div>
+              Until
+            </div>
+            <div>
+              {{cellInfo.row.data.unavailableEndDateTime | date: 'dd/MM/yyyy HH:mm'}}
+            </div>   
+          </ng-container>                    
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'monTemplate'" class="d-flex flex-row align-items-center">
+          <div *ngIf="cellInfo.row.data.mon">{{cellInfo.row.data.monStartTime | date: 'HH:mm'}} - {{cellInfo.row.data.monEndTime | date: 'HH:mm'}}</div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'tuesTemplate'" class="d-flex flex-row align-items-center">
+          <div *ngIf="cellInfo.row.data.tues">{{cellInfo.row.data.tuesStartTime | date: 'HH:mm'}} - {{cellInfo.row.data.tuesEndTime | date: 'HH:mm'}}</div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'wedTemplate'" class="d-flex flex-row align-items-center">
+          <div *ngIf="cellInfo.row.data.wed">{{cellInfo.row.data.wedStartTime | date: 'HH:mm'}} - {{cellInfo.row.data.wedEndTime | date: 'HH:mm'}}</div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'thursTemplate'" class="d-flex flex-row align-items-center">
+          <div *ngIf="cellInfo.row.data.thurs">{{cellInfo.row.data.thursStartTime | date: 'HH:mm'}} - {{cellInfo.row.data.thursEndTime | date: 'HH:mm'}}</div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'friTemplate'" class="d-flex flex-row align-items-center">
+          <div *ngIf="cellInfo.row.data.fri">{{cellInfo.row.data.friStartTime | date: 'HH:mm'}} - {{cellInfo.row.data.friEndTime | date: 'HH:mm'}}</div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'satTemplate'" class="d-flex flex-row align-items-center">
+          <div *ngIf="cellInfo.row.data.sat">{{cellInfo.row.data.satStartTime | date: 'HH:mm'}} - {{cellInfo.row.data.satEndTime | date: 'HH:mm'}}</div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'sunTemplate'" class="d-flex flex-row align-items-center">        
+          <div *ngIf="cellInfo.row.data.sun">{{cellInfo.row.data.sunStartTime | date: 'HH:mm'}} - {{cellInfo.row.data.sunEndTime | date: 'HH:mm'}}</div>
+        </div>
+        
+        <div *dxTemplate="let cellInfo of 'appointmentTemplate'" class="d-flex flex-column">
+          <span *ngFor="let i of cellInfo.data.appointmentTypeNames">
+            {{i}}
+          </span>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+          <app-button icon="far fa-trash" type="link" color="grey" class="mx-2" matTooltip="Delete"
+            (clicked)="deleteClicked(cellInfo)"></app-button>
+
+          <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit"
+            (clicked)="editClicked(cellInfo)"></app-button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

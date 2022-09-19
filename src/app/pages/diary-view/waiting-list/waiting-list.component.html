@@ -1,0 +1,142 @@
+<app-waiting-list-add-edit [data]="selectedRecord" (saved)="reloadData()"></app-waiting-list-add-edit>
+
+<div class="d-flex flex-row flex-wrap w-100 mb-3">
+  <div class="d-flex flex-column w-100">
+    <span class="d-flex a-card-title px-4 align-items-center w-max-22 mb-3">
+      Waiting List
+    </span>
+
+    <app-grid-search-text-box class="mr-auto ml-auto" (changed)="searchBoxValue = $event; doSearch()">
+    </app-grid-search-text-box>
+
+    <label class="w-192px ml-auto mr-auto mt-2 mb-2">From Date</label>
+
+    <dx-date-box class="w-192px ml-auto mr-auto mb-2" [displayFormat]="dateFormat" [(value)]="fromDate" type="date"
+      (onValueChanged)="dateChanged()">
+    </dx-date-box>
+
+    <label class="w-192px ml-auto mr-auto mb-2">To Date</label>
+
+    <dx-date-box class="w-192px ml-auto mr-auto mb-2" [displayFormat]="dateFormat" [(value)]="toDate" type="date"
+      (onValueChanged)="dateChanged()">
+    </dx-date-box>
+
+    <mat-checkbox class="mr-auto ml-auto" [checked]="includeUnassignedChecked" (change)="onInactiveChanged()" matInput>
+      Include Unassigned
+    </mat-checkbox>
+  </div>
+</div>
+
+<div class="d-flex flex-row flex-wrap w-100 flex-grow-1">
+  <div class="cssWidgetWrapper content-height h-100">
+    <dx-data-grid [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="id" height="100%"
+      [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true" focusedRowIndex="0"
+      (onFocusedRowChanged)="onFocusedRowChanged($event)" [focusedRowEnabled]="true" [showColumnHeaders]="false"
+      [remoteOperations]="false">
+      <dxo-scrolling mode="virtual"></dxo-scrolling>
+      <dxo-sorting mode="multiple"></dxo-sorting>
+
+      <dxi-column dataField="patientName" cellTemplate="detailsTemplate"></dxi-column>
+      <dxi-column dataField="priority" [visible]="false" sortOrder="desc" [sortIndex]="0"></dxi-column>
+      <dxi-column dataField="dateAdded" dataType="date" format="dateFormat" [visible]="false" sortOrder="asc"
+        [sortIndex]="1">
+      </dxi-column>
+
+      <dxo-summary>
+        <dxi-total-item column="patientName" summaryType="count" displayFormat="{0}" valueFormat="fixedPoint {2}">
+        </dxi-total-item>
+      </dxo-summary>
+
+      <div *dxTemplate="let cellInfo of 'detailsTemplate'">
+        <div class="d-flex flex-row">
+          <div class="d-flex flex-column mr-2">
+            <div *ngIf="userStore.isMedSecUser()" class="d-flex flex-row mb-1 h-18px">
+              Site:
+            </div>
+            <div class="d-flex flex-row mb-1 h-18px">
+              Date Added:
+            </div>
+
+            <div class="d-flex flex-row mb-1 h-18px">
+              Patient:
+            </div>
+
+            <div class="d-flex flex-row mb-1 h-18px">
+              Appointment:
+            </div>
+
+            <div class="d-flex flex-row mb-1 h-18px">
+              Duration:
+            </div>
+
+            <div *ngIf="cellInfo.row.data.ownerName" class="d-flex flex-row mb-1 h-18px">
+              To See:
+            </div>
+
+            <div *ngIf="cellInfo.row.data.locationName" class="d-flex flex-row mb-1 h-18px">
+              Location:
+            </div>            
+
+            <div *ngIf="cellInfo.row.data.notes" class="d-flex flex-row mb-1 h-18px">
+              Notes:
+            </div>
+          </div>
+
+          <div class="d-flex flex-column">
+            <div *ngIf="userStore.isMedSecUser()" class="d-flex flex-row mb-1 h-18px">
+              {{cellInfo.row.data.siteName}}
+              <i *ngIf="cellInfo.row.data.priority" class="fas fa-flag red-flag" hint="Priority"></i>
+            </div>
+
+            <div class="d-flex flex-row mb-1 h-18px">
+              {{cellInfo.row.data.dateAdded | date: dateFormat}}
+              <i *ngIf="cellInfo.row.data.priority" class="fas fa-flag red-flag" hint="Priority"></i>
+            </div>
+
+            <div class="d-flex flex-row mb-1 h-18px">
+              {{cellInfo.data.patientName}} <span class="label-tag md badge-danger align-items-center ml-2"
+                *ngIf="cellInfo.data.deceased == true">Deceased</span>
+            </div>
+
+            <div class="d-flex flex-row mb-1 h-18px">
+              {{cellInfo.row.data.appointmentDescription}}
+            </div>
+
+            <div class="d-flex flex-row mb-1 h-18px">
+              {{cellInfo.row.data.duration}}
+            </div>
+
+            <div *ngIf="cellInfo.row.data.ownerName" class="d-flex flex-row mb-1 h-18px">
+              {{cellInfo.row.data.ownerName}}
+            </div>
+
+            <div *ngIf="cellInfo.row.data.locationName" class="d-flex flex-row mb-1 h-18px">
+              {{cellInfo.row.data.locationName}}
+            </div>
+
+            <div *ngIf="cellInfo.row.data.notes" class="d-flex flex-row mb-1 h-18px">
+              {{cellInfo.row.data.notes}}
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row mt-1 w-100 space-evenly">
+          <div class="d-flex flex-column">
+            <app-button icon="far fa-calendar-check" type="link" color="grey" matTooltip="Book"
+              (clicked)="bookClicked(cellInfo)"></app-button>
+          </div>
+
+          <div class="d-flex flex-column">
+            <app-button icon="far fa-edit" type="link" color="grey" matTooltip="Edit" (clicked)="editClicked(cellInfo)">
+            </app-button>
+          </div>
+
+          <div class="d-flex flex-column">
+            <app-button icon="far fa-trash" type="link" color="grey" matTooltip="Delete"
+              (clicked)="deleteClicked(cellInfo)"></app-button>
+          </div>
+        </div>
+      </div>
+    </dx-data-grid>
+  </div>
+</div>

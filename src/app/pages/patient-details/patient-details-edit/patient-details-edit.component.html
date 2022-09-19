@@ -1,0 +1,61 @@
+<div class="central-popup-wrapper">
+  <div class="central-popup-body" appEnterKeyFocusWrapper [formGroup]="editForm">
+    <span class="label-info-value text-semiBold generic-border-bottom pb-2 mb-3">Main</span>
+
+    <app-text-box formControlName="lastName" direction="row" caption="Last Name" [capitalizeEachWord]="true">
+    </app-text-box>
+
+    <app-text-box formControlName="firstName" direction="row" caption="First Name" [capitalizeEachWord]="true">
+    </app-text-box>
+
+    <app-text-box formControlName="initials" class="width-3/4" direction="row" caption="Other Initals"
+      [toUppercase]="true"></app-text-box>
+
+    <app-select-box [dataSource]="titles" class="width-3/4" direction="row" caption="Title" valueExpr="title"
+      formControlName="title" displayExpr="title"></app-select-box>
+
+    <app-select-box [dataSource]="genders" class="width-3/4" direction="row" caption="Birth Gender" valueExpr="this"
+      formControlName="gender" displayExpr="this"></app-select-box>
+
+    <app-select-box [dataSource]="identifies" class="width-3/4" direction="row" caption="Identifies As" valueExpr="this"
+      formControlName="identifiesAs" displayExpr="this"></app-select-box>
+
+    <app-date-box direction="row" class="width-3/4" acceptCustomValue="true" caption="Date of Birth"
+      formControlName="birthDate" [maxDate]="maxDate">
+    </app-date-box>
+
+    <span class="label-info-value text-semiBold generic-border-bottom pb-2 mb-2">State</span>
+
+    <app-slide-toggle formControlName="deceased" class="mb-0 md-height" direction="row" caption="Deceased">
+    </app-slide-toggle>
+
+    <app-date-box class="width-3/4 mt-1" *ngIf="getFormPropertyValue('deceased')" direction="row"
+      acceptCustomValue="true" caption="Deceased Date" formControlName="deceasedDate" [maxDate]="maxDate">
+    </app-date-box>
+
+    <app-slide-toggle formControlName="inactive" class="mb-0" direction="row" caption="Inactive"></app-slide-toggle>
+
+    <app-text-area-box *ngIf="getFormPropertyValue('inactive')" formControlName="inactiveReason"
+      caption="Inactive Reason" placeholder="Inactive Reason" class="text-area-standard-height mb-0 mt-1">
+    </app-text-area-box>
+
+    <span class="label-info-value text-semiBold generic-border-bottom mt-3 pb-2 mb-2">Other</span>
+
+    <app-slide-toggle formControlName="noChase" class="mb-0 md-height" direction="row" caption="Don't Chase">
+    </app-slide-toggle>
+
+    <app-slide-toggle formControlName="onStop" class="mb-0 md-height" direction="row" caption="On Stop">
+    </app-slide-toggle>
+
+    <app-slide-toggle *ngIf="isSitePatientzone" formControlName="sendViaPatientzone" class="mb-0" direction="row" caption="Send Invoices Via Patientzone"></app-slide-toggle>
+  </div>
+
+  <!-- Footer -->
+  <div class="popup-form-footer-wrapper mt-1">
+    <app-button text="Delete" icon="far fa-trash" (clicked)="delete()" type="link" color="warning" class="mr-auto">
+    </app-button>
+
+    <app-button text="Close" class="mr-3" (clicked)="close()" color="grey" size="sm"></app-button>
+    
+    <app-button text="Update" (clicked)="submitForm()" [disabled]="!editForm.valid" size="sm"></app-button>
+  </div>

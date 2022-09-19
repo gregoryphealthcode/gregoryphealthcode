@@ -1,0 +1,65 @@
+<ng-content></ng-content>
+<!-- <div *ngIf="!_compactMode"> -->
+
+<!-- </div> -->
+<div class="menu-container custom-scroll">
+  <dx-tree-view expandEvent="click" width="100%" [items]="items" (onInitialized)="onMenuInitialized($event)"
+    (onItemClick)="onItemClick($event)" (onContentReady)="updateSelection($event.element)" [selectByClick]="true"
+    selectionMode="single" keyExpr="key" itemTemplate="itemTemplate">
+    <div *dxTemplate="let itemObj of 'itemTemplate'">
+      <div class="d-flex menu-item-padding-y position-relative" (mouseenter)="showMenuTooltip($event.target, itemObj)">
+        <i *ngIf="itemObj.icon" class="duo-icon dx-icon {{itemObj.icon}}"
+          (mouseenter)="showMenuTooltip($event.target, itemObj)"></i>
+        <span class="item-text">{{itemObj.text}}</span>
+
+        <span *ngIf="itemObj.count" class="label-tag tab-count mx-auto mr-2 ml-auto"
+          [class.count-compact]="compactMode">{{itemObj.count}}</span>
+
+        <div class="task-counts">
+        <span *ngIf="itemObj.upCount" class="label-tag tab-upcount mx-auto mr-2 ml-auto" style="display: inline-block; position: relative; margin-right: 8px !important;"
+          [class.count-compact]="compactMode">{{itemObj.upCount}}</span>
+
+        <span *ngIf="itemObj.dueCount" class="label-tag tab-count mx-auto mr-2 ml-2" style="display: inline-block; position: relative;"
+          [class.count-compact]="compactMode">{{itemObj.dueCount}}</span>        
+        </div>
+      </div>
+    </div>
+  </dx-tree-view>
+</div>
+
+<app-appointment-popup-add-edit *ngIf="showAppointmentPopup" (closed)="showAppointmentPopup = false"
+  (saved)="showAppointmentPopup = false;"></app-appointment-popup-add-edit>
+
+<dx-tooltip *ngIf="showMenuItemsTooltip" [visible]="true" [closeOnOutsideClick]="true"
+  (onShowing)="onTooltipShowing($event)">
+  <dxo-position my="left top" at="right top" [of]="tooltipTarget">
+  </dxo-position>
+
+  <div *dxTemplate="let data = data of 'content'" (mouseleave)="hideTooltips()">
+    <div class='text-sm d-flex flex-column'>
+      <div class="d-flex flex-row ml-1 text-sm-3 menu-title">
+        <span class="pb-1 text-semiBold">{{hoveredMenuItem.text}}</span>
+      </div>
+
+      <div *ngFor="let item of hoveredMenuItem.items" class="d-flex flex-row py-2 align-items-center menu-item"
+        (click)=" clickedOnSubMenuItem($event.target,item, hoveredMenuItem.key)">
+        <span class="d-flex justify-content-center align-items-center w-1.5 mr-1 pb-1px">
+          <i *ngIf="item.icon" class="dx-icon {{item.icon}} text-base"></i>
+        </span>
+
+        <span class="mr-5 ml-1 text-sm-2">{{item.text}}</span>
+      </div>
+    </div>
+  </div>
+</dx-tooltip>
+
+<dx-tooltip *ngIf="showSmallTooltip && hoveredMenuItem" [visible]="true" [closeOnOutsideClick]="true">
+  <dxo-position my="left top" at="right top" [of]="smallTooltipTarget">
+  </dxo-position>
+
+  <div *dxTemplate="let data = data of 'content'">
+    <div class="d-flex flex-row text-sm-2 menu-title">
+      <span class="text-semiBold">{{hoveredMenuItem.text}}</span>
+    </div>
+  </div>
+</dx-tooltip>

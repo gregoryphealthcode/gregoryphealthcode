@@ -1,0 +1,18 @@
+<ng-container *ngIf="!readonly; else Label">
+  <label *ngIf="caption">{{caption}}</label>
+
+  <dx-tag-box [dataSource]="dataSource" [valueExpr]="valueExpr" [showSelectionControls]="true"
+    [displayExpr]="displayExpr" class="no-bg-dropdown dx-custom-button-hovered" [(value)]="value"
+    [placeholder]="placeholder" [stylingMode]="stylingMode" [disabled]="disabled" [isValid]="!isInvalid"
+    [validationError]="error" [inputAttr]="{ autocomplete: 'chrome-off' }">
+  </dx-tag-box>
+
+  <small class="font-weight-normal" *ngIf="hint && !isInvalid">{{hint}}</small>
+
+  <small class="font-weight-normal control-error" *ngIf="isInvalid">{{error}}</small>
+</ng-container>
+
+<ng-template #Label>
+  <app-form-label [direction]="direction" [caption]="caption" [value]="displayValue" [hasBottomMargin]="false">
+  </app-form-label>
+</ng-template>

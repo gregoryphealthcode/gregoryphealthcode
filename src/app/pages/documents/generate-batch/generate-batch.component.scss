@@ -1,0 +1,24 @@
+.content-height{
+  height: 250px;   // dummy height
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.w-50per {
+  width: 50%;
+}
+
+.w-300px {
+  width: 300px;
+}
+
+.pos-0 {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+
+div.dx-radiobutton {
+  margin-bottom: 8px !important;
+}

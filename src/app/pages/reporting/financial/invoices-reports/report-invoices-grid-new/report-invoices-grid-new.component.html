@@ -1,0 +1,176 @@
+<div class="cssWidgetWrapper disable-select">
+  <dx-data-grid #invoicesGrid id="invoicesGrid" gridWithRowLinesSettings appGridWithStateStore gridId="invoicesGrid1V1"
+    [dataSource]="dataSource" [focusedRowEnabled]="true" focusedRowIndex="0" [allowColumnReordering]="true"
+    [allowColumnResizing]="true" [columnHidingEnabled]="true" [showColumnLines]="true" [rowAlternationEnabled]="true"
+    columnResizingMode="widget" (onToolbarPreparing)="onToolbarPreparing($event)"
+    (onFocusedRowChanged)="onFocusedRowChanged($event)" (stateSelected)="stateSelectedHandler($event)"
+    (onOptionChanged)="onOptionChanged($event)" (openSiteSelectorModel)="openSiteSelectorModelHandler()"
+    [columnMinWidth]="125" [remoteOperations]="false">
+    <dxo-paging [pageSize]="30"> </dxo-paging>
+    <dxo-export [enabled]="true" [fileName]="fileName" [allowExportSelectedData]="false"></dxo-export>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+    <dxo-search-panel [visible]="true" [width]="160" placeholder="Search..."></dxo-search-panel>
+    <dxo-load-panel [enabled]="true"></dxo-load-panel>
+    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-grouping [contextMenuEnabled]="true"></dxo-grouping>
+    <dxo-group-panel [visible]="true" [allowColumnDragging]="true"></dxo-group-panel>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-scrolling rowRenderingMode="virtual"> </dxo-scrolling>
+
+    <dxo-pager [visible]="true" [allowedPageSizes]="false" [showPageSizeSelector]="true" [showInfo]="true"
+      [showNavigationButtons]="true">
+    </dxo-pager>
+    <dxi-column dataField="siteName" [allowSorting]="true" [visible]="isMedSec && !this.userStore.hasSelectedASite()"
+      caption="Site"></dxi-column>
+    <dxi-column dataField="invoiceNumber" caption="Invoice No." [fixed]="true" fixedPosition="left"
+      [allowFiltering]="true">
+    </dxi-column>
+    <dxi-column dataField="invoiceDate" caption="Invoice Date" [visible]="true" [allowFiltering]="true"
+      [allowSorting]="false" dataType="date" format="dd/MM/yyyy">
+    </dxi-column>
+    <dxi-column dataField="status" caption="Status" cellTemplate="statusTemplate">
+    </dxi-column>
+    <dxi-column dataField="patientDisplayName" caption="Patient" [allowFiltering]="true" [allowSorting]="true"
+      [allowGrouping]="true">
+    </dxi-column>
+    <dxi-column dataField="payorDisplayName" caption="Recipient/Payor" [allowGrouping]="true" [allowSorting]="true"
+      [allowFiltering]="true">
+    </dxi-column>
+    <dxi-column dataField="recipientType" caption="Payor Type" [allowSorting]="true" [visible]="true"
+      [allowFiltering]="true" [allowGrouping]="true">
+    </dxi-column>
+    <dxi-column dataField="patientBirthDate" caption="DOB" dataType="date" dataType="date" format="dd/MM/yyyy"
+      [allowSorting]="true" [allowFiltering]="true">
+    </dxi-column>
+    <dxi-column [calculateCellValue]="calculateAgeValue" caption="Age" [allowSorting]="true" [visible]="false"
+      [allowFiltering]="true" [allowGrouping]="true">
+    </dxi-column>
+    <dxi-column dataField="episodeOwner" caption="Specalist" [allowSorting]="false" [visible]="true"
+      [allowFiltering]="true" [allowGrouping]="true">
+    </dxi-column>
+    <dxi-column dataField="episodeLocation" caption="Location" [allowSorting]="false" [visible]="true"
+      [allowFiltering]="true" [allowGrouping]="true">
+    </dxi-column>
+    <dxi-column dataField="due" caption="Due" [allowSorting]="true" [visible]="false" [allowFiltering]="true"
+      [allowGrouping]="true">
+    </dxi-column>
+    <dxi-column dataField="remittedTotal" caption="Paid" [visible]="false" allowFiltering="false">
+      <dxo-format type="currency" [precision]="2" currency="{{this.appInfo.getCurrencyCode}}">
+      </dxo-format>
+      <dxo-header-filter [groupInterval]="250"></dxo-header-filter>
+    </dxi-column>
+    <dxi-column dataField="totalNett" caption="Nett" [visible]="showVAT" [allowFiltering]="false">
+      <dxo-format type="currency" [precision]="2" currency="{{this.appInfo.getCurrencyCode}}">
+      </dxo-format>
+      <dxo-header-filter [groupInterval]="250"></dxo-header-filter>
+    </dxi-column>
+    <dxi-column dataField="totalTax" caption="VAT" [visible]="showVAT" [allowFiltering]="false">
+      <dxo-format type="currency" [precision]="2" currency="{{this.appInfo.getCurrencyCode}}">
+      </dxo-format>
+      <dxo-header-filter [groupInterval]="250"></dxo-header-filter>
+    </dxi-column>
+    <dxi-column dataField="totalGross" caption="Total" [fixed]="true" fixedPosition="right" dataType="number"
+      [allowFiltering]="false">
+      <dxo-header-filter [groupInterval]="250"></dxo-header-filter>
+      <dxo-format type="currency" [precision]="2" currency="{{this.appInfo.getCurrencyCode}}">
+      </dxo-format>
+    </dxi-column>
+    <dxi-column dataField="dueGross" caption="Total Due" [fixed]="true" fixedPosition="right" dataType="number"
+      [allowFiltering]="false">
+      <dxo-header-filter [groupInterval]="250"></dxo-header-filter>
+      <dxo-format type="currency" [precision]="2" currency="{{this.appInfo.getCurrencyCode}}">
+      </dxo-format>
+    </dxi-column>
+
+    <dxo-summary>
+      <dxi-total-item column="invoiceNumber" summaryType="count" displayFormat="{0}" valueFormat="fixedPoint {2}">
+      </dxi-total-item>
+
+      <dxi-total-item column="remittedTotal" summaryType="sum" displayFormat="{{this.appInfo.getCurrencySymbol}} {0}"
+        valueFormat="fixedPoint {2}">
+      </dxi-total-item>
+
+      <dxi-total-item column="totalNett" summaryType="sum" displayFormat="{{this.appInfo.getCurrencySymbol}} {0}"
+        valueFormat="fixedPoint {2}">
+      </dxi-total-item>
+
+      <dxi-total-item column="totalTax" summaryType="sum" displayFormat="{{this.appInfo.getCurrencySymbol}} {0}"
+        valueFormat="fixedPoint {2}">
+      </dxi-total-item>
+
+      <dxi-total-item column="totalGross" summaryType="sum" displayFormat="{{this.appInfo.getCurrencySymbol}} {0}"
+        dataType="number" valueFormat=",##0.00">
+      </dxi-total-item>
+
+      <dxi-total-item column="dueGross" summaryType="sum" displayFormat="{{this.appInfo.getCurrencySymbol}} {0}"
+        dataType="number" valueFormat=",##0.00">
+      </dxi-total-item>
+
+      <dxi-group-item column="invoiceNumber" summaryType="count" displayFormat="{0} invoices">
+      </dxi-group-item>
+
+      <dxi-group-item column="totalGross" summaryType="sum" displayFormat="{{this.appInfo.getCurrencySymbol}} {0}"
+        valueFormat="##0.##" valueFormat="fixedPoint {2}" [showInGroupFooter]="true">
+      </dxi-group-item>
+
+      <dxi-group-item column="dueGross" summaryType="sum" displayFormat="{{this.appInfo.getCurrencySymbol}} {0}"
+        valueFormat="##0.##" valueFormat="fixedPoint {2}" [showInGroupFooter]="true">
+      </dxi-group-item>
+    </dxo-summary>
+
+    <div *dxTemplate="let d of 'warnifchildCellTemplate'" [class]="(d.value) >= 18 ? 'adult' : 'child'">
+      <div class="current-value">{{d.value}}</div>
+    </div>
+
+    <div *dxTemplate="let data of 'myTitle'">
+      <div class="informer">
+        <h4 class="heading">Status:</h4>
+      </div>
+    </div>
+
+    <div *dxTemplate="let d of 'boldifunpaidCellTemplate'" [class]="(d.value) > 0 ? 'boldtext' : ''">
+      <div class="current-value">{{d.value | currency:'GBP':'symbol'}}</div>
+    </div>
+
+    <div *dxTemplate="let cellTemplate of 'currencyTemplate'">
+
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'statusTemplate'" class="text-center">
+      <div [ngSwitch]="cellInfo.value">
+        <div class="label-tag md-2 type-success" *ngSwitchCase="'Draft'">
+          {{cellInfo.data.status}}
+        </div>
+
+        <div class="label-tag md-2 type-danger" *ngSwitchCase="'FailedValidation'">
+          {{cellInfo.data.status}}
+        </div>
+
+        <div class="label-tag md-2 type-primary" *ngSwitchCase="'Issued'">
+          {{cellInfo.data.status}}
+        </div>
+
+        <div class="label-tag md-2 type-warning" *ngSwitchCase="'Review'">
+          {{cellInfo.data.status}}
+        </div>
+
+        <div class="label-tag md-2 type-cancelled" *ngSwitchCase="'Cancelled'">
+          {{cellInfo.data.status}}
+        </div>
+
+        <div class="label-tag md-2 type4" *ngSwitchDefault>
+          {{cellInfo.data.status}}
+        </div>
+      </div>
+    </div>
+
+  </dx-data-grid>
+</div>
+
+<dx-context-menu [items]="contextMenuItems" target="#invoicesGrid .dx-datagrid-rowsview"
+  (onItemClick)="handleItemClickEvent($event)">
+</dx-context-menu>
+
+<app-med-sec-site-selector (onSelected)="siteSelectorHandler()"></app-med-sec-site-selector>

@@ -1,0 +1,142 @@
+<dx-popup appCentralPopUpSettings *ngIf="showAddSession" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" title="Session Details" (closed)="showAddSession=false">
+    </app-pop-up-form-title>
+
+    <app-session-details [ownerSelected]="owner" [location]="ownerLocationSelected" [startDate]="startDate"
+      [sessionData]="sessionDataSelected" (savedSession)="refresh();showAddSession=false;"
+      (close)="showAddSession=false;"></app-session-details>
+  </div>
+</dx-popup>
+
+<div class="d-flex">
+  <div class="page-header responsive-margins">Sessions held at : {{locationName}}</div>
+
+  <ng-container *ngIf="fromDiary">
+    <dx-select-box id="ownersLocationSelectBox" class="my-auto" [dataSource]="locations" valueExpr="this"
+      [(value)]="ownerLocationSelected" (onSelectionChanged)="locationChanged($event)" displayExpr="name"
+      placeholder="Select from list">
+    </dx-select-box>
+    {{ownerName}}
+  </ng-container>
+</div>
+
+<div class="d-flex flex-grow-1 flex-row responsive-margins app-card border-none mb-3">
+  <div class="cssWidgetWrapper generic-border grid-width" *ngIf="!fromDiary">
+    <dx-data-grid gridWithRowLinesSettings [dataSource]="owners" class="grid-width cssGridGeneral"
+      [columnMinWidth]="175" [remoteOperations]="true" [showRowLines]="true"
+      (onSelectionChanged)="onSelectionChangedHandler($event)" [(selectedRowKeys)]="selectedSpecialists"
+      (onContentReady)="onContentReadyHandler($event)" focusedRowIndex="0">
+      <dxo-selection width="50" [showCheckBoxesMode]="'always'" mode="multiple"></dxo-selection>
+      <dxo-scrolling mode="virtual"></dxo-scrolling>
+      <dxo-search-panel [visible]="false"></dxo-search-panel>
+
+      <dxi-column dataField="displayName" cellTemplate="descriptionTemplate" caption="Specialist" width="170">
+      </dxi-column>
+
+      <div *dxTemplate="let data of 'descriptionTemplate'" class="d-flex flex-column">
+        <div class="d-flex flex-row align-items-center">
+          <span class="text-semiBold mr-2">{{data.data.displayName}}</span>
+
+          <span class="label-tag type5-1 my-auto">{{data.data.speciality}}</span>
+        </div>
+
+        <div class="d-flex flex-row">
+          <span class="text-grey-65">{{data.data.sessionsCount}}&nbsp;</span>
+
+          <span class="text-grey-65">Sessions</span>
+        </div>
+      </div>
+    </dx-data-grid>
+  </div>
+
+  <div class="w-100 h-100 generic-border-left d-flex flex-grow-1">
+    <div class="cssWidgetWrapper">
+      <dx-scheduler [dataSource]="sessionData" #sessionCalendar name="sessionCalendar" currentView="day"
+        [showCurrentTimeIndicator]="true" [shadeUntilCurrentTime]="true" [currentDate]="currentDate"
+        [firstDayOfWeek]="1" [startDayHour]="5" class="dxWidget-w-h-100" [showAllDayPanel]="false"
+        [cellDuration]="getCellDuration" appointmentTemplate="session-template" dataCellTemplate="dataCellTemplate"
+        [groups]="['ownerId']" [groupByDate]="true" (onAppointmentClick)="onAppointmentClick($event)"
+        resourceCellTemplate="resourceCellTemplate" [crossScrollingEnabled]="true">
+
+        <dxo-editing [allowAdding]="false" [allowUpdating]="false" [allowDeleting]="false" [allowDragging]="false"
+          [allowResizing]="false" [allowDeleting]="false"></dxo-editing>
+        <dxi-resource fieldExpr="ownerId" [allowMultiple]="false" [dataSource]="selectedSpecialists"
+          displayExpr="displayName" label="Owner">
+        </dxi-resource>
+        <dxi-view type="day" name="Day" groupOrientation="horizontal" [cellDuration]="getCellDuration"
+          [intervalCount]="1">
+        </dxi-view>
+        <dxi-view type="timelineDay" name="Timeline Day" groupOrientation="vertical" [cellDuration]="getCellDuration"
+          [intervalCount]="1">
+        </dxi-view>
+        <dxi-view type="agenda" name="Agenda" groupOrientation="horizontal" [agendaDuration]="1"
+          [cellDuration]="getCellDuration" resourceCellTemplate="" [intervalCount]="1">
+        </dxi-view>
+        <dxi-view type="agenda" name="Agenda Week" groupOrientation="horizontal" [cellDuration]="getCellDuration"
+          [agendaDuration]="7" resourceCellTemplate="" [intervalCount]="1">
+        </dxi-view>
+        <dxi-view type="workWeek" name="Work Week" groupOrientation="horizontal" [cellDuration]="getCellDuration">
+        </dxi-view>
+        <dxi-view type="timelineMonth" name="Month" groupOrientation="vertical">
+        </dxi-view>
+
+        <div *dxTemplate="let model of 'session-template'" (click)="onAppointmentEditingHandler(model)"
+          (mouseenter)="showAppointmentTooltip($event, model.appointmentData)" (mouseleave)="hideTooltip()" [ngClass]="{
+              'appt-unavailable': (model.appointmentData.unavailableTypeId !== null),
+              'appt-available': (model.appointmentData.unavailableTypeId === null),
+              'appt-available-clinic': (model.appointmentData.sessionTypeId === 'e07718be-d197-4feb-bbc9-cc908a21f9f3'),
+              'appt-available-theatre': (model.appointmentData.sessionTypeId === '5219b570-9bc9-40e7-bf38-4e1617a27707')
+          }" class="pointer-events-all">
+          <div class='appointment-info'>
+            <div class='appointment-description white-space'>
+              {{(model.appointmentData.startDate | date:'HH:mm')}} -
+              {{(model.appointmentData.endDate | date:'HH:mm')}} :
+              {{getSessionType(model.appointmentData.unavailableTypeId, model.appointmentData.sessionTypeId)}}
+              <b>{{model.appointmentData.description}}</b><br />
+            </div>
+          </div>
+        </div>
+
+        <div *dxTemplate="let cellData of 'dataCellTemplate'" (click)="onAppointmentAddingHandler(cellData)"
+          class="h-100 w-100 pointer-events-all"></div>
+
+        <div *dxTemplate="let owner of 'resourceCellTemplate'" class="h-100">
+          <div class="d-flex flex-row align-items-center justify-content-center pb-1 h-100">
+            <div class="ml-1 w-2-5r h-2-5r">
+              <app-user-avatar *ngIf="!owner.data.photoDataType" [firstName]="owner.data.firstName"
+                [lastName]="owner.data.lastName"></app-user-avatar>
+
+              <img [src]="owner.data.photoDataType + owner.data.photoAsBase64String "
+                class="w-100 h-100 border-rad-50per" *ngIf="owner.data.photoDataType">
+            </div>
+
+            <div class="d-flex flex-column ml-3 justify-content-start">
+              <span class="text-sm text-semiBold d-flex">{{owner.data.displayName}}</span>
+
+              <span class="text-xs-1 text-grey-70 font-weight-normal d-flex">{{owner.data.speciality}} &#183;
+                {{owner.data.subSpeciality}}</span>
+            </div>
+          </div>
+        </div>
+      </dx-scheduler>
+    </div>
+  </div>
+</div>
+
+<dx-tooltip [target]="tooltipTarget" position="top" *ngIf="showTooltip" [visible]="true" [closeOnOutsideClick]="false">
+  <div *dxTemplate="let data = data of 'content'">
+    <div class='text-sm'>
+      <div>
+        <strong>{{getSessionType(hoveredAppointment.unavailableTypeId, hoveredAppointment.sessionTypeId)}}</strong>
+      </div>
+
+      <div>{{hoveredAppointment.description}}</div>
+
+      <div class='dropdown-appointment-dates'>
+        {{(hoveredAppointment.startDate | date:'shortTime') + ' - ' + (hoveredAppointment.endDate | date:'shortTime')}}
+      </div>
+    </div>
+  </div>
+</dx-tooltip>

@@ -1,0 +1,38 @@
+<dx-popup appCentralPopUpSettings *ngIf="show" [width]="'380'" [enableScroll]="true"
+    (onInitialized)="appInfo.disableESC($event)">
+    <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+        <app-pop-up-form-title [hasBorder]="true" title="Send SMS" (closed)="closeForm()"></app-pop-up-form-title>
+
+        <div class="central-popup-wrapper">
+            <div class="central-popup-body" delay="750" [formGroup]="editForm">
+                <app-text-box formControlName="recipientName" direction="row" caption="Recipient Name"
+                    [disabled]="true"></app-text-box>
+
+                <div class="d-flex flex-row a-form-group d-row" *ngIf="smsTextSendModel.phoneNumber">
+                    <label>Mobile Number *</label>
+
+                    <app-patient-telecom-select-dropdown class="w-100" formControlName="phoneNumber"
+                        [patientId]="patientId" (patientTelecomSelected)="patientTelecomSelectedHandler($event)"
+                        direction="row">
+                    </app-patient-telecom-select-dropdown>
+                </div>
+
+                <app-text-box *ngIf="!smsTextSendModel.phoneNumber" formControlName="phoneNumber" direction="row"
+                    caption="Mobile Number" placeholder="Enter telecom">
+                </app-text-box>
+
+                <app-text-area-box formControlName="messageText" direction="row" caption="Message"
+                    class="text-area-standard-height" [maxLength]="160">
+                </app-text-area-box>
+
+                <label class="message-count mb-2">{{messageCount}}/160</label>
+            </div>
+
+            <div class="popup-form-footer-wrapper">
+                <app-button text="Cancel" class="ml-auto mr-3" (clicked)="closeForm()" color="grey"></app-button>
+
+                <app-button text="Send" (clicked)="submitForm()" [disabled]="!editForm.valid"></app-button>
+            </div>
+        </div>
+    </div>
+</dx-popup>

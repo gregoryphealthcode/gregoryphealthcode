@@ -1,0 +1,13 @@
+<div class="app-page-header" *ngIf="title">
+  <span class="app-card-title">{{title}}</span>
+</div>
+
+<div class="main-wrapper" [class.w-100]="hasFullWidth">
+  <div class="app-card-body">
+    <ng-content></ng-content>
+  </div>
+
+  <div class="app-card-footer">
+    <ng-content select="app-card-footer"></ng-content>
+  </div>
+</div>

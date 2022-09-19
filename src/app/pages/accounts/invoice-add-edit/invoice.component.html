@@ -1,0 +1,164 @@
+<app-pdf-preview-popup (addedToPrintQueue)="addedToPrintQueue()" [title]="'Print'"></app-pdf-preview-popup>
+
+<ng-container>
+  <app-invoice-header
+    class="app-card mx-auto invoice-width d-flex flex-wrap flex-row mt-3 py-2 px-4 align-items-center top-header disable-select"
+    (closed)="closedHandler()">
+  </app-invoice-header>
+</ng-container>
+
+<div class="d-flex flex-column flex-grow-1 align-self-center">
+  <app-invoice-error-section [errors]="errors" class="mb-2" title="General Errors" *ngIf="errors && errors?.length > 0">
+  </app-invoice-error-section>
+
+  <div class="app-card flex-grow-1 invoice-width mt-3">
+    <mat-tab-group class="flex-grow-1 full-height stepper-tabs" mat-align-tabs="center"
+      *ngIf="!store.issued && !store.balanced; else issued" [selectedIndex]="store.sectionManager.tabIndex$|async"
+      (selectedIndexChange)="store.sectionManager.setTab($event)" animationDuration="0">
+      <!-- Patient and Invoice details tab -->
+      <mat-tab class="header flex-grow-1 bgColour">
+        <ng-template mat-tab-label>
+          <span>1. Patient & Invoice Details&nbsp;</span>
+        </ng-template>
+
+        <div class="d-flex flex-column flex-grow-1 h-100 pt-3">
+          <!-- Patient Details -->
+          <app-invoice-step-section [index]="sectionEnum.Patient">
+            <app-invoice-patient-details *ngIf="editableSectionIndex===sectionEnum.Patient" class="d-flex flex-grow-1">
+            </app-invoice-patient-details>
+
+            <app-invoice-patient-details-view *ngIf="editableSectionIndex!==sectionEnum.Patient"
+              class="d-flex flex-grow-1"></app-invoice-patient-details-view>
+          </app-invoice-step-section>
+
+          <!-- Payor details -->
+          <app-invoice-step-section [index]="sectionEnum.Payor">
+            <app-patient-payors-select [patientId]="patientId"
+              *ngIf="editableSectionIndex === sectionEnum.Payor && store.hasPatientId" class="w-100"
+              (payorSelected)="store.setPayor($event);">
+            </app-patient-payors-select>
+
+            <app-invoice-payor-details-view class="d-flex flex-row"
+              *ngIf="editableSectionIndex !== sectionEnum.Payor && store.hasPatientId">
+            </app-invoice-payor-details-view>
+          </app-invoice-step-section>
+
+          <!-- Invoice details -->
+          <app-invoice-step-section [index]="sectionEnum.InvoiceDetails">
+            <app-invoice-details-edit [isViewVisible]="editableSectionIndex === sectionEnum.InvoiceDetails"
+              *ngIf="editableSectionIndex === sectionEnum.InvoiceDetails || !store.hasInvoiceId"
+              class="d-flex flex-grow-1">
+            </app-invoice-details-edit>
+
+            <app-invoice-details-view *ngIf="editableSectionIndex !== sectionEnum.InvoiceDetails && store.hasInvoiceId"
+              class="d-flex flex-grow-1">
+            </app-invoice-details-view>
+          </app-invoice-step-section>
+
+          <!-- Episode Details -->
+          <app-invoice-step-section [index]="sectionEnum.Episode">
+            <app-treatment-details-edit [isViewVisible]="editableSectionIndex === sectionEnum.Episode"
+              *ngIf="editableSectionIndex === sectionEnum.Episode || !store.hasEpisode" class="d-flex flex-grow-1">
+            </app-treatment-details-edit>
+
+            <app-treatment-details-view *ngIf="editableSectionIndex !== sectionEnum.Episode && store.hasEpisode"
+              class="d-flex flex-grow-1">
+            </app-treatment-details-view>
+          </app-invoice-step-section>
+        </div>
+      </mat-tab>
+
+      <!-- Services tab -->
+      <mat-tab class="header flex-grow-1" [disabled]="store.sectionManager.isTabDisabled(1)">
+        <ng-template mat-tab-label>
+          <span>2. Services</span>
+        </ng-template>
+
+        <div *matTabContent class="d-flex w-100 flex-column h-100 pt-3">
+          <app-invoice-step-section [index]="sectionEnum.Diagnosis">
+            <app-diagnosis-edit *ngIf="editableSectionIndex === sectionEnum.Diagnosis" class="d-flex flex-grow-1">
+            </app-diagnosis-edit>
+
+            <app-diagnosis-view *ngIf="editableSectionIndex !== sectionEnum.Diagnosis" class="d-flex flex-grow-1">
+            </app-diagnosis-view>
+          </app-invoice-step-section>
+
+          <app-invoice-step-section [index]="sectionEnum.Services" class="mt-3">
+            <app-invoice-services-select *ngIf="editableSectionIndex === sectionEnum.Services">
+            </app-invoice-services-select>
+
+            <app-invoice-services-view
+              *ngIf="editableSectionIndex !== sectionEnum.Services || store.hasAppointmentServices"
+              class="d-flex flex-grow-1 flex-column"></app-invoice-services-view>
+          </app-invoice-step-section>
+
+          <div class="d-flex flex-column flex-grow-1 ml-auto" *ngIf="store.hasServices">
+            <app-button type="secondary" iconPosition="right" text="Go To Review" icon="fad fa-chevron-double-right"
+              (clicked)="store.sectionManager.goToReview()"></app-button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Review tab -->
+      <mat-tab class="header flex-grow-1" [disabled]="store.sectionManager.isTabDisabled(2)">
+        <ng-template mat-tab-label>
+          <span>3. Review</span>
+        </ng-template>
+
+        <div *matTabContent>
+          <app-invoice-review class="d-flex flex-grow-1 h-100 pt-3"></app-invoice-review>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+    <ng-template #issued>
+      <mat-tab-group class="flex-grow-1 full-height stepper-tabs" mat-align-tabs="center" animationDuration="0"
+        [selectedIndex]="store.sectionManager.tabIndex$|async">
+
+        <!-- Summary tab -->
+        <mat-tab class="header flex-grow-1">
+          <ng-template mat-tab-label>
+            <span>Summary</span>
+          </ng-template>
+
+          <div *matTabContent>
+            <app-invoice-review class="d-flex flex-grow-1 h-100 pt-3"></app-invoice-review>
+          </div>
+        </mat-tab>
+
+        <!-- First tab -->
+        <mat-tab class="header flex-grow-1 bgColour">
+          <ng-template mat-tab-label>
+            <span>Transactions</span>
+          </ng-template>
+
+          <div class="d-flex flex-row flex-grow-1 h-100 pt-3">
+            <app-invoice-step-section class="d-flex flex-column flex-grow-1 h-100 w-100 pt-3"
+              [index]="sectionEnum.Transactions">
+              <app-invoice-transactions class="w-100 mx-auto"></app-invoice-transactions>
+
+              <app-form-section title="Allocations" [showTitleUnderline]="true" class="mt-3" [isSubHeading]="true"
+                helperText="This is where you can manage invoice payment allocations. You can reallocate amounts to other payors.">
+                <app-invoice-payment-notifications class="w-100 mx-auto pt-2"></app-invoice-payment-notifications>
+              </app-form-section>
+            </app-invoice-step-section>
+          </div>
+        </mat-tab>
+
+        <mat-tab class="header flex-grow-1 bgColour">
+          <ng-template mat-tab-label>
+            <span>Tasks&nbsp;</span>
+          </ng-template>
+
+          <div class="d-flex flex-column flex-grow-1 h-100 pt-3">
+            <app-invoice-step-section class="d-flex flex-grow-1 h-100 pt-3" [index]="sectionEnum.Tasks">
+              <app-invoice-tasks class="w-100 mx-auto pt-2"></app-invoice-tasks>
+            </app-invoice-step-section>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <!-- <app-invoice-review class="d-flex flex-grow-1 h-100 responsive-margins in-popup"></app-invoice-review> -->
+    </ng-template>
+  </div>
+</div>

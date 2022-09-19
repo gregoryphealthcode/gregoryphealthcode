@@ -1,0 +1,64 @@
+<dx-popup appCentralPopUpSettings *ngIf="showPopup" [width]="'380'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="isNew ? 'Add Telecom' : 'Edit Telecom'"
+      (closed)="showPopup = false"></app-pop-up-form-title>
+
+    <app-patient-telecoms-edit class="central-popup-wrapper" [telecomId]="telecomId" [isNew]="isNew"
+      [patientId]="patientId" (saveTelecom)="telecomSaved()" [telecoms]="telecoms" (formClosed)="hidePopup()"></app-patient-telecoms-edit>
+  </div>
+</dx-popup>
+
+<div class="d-flex flex-column flex-grow-1 app-card">
+  <div class="d-flex flex-row mx-4 mt-3">
+    <!-- <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box> -->
+    <app-button icon="far fa-plus" text="New" class="ml-auto mt-auto" (clicked)="add()"></app-button>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3">
+    <div class="app-card flex-grow-1 content-height border-none">
+      <div class="cssWidgetWrapper">
+        <dx-data-grid [dataSource]="telecoms" gridWithRowLinesSettings keyExpr="this" [hoverStateEnabled]="true"
+          class="cssGridGeneral padd-first-lg" (onRowDblClick)="editClicked($event)" [rowAlternationEnabled]="true"
+          [showRowLines]="true" focusedRowIndex="0">
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+          <dxi-column dataField="description" caption="Type" [minWidth]="120"></dxi-column>
+          <dxi-column dataField="telecomValue" caption="Value" cellTemplate="telecomValueTemplate" [minWidth]="300">
+          </dxi-column>
+          <dxi-column dataField="preferred" cellTemplate="preferredTemplate" caption="Pref" [minWidth]="120">
+          </dxi-column>
+          <dxi-column dataField="primary" cellTemplate="primaryTemplate" caption="Primary" [minWidth]="120">
+          </dxi-column>
+          <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="120">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+          </dxi-column>
+
+          <div *dxTemplate="let cellInfo of 'primaryTemplate'">
+            <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'preferredTemplate'">
+            <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'telecomValueTemplate'">
+            <a *ngIf="!cellInfo.value.includes('@')" class="label-info-value mb-1"
+              [href]="'tel:' + cellInfo.value">{{cellInfo.value}}</a>
+
+            <a *ngIf="cellInfo.value.includes('@')" class="label-info-value mb-1"
+              [href]="'mailto:' + cellInfo.value">{{cellInfo.value}}</a>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+            <app-button icon="far fa-trash" type="link" color="grey" class="mr-2" matTooltip="Delete"
+              (clicked)="deleteClicked(cellInfo)"></app-button>
+
+            <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit"
+              (clicked)="editClicked(cellInfo)"></app-button>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+.w-192px {
+  width: 192px;;
+}
+
+.content-height{
+  height: 200px;   // dummy height
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.h-18px {
+  height: 18px;
+}
+
+.red-flag {
+  color: red;
+  margin-left: 15px;
+}
+
+.space-evenly {
+  justify-content: space-evenly;
+}
+
+.a-card-title{
+  background-color: rgb(231 238 244 / 1);
+  color: rgb(27 90 156 / 1);
+  padding-top: 1.1rem;
+  padding-bottom: 0.9rem;
+  border-radius: 0px 0px 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.w-40px {
+  width: 40px;
+}

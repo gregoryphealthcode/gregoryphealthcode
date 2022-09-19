@@ -1,0 +1,37 @@
+<dx-popup appCentralPopUpSettings [width]="'380'" *ngIf="show" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title title="Add Bulk Payment" (closed)="closeForm()"></app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body" [formGroup]="editForm" appEnterKeyFocusWrapper delay="750">
+        <app-select-box [dataSource]="payorType" formControlName="type" direction="row" valueExpr="value"
+          displayExpr="viewValue" caption="Payor type"></app-select-box>
+
+        <app-select-box [(dataSource)]="payors" formControlName="payorId" direction="row" valueExpr="payorId"
+          displayExpr="payorName" caption="Payor"></app-select-box>
+
+        <app-date-box caption="Date" formControlName="dateCreated" direction="row"></app-date-box>
+
+        <app-text-box formControlName="total" caption="Total" inputType="number" [isCurrency]="true" [max]="9999999999"
+          direction="row">
+        </app-text-box>
+
+        <app-select-box [dataSource]="methods" formControlName="methodId" direction="row" valueExpr="uniqueNo"
+          displayExpr="description" caption="Method"></app-select-box>
+
+        <app-text-box formControlName="payorRef" caption="Reference" direction="row">
+        </app-text-box>
+
+        <app-text-area-box formControlName="comments" caption="Comments" direction="row" class="text-area-height">
+        </app-text-area-box>
+      </div>
+
+      <div class="popup-form-footer-wrapper">
+        <app-button text="Close" class="ml-auto mr-3" (clicked)="closeForm()" color="grey"></app-button>
+
+        <app-button text="Save" (clicked)="submitForm()" [disabled]="!editForm.valid"></app-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

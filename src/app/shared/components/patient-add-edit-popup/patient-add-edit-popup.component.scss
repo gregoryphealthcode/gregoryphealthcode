@@ -1,0 +1,78 @@
+.pl-4 {
+  padding-left: 2.5rem !important;
+}
+
+.pr-4 {
+  padding-right: 2.5rem !important;
+}
+
+.warning-prompt{
+  padding: 8px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  background-color: hsl(0, 70%, 60%);
+  color: white;
+  border-radius: 5px;
+
+  .text-label{
+    height: 40px;
+    line-height: 40px;
+    margin-left: 10px;
+  }
+
+  ::ng-deep .app-btn.btn-primary-color.btn-link{
+    color: white;
+    &:hover{
+      filter: brightness(1);
+    }
+  }
+}
+
+
+.patient-popup-tab{
+  height: calc(100% - 66px) !important;
+}
+
+.right-modal--padding {
+  height: calc(100vh - 108px) !important;
+}
+
+.duplicates {
+  height: 40px; 
+  width: 98%; 
+  margin: 0 5px 5px; 
+  background-color: rgb(252, 61, 61); 
+  color: white; 
+  border-radius: 5px;
+}
+
+.duplicate-label {
+  height: 40px; 
+  line-height: 40px; 
+  margin-left: 10px;
+}
+
+.duplicate-button {
+  float: right; 
+  margin: 3px 10px;
+}
+
+.display-none {
+  display: none !important;
+}
+
+.width-3\/5 {
+  width: 59% !important;
+  max-width: 59% !important;
+}
+
+.width-2\/5 {
+  width: 39% !important;
+  max-width: 39% !important;
+}
+
+.width-1\/2 {
+  width: 50% !important;
+  max-width: 50% !important;
+}

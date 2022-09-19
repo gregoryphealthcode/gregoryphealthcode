@@ -1,0 +1,34 @@
+body{
+  .dx-button {
+    // border-radius: 12px;
+    padding: 3px 3px;
+    color : #2276AF;
+}
+
+.dx-scheduler-navigator .dx-button {
+  height: auto;
+  border-color: lightgray;
+    border-width: 2px;
+}
+
+.blue-button {
+  background-color: hsla(205, 85%, 35%, 1);
+}
+
+.header-toolbar.dx-toolbar{
+  .dx-toolbar-item-content .fa-layers{
+    color: hsl(0, 0%, 40%) !important;
+    font-size: 1.25rem;
+  }
+
+  .dx-button-mode-contained.dx-button-default{
+    background: none !important;
+    .dx-icon{
+      color: hsl(0, 0%, 40%) !important;
+    }
+
+  }
+}
+}
+
+

@@ -1,0 +1,9 @@
+.content-height{
+    min-height: 150px;   // dummy height
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+
+  .pointer-events {
+    pointer-events: all;
+  }

@@ -1,0 +1,81 @@
+<div class="page-header responsive-margins">Generate Batch</div>
+
+<div class="app-card responsive-paddings top-card d-flex flex-grow-1 responsive-margins" [formGroup]="editForm">
+  <div class="d-flex flex-row w-100 pl-2 pr-2">
+    <div class="d-flex flex-column mr-3 h-100 w-300px">
+      <app-form-section title="Select Document Type" [showTitleUnderline]="true" [isSubHeading]="true"
+        [showInfo]="false">
+
+        <dx-radio-group [items]="options" (onValueChanged)="printTypeChanged($event)" layout="vertical" class="mt-2">
+        </dx-radio-group>
+      </app-form-section>
+    </div>
+
+    <ng-container *ngIf="reminderSelected">
+      <div class="d-flex flex-column h-100">
+        <app-form-section title="Select Contact Type and Payment Age Bands" [showTitleUnderline]="true"
+          [isSubHeading]="true" [showInfo]="false">
+
+          <app-select-box [dataSource]="contactTypes" direction="row" class="w-300px mt-2" formControlName="contactType"
+            caption="Contact Type"></app-select-box>
+
+          <div class="d-flex flex-row mb-2">
+            <dx-check-box formControlName="band1" class="mr-3"></dx-check-box>
+
+            <label>{{band1Label}}</label>
+          </div>
+
+          <div class="d-flex flex-row mb-2">
+            <dx-check-box formControlName="band2" class="mr-3"></dx-check-box>
+
+            <label>{{band2Label}}</label>
+          </div>
+
+          <div class="d-flex flex-row mb-2">
+            <dx-check-box formControlName="band3" class="mr-3"></dx-check-box>
+
+            <label>{{band3Label}}</label>
+          </div>
+
+          <div class="d-flex flex-row mb-2">
+            <dx-check-box formControlName="band4" class="mr-3"></dx-check-box>
+
+            <label>{{band4Label}}</label>
+          </div>
+        </app-form-section>
+
+        <app-button text="Generate" class="pos-0" (clicked)="generate()" [disabled]="checkReminderSelection()">
+        </app-button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="receiptSelected">
+      <div class="d-flex flex-column h-100">
+        <app-form-section title="Select Receipt Date Range" [showTitleUnderline]="true" [isSubHeading]="true"
+          [showInfo]="false">
+          <app-date-box formControlName="dateFrom" direction="row" caption="From" class="mt-2 mr-3">
+          </app-date-box>
+
+          <app-date-box formControlName="dateTo" direction="row" caption="To">
+          </app-date-box>
+        </app-form-section>
+
+        <app-button text="Generate" class="pos-0" (clicked)="generate()" [disabled]="!receiptSelected"></app-button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="shortfallSelected">
+      <div class="d-flex flex-column h-100">
+        <app-form-section title="Select Template" [showTitleUnderline]="true" [isSubHeading]="true" [showInfo]="false">
+
+          <app-select-box [dataSource]="shortfallTemplates" direction="row" formControlName="shortfallTemplate"
+            valueExpr="templateId" displayExpr="description" caption="Template">
+          </app-select-box>
+        </app-form-section>
+
+        <app-button text="Generate" class="pos-0" (clicked)="generate()" [disabled]="checkShortfallSelection()">
+        </app-button>
+      </div>
+    </ng-container>
+  </div>
+</div>

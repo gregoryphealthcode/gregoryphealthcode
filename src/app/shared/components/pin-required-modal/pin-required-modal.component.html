@@ -1,0 +1,34 @@
+<dx-popup *ngIf="show$|async" [visible]="true" [showTitle]="false" [closeOnOutsideClick]="false" [dragEnabled]="false"
+  (onInitialized)="appInfo.disableESC($event)" [resizeEnabled]="false" [elementAttr]="{ id: 'lockscreen' }"
+  [showCloseButton]="false" [shading]="true" (onInitialized)="onLockScreenInit($event)" [deferRendering]="false"
+  shadingColor="rgba(20, 96, 178)" [height]="'auto'" [width]="'auto'">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="text-wrapper">
+      <!-- <h3><i class="fas fa-lock"></i> Locked</h3> -->
+      <div class="lock-icon-wraper">
+        <span class="lock-icon"><i class="fas fa-lock"></i></span>
+      </div>
+
+      <p class="text-sm-2 text-semiBold mt-4 text-grey-50">Type your PIN to unlock.</p>
+
+      <dx-text-box #pinText name="pinText" placeholder="" mode="password" width="80" [(ngModel)]="pinValue" appAutoFocus
+        preventAutoFill maxLength="4" (onEnterKey)="onUnlockClick($event)" [inputAttr]="{ autocomplete: 'off'}"
+        stylingMode="outlined">
+      </dx-text-box>
+
+      <dx-button #unlockbutton type="default" width="100" text="Unlock" class="mt-4" (onClick)="onUnlockClick($event)"
+        icon="fas fa-unlock">
+      </dx-button>
+
+      <div *ngIf="incorrectPinAttempts$ | async as incorrectPinAttempts" class="text-center">
+        <p class="red text-shadow font-14" *ngIf="incorrectPinAttempts > 0">
+          {{incorrectPinAttempts}} incorrect unlock attempt(s) !!
+        </p>
+      </div>
+      <br />
+      <p class="text-grey-60 text-sm-3 text-center mt-4">If you do not unlock, this session will time out and you will
+        be logged off in <b>{{minutesUntilLogOut$ | async}}</b> minutes.
+      </p>
+    </div>
+  </div>
+</dx-popup>

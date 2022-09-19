@@ -1,0 +1,42 @@
+<ng-container *ngIf="controlType === 'm'; else devExpress">
+  <mat-form-field appearance="outline" class="w-100" *ngIf="!readonly; else Label">
+    <mat-label *ngIf="caption">{{caption}}</mat-label>
+
+    <input matInput [(ngModel)]="value" *ngIf="inputType === 'password'" type="password" [placeholder]="placeholder"
+      [disabled]="disabled" />
+
+    <input matInput [(ngModel)]="value" *ngIf="inputType === 'text'" type="text" [placeholder]="placeholder"
+      [disabled]="disabled" />
+
+    <input matInput [(ngModel)]="value" *ngIf="inputType === 'number'" type="number" [placeholder]="placeholder"
+      [disabled]="disabled" />
+
+    <mat-hint align="end" *ngIf="hint && !isInvalid">{{hint}}</mat-hint>
+  </mat-form-field>
+</ng-container>
+
+<ng-template #devExpress>
+  <ng-container *ngIf="!readonly; else Label">
+    <label *ngIf="caption">{{caption}}</label>
+
+    <dx-text-box [value]="value" *ngIf="inputType == 'text'" (onValueChanged)="valueChanged($event)"
+      valueChangeEvent="keyup" (onKeyDown)="onKeyDown($event)" [disabled]="disabled" [isValid]="!isInvalid"
+      [placeholder]="placeholder" [inputAttr]="inputAttr" [showClearButton]="showClearButton" [mode]="mode"
+      autocomplete="new-password" [maxLength]="maxLength"></dx-text-box>
+
+    <dx-number-box *ngIf="inputType == 'number'" [value]="value" [min]="min" [max]="max" [disabled]="disabled"
+      [isValid]="!isInvalid" [format]="isCurrency? '£ #,##0.##' : undefined" [showSpinButtons]="true"
+      [placeholder]="placeholder" (onValueChanged)="valueChanged($event)"></dx-number-box>
+
+    <small class="font-weight-normal" *ngIf="hint && !isInvalid">{{hint}}</small>
+
+    <small class="font-weight-normal control-error" *ngIf="isInvalid">{{error}}</small>
+
+    <small class="font-weight-normal control-error" *ngIf="externalError">{{externalError}}</small>
+  </ng-container>
+</ng-template>
+
+<ng-template #Label>
+  <app-form-label [direction]="direction" [caption]="caption" [value]="value + ' ' + suffix" [hasBottomMargin]="false">
+  </app-form-label>
+</ng-template>

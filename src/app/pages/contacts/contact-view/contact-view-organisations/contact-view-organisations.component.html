@@ -1,0 +1,54 @@
+<div class="cssWidgetWrapper">
+  <dx-data-grid gridWithRowLinesSettings [dataSource]="records" class="cssGridGeneral" keyExpr="this"
+    [rowAlternationEnabled]="true" focusedRowIndex="0">
+
+    <dxi-column dataField="displayName" cellTemplate="nameTemplate" caption="Name" sortOrder="asc" [minWidth]="120"
+      [width]="175"></dxi-column>
+    <dxi-column dataField="contactType.contactType" alignment="center" cellTemplate="typeTemplate" caption="Type"
+      [minWidth]="120"></dxi-column>
+    <dxi-column cellTemplate="addressTemplate" caption="Address" [minWidth]="150" [width]="300"></dxi-column>
+    <dxi-column cellTemplate="contactTemplate" caption="Contact" [minWidth]="120" [width]="150"></dxi-column>
+    <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="120">
+      <dxi-button template="myCommandTemplate"></dxi-button>
+    </dxi-column>
+
+    <div *dxTemplate="let cellInfo of 'addressTemplate'">
+      <div *ngIf="cellInfo.data.address as address" class="d-flex flex-column">
+        <div class="d-flex flex-row">
+          <span>{{address?.address1}}</span>
+
+          <span *ngIf="address?.address2">, {{address?.address2}}</span>
+
+          <span *ngIf="address?.address3">, {{address?.address3}}</span>
+
+          <span *ngIf="address?.postcode" class="text-semiBold">, {{address?.postcode}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'contactTemplate'" class="d-flex flex-row">
+      <div *ngIf="cellInfo.row.data.preferredTelecom as telecom" class="d-flex flex-column">
+        <span class="text-semiBold">{{telecom.description}}</span>
+
+        <span>{{telecom.value}}</span>
+      </div>
+    </div>
+
+    <div *dxTemplate="let data of 'nameTemplate'">
+      <app-button type="link" [text]="data.data.displayName" (clicked)="store.view(data.data.contactId)"></app-button>
+    </div>
+
+    <div *dxTemplate="let data of 'typeTemplate'" class="d-flex flex-row justify-content-center">
+      <span class="label-tag md type5-1"
+        [ngStyle]="{'background-color': getBackgroundColor(data)}">{{data.data.contactType.contactType}}</span>
+    </div>
+
+    <div *dxTemplate="let data of 'myCommandTemplate'" class="d-flex flex-row">
+      <app-button type="link" iconPosition="left" icon="far fa-unlink" color="grey" matTooltip="Unlink"
+        (clicked)="store.unlinkConnection(data.data.contactId)"></app-button>
+
+      <app-button type="link" iconPosition="right" icon="far fa-external-link-square" color="grey"
+        matTooltip="View Contact Details" (clicked)="store.view(data.data.contactId)"></app-button>
+    </div>
+  </dx-data-grid>
+</div>

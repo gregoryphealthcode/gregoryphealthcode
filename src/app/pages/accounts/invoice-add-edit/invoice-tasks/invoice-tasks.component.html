@@ -1,0 +1,55 @@
+<div *ngFor="let item of tasks;index as i">
+    <div class="d-flex flex-row mt-2 mb-1">
+        <span class="label-info light label-width">Details</span>
+
+        <div class="d-flex flex-column mb-auto mt-1 w-8 mr-2">
+            <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Payor</span>
+
+            <span class="label-info-value leading-1\.25">{{item.payorName}}</span>
+        </div>
+
+        <div class="d-flex flex-column mb-auto mt-1 w-8 mr-2">
+            <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Type</span>
+
+            <span class="label-info-value leading-1\.25">{{item.taskTypeName}}</span>
+        </div>
+
+        <div class="d-flex flex-column mb-auto mt-1 w-5 mr-2">
+            <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Due Date</span>
+
+            <span class="label-info-value leading-1\.25">{{item.dueDateTime | dateFormat}}</span>
+        </div>
+
+        <div class="d-flex flex-column mb-auto mt-1 w-10 mr-2">
+            <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Notes</span>
+
+            <span class="label-info-value leading-1\.25">{{item.note}}</span>
+        </div>
+
+        <div class="d-flex flex-column mb-auto mt-1 w-4 mr-2">
+            <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Complete</span>
+
+            <span class="label-info-value leading-1\.25">
+                <mat-icon *ngIf="item.isComplete === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+            </span>
+        </div>
+
+        <div class="d-flex flex-column mb-auto mt-1 w-2">
+            <div class="d-flex flex-row">
+                <app-button icon="far fa-trash" type="link" color="grey" class="mr-2 mt-4" matTooltip="Delete"
+                    (clicked)="deleteClicked(item)"></app-button>
+
+                <app-button icon="far fa-edit" type="link" color="grey" class="mt-4" matTooltip="Edit"
+                    (clicked)="editClicked(item)"></app-button>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-3">
+</div>
+
+<app-invoice-task-add *ngIf="showAdd" [invoiceId]="invoiceId" (closed)="showAdd = false" [taskId]="taskId" 
+    (saved)="savedHandler($event)"></app-invoice-task-add>
+
+<app-button *ngIf="!showAdd" text="New Task" color="grey" icon="far fa-plus" class="mx-auto mt-2"
+    (clicked)="taskId = null; showAdd = true;"></app-button>

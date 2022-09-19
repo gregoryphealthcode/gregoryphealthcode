@@ -1,0 +1,15 @@
+
+<div class="d-flex flex-row align-items-center dropdown-wrapper position-relative w-100">
+  <dx-autocomplete [minSearchLength]="6" [dataSource]="dataSource" [(value)]="value" [isValid]="!isInvalid"
+    valueExpr="postcode" (onSelectionChanged)="onSelectionChanged($event)" (onItemClick) ="onSelectionChanged($event)" [dropDownOptions]="dropdownOptions"
+     (onValueChanged)="valueChanged($event)" [inputAttr]="{ autocomplete: 'chrome-off' }" style="width: 100% !important">
+
+    <div *dxTemplate="let item of 'item'">
+      <span>{{item.line_1}}</span>
+    </div>
+  </dx-autocomplete>
+
+  <small class="font-weight-normal" *ngIf="hint && !isInvalid">{{hint}}</small>
+  <small class="font-weight-normal control-error" *ngIf="isInvalid">{{error}}</small>
+  <small class="font-weight-normal control-error" *ngIf="error">{{error}}</small>
+</div>

@@ -1,0 +1,4 @@
+<div class="btn-toggle-wrapper">
+  <button class="first" [class.active]="active" (click)="onToggle()">{{onText}}</button>
+  <button class="second" [class.active]="!active" (click)="onToggle()">{{offText}}</button>
+</div>

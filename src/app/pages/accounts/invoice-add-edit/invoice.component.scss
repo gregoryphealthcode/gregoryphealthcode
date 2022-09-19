@@ -1,0 +1,136 @@
+@import "../../../../assets/scss/variables.scss";
+
+
+.left-margin-1 {
+  margin-left: 12.5%;
+  height: 1px;
+}
+
+.left-margin-2 {
+  margin-left: 17.5%;
+}
+
+
+:host ::ng-deep .stepper-tabs {
+  min-width: 500px;
+
+  [mat-align-tabs=start] .mat-tab-labels {
+    justify-content: start;
+  }
+
+  >.mat-tab-body-wrapper {
+    flex: 1 1 auto;
+
+    >.mat-tab-body>.mat-tab-body-content:first-child {
+      height: 100%;
+      overflow: auto;
+      padding: 0rem 4rem 1.5rem;
+    }
+  }
+
+  >.mat-tab-header,
+  >.mat-tab-header .mat-tab-label-container {
+    overflow: inherit !important;
+  }
+
+  >.mat-tab-header .mat-ink-bar {
+    transition: none;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      margin: 0 auto;
+      width: 0;
+      height: 0;
+      border-top: solid 14px $primary;
+      border-left: solid 14px transparent;
+      border-right: solid 14px transparent;
+    }
+  }
+
+  >.mat-tab-header .mat-tab-labels {
+    background-color: hsl(215, 35%, 97%);
+    margin: 0;
+
+    .mat-tab-label {
+      opacity: 1;
+      color: hsl(215, 40%, 45%);
+      font-weight: 400;
+      position: relative;
+      min-width: 180px;
+      height: 50px;
+      padding: 4x 32px 0;
+
+      &.mat-tab-label-active {
+        color: white !important;
+        font-weight: 500;
+        background: $primary  !important;
+      }
+
+      .mat-tab-label-content {
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+.invoice-width {
+  width: 900px;
+}
+
+:host ::ng-deep {
+
+  ng2-pdfjs-viewer .mainContainer .toolbar {
+    display: none;
+  }
+
+  $label-width: 8.5rem;
+
+  .label-info.label-width {
+    width: $label-width;
+    min-width: $label-width;
+
+  }
+
+  .a-form-group.d-row {
+    >label {
+      min-width: $label-width;
+      max-width: $label-width;
+    }
+
+    >small {
+      left: $label-width;
+      top: 40px;
+    }
+  }
+
+
+
+  .label-info-value.light,
+  .label-info.light:not(.sm) {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+}
+
+.tab-heading {
+  padding: 0;
+  font-size: 1em;
+}
+
+.popup-invoice-width {
+  width: 700px;
+  border: none;
+  padding: 0;
+
+  app-invoice-review {
+    margin-top: 0 !important;
+  }
+
+  ::ng-deep app-invoice-step-section.mt-3 {
+    margin-top: 0.5rem !important;
+  }
+}

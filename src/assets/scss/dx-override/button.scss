@@ -1,0 +1,19 @@
+.dx-button-has-icon .dx-button-content {
+  padding: 3px;
+}
+
+body {
+  .dx-button-normal.dx-state-hover .dx-button-context .dx-button-text,
+  .dx-button-mode-contained.dx-state-hover .dx-button-text,
+  .dx-dropdowneditor-button.dx .dx-button-text,
+  .dx-dropdowneditor.dx-state-hover:not(.dx-custom-button-hovered)
+    .dx-dropdowneditor-icon
+    .dx-button-text {
+    font-weight: 400;
+  }
+
+
+}
+button:focus {
+  outline : none;
+}

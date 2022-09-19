@@ -1,0 +1,59 @@
+.popup-label-width{
+  width: 5rem;
+
+}
+
+.row-height{
+  min-height: 50rem;
+}
+
+body ::ng-deep .mat-tab-group.mat-primary.settings-tabs .mat-tab-labels {
+  margin: 0;
+}
+
+.popup-field-width
+{
+  width: 21rem;
+}
+
+.app-card {
+  border: 1px solid #d8d8d8;
+}
+
+.row-padding {
+  padding: 5px 0;
+}
+
+.label-large {
+  font-size: 12pt;
+}
+
+.padding-left {
+  padding-left: 30px;
+}
+
+.grid-add-btn {
+  margin: 5px !important;
+  width: 100% !important;
+  left: -10px !important;
+}
+
+.left-shift {
+  left: -5px !important;
+}
+
+.mb-none {
+  margin-bottom: 0 !important;
+}
+
+.align-right {
+  float: right;
+}
+
+.font-15 {
+  font-size: 15px;
+}
+
+.wm-100 {
+  max-width: 100%;
+}

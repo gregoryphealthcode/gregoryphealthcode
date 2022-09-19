@@ -1,0 +1,290 @@
+<dx-popup #changePhotoPopup name="changePhotoPopup" title="Profile Picture" contentTemplate="popupContent" [width]="600"
+  [resizeEnabled]="false" height="800" [style]="'max-width:100vw!important; max-height:100vh!important;'"
+  [deferRendering]="false" [maxWidth]="'100vw'" [maxHeight]="'100vh'">
+  <div *dxTemplate="let data of 'popupContent'">
+    <div class="card m-1 p-1 hm-100 overflow-auto">
+      <div id="fileuploader-container" class="display-none">
+        <dx-file-uploader name="file" selectButtonText="Select Photo." labelText=" or drag/drop file here"
+          accept="image/*" [allowedFileExtensions]="['*.tif', '.jpg', '.jpeg', '.png', '.bmp']" [maxFileSize]="5000000"
+          [multiple]="false" ([value])="uploadervalue" (onValueChanged)="photoSelected($event)" [showFileList]="false"
+          uploadMode="useForm">
+        </dx-file-uploader>
+
+        <span class="note text-right">Allowed file extensions: <span>.bmp, .jpg, .png, .tif</span>.</span><br />
+
+        <span class="note">Maximum file size: <span>5 MB.</span></span>
+      </div>
+
+      <dx-toolbar class="mt-2px;" [style.visibility]="toolbarVisible ? 'visible' : 'hidden'">
+        <dxi-item widget="dxButton" location="before" locateInMenu="auto" [options]="rotateLeftButtonOptions">
+        </dxi-item>
+
+        <dxi-item widget="dxButton" location="before" locateInMenu="auto" [options]="rotateRightButtonOptions">
+        </dxi-item>
+
+        <dxi-item widget="dxButton" location="before" locateInMenu="auto" [options]="flipHButtonOptions">
+        </dxi-item>
+
+        <dxi-item widget="dxButton" location="before" locateInMenu="auto" [options]="flipVButtonOptions">
+        </dxi-item>
+      </dx-toolbar>
+
+      <div>
+        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+          [resizeToWidth]="570" [cropperMinWidth]="150" [onlyScaleDown]="true" [roundCropper]="true" format="png"
+          outputType="base64" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"
+          [style.display]="showCropper ? null : 'none'" [alignImage]="'left'"></image-cropper>
+      </div>
+
+      <img #imagePreview name="imagePreview" class="image-border" />
+
+      <img #imagePreviewsmall name="imagePreviewsmall" class="image-border-small" />
+      <dx-box direction="row" width="100%" class="mt-10px">
+        <dxi-item direction="col" [ratio]="1">
+          <span class="text-center float-none ml-auto mr-auto">
+            <dx-button text="OK - Save" (onClick)="savePhotoClicked($event)" type="default" icon="fas fa-check"
+              class="mr-10px">
+            </dx-button>
+
+            <dx-button text="Cancel" (onClick)="cancelPhotoClicked($event)" type="default" icon="fas fa-times"
+              class="ml-10px">
+            </dx-button>
+          </span>
+        </dxi-item>
+      </dx-box>
+    </div>
+  </div>
+</dx-popup>
+
+<div class="page-header responsive-margins">Profile</div>
+
+<div class="d-flex flex-grow-1 responsive-margins">
+  <div class="app-card responsive-paddings flex-grow-1">
+    <mat-tab-group (selectedTabChange)="getValues($event)">
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">User Details</span>
+        </ng-template>
+
+        <div class="d-flex mt-2 content-height ">
+          <div class="app-card responsive-paddings flex-grow-1" [formGroup]="form">
+            <div class="d-flex flex-column flex-grow-1 mt-2">
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column flex-grow-1 mt-2">
+                  <div class="d-flex flex-row">
+                    <mat-form-field appearance="outline" class="field-width ">
+                      <mat-label>Display Name</mat-label>
+
+                      <input placeholder="Display Name" formControlName="displayName" matInput>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="d-flex flex-row"
+                    *ngIf="form.controls['displayName'].invalid && (form.controls['displayName'].dirty || form.controls['displayName'].touched)"
+                    class="alert alert-danger">
+
+                    <div *ngIf="form.controls['displayName'].hasError('required')">Display name is required</div>
+
+                    <div *ngIf="form.controls['displayName'].hasError('maxlength')">Max Length is 100 characters</div>
+                  </div>
+
+                  <div class="d-flex flex-row mt-3">
+                    <div class="d-flex flex-column mr-2 flex-grow-1">
+                      <div class="d-flex flex-row align-items-center">
+                        <div class="d-flex flex-column mr-2 flex-grow-1">
+                          <mat-form-field appearance="outline" class="field-width ">
+                            <mat-label>User Name</mat-label>
+
+                            <input placeholder="User Name" formControlName="userName" matInput readonly>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row">
+                    <mat-form-field appearance="outline" class="field-width ">
+                      <mat-label>Email</mat-label>
+
+                      <input placeholder="Email" formControlName="email" matInput>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="d-flex flex-row"
+                    *ngIf="form.controls['email'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)"
+                    class="alert alert-danger">
+
+                    <div *ngIf="form.controls['email'].hasError('required')">Email is required</div>
+
+                    <div *ngIf="form.controls['email'].hasError('maxlength')">Max Length is 100 characters</div>
+
+                    <div *ngIf="form.controls['email'].hasError('email')">Email is invalid</div>
+                  </div>
+                </div>
+
+                <div class="d-flex flex-column flex-grow-1 mt-2">
+                  <div class="form-avatar">
+                    <img #profilePhoto [src]="profilephotourl" class="profile-photo" />
+                  </div>
+
+                  <button mat-button class="app-button primary grid-header-btn  mx-1"
+                    (click)="showChangePhotoPopup()">Change Photo</button>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column mr-2 flex-grow-1">
+                  <div class="d-flex flex-row mt-3">
+                    <div class="d-flex flex-column mr-2 flex-grow-1">
+                      <div class="d-flex flex-row">
+                        <div class="d-flex flex-column mr-2">
+                          <mat-form-field appearance="outline" class="field-width ">
+                            <mat-label>Title</mat-label>
+
+                            <input type="text" placeholder="Pick one" aria-label="Number" matInput
+                              [formControl]="myControl" [matAutocomplete]="auto">
+
+                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                              <mat-option *ngFor="let option of filteredOptions | async" [value]="option.title">
+                                {{option.title}}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                        </div>
+
+                        <div class="d-flex flex-column mr-2 ">
+                          <mat-form-field appearance="outline" class="field-width ">
+                            <mat-label>First Name</mat-label>
+
+                            <input placeholder="First Name" formControlName="firstName" matInput>
+                          </mat-form-field>
+
+                          <div class="d-flex flex-row"
+                            *ngIf="form.controls['firstName'].invalid && (form.controls['firstName'].dirty || form.controls['firstName'].touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="form.controls['firstName'].hasError('required')">First name is required</div>
+
+                            <div *ngIf="form.controls['firstName'].hasError('maxlength')">Max Length is 100 characters
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-column mr-2  ">
+                          <mat-form-field appearance="outline" class="field-width ">
+                            <mat-label>Last Name</mat-label>
+
+                            <input placeholder="Last Name" formControlName="lastName" matInput>
+                          </mat-form-field>
+
+                          <div class="d-flex flex-row"
+                            *ngIf="form.controls['lastName'].invalid && (form.controls['lastName'].dirty || form.controls['lastName'].touched)"
+                            class="alert alert-danger">
+                            <div *ngIf="form.controls['lastName'].hasError('required')">Last name is required</div>
+
+                            <div *ngIf="form.controls['lastName'].hasError('maxlength')">Max Length is 100 characters
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row mt-3">
+                    <div class="d-flex flex-column mr-2 flex-grow-1">
+                      <div class="d-flex flex-row align-items-center">
+                        <div class="d-flex flex-column mr-2">
+                          <mat-form-field appearance="outline" class="field-width ">
+                            <mat-label>Pin</mat-label>
+
+                            <input placeholder="Pin" formControlName="pin" type="password" matInput>
+                          </mat-form-field>
+                        </div>
+
+                        <div class="d-flex flex-column mr-2 flex-grow-1">
+                          <mat-form-field appearance="outline" class="field-width ">
+                            <mat-label>Contact Tel</mat-label>
+
+                            <input placeholder="Contact Tel" formControlName="contactTel" matInput>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row mt-3">
+                    <div class="d-flex flex-column mr-2 flex-grow-1">
+                      <div class="d-flex flex-row align-items-center">
+                        <div class="d-flex flex-column mr-2">
+                          <mat-form-field appearance="outline" class="field-width ">
+                            <mat-label>Role</mat-label>
+
+                            <input placeholder="Role" formControlName="role" matInput readonly>
+                          </mat-form-field>
+                        </div>
+
+                        <div class="d-flex flex-column mr-2 flex-grow-1">
+                          <mat-form-field appearance="outline" class="field-width ">
+                            <mat-label>User Type</mat-label>
+
+                            <input placeholder="User Type" formControlName="userType" matInput readonly>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row w-100 mt-4 mb-3"> 
+                <button mat-button class="app-button grid-header-btn mx-1"
+                  (click)="cancelClicked()">Cancel</button>
+
+                  <button mat-button class="app-button primary grid-header-btn mx-1" [disabled]="!form.valid"
+                  (click)="saveProfileClicked()">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Settings</span>
+        </ng-template>
+
+        <div class="d-flex mt-2  content-height" *matTabContent>
+          <div class="app-card responsive-paddings flex-grow-1" [formGroup]="settingsForm">
+            <div class="d-flex flex-column flex-grow-1 mt-2">
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column flex-grow-1 mt-2">
+                  <div class="d-flex flex-row">
+                    <mat-form-field class="field-width " appearance="outline">
+                      <mat-label>Default Payment Tracking Filter</mat-label>
+
+                      <mat-select formControlName="defaultPaymentTracking">
+                        <mat-option>None</mat-option>
+
+                        <mat-option *ngFor="let item of trackingOptions" [value]="item.value">
+                          {{item.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row mt-4 mb-3">      
+              <button mat-button class="app-button primary grid-header-btn mx-1"
+                (click)="cancelClicked()">Cancel</button>
+
+                <button mat-button class="app-button primary grid-header-btn mx-1"
+                (click)="savePreferences()">Save</button>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+.label-width
+{
+  width : 6rem;
+}
+
+.field-width{
+  width : 10rem;
+}
+
+.pb-8px {
+  padding-bottom: 8px;
+}
+
+.mb-10px {
+  margin-bottom: 10px
+}
+
+.ptb-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.plr-10px {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.border-2-blue {
+  border: 2px dashed navy;
+}
+
+.p-10px {
+  padding: 10px;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.block {
+  display: block;
+  min-height: 500px;
+  height: auto;
+}
+
+.h-30 {
+  height: 30vh;
+  min-height: 100px;
+}
+
+.top-row {
+  justify-content: flex-start; 
+  padding-left: 10px; 
+  margin-right: 20px;
+  flex-wrap: wrap;
+}

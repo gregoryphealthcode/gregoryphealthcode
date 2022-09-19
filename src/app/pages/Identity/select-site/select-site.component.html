@@ -1,0 +1,6 @@
+<app-health-code-user-view (siteSelect)="selectSite($event)" *ngIf="userStore.isAdmin(); else elseBlock">
+</app-health-code-user-view>
+
+<ng-template #elseBlock>
+    <app-e-practice-user-view (siteSelect)="selectSite($event)"></app-e-practice-user-view>
+</ng-template>

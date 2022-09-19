@@ -1,0 +1,118 @@
+<div class="central-popup-body" delay="750" [formGroup]="editForm">
+  <div class="block">
+    <div class="d-flex flex-row mt-2 top-row mb-2">
+      <app-text-box caption="Patient" formControlName="patientText" [disabled]="true" class="mr-2"></app-text-box>
+
+      <app-date-box formControlName="dateCreated" caption="Date Created" [disabled]="true" style="width: 160px;" class="mr-2">
+      </app-date-box>
+
+      <app-select-box *ngIf="userStore.isMedSecUser()" caption="Visibility" [dataSource]="noteVisibility" formControlName="notesVisibility"
+        valueExpr="id" displayExpr="value" style="width: 160px;" class="mr-2"></app-select-box>
+
+      <app-select-box caption="Type of Note" [dataSource]="notetypes" formControlName="noteType" [searchEnabled]="true"
+        style="width: 160px;" class="mr-2">
+      </app-select-box>
+
+      <div class="d-flex flex-column mr-2">
+        <span class="label-info w-100 mb-10px text-center">Warning</span>
+        <dx-check-box formControlName="warning" style="margin: 0 auto !important"></dx-check-box>
+      </div>
+
+      <div class="d-flex flex-column mr-2">
+        <span class="label-info w-100 mb-10px text-center">Pop-Up</span>
+        <dx-check-box formControlName="popup" style="margin: 0 auto !important"></dx-check-box>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row w-100 ptb-0 plr-10px">
+      <dx-html-editor #htmleditor class="h-30" valueType="Markdown" [width]="'100%'" formControlName="noteText"
+        #inputToFocus>
+        <dxo-toolbar>
+          <dxi-item formatName="undo"></dxi-item>
+          <dxi-item formatName="redo"></dxi-item>
+          <dxi-item formatName="separator"></dxi-item>
+          <dxi-item formatName="size" [formatValues]="['12pt', '14pt', '16pt', '18pt', '24pt', '36pt']"></dxi-item>
+          <dxi-item formatName="font"
+            [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']">
+          </dxi-item>
+          <dxi-item formatName="separator"></dxi-item>
+          <dxi-item formatName="bold"></dxi-item>
+          <dxi-item formatName="italic"></dxi-item>
+          <dxi-item formatName="underline"></dxi-item>
+          <dxi-item formatName="color"></dxi-item>
+          <dxi-item formatName="clear"></dxi-item>
+          <dxi-item formatName="separator"></dxi-item>
+          <dxi-item formatName="alignLeft"></dxi-item>
+          <dxi-item formatName="alignCenter"></dxi-item>
+          <dxi-item formatName="alignRight"></dxi-item>
+          <dxi-item formatName="alignJustify"></dxi-item>
+          <dxi-item formatName="separator"></dxi-item>
+          <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+          <dxi-item formatName="separator"></dxi-item>
+          <dxi-item formatName="orderedList"></dxi-item>
+          <dxi-item formatName="bulletList"></dxi-item>
+        </dxo-toolbar>
+
+        <dxo-media-resizing [enabled]=true></dxo-media-resizing>
+      </dx-html-editor>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1 mt-2 ptb-0 plr-10px">
+      <div class="d-flex flex-column border-2-blue p-10px">
+        <div class="d-flex flex-row flex-grow-1">
+          <form method="post" enctype="multipart/form-data">
+            <dx-file-uploader #fileUploader name="fileUploader" [multiple]="true" selectButtonText="Select File"
+              labelText="  or drop file here" [maxFileSize]="25000000"
+              [allowedFileExtensions]="['.doc', '.docx', '.xls', '.xlsx', '.pdf', '.tif', '.jpg', '.jpeg', '.png', '.bmp']"
+              [(value)]="uploadFilesValue" uploadMode="useButtons" [uploadHeaders]="uploadheaders()"
+              (onValueChanged)="fileUploaded($event)" uploadFailedMessage="Added">
+            </dx-file-uploader>
+          </form>
+        </div>
+
+        <div class="d-flex flex-row">
+          <!-- file uploader - calls upload action of importdocument controller, adds jwt token to header -->
+          <span class="note text-right">Allowed file extensions:
+            <span> .doc, .docx, .xls, .xlsx, .pdf, .tif, .jpg, .jpeg, .png, .bmp</span>.
+          </span>
+
+          <br />
+
+          <span class="note">Maximum file size: <span>25 MB.</span></span>
+        </div>
+      </div>
+
+      <!-- <div class="d-flex flex-column ml-2">
+        <div class="d-flex flex-row flex-grow-1 align-items-center" *ngFor="let file of uploadFilesValue">
+          <div class="d-flex flex-column flex-fill column-width-2">
+            <span class="label-info-value">{{file.name}}</span>
+
+            <app-button icon="far fa-trash" type="link" color="grey" class="ml-auto" matTooltip="Delete file"
+              (clicked)="removeFile(file)"></app-button>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="d-flex flex-column ml-2">
+        <div class="d-flex flex-row flex-grow-1 align-items-center" *ngFor="let attach of patientNote?.attachments">
+          <div class="d-flex flex-column flex-fill column-width-2">
+            <span class="label-info-value">{{attach?.attachmentFile}}</span>
+          </div>
+
+          <div class="d-flex flex-column mr-2 ">
+            <button mat-icon-button class="alternative-hover icons" (click)="deleteAttachment(attach)">
+              <i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="popup-form-footer-wrapper">
+  <app-button text="Close" class="ml-auto mr-3" (clicked)="cancelClicked()" color="grey"></app-button>
+
+  <app-button text="Save" class="pointer" (click)="submitForm()" [disabled]="editForm.pristine || submitting">
+  </app-button>
+</div>

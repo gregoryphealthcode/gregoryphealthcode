@@ -1,0 +1,33 @@
+<div class="d-flex flex-row flex-grow-1">
+  <div class="d-flex flex-column mr-2 w-100" [formGroup]="editForm">
+    <div class="d-flex flex-row" #gouprOne>
+      <app-select-box formControlName="episodeTypeId" class="w-23" [dataSource]="episodeTypes" valueExpr="episodeTypeId"
+        displayExpr="description" direction="row" caption="Episode Setting">
+      </app-select-box>
+    </div>
+    <app-select-box *ngIf="showLocation" formControlName="locationId" [dataSource]="locations" class="w-23"
+      valueExpr="id" displayExpr="name" direction="row" caption="Treatment Site">
+    </app-select-box>
+
+    <app-date-box *ngIf="showAdmitDate" formControlName="admissionDate" direction="row" acceptCustomValue="true"
+      class="w-16" [caption]="showEpisode ? 'Admission Date' : 'Episode Date'" [maxDate]="maxDate">
+    </app-date-box>
+
+    <app-date-box *ngIf="showDischargeDate" formControlName="dischargeDate" acceptCustomValue="true" class="w-16"
+      direction="row" caption="Discharge Date" [maxDate]="maxDate">
+    </app-date-box>
+
+    <app-select-box *ngIf="showDischargeCode" formControlName="dischargeCodeId" class="w-23"
+      [dataSource]="dischargeCodes" valueExpr="dischargeCodeId" displayExpr="description" direction="row"
+      caption="Discharge Reason">
+    </app-select-box>
+
+    <app-select-box formControlName="ownerId" [dataSource]="owners" class="w-23" valueExpr="id"
+      displayExpr="displayName" direction="row" caption="Controlling Practitioner">
+    </app-select-box>
+  </div>
+
+  <div class="d-flex flex-column mt-auto flex-grow-1 pb-4 ml-5">
+    <app-button text="Save" class="ml-auto" (clicked)="save()" [disabled]="!editForm.valid"></app-button>
+  </div>
+</div>

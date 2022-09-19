@@ -1,0 +1,51 @@
+<dx-popup appCentralPopUpSettings [visible]="true" *ngIf="visible" height="200" width="360" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="d-flex flex-column bg-white">
+    <app-pop-up-form-title [title]="title" (closed)="visible = false; closed.emit()" [centerAlign]="true">
+    </app-pop-up-form-title>
+    <div class="popup-info">
+      <i class="fal fa-info-circle"></i>
+      <span>Let's start by selecting a site</span>
+    </div>
+
+    <div class="pt-2 mt-4 d-flex flex-column flex-grow-1">
+
+      <!-- <span class="pb-1 d-flex text-xs-1 w-100 mx-auto text-grey-55">Sites</span> -->
+
+      <div class="d-flex flex-row flex-wrap w-100 mb-3 px-5">
+
+        <dx-select-box [items]="sites" class="mx-auto no-bg-dropdown dx-custom-button-hovered w-100"
+          (onSelectionChanged)="onSiteSelectionChanged($event)" displayExpr="displayName" stylingMode="outlined"
+          [searchEnabled]="true" placeholder="Choose a site ..." itemTemplate="item" fieldTemplate="field">
+
+          <div *dxTemplate="let data of 'item'" class="d-flex flex-row">
+            <span>{{data.siteName}}&nbsp;</span>
+            <span class="text-grey-65">[{{data.siteRef}}]&nbsp;</span>
+            <span class="label-tag my-auto ml-1" [ngClass]="{
+                'type3-1': data.ePracticeVariant === 'Lite',
+                'type5-1': data.ePracticeVariant === 'Full' || data.ePracticeVariant === 'Pro',
+                'type1-1': data.ePracticeVariant === 'Basic',
+                'type4-1': data.ePracticeVariant === 'Clinic'
+              }">{{data.ePracticeVariant}}</span>
+          </div>
+
+          <div *dxTemplate="let data of 'field'">
+            <div *ngIf="data" class="dropdown-field-wrapper d-flex flex-row">
+              <span>{{data.siteName}}&nbsp;</span>
+              <span class="text-grey-65">[{{data.siteRef}}]&nbsp;</span>
+              <span class="label-tag my-auto ml-1" [ngClass]="{
+                'type3-1': data.ePracticeVariant === 'Lite',
+                'type5-1': data.ePracticeVariant === 'Full' || data.ePracticeVariant === 'Pro',
+                'type1-1': data.ePracticeVariant === 'Basic',
+                'type4-1': data.ePracticeVariant === 'Clinic'
+              }">{{data.ePracticeVariant}}</span>
+            </div>
+
+            <dx-text-box [class.d-none]="data" class="generic-input-padding" [value]="data && data.displayName"
+              placeholder="Choose a site ..."></dx-text-box>
+          </div>
+        </dx-select-box>
+      </div>
+    </div>
+  </div>
+</dx-popup>

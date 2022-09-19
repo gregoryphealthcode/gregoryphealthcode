@@ -1,0 +1,67 @@
+<div class="d-flex flex-column flex-grow-1 w-100 h-100 app-card">
+  <div class="d-flex flex-row mx-4 mt-3" style="align-items: center;">
+    <app-grid-search-text-box (changed)="searchBoxValue = $event; search()"></app-grid-search-text-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">From Date</label>
+    </div>
+
+    <dx-date-box [displayFormat]="dateFormat" [(value)]="fromDate" type="date" (onValueChanged)="search()">
+    </dx-date-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">To Date</label>
+    </div>
+
+    <dx-date-box [displayFormat]="dateFormat" [(value)]="toDate" type="date" (onValueChanged)="search()">
+    </dx-date-box>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3 w-100 h-100">
+    <div class="cssWidgetWrapper generic-border w-100 h-100 mr-2">
+      <dx-data-grid [dataSource]="filteredSms" gridWithRowLinesSettings keyExpr="id" [hoverStateEnabled]="true"
+        focusedRowEnabled="true" class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true"
+        [(focusedRowIndex)]="focusedRowIndex" [columnMinWidth]="175" wordWrapEnabled="true">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+        <dxi-column dataField="smsDateTime" caption="Date/Time" [width]="160" dataType="datetime"
+          format="dd/MM/yyyy HH:mm" sortOrder="desc" [sortIndex]="0">
+        </dxi-column>
+        <dxi-column dataField="ago" caption="Ago" [allowSorting]="false" [width]="200" [allowFiltering]="false"
+          cellTemplate="agoTemplate"></dxi-column>
+        <dxi-column dataField="status" caption="Status" cellTemplate="statusTemplate" [minWidth]="120"></dxi-column>
+        <dxi-column dataField="phoneNumber" caption="Telephone No." [width]="150"></dxi-column>
+        <dxi-column dataField="messageText" caption="Message"></dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'agoTemplate'">
+          <span *ngIf="cellInfo.row.data.ago == 1">{{cellInfo.row.data.ago}} day</span>
+
+          <span *ngIf="cellInfo.row.data.ago != 1">
+            {{cellInfo.row.data.ago <= 0 ? 0 : cellInfo.row.data.ago}} days </span>
+        </div>
+
+
+        <div *dxTemplate="let cellInfo of 'statusTemplate'">
+          <div [ngSwitch]="cellInfo.data.status">
+            <div class="label-tag md-2 type-primary" *ngSwitchCase="'Sent'">
+              {{cellInfo.data.status}}
+            </div>
+
+            <div class="label-tag md-2 type-danger" *ngSwitchCase="'Failed'">
+              {{cellInfo.data.status}}
+            </div>
+
+            <div class="label-tag md-2 type-warning" *ngSwitchCase="'Pending'">
+              {{cellInfo.data.status}}
+            </div>
+
+            <div class="label-tag md-2 type4" *ngSwitchDefault>
+              {{cellInfo.data.status}}
+            </div>
+          </div>
+        </div>
+
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

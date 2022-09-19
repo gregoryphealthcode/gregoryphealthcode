@@ -1,0 +1,53 @@
+<app-med-sec-site-selector (onSelected)="addClicked()"></app-med-sec-site-selector>
+
+<app-add-contact *ngIf="showAddContact" [contactClassification]="contactClassification"
+  class="d-flex flex-column flex-grow-1" (saved)="savedHandler(); showAddContact = false; contactsGrid.refreshData()"
+  (closed)="showAddContact = false" style="max-height: 1px;">
+</app-add-contact>
+
+<div class="d-flex d-flex-column">
+  <div class="d-flex flex-grow-1">
+    <div class="page-header responsive-margins">Contacts</div>
+  </div>
+
+  <div class="d-flex flex-grow-1 mr-4 mt-2">
+    <ng-container *ngIf="!isInPopup">
+      <app-button icon="far fa-plus" class="ml-auto mt-2 mr-1" text="Add" iconPosition="left" [showDropdownIcon]="true"
+        #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="belowMenu"></app-button>
+
+      <mat-menu #belowMenu="matMenu" yPosition="below">
+        <ng-container *ngFor="let item of items">
+          <app-button type="link" [icon]="item.icon" color="grey" class="menu-item-btn" [text]="item.description"
+            (clicked)="itemClicked(item)"></app-button>
+        </ng-container>
+      </mat-menu>
+    </ng-container>
+
+    <button *ngIf="isBilling" class="app-button primary grid-header-btn mr-0" (click)="getSitePayorContacts()"
+      matTooltip="All Site Payors">
+      <span>All Site Payors</span>
+    </button>
+  </div>
+</div>
+
+<div class="d-flex flex-grow-1 responsive-margins disable-select">
+  <div class="app-card responsive-paddings flex-grow-1 px-0 py-3">
+    <app-contacts-grid #contactsGrid class="d-flex flex-grow-1 flex-column" (selectedRow)="selectedRowHandler($event)"
+      (doubleClickedRow)="doubleClickedRowHandler($event)">
+    </app-contacts-grid>
+  </div>
+
+  <div class="d-none d-lg-flex flex-w-20">
+    <div class="app-card h-100 ml-3 flex-grow-1">
+      <app-no-data *ngIf="!showPanel" [showTitle]="false" text="Please select a contact from the list."
+        class="w-100 flex responsive-paddings px-4 mt-40per">
+      </app-no-data>
+
+      <app-contacts-summary-view [contactId]="contactId" [showTitle]="false" [showButton]="showButtons"
+        [isInContactDetails]="isInContactDetails" [addToContact]="addToContact" [isInPopup]="isInPopup"
+        (editSelected)="editContactDetails()" *ngIf="showPanel" class="d-flex flex-grow-1" [addToPatient]="addToPatient"
+        (addContactToParentHandler)="addContactToParent($event)">
+      </app-contacts-summary-view>
+    </div>
+  </div>
+</div>

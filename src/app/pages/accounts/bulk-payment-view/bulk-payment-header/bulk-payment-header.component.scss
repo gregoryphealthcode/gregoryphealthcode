@@ -1,0 +1,16 @@
+:host{
+    ::ng-deep .payor-section .a-form-group.d-col > label {
+      min-width: 10.5rem;
+      max-width: 10.5rem;
+    }
+  
+    .text-area-height{
+      height: 116px;
+    }
+  
+    ::ng-deep .a-form-group.d-col:not(.text-area-height) {
+      height: 64px;
+    }
+  
+  }
+  

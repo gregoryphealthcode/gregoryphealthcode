@@ -1,0 +1,12 @@
+.hc-100-110px {
+    height:calc(100vh - 110px);
+}
+
+.chart {
+    width:calc(100% - 15px);
+    height:calc(50vh - 70px);
+    background:white;
+    margin:5px;
+    border:1px solid lightgray;
+    border-radius: 5px;
+}

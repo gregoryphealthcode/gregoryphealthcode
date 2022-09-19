@@ -1,0 +1,37 @@
+/* 
+import Guid from 'devextreme/core/guid';
+
+export class ReferenceNumberModel {
+    uniqueNo?: number | null;
+    siteId?: Guid | null;
+    numberType?: string | null;
+    description?: string | null;
+    rank?: number | null;
+    editMask?: string | null;
+    minLength?: number | null;
+    maxLength?: number | null;
+    numericOnly?: boolean | null;
+    checkDigit?: boolean | null;
+    checkDigitMethod?: string | null;
+    active?: boolean | null;
+    autoIncrement?: boolean | null;
+    nextNumber?: number | null;
+    prefix?: string | null;
+    suffix?: string | null;
+    alwaysAdd?: boolean | null;
+}
+
+export class PatientReferenceNumberModel extends ReferenceNumberModel {
+    uniqueNo?: number | null;
+    referenceNumberId?: Guid | null;
+    patientId?: Guid | null;
+    siteId?: Guid | null;
+    refNoType?: string | null;
+    refNoValue?: string | null;
+    primaryRefNo?: boolean | null;
+    rank?: number | null;
+    data: any | null;
+    errors: any | null;
+    success: boolean | null;
+} 
+*/

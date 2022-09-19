@@ -1,0 +1,54 @@
+.sub-heading
+{
+  font-weight: 800;
+
+}
+
+.heading
+{
+  font-weight: 800;
+  font-size: 1.5em;
+}
+
+.label-width {
+  width: 9rem;
+  margin-bottom: 0.35rem;
+}
+
+.w-80
+{
+  width: 15rem;
+}
+
+.block {
+  display: block;
+}
+ 
+.text-center {
+  text-align: center;
+}
+
+.red-flag {
+  color:red;
+  margin-top:-15px;
+  display:inline-flex;
+}
+
+.orange-flag {
+  color:orange;
+  margin-top:-15px;
+  display:inline-flex;
+}
+
+.logo {
+  max-height: 30px;
+  max-width: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.logo-holder {
+  display: block;
+  height: 100%;
+  width: 100%;
+}

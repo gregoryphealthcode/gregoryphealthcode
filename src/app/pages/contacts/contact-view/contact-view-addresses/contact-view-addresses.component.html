@@ -1,0 +1,53 @@
+<div class="cssWidgetWrapper">
+  <dx-data-grid gridWithRowLinesSettings [dataSource]="addresses" class="cssGridGeneral" keyExpr="this"
+    (onRowDblClick)="doubleClickHandled($event)" [rowAlternationEnabled]="true" focusedRowIndex="0">
+
+    <dxi-column dataField="addressTypeDescription" cssClass="text-semiBold" caption="Type" [minWidth]="120">
+    </dxi-column>
+    <dxi-column cellTemplate="addressTemplate" caption="Description" [minWidth]="150"></dxi-column>
+    <dxi-column cellTemplate="primaryTemplate" caption="" [minWidth]="150"></dxi-column>
+    <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="100">
+      <dxi-button template="myCommandTemplate"></dxi-button>
+    </dxi-column>
+
+    <div *dxTemplate="let cellInfo of 'addressTemplate'">
+      <div *ngIf="cellInfo.row.data as address" class="d-flex flex-column">
+        <div class="d-flex flex-row" style="flex-wrap: wrap;">
+          <span>{{address.address1}}, </span>
+
+          <span *ngIf="address.address2">{{address.address2}}, </span>
+
+          <span *ngIf="address.address3">{{address.address3}}, </span>
+
+          <span *ngIf="address.address4">{{address.address4}}, </span>
+
+          <span *ngIf="address.postcode" class="text-semiBold">{{address.postcode}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'primaryTemplate'">
+      <div class="d-flex flex-row pb-2px">
+        <span class="label-tag type3 my-auto" *ngIf="cellInfo.row.data.primaryAddress">Primary</span>
+
+        <span class="label-tag type4 my-auto ml-2" *ngIf="cellInfo.row.data.billingAddress">Billing</span>
+      </div>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'primaryAddressTemplate'">
+      <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'billingAddressTemplate'">
+      <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+      <app-button type="link" iconPosition="left" icon="far fa-trash" color="grey" matTooltip="Delete Address"
+        (clicked)="delete(cellInfo.row)"></app-button>
+
+      <app-button type="link" iconPosition="right" icon="far fa-edit" color="grey" matTooltip="Edit Address"
+        (clicked)="editAddress(cellInfo.row)"></app-button>
+    </div>
+  </dx-data-grid>
+</div>

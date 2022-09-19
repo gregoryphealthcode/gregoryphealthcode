@@ -1,0 +1,76 @@
+<div class="add-button mr-4 mt-3">
+  <app-button icon="far fa-plus" text="New" iconPosition="left" [showDropdownIcon]="true" #menuTrigger="matMenuTrigger"
+    [matMenuTriggerFor]="belowMenu"></app-button>
+
+  <mat-menu #belowMenu="matMenu" yPosition="below">
+    <ng-container *ngFor="let item of items">
+      <app-button type="link" [icon]="item.icon" color="grey" class="menu-item-btn" [text]="item.description"
+        (clicked)="add(item.value)"></app-button>
+    </ng-container>
+  </mat-menu>
+</div>
+
+<mat-tab-group class="full-height2 mt-2" [(selectedIndex)]="tabIndex">
+  <mat-tab class="header">
+    <ng-template mat-tab-label>
+      <span class="tabHeader">All Comms</span>
+    </ng-template>
+
+    <div class="d-flex h-100 w-100" *matTabContent>
+      <app-patient-communications-summary class="w-100 d-flex flex-column flex-grow-1"
+      (selectedLetter)="selectedRecordLetter = $event" (selectedDocument)="selectedRecordDocument = $event"></app-patient-communications-summary>
+    </div>
+  </mat-tab>  
+
+  <mat-tab class="header">
+    <ng-template mat-tab-label class="sub-heading">
+      <span class="tabHeader">Accounts</span>
+    </ng-template>
+
+    <div class="d-flex h-100 w-100" *matTabContent>
+      <app-patient-letters class="w-100 d-flex flex-column" [accounts]="true" (selectedRecord)="selectedRecordLetter = $event">
+      </app-patient-letters>
+    </div>
+  </mat-tab>
+
+  <mat-tab class="header">
+    <ng-template mat-tab-label class="sub-heading">
+      <span class="tabHeader">Documents</span>
+    </ng-template>
+
+    <div class="d-flex h-100 w-100" *matTabContent>
+      <app-patient-documents class="w-100 d-flex flex-column flex-grow-1" (selectedRecord)="selectedRecordDocument = $event">
+      </app-patient-documents>
+    </div>
+  </mat-tab>
+
+  <mat-tab class="header">
+    <ng-template mat-tab-label>
+      <span class="tabHeader">Letters</span>
+    </ng-template>
+
+    <div class="d-flex h-100 w-100" *matTabContent>
+      <app-patient-letters class="w-100 d-flex flex-column" [accounts]="false" (selectedRecord)="selectedRecordLetter = $event">
+      </app-patient-letters>
+    </div>
+  </mat-tab>
+
+  <mat-tab class="header">
+    <ng-template mat-tab-label class="sub-heading">
+      <span class="tabHeader">SMS</span>
+    </ng-template>
+
+    <div class="d-flex h-100 w-100" *matTabContent>
+      <app-patient-sms class="w-100 d-flex flex-column flex-grow-1">
+      </app-patient-sms>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<app-patient-documents-add-edit [data]="selectedRecordDocument"  (saved)="savedHandler($event)">
+</app-patient-documents-add-edit>
+
+<app-patient-letters-add-edit [data]="selectedRecordLetter" (saved)="savedHandler($event)">
+</app-patient-letters-add-edit>
+
+<app-patient-sms-add [data]="selectedRecordSms" (saved)="savedHandler($event)"></app-patient-sms-add>

@@ -1,0 +1,71 @@
+<ng-container *ngIf="layout === 'row'">
+  <div class="modal-section-title">
+    <span>{{title}}</span>
+  </div>
+
+  <div class="modal-section-content">
+    <ng-content></ng-content>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="layout === 'column'">
+  <div class="d-flex flex-row w-100 align-items-center">
+    <div class="section-heading" [class.sub-heading]="isSubHeading">{{title}}</div>
+
+    <span class="label-tag tab-count ml-1 type5-1" *ngIf="count">{{count}}</span>
+
+    <div class="ml-auto d-flex flex-row align-items-center">
+      <app-button type="link" color="danger" icon="fad fa-exclamation-circle" *ngIf="showDanger"
+        iconPosition="right" (clicked)="dangerMessageToggle = !dangerMessageToggle" matTooltip="Attention"></app-button>
+
+      <ng-container *ngIf="showHelpButton">
+      <app-button type="link" color="danger" icon="fad fa-question-circle" iconPosition="right"
+        *ngIf="showInfo" (clicked)="showHelp = !showHelp" matTooltip="Show Help"></app-button>
+      </ng-container>
+
+      <ng-container *ngIf="showAddButton">
+        <app-button type="link" text="Add" icon="far fa-plus" size="sm" class="add-button pt-1" iconPosition="left"
+          (clicked)="addClicked.emit($event)"></app-button>
+      </ng-container>
+
+      <app-button type="link" *ngIf="showAllBtn" text="Show All" size="sm" (clicked)="showAllClicked.emit()">
+      </app-button>
+    </div>
+  </div>
+
+  <span class="w-100 horizontal-line title-underline" *ngIf="showTitleUnderline"></span>
+
+  <div class="help text-wrapper" *ngIf="showHelp">
+    <span class="w-85per">
+      <span class="block" *ngFor="let h of helperTexts">{{h}}</span>
+    </span>
+
+    <button mat-icon-button class="alternative ml-auto section-icon" (click)="showHelp = !showHelp" matTooltip="Hide Help">
+      <mat-icon fontSet="fal" fontIcon="fa-times"> </mat-icon>
+    </button>
+  </div>
+
+  <div class="warning text-wrapper" *ngIf="showWarning && warningMessageToggle">
+    <ng-content select="[section-warning]"></ng-content>
+
+    <button mat-icon-button class="warning ml-auto section-icon" (click)="warningMessageToggle = !warningMessageToggle"
+      matTooltip="Hide">
+      <mat-icon fontSet="fal" fontIcon="fa-times"> </mat-icon>
+    </button>
+  </div>
+
+  <div class="danger text-wrapper" *ngIf="showDanger && dangerMessageToggle">
+    <ng-content select="[section-danger]"></ng-content>
+
+    <button mat-icon-button class="danger ml-auto section-icon" (click)="dangerMessageToggle = !dangerMessageToggle"
+      matTooltip="Hide">
+      <mat-icon fontSet="fal" fontIcon="fa-times"> </mat-icon>
+    </button>
+  </div>
+
+  <span class="mb-1"></span>
+
+  <ng-content></ng-content>
+
+  <span class="horizontal-line section-end"></span>
+</ng-container>

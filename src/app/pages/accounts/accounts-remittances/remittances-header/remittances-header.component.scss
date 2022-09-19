@@ -1,0 +1,37 @@
+:host {
+  ::ng-deep .a-form-group.d-col {
+    > label {
+      min-width: 7.5rem;
+      max-width: 7.5rem;
+      line-height: 1.2;
+    }
+  }
+}
+
+.legend-info{
+  height: 10px;
+  width: 10px;
+  margin: 2px 6px 0 2rem;
+
+  &.red{
+    background-color: rgb(245, 86, 74);
+  }
+
+  &.blue{
+    background-color: #1db2f5;
+  }
+}
+
+.label-value{
+  font-size: 1.6rem; 
+  margin: 1.5rem 0 0.1rem
+}
+
+.label-description{
+  color: hsl(0, 0%, 70%);
+}
+
+.label-value-smaller{
+  font-size: 1rem; 
+  margin: 0.5rem 0 1rem;
+}

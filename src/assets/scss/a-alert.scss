@@ -1,0 +1,46 @@
+.a-alert{
+  padding: 0.5rem 0.75rem;
+
+  .a-alert-title{
+    font-weight: 500;
+    padding-bottom: 0.15rem;
+    margin: 0;;
+  }
+
+  p{
+    margin: 0;
+  }
+
+  &.warning{
+    background-color: #fff7f5;
+    border-left: 4px solid #ed7335;
+    color: #eb6347;
+  }
+
+  &.danger{
+    background-color:#fff5e5;
+    border-left: 4px solid hsl(38, 75%, 68%);
+    color: hsl(38, 85%, 55%);
+  }
+
+  &.information {
+    background-color: hsl(220 100% 95% / 1);
+    border-left: 4px solid hsl(220 75% 73% / 1);
+    color: hsl(220 85% 60% / 1);
+}
+}
+
+.popup-info{
+  background-color: hsl(220 100% 96%);
+  color: #496b88;
+  padding: 0.65rem;
+  font-size: 13px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  i{
+    font-size: 15px;
+    margin-right: 4px;
+  }
+}

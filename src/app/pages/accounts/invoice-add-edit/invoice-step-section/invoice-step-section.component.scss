@@ -1,0 +1,81 @@
+@import "../../../../../assets/scss/variables.scss";
+
+:host{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.section-wrapper{
+  width: 100%;
+  align-items: stretch;
+  min-height: 6rem;
+  margin-bottom: 2rem;
+
+  &.hide{
+    margin-bottom: 0;
+    min-height: 0;
+  }
+}
+
+.section-heading
+{
+  color : hsl(215, 30%, 45%);
+  font-size: 1.15em;
+  font-weight: 500;
+  padding: 0.5rem 0;
+}
+
+.help-text-wrapper{
+  display: flex;
+  flex-direction: row;
+  background-color: hsl(215, 35%, 98%);
+  color: hsl(215, 30%, 45%);
+  padding: 0rem 0rem 1.5rem 2rem;
+}
+
+:host ::ng-deep .section-icon .mat-icon{
+  font-size: 16px;
+}
+
+.errors-wrapper{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: stretch;
+  margin-top: 0.5rem;
+}
+
+.help-text-wrapper-error{
+  display: flex;
+  flex-direction: row;
+  // background-color: hsl(0, 97%, 97%);
+  color: hsl(0, 67%, 60%);
+
+  .label-info.label-width{
+    color: hsl(0, 67%, 60%);
+  }
+
+  padding: 0rem 0rem 0rem 0rem;
+
+    .text-recomm{
+      color: hsl(0, 67%, 75%);
+    }
+}
+
+ .ErrorIcon
+ {
+  font-size: 21px;
+  --fa-primary-color: white;
+  --fa-secondary-color: #ff0000;
+ }
+
+ .headerBorder
+ {
+   border-bottom: grey 1px;
+   border-top-style: none;
+ }
+
+ button {
+   pointer-events: initial;
+ }

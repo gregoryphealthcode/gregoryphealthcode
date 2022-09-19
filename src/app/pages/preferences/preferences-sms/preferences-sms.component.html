@@ -1,0 +1,39 @@
+<div class="d-flex mt-1 flex-grow-1" appEnterKeyFocusWrapper [formGroup]="form" delay="750">
+  <div class="app-card  responsive-paddings mt-2 flex-grow-1">
+    <div class="d-flex flex-row  align-items-center">
+      <div class="label-info-value mb-2">Numbering Systems </div>
+    </div>
+
+    <div class=" d-flex flex-wrap flex-row flex-grow-1">
+      <div class="d-flex flex-column mt-3 ">
+        <div class="d-flex flex-row mt-1 align-items-center">
+          <p>If not specified, assume mobile numbers start with which international dialling code</p>
+        </div>
+
+        <div class="d-flex flex-row mt-1 align-items-center">
+          <span class="label-info short-label-width">International Code </span>
+
+          <div class="field-width">
+            <dx-number-box placeholder="International Code" formControlName="internationalCode"></dx-number-box>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row mr-2 flex-grow-1 mt-1 align-items-center">
+          <span class="label-info short-label-width">Allow SMS Replies</span>
+
+          <div class="field-width">
+            <dx-check-box formControlName="allowReplies"> </dx-check-box>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row mr-2 flex-grow-1 mt-1 align-items-center">
+          <span class="label-info short-label-width">Replies</span>
+
+          <div class="field-width">
+            <dx-check-box formControlName="alwaysAdd"> </dx-check-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

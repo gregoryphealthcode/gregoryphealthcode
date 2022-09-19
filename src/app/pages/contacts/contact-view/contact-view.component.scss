@@ -1,0 +1,33 @@
+:host{
+  display: flex;
+  flex: auto;
+}
+
+.address-grid-card{
+  max-width: 35rem;
+}
+
+.contacts-grid-card{
+  max-width: 27rem;
+}
+
+.organisations-grid-card{
+  max-width: 60rem;
+}
+
+.departments-grid-card{
+  max-width: 60rem;
+}
+
+
+.patients-grid-card{
+  max-width: 52rem;
+}
+
+.patients-summary-card{
+  max-width: 22rem;
+  background-color: white;
+  border: 1px solid rgb(230,230,230);
+  margin-top: 30px;
+  height: 449px;
+}

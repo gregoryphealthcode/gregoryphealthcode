@@ -1,0 +1,26 @@
+:host {
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.layout-header {
+  z-index: 1501;
+}
+
+.layout-body {
+  flex: 1;
+  min-height: 0;
+}
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+ // box-shadow: inset 9px 6px 8px -7px hsl(0deg 0% 86%);
+}
+
+.overflow-y {
+  overflow-y: auto;
+}

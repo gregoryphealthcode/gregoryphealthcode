@@ -1,0 +1,24 @@
+:host(.d-row) {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+:host(.d-col) {
+  display: flex;
+  flex-direction: column;
+}
+
+:host{
+  &.extra-info{
+    margin-bottom: 0.4rem;
+  }
+
+  &.mb-0{
+    margin-bottom: 3px;
+  }
+}
+
+.form-label {
+  max-width: initial !important;
+}

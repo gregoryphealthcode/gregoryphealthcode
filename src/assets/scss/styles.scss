@@ -1,0 +1,320 @@
+@import "./mixins.scss";
+@import "./variables.scss";
+@import "./helpers.scss";
+
+@import "./normalize.scss";
+@import "./a-alert.scss";
+@import "./buttons.scss";
+@import "./card.scss";
+@import "./input.scss";
+@import "./form.scss";
+@import "./label.scss";
+@import "./loader.scss";
+@import "./scrollbar.scss";
+@import "./typography.scss";
+@import "./gridster.scss";
+@import "./swal.scss";
+@import "./modal.scss";
+@import "./dx-override/dx-override.scss";
+@import "./material-override/tabs.scss";
+@import "./material-override/expansion-panel.scss";
+@import "./material-override/mat-form-field.scss";
+@import "./material-override/mat-select.scss";
+$text-color: hsl(0, 0%, 0%);
+
+
+html {
+  color: $text-color;
+
+  body {
+    .full-height-scrollable
+    > .dx-scrollable-wrapper
+    > .dx-scrollable-container
+    > .dx-scrollable-content
+    > .dx-scrollview-content {
+    height: 100%;
+  }
+
+    .dx-widget{
+      color: $text-color;
+    }
+
+    h1,h2, h3, h4, h5, h6{
+      color: $text-color;
+    }
+
+    app-general,
+    .content {
+      background-color:$main-bg-color;
+    }
+
+    hr{
+      margin-top: 0.75rem;
+      margin-bottom: 0.75rem;
+      border-top: 2px solid hsl(0, 0%, 97%);
+    }
+
+    &.dx-theme-generic-typography a {
+      color: hsl(209, 27%, 46%);
+  }
+  }
+}
+
+
+
+.login-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: hsl(0, 0, 35%);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.disable-select {
+//  user-select: none; /* supported by Chrome and Opera */
+//  -webkit-user-select: none; /* Safari */
+//  -khtml-user-select: none; /* Konqueror HTML */
+//  -moz-user-select: none; /* Firefox */
+//  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.custom-scroll {
+  @include custom-scroll;
+}
+
+.patient-details-bottom-tab-wrapper {
+  height: 100%;
+
+  .previewPanel {
+    height: auto;
+    overflow-y: auto;
+  }
+}
+
+.warning
+{
+ color : $ep-warning;
+}
+.caution
+{
+  color  : $ep-caution;
+  text-shadow: 2px 2px #000000;
+}
+
+.warning-hightlight
+{
+  color : $ep-warning;
+  text-shadow: 2px 2px #000000;
+}
+
+.highlightError
+{
+  border-color : $ep-warning !important;
+}
+
+.icon.warning
+{
+  color : $ep-warning;
+}
+
+.mat-step-header .mat-step-icon
+{
+  background-color: green;
+    color: #fff;
+}
+.mat-step-icon .mat-step-icon-state-edit
+{
+  background-color: $primary !important;
+    color: #fff !important;
+}
+.mat-step-header .mat-step-icon-state-error
+{
+  background-color: transparent !important;
+  color: $ep-warning !important;
+}
+
+
+
+.mat-step-icon .mat-step-icon-state-error
+{
+  background-color: $ep-warning !important;
+    color: #fff !important;
+}
+
+.error-highlight
+{
+  background-color:   $ep-error-banner;
+}
+
+.mat-step-header[aria-selected="true"] { background-color: rgba(0, 0, 0, 0.04) !important }
+
+
+.rule
+{
+  border-top: 1px solid #DDE4E8;
+  width: 100%;
+}
+
+.buttons-right
+{
+  justify-content: flex-end;
+}
+
+.pointer-events-all{
+  pointer-events: all !important;
+}
+
+.left-menu-tooltip{
+  &.dx-tooltip-wrapper .dx-overlay-content .dx-popup-content{
+    padding: 8px 0px;
+
+    .menu-title{
+      padding: 0px 8px;
+    }
+
+    .menu-item{
+      padding: 0 8px;
+      &:hover{
+        background-color: hsl(0 0% 86% / 1);
+        cursor: pointer;
+      }
+    }
+  }
+
+
+}
+
+.top-panel
+{
+  min-height: 35%;
+}
+
+.bottom-panel
+{
+  min-height: 65%;
+}
+
+.dx-button-mode-contained {
+
+  border-color: #DDDDDD !important;
+
+}
+
+.dx-toolbar-text-auto-hide .dx-button .dx-button-content {
+  padding: 3px;
+}
+
+.dx-datagrid-group-panel .dx-group-panel-message {
+  color: hsl(0, 0%, 75%);
+  font-weight: normal;
+  padding: 5px !important;
+}
+
+.dx-datagrid-group-panel {
+  font-size: 12px;
+  -ms-touch-action: pinch-zoom;
+  touch-action: pinch-zoom;
+  padding: 2px !important;
+  border-top: 1px solid #e4e4e4 !important;
+  border-bottom: 1px solid #e4e4e4 !important;
+  border-left: 1px solid #e4e4e4 !important;
+  border-right: 1px solid #e4e4e4 !important;
+  border-radius: 5px !important;
+  height: 38px;
+  line-height: 19px;
+}
+
+.dx-datagrid-rowsview .dx-row-focused.dx-group-row {
+  background-color: $primary !important;
+  color: #fff;
+}
+
+.dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell .dx-texteditor, .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell .dx-texteditor-container {
+
+  margin: 0;
+
+  border: 1px solid #DDE4E8 !important;
+  border-radius: 4px;
+}
+.badgeGlobal {
+  display: inline-block;
+  padding: 2px 5px 2px !important;
+  font-size: 10px;
+  font-weight: 500 !important;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  -o-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.mat-snack-bar-container.badge-success{
+  color: rgb(94, 179, 129);
+  background-color: hsl(155, 30%, 96%);
+  box-shadow: 0px 3px 5px -1px hsla(145, 50%, 80%, 0.3), 0px 6px 10px 0px hsla(145, 50%, 80%, 0.2), 0px 1px 18px 0px hsla(145, 50%, 80%, 0.2);
+
+  .mat-button:not(.icon-button) {
+    color: hsl(153, 50%, 78%);
+}
+}
+
+.mainContainer .toolbar{
+  display: none;
+}
+
+.preview-label{
+  font-size: 1.5rem;
+  color: hsl(0, 0%, 75%);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-wrapper{
+  padding:5px;
+  height:400px;
+  width: 100%;
+  border:1px solid #e6e6e6;
+  overflow:hidden;
+  background: white;
+}
+
+.dx-toast-wrapper{
+  z-index: 1601 !important;
+}
+
+
+.loading-toast{
+  background-color: white;
+  color: hsl(0, 0%, 30%);
+  border-radius: 5px;
+  padding: 12px;
+  box-shadow: 0 1px 8px grey;
+}
+
+//Safari
+@supports (overflow:-webkit-marquee) and (justify-content:inherit) 
+{
+  .safari-scroll {
+      height: auto !important;
+  }
+}

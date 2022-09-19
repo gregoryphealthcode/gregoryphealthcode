@@ -1,0 +1,63 @@
+body {
+  .mat-accordion.fixed-panel-height .mat-expansion-panel-body>*{
+    height: 9rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: auto;
+  }
+
+  .mat-expansion-panel {
+    .mat-accordion,
+    .mat-expansion-panel-header {
+      font-family: Open Sans !important;
+      font-size: 14px;
+      padding: 0 16px;
+    }
+
+    .mat-expansion-panel-header.mat-expanded {
+      background-color:    #00985f ;
+      font-weight: 600;
+    }
+
+    .mat-expansion-panel-header.mat-expanded:focus,
+    .mat-expansion-panel-header.mat-expanded:hover
+    {
+      background-color:  #00985f !important;
+      color : #ffffff !important;
+      font-weight:  bold;
+      font-family: Open Sans;
+    }
+
+    .mat-expansion-panel-header-title{
+      color: hsl(0, 0%, 60%);
+      .icons{
+        width: 26px;
+      }
+    }
+
+    .mat-expansion-panel-header.mat-expanded .mat-expansion-panel-header-title {
+      color:#ffffff;
+    }
+
+    .mat-expansion-panel-header.mat-expanded
+      .mat-expansion-panel-header-title
+      .icons {
+      color: #ffffff;
+    }
+
+    .mat-expansion-panel-header.mat-expanded .mat-expansion-indicator::after{
+      color: white;
+    }
+  }
+
+  .lighter-background {
+    background-color: hsl(0, 0%, 100%);
+    border-width: 0px;
+  }
+
+  .mat-expansion-panel-body {
+    padding: 0 !important;
+    background-color: hsl(0, 0%, 96%);
+  }
+}

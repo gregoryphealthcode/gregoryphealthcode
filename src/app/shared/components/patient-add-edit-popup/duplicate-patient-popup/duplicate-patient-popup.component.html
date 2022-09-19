@@ -1,0 +1,76 @@
+<dx-popup appCentralPopUpSettings [width]="'800'" [enableScroll]="true" (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="'Possible duplicate'" (closed)="closeDuplicate.emit()">
+    </app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body">
+        <div class="d-flex flex-column">
+          <h4 class="mtb-5px">
+            <i class="fas fa-exclamation-triangle"></i>
+            The patient you are adding may already be in the system!
+          </h4>
+
+          <p class="mtb-5px ml-30px">
+            <b>To avoid duplication, please check the list below carefully.</b>
+          </p>
+
+          <p class="mtb-5px ml-30px">
+            If required patient is on the list, select & click 'View Selected Patient', if not, click 'Close'.
+          </p>
+        </div>
+
+        <div class="cssWidgetWrapper disable-select h-330px">
+          <dx-data-grid #possibleduplicatesGrid gridWithRowLinesSettings id="possibleduplicatesGrid"
+            [dataSource]="possibleDuplicates" [focusedRowEnabled]="true" focusedRowIndex="0" [columnMinWidth]="175"
+            [allowColumnReordering]="true" keyExpr="this"
+            (onFocusedRowChanged)="onPossDuplicateFocusedRowChanged($event)" noDataText="Loading......">
+
+            <dxo-column-chooser [enabled]="false" mode="select"></dxo-column-chooser>
+
+            <dxo-paging [pageSize]="40"></dxo-paging>
+
+            <dxo-pager [showPageSizeSelector]="false" [showInfo]="false"></dxo-pager>
+
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+
+            <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+            </dxo-editing>
+
+            <dxi-column dataField="lastName" caption="Last Name" [visible]="true"></dxi-column>
+
+            <dxi-column dataField="firstName" caption="First Name" [visible]="true"></dxi-column>
+
+            <dxi-column dataField="title" caption="Title" [visible]="false" [allowFiltering]="false"></dxi-column>
+
+            <dxi-column dataField="birthDate" caption="DOB" dataType="date" [width]="110"
+              [format]="appInfo.getDateFormat" [allowSorting]="true" [allowFiltering]="false">
+            </dxi-column>
+
+            <dxi-column dataField="gender" caption="Birth Gender" [allowSorting]="false" [allowFiltering]="false"
+              [width]="100">
+            </dxi-column>
+
+            <dxi-column dataField="identifiesAs" caption="Identifies As" [allowSorting]="false" [allowFiltering]="false"
+              [width]="100">
+            </dxi-column>
+
+            <dxi-column dataField="postcode" caption="Postcode" [allowSorting]="false" [allowFiltering]="false"
+              [width]="100">
+            </dxi-column>
+          </dx-data-grid>
+        </div>
+      </div>
+
+      <div class="popup-form-footer-wrapper">
+        <app-button [disabled]="selectedPossibleDuplicate==null" text="View Selected Patient" class="ml-auto mr-3"
+          (clicked)="openExisting()"></app-button>
+
+        <app-button *ngIf="displayDuplicates==true" text="Close" (clicked)="closeDuplicate.emit()"></app-button>
+
+        <app-button *ngIf="displayDuplicates==false || displayDuplicates==undefined" text="Add New Patient"
+          (clicked)="confirmAdd.emit()"></app-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

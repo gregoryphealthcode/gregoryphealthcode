@@ -1,0 +1,256 @@
+<dx-popup appCentralPopUpSettings *ngIf="showConnection" [width]="'1200'" (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="'Add Connection'" (closed)="showConnection = false">
+    </app-pop-up-form-title>
+
+    <app-contacts-list #contactList name="contactList" [isInPopup]="true" [classificationTypeId]="contactClassification"
+      [parentContactId]="contactId" [connections]="connections" [showButtons]="false" class="contact-list"
+      (showConnection)="updateConnections()" (connectionsUpdated)="getConnections()">
+    </app-contacts-list>
+  </div>
+</dx-popup>
+
+<dx-popup appCentralPopUpSettings *ngIf="showEditContact" [width]="'400'" (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" title="Edit Person" (closed)="showEditContact=false">
+    </app-pop-up-form-title>
+
+    <app-edit-contact (saved)="updateContact($event)" class="central-popup-wrapper" (closed)="showEditContact = false"
+      [contactId]="contactId" [contactClassification]="contactClassification">
+    </app-edit-contact>
+  </div>
+</dx-popup>
+
+<div class="a-card d-flex flex-wrap flex-row py-3 px-4 align-items-center  disable-select" *ngIf="contactDetails">
+  <span class="d-flex title pr-3"
+    *ngIf="contactDetails.contactType.contactClassificationId == 1">{{contactDetails?.title}}
+    {{contactDetails.firstName}} {{contactDetails.lastName}}
+  </span>
+
+  <span class="d-flex title pr-3"
+    *ngIf="contactDetails.contactType.contactClassificationId != 1">{{contactDetails.displayName}}
+  </span>
+
+  <span class="badge badge-danger mr-1" *ngIf="contactDetails.inactive">Inactive</span>
+
+  <span class="badge badge-success mr-1" *ngIf="!contactDetails.inactive">Active</span>
+
+  <div class="d-flex ml-auto">
+    <button mat-button class="app-button secondary grid-header-btn mr-2" (click)="editContact()"
+      matTooltip="Edit contact details">
+      <span>Edit</span>
+    </button>
+
+    <button mat-button class="app-button primary grid-header-btn mr-2" (click)="close()"
+      matTooltip="Close contact details">
+      <span>Close</span>
+    </button>
+  </div>
+</div>
+
+<div class="d-flex flex-grow-1 disable-select w-100">
+  <div class=" d-flex flex-grow-1">
+    <div id="content" class="d-flex flex-grow-1">
+      <div id="main-content" class="d-flex flex-grow-1">
+        <mat-tab-group [selectedIndex]="0" (selectedIndexChange)="indexValue($event)" class="full-height">
+          <mat-tab class="header">
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Details</span>
+            </ng-template>
+
+            <div class="d-flex h-100 px-2 generic-border-right" *matTabContent>
+              <div class="top-row mt-3 flex flex-row w-100">
+                <div class="summary-card disable-select">
+                  <div class="summary-card disable-select" *ngIf="contactDetails">
+                    <div class="summary-card-title">
+                      <span>Main Details</span>
+                    </div>
+
+                    <div class="d-flex flex-row summary-card-body">
+                      <div class="d-flex flex-column flex-grow-1">
+                        <div class="d-flex flex-row" *ngIf="contactClassification === 1">
+                          <div class="d-flex flex-column ">
+                            <span class="label-info label-width mt-1  ">Full Name</span>
+
+                            <span class="label-info-value mb-1">{{contactDetails?.title}} {{contactDetails.firstName}}
+                              {{contactDetails.lastName}}</span>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row" *ngIf="contactClassification === 1 && isGP">
+                          <div class="d-flex flex-column ">
+                            <span class="label-info label-width mt-1  ">Known As</span>
+
+                            <span class="label-info-value mb-1">{{contactDetails.knownAs}}</span>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row" *ngIf="contactClassification === 2 || contactClassification === 3">
+                          <div class="d-flex flex-column ">
+                            <span class="label-info label-width mt-1  ">Organisation Name</span>
+
+                            <span class="label-info-value mb-1">{{contactDetails.displayName}}</span>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row ">
+                          <div class="d-flex flex-column">
+                            <span class="label-info label-width mt-1 ">Is Payor</span>
+
+                            <span class="label-info-value mb-1">{{contactDetails.isPayor ? 'Yes' : 'No'}}</span>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row " *ngIf="contactDetails.isPayor ? true : false">
+                          <div class="d-flex flex-column">
+                            <span class="label-info label-width mt-1 ">Send Invoices via patientzone</span>
+
+                            <span class="label-info-value mb-1">{{ contactDetails.sendViaPatientzone ? "Yes" :
+                              "No"}}</span>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row ">
+                          <div class="d-flex flex-column">
+                            <span class="label-info label-width mt-1 link"
+                              *ngIf="contactDetails?.primaryAddress">Address</span>
+
+                            <div *ngIf="contactDetails.primaryAddress?.address1" class="label-info-value">
+                              {{contactDetails.primaryAddress.address1}}</div>
+
+                            <div *ngIf="contactDetails.primaryAddress?.address2" class="label-info-value">
+                              {{contactDetails.primaryAddress.address2}}</div>
+
+                            <div *ngIf="contactDetails.primaryAddress?.address3" class="label-info-value">
+                              {{contactDetails.primaryAddress.address3}}</div>
+
+                            <div *ngIf="contactDetails.primaryAddress?.address3" class="label-info-value">
+                              {{contactDetails.primaryAddress.address4}}</div>
+
+                            <div *ngIf="contactDetails.primaryAddress?.postcode" class="label-info-value mb-1">
+                              {{contactDetails.primaryAddress.postcode}}</div>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row mt-1" *ngFor="let item of contactDetails.telecoms; let i = index">
+                          <div class="d-flex flex-column">
+                            <span class="label-info label-width mt-1 link">{{item.description}}</span>
+
+                            <span class="label-info-value mb-1">{{item.value}}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="d-flex flex-column flex-grow-1">
+                        <div class="d-flex flex-row">
+                          <div class="d-flex flex-column">
+                            <span class="label-info label-width mt-1 ">Contact Type</span>
+
+                            <span class="label-info-value mb-1">{{contactDetails.contactType.contactType}}</span>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row ">
+                          <div class="d-flex flex-column">
+                            <span class="label-info label-width mt-1 ">Job Title</span>
+
+                            <span class="label-info-value mb-1">{{contactDetails.jobTitle}}</span>
+                          </div>
+                        </div>
+
+                        <div class="d-flex flex-row ">
+                          <div class="d-flex flex-column">
+                            <span class="label-info label-width mt-1 ">Qualifications</span>
+
+                            <span class="label-info-value mb-1">{{contactDetails.qualifications}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="summary-card-footer"></div>
+                  </div>
+                </div>
+
+                <div class="summary-card disable-select w-100">
+                  <div class="summary-card disable-select w-100" *ngIf="contactDetails">
+                    <div class="summary-card-title">
+                      <span>Connections</span>
+                    </div>
+
+                    <div class="d-flex flex-row summary-card-body w-100">
+                      <dx-data-grid id="grdContactConnections" #grdContactConnections [dataSource]="connections"
+                        [showColumnLines]="true" [showRowLines]="true" [showBorders]="true"
+                        [rowAlternationEnabled]="true" gridWithRowLinesSettings class="relative w-100 h-300px"
+                        (onFocusedRowChanged)="connectionsRowChanged($event)" keyExpr="this" [focusedRowEnabled]="true"
+                        focusedRowIndex="0" [columnMinWidth]="175">
+
+                        <dxi-column dataField="displayName" caption="Name"></dxi-column>
+                        <dxi-column dataField="contactType.contactType" caption="Contact Type"></dxi-column>
+                        <dxi-column dataField="address" minWidth="300" cellTemplate="addressTemplate" caption="Address">
+                        </dxi-column>
+                        <dxi-column dataField="linked" cellTemplate="linkedTemplate" caption="Linked"></dxi-column>
+
+                        <div *dxTemplate="let cell of 'addressTemplate'">
+                          <span *ngIf="cell.row.data.address">
+                            {{cell.row.data.address.address.address1 != 'null' && cell.row.data.address.address.address1
+                            != null && cell.row.data.address.address.address1 != ''?
+                            cell.row.data.address.address.address1 + ',' : ''}} {{cell.row.data.address.address.address2
+                            != 'null' && cell.row.data.address.address.address2 != null &&
+                            cell.row.data.address.address.address2 != ''? cell.row.data.address.address.address2 + ',' :
+                            ''}} {{cell.row.data.address.address.address3 != 'null' &&
+                            cell.row.data.address.address.address3 != null && cell.row.data.address.address.address3 !=
+                            ''? cell.row.data.address.address.address3 + ',' : ''}}
+                            {{cell.row.data.address.address.address4 != 'null' && cell.row.data.address.address.address4
+                            != null && cell.row.data.address.address.address4 != ''?
+                            cell.row.data.address.address.address4 + ',' : ''}} {{cell.row.data.address.address.postcode
+                            != 'null' && cell.row.data.address.address.postcode != null &&
+                            cell.row.data.address.address.postcode != ''? cell.row.data.address.address.postcode : ''}}
+                          </span>
+                        </div>
+
+                        <div *dxTemplate="let cell of 'linkedTemplate'">
+                          <button class="app-button primary m-auto" (click)="unlinkConnection()"
+                            matTooltip="Unlink connection">
+                            <span>Unlink</span>
+                          </button>
+                        </div>
+                      </dx-data-grid>
+                    </div>
+
+                    <div class="summary-card-footer">
+                      <app-button text="Add Connection" type="link" icon="far fa-user-plus" (clicked)="addConnection()">
+                      </app-button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab class="header">
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Addresses</span>
+            </ng-template>
+
+            <div class="d-flex h-100 px-2 generic-border-right" *matTabContent>
+              <app-contact-address [contactId]="contactId" [siteId]="siteId" class="d-flex flex-grow-1">
+              </app-contact-address>
+            </div>
+          </mat-tab>
+
+          <mat-tab class="header">
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Contact Details</span>
+            </ng-template>
+
+            <div class="d-flex h-100 px-2 generic-border-right" *matTabContent>
+              <app-contact-telecom [contactId]="contactId" [siteId]="siteId" class="d-flex flex-grow-1">
+              </app-contact-telecom>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</div>

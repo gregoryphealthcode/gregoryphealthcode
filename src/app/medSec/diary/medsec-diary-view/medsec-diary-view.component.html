@@ -1,0 +1,8 @@
+<div class="d-flex flex-grow-1 h-20 bg-white px-1 pt-1">
+  <app-view-diary class="d-flex flex-grow-1 h-100" (appointmentSelected)="appointmentSelectedHandler($event)"
+    [reloadDataListener]="notifier"></app-view-diary>
+</div>
+
+<app-appointment-popup-add-edit *ngIf="showAppointmentPopup" (closed)="showAppointmentPopup = false"
+  (saved)="showAppointmentPopup = false; notifier.valueChanged()" [appointmentId]="appointmentId">
+</app-appointment-popup-add-edit>

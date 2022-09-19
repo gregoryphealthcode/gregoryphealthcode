@@ -1,0 +1,77 @@
+<!-- <app-add-edit-appointment-popup *ngIf="showAppointmentPopup" (closed)="showAppointmentPopup = false"
+  (saved)="showAppointmentPopup = false; update()" [appointmentDataItem]="appointmentDataItem">
+</app-add-edit-appointment-popup> -->
+
+<app-appointment-popup-add-edit *ngIf="showAppointmentPopup == true"
+  (saved)="showAppointmentPopup = false; getAppointments()" (closed)="closedHandler()" [appointmentId]="appointmentId"
+  [patientId]="patientId" [fromSession]="true">
+</app-appointment-popup-add-edit>
+
+
+<div class="d-flex flex-column flex-grow-1 app-card">
+  <div class="d-flex flex-row mx-4 mt-3">
+    <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+    <app-button icon="far fa-plus" matTooltip="Create a new appointment" class="ml-auto mt-auto" text="New"
+      (click)="newAppointment()"></app-button>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3">
+    <div class="app-card flex-grow-1 content-height border-none">
+      <div class="cssWidgetWrapper">
+        <dx-data-grid id="patientAppointmentsGrid" [dataSource]="appointmentsDataSource" focusedRowIndex="0"
+          class="cssGridGeneral padd-first-lg" [showRowLines]="true" focusedRowEnabled="true" keyExpr="this"
+          (onRowDblClick)="editAppointment($event)" gridWithRowLinesSettings>
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+          <dxo-search-panel [visible]="false"></dxo-search-panel>
+
+          <dxi-column dataField="ownerName" caption="To See" cellTemplate="detailsTemplate" [minWidth]="250">
+          </dxi-column>
+          <dxi-column dataField="status" caption="Status" cellTemplate="statusTemplate" alignment="center"
+            [minWidth]="120">
+          </dxi-column>
+          <dxi-column dataField="startDateTime" caption="Date" cellTemplate="dateTemplate" dataType="date" [format]="appInfo.getDateFormat"
+            [minWidth]="120" [width]="250" [sortIndex]="0" sortOrder="desc">
+          </dxi-column>
+          <dxi-column dataField="appointmentType" caption="Type" cellTemplate="typeTemplate" [minWidth]="120"
+            [width]="200" alignment="center">
+          </dxi-column>
+          <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="120">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+          </dxi-column>
+
+          <div *dxTemplate="let data of 'detailsTemplate'" class="d-flex flex-column">
+            <span class="text-semiBold">{{data.data.ownerName}}</span>
+            <span class="text-grey-70">{{data.data.locationName}}</span>
+          </div>
+
+          <div *dxTemplate="let data of 'dateTemplate'" class="d-flex flex-column">
+            <span>{{data.data.startDateTime | dateAgo}}</span>
+            <span class="text-grey-70">{{data.data.startDateTime | dateFormat: true}}</span>
+          </div>
+
+          <div *dxTemplate="let d of 'statusTemplate'" [ngSwitch]="d.value"
+            class="d-flex flex-row justify-content-center">
+            <div class="label-tag md type4" *ngSwitchCase="'Completed'">{{d.value}}</div>
+            <div class="label-tag md type3" *ngSwitchCase="'Booked'">{{d.value}}</div>
+            <div class="label-tag md type5" *ngSwitchDefault>{{d.value}}</div>
+          </div>
+
+          <div *dxTemplate="let d of 'typeTemplate'" class="d-flex flex-row justify-content-center">
+            <span class="label-tag md type5-1">{{d.value}}</span>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+            <app-button *ngIf="cellInfo.data.status != 'Completed' && cellInfo.data.status != 'Cancelled'" icon="far fa-ban" type="link" color="grey"
+              class="mr-2" matTooltip="Cancel" (clicked)="cancelClicked(cellInfo)"></app-button>
+
+            <app-button type="link" icon="far fa-external-link-square" color="grey" matTooltip="View/Edit"
+              (clicked)="editAppointment(cellInfo)"></app-button>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

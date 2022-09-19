@@ -1,0 +1,162 @@
+<div class="d-flex flex-column flex-grow-1 app-card">
+    <div class="d-flex flex-row mx-4 mt-3 mb-3">
+        <!-- <app-grid-search-text-box (changed)="searchTermValue = $event; onSearchInputChangedHandler()" class="mr-3">
+            </app-grid-search-text-box> -->
+
+        <div class="d-flex flex-row a-form-group mb-1 align-items-center">
+            <label class="mr-1">Show debt within </label>
+        </div>
+
+        <dx-select-box [dataSource]="statuses" valueExpr="value" displayExpr="text"
+            (onSelectionChanged)="statusChanged($event)" class="no-bg-dropdown dx-custom-button-hovered mr-3"
+            [(value)]="selectedStatus">
+        </dx-select-box>
+
+        <div class="d-flex flex-row a-form-group mb-1 align-items-center">
+            <label class="mr-1">Contact types </label>
+        </div>
+
+        <dx-select-box [dataSource]="contactTypes" valueExpr="id" displayExpr="value"
+            (onSelectionChanged)="contactChanged()" class="no-bg-dropdown dx-custom-button-hovered mr-1"
+            [(value)]="selectedContact">
+        </dx-select-box>
+
+        <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+            <label class="mr-1">From Date</label>
+        </div>
+
+        <dx-date-box [displayFormat]="dateFormat" [(value)]="fromDate" type="date" (onValueChanged)="dateChanged()">
+        </dx-date-box>
+
+        <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+            <label class="mr-1">To Date</label>
+        </div>
+
+        <dx-date-box [displayFormat]="dateFormat" [(value)]="toDate" type="date" (onValueChanged)="dateChanged()">
+        </dx-date-box>
+
+        <app-button text="Export" icon="far fa-file-download" class="mt-auto mb-auto ml-2 mr-1" type="link"
+            (clicked)="export()"></app-button>
+    </div>
+
+    <div class="cssWidgetWrapper disable-select hmin-275px">
+        <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" keyExpr="invoiceId" [hoverStateEnabled]="true"
+            class="cssGridGeneral padd-first-lg w-100" [rowAlternationEnabled]="true" [showRowLines]="true"
+            [focusedRowEnabled]="true" (onFocusedRowChanged)="onFocusedRowChanged($event)"
+            (onRowDblClick)="openInvoice($event)" [allowColumnReordering]="false" [allowColumnResizing]="true">
+            <dxo-scrolling mode="virtual"></dxo-scrolling>
+            <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+            <dxo-state-storing [enabled]="true" type="sessionStorage" storageKey="creditControlListStorage">
+            </dxo-state-storing>
+            <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+            <dxo-grouping [contextMenuEnabled]="true"></dxo-grouping>
+            <dxo-group-panel [visible]="true" [allowColumnDragging]="true"></dxo-group-panel>
+            <dxo-remote-operations [filtering]="true" [paging]="true" [sorting]="false" [summary]="false"
+                [grouping]="false" [groupPaging]="false">
+            </dxo-remote-operations>
+            <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+            <dxo-search-panel [visible]="true" [width]="240" placeholder="Search..."></dxo-search-panel>
+            <dxo-selection mode="single"></dxo-selection>
+
+            <dxi-column dataField="siteName" [allowSorting]="true"
+                [visible]="userStore.isMedSecUser() && !this.userStore.hasSelectedASite()" caption="Site"
+                [minWidth]="120">
+            </dxi-column>
+            <dxi-column dataField="payorName" [sortIndex]="0" sortOrder="asc" [groupIndex]="0" [minWidth]="250">
+            </dxi-column>
+            <dxi-column dataField="invoiceDate" caption="Invoice Date" dataType="date" [format]="appInfo.getDateFormat"
+                [minWidth]="120">
+            </dxi-column>
+            <dxi-column dataField="invoiceNo" caption="Invoice No." [minWidth]="120"></dxi-column>
+            <dxi-column dataField="patientName" caption="Patient Name" [minWidth]="200"></dxi-column>
+            <dxi-column dataField="total" caption="Total" cellTemplate="currency" [minWidth]="120">
+                <dxo-format type="fixedPoint" [precision]="2">
+                </dxo-format>
+            </dxi-column>
+            <dxi-column dataField="band1" caption="Band 1" cellTemplate="currency" [visible]="band1PlusVisibility"
+                [minWidth]="120">
+                <dxo-format type="fixedPoint" [precision]="2">
+                </dxo-format>
+            </dxi-column>
+            <dxi-column dataField="band2" caption="Band 2" cellTemplate="currency" [visible]="band2PlusVisibility"
+                [minWidth]="120">
+                <dxo-format type="fixedPoint" [precision]="2">
+                </dxo-format>
+            </dxi-column>
+            <dxi-column dataField="band3" caption="Band 3" cellTemplate="currency" [visible]="band3PlusVisibility"
+                [minWidth]="120">
+                <dxo-format type="fixedPoint" [precision]="2">
+                </dxo-format>
+            </dxi-column>
+            <dxi-column dataField="band4" caption="Band 4" cellTemplate="currency" [visible]="band4PlusVisibility"
+                [minWidth]="120">
+                <dxo-format type="fixedPoint" [precision]="2">
+                </dxo-format>
+            </dxi-column>
+
+            <div *dxTemplate="let d of 'currency'" valueFormat="fixedPoint {2}">
+                <div class="current-value" *ngIf="d.value > 0">{{appInfo.getCurrencySymbol}}{{d.value | number :
+                    '1.2-2' }}
+                </div>
+                <div class="current-value" *ngIf="d.value === 0">-</div>
+            </div>
+
+            <dxo-summary>
+                <dxi-group-item column="total" summaryType="sum" [showInGroupFooter]="false"
+                    [valueFormat]="{type:'fixedPoint',precision:2}" [alignByColumn]="true"
+                    displayFormat="{{appInfo.getCurrencySymbol}} {0}">
+                </dxi-group-item>
+
+                <dxi-group-item column="band1" summaryType="sum" [showInGroupFooter]="false"
+                    [valueFormat]="{type:'fixedPoint',precision:2}" [alignByColumn]="true"
+                    displayFormat="{{appInfo.getCurrencySymbol}} {0}">
+                </dxi-group-item>
+
+                <dxi-group-item column="band2" summaryType="sum" [showInGroupFooter]="false"
+                    [valueFormat]="{type:'fixedPoint',precision:2}" [alignByColumn]="true"
+                    displayFormat="{{appInfo.getCurrencySymbol}} {0}">
+                </dxi-group-item>
+
+                <dxi-group-item column="band3" summaryType="sum" [showInGroupFooter]="false"
+                    [valueFormat]="{type:'fixedPoint',precision:2}" [alignByColumn]="true"
+                    displayFormat="{{appInfo.getCurrencySymbol}} {0}">
+                </dxi-group-item>
+
+                <dxi-group-item column="band4" summaryType="sum" [showInGroupFooter]="false"
+                    [valueFormat]="{type:'fixedPoint',precision:2}" [alignByColumn]="true"
+                    displayFormat="{{appInfo.getCurrencySymbol}} {0}">
+                </dxi-group-item>
+
+                <dxi-total-item column="total" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+                    [valueFormat]="{type:'fixedPoint',precision:2}">
+                </dxi-total-item>
+
+                <dxi-total-item column="band1" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+                    [valueFormat]="{type:'fixedPoint',precision:2}">
+                </dxi-total-item>
+
+                <dxi-total-item column="band2" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+                    [valueFormat]="{type:'fixedPoint',precision:2}">
+                </dxi-total-item>
+
+                <dxi-total-item column="band3" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+                    [valueFormat]="{type:'fixedPoint',precision:2}">
+                </dxi-total-item>
+
+                <dxi-total-item column="band4" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+                    [valueFormat]="{type:'fixedPoint',precision:2}">
+                </dxi-total-item>
+            </dxo-summary>
+        </dx-data-grid>
+    </div>
+</div>
+
+<div class="d-none d-lg-flex flex-w-22">
+    <div class="app-card h-100 ml-4 flex-grow-1">
+        <app-no-data *ngIf="!showPanel" [showTitle]="false" text="Please select a patient from the list."
+            class="w-100 flex responsive-paddings px-4 mt-40per"></app-no-data>
+
+        <app-payment-tracking-view class="d-flex flex-grow-1" *ngIf="showPanel && selectedRowData"
+            [patientId]="selectedRowData.patientId" [invoiceId]="selectedRowData.invoiceId"></app-payment-tracking-view>
+    </div>
+</div>

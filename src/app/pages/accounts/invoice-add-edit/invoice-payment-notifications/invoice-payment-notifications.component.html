@@ -1,0 +1,79 @@
+<div *ngFor="let item of notifications;index as i">
+  <div class="d-flex flex-row align-items-center mb-1">
+    <span class="label-info light label-width">Payor</span>
+
+    <span class="label-info-value light">{{item.payorDisplayName}}</span>
+
+    <span class="label-tag md type5-1 ml-2 my-auto">{{item.payorType}}</span>
+
+    <div [ngSwitch]="item.status" class="ml-auto">
+      <div class="label-tag md-2 type3" *ngSwitchCase="'Pending'">{{item.status}}</div>
+
+      <div class="label-tag md-2 type2" *ngSwitchCase="'Overdue'">{{item.status}}</div>
+
+      <div class="label-tag md-2 type4" *ngSwitchCase="'Paid'">{{item.status}}</div>
+
+      <div class="label-tag md-2 type5" *ngSwitchCase="'Reallocated'">{{item.status}}</div>
+
+      <div class="label-tag md-2 type1" *ngSwitchDefault>{{item.status}}</div>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row mt-2">
+    <span class="label-info light label-width">Details</span>
+
+    <div class="d-flex flex-column mb-auto mt-1 w-8">
+      <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Created</span>
+
+      <span class="label-info-value leading-1\.25">{{item.created | dateFormat}}</span>
+    </div>
+
+    <div class="d-flex flex-column mb-auto mt-1 w-8">
+      <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Unpaid</span>
+
+      <span class="label-info-value leading-1\.25" [class.text-danger]="item.leftAmount > 0">{{item.leftAmount |
+        currency:currencySymbol:'symbol'}}</span>
+    </div>
+
+    <div class="d-flex flex-column mb-auto mt-1 w-8">
+      <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Band</span>
+
+      <span class="label-info-value leading-1\.25">{{item.band}}</span>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row mt-3 pb-1">
+    <span class="label-info light label-width"></span>
+
+    <div class="d-flex flex-column mb-auto mt-1 w-8">
+      <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Last Commn</span>
+
+      <span class="label-info-value leading-1\.25">{{item.lastReminderDate ? (item.lastReminderDate | dateFormat) :
+        (item.created | dateFormat)}}</span>
+    </div>
+
+    <div class="d-flex flex-column mb-auto mt-1 w-8">
+      <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Initial</span>
+
+      <span class="label-info-value leading-1\.25">{{item.initialAmount | currency:currencySymbol:'symbol'}}</span>
+    </div>
+
+    <div class="d-flex flex-column mb-auto mt-1 w-8">
+      <span class="label-info light my-0 text-xxxs text-uppercase mb-1">Reallocated</span>
+
+      <span class="label-info-value leading-1\.25">{{item.reallocatedAmount | currency:currencySymbol:'symbol'}}</span>
+    </div>
+
+    <div class="d-flex flex-row ml-auto mt-auto" *ngIf="item.leftAmount > 0 && store.issued && (item.status == 'Outstanding' || item.status == 'Overdue')">
+      <app-button text="Reallocate" type="secondary" color="grey" class="mr-3 ml-auto"
+        (clicked)="reallocatePaymentNotification(item)"  matTooltip="Reallocate payment from selected notification"></app-button>      
+    </div>
+  </div>
+  <hr class="my-3">
+</div>
+
+<app-payment-notification-reallocate-form [patientId]="patientId" (saved)="savedHandler($event)"
+  [paymentNotification]="paymentNotificationToReallocate"></app-payment-notification-reallocate-form>
+
+<app-record-payment-form (saved)="refreshData()" [paymentNotification]="paymentNotificationToRecordAgainst">
+</app-record-payment-form>

@@ -1,0 +1,17 @@
+<div class="identity-card" *ngIf="show">
+  <div class="logo"></div>
+
+  <div class="login-header">
+    <span class="text-lg text-grey-30">Please select a site</span>
+  </div>
+
+  <div class="d-flex flex-row align-items-center dropdown-wrapper">
+    <dx-select-box [items]="sites" height="42" width="224" class="mx-auto no-bg-dropdown dx-custom-button-hovered"
+      [(value)]="selectedSite" (onSelectionChanged)="onSiteSelectionChanged()" displayExpr="displayName"
+      [stylingMode]="'outlined'" autocomplete="new-password">
+      <dx-validator>
+        <dxi-validation-rule type="required" message="Site must be selected from list."></dxi-validation-rule>
+      </dx-validator>
+    </dx-select-box>
+  </div>
+</div>

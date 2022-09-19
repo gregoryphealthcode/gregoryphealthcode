@@ -1,0 +1,84 @@
+@import "../../../../../assets/scss/variables.scss";
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0.15em 0 !important;
+}
+
+
+.dx-overlay-content .dx-popup-content {
+  background-color: whitesmoke !important;
+    border-width: 0px;
+}
+
+
+.dx-popup-wrapper > .dx-overlay-content {
+  background: whitesmoke !important;
+ }
+
+
+.field-width
+{
+  width : 14rem;
+}
+
+.field-width-1
+{
+  width : 9rem;
+}
+
+.short-label-width
+{
+  width : 10rem;
+}
+.small-field-width
+{
+  width : 9rem;
+}
+.link:hover
+{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+
+
+::ng-deep .section-icon .mat-icon{
+  font-size: 16px;
+}
+ .ErrorIcon
+ {
+  font-size: 21px;
+  --fa-primary-color: white;
+  --fa-secondary-color: #ff0000;
+ }
+ .headerBorder
+ {
+   border-bottom: grey 1px;
+   border-top-style: none;
+ }
+
+ .iframe-height
+ {
+   height: 500px;
+ }
+
+ .float-left {
+   float: left;
+ }
+
+ .w-6r {
+  width: 6rem;
+ }
+
+ .w-15r {
+   width: 15rem;
+ }
+
+ .w-100 {
+   width: 100%;
+ }
+
+ .borderless {
+   border: none;
+ }

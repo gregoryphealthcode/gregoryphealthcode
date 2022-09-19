@@ -1,0 +1,27 @@
+<header class="d-flex flex-row align-items-center flex-auto h-100">
+  <!-- !!!! MAIN PAGE HEADER TOOLBAR !!!! -->
+  <div class="d-flex left-section">
+    <button mat-icon-button class="alternative-hover icon hamburger-icon" (click)="toggleMenu()">
+      <mat-icon fontSet="fad" matTooltip="Toggle menu" fontIcon="fa-bars"></mat-icon>
+    </button>
+
+    <div class="image-wrapper d-none d-sm-flex ml-auto">
+      <img #imagelogo class="image" id="imagelogo" src='assets/img/ePractice_Logo_RBG_v6.png'>
+    </div>
+  </div>
+
+  <!-- Menu, lock screen and quick menu buttons -->
+  <div class="d-flex right-section">
+    <!-- <ng-content select="app-header-right-section"></ng-content> -->
+
+    <div class="d-flex  ml-auto usermenu-lockbtn-wrapper">
+      <ng-content select="[app-header-right-section]"></ng-content>
+
+      <app-header></app-header>
+    </div>
+
+
+
+  </div>
+
+</header>

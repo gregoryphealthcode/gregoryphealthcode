@@ -1,0 +1,43 @@
+<div class="d-flex flex-column flex-grow-1 mr-2" *appLoadingSpinner="!payor">
+  <div class="d-flex flex-row">
+    <span class="label-info light label-width">Payor</span>
+
+    <span class="label-info-value light">{{payor.displayName}}</span>
+
+    <span class="label-info-value light mx-1">{{payor.deliveryType}}</span>
+  </div>
+
+  <ng-container *ngIf="payor.isInsurer; else elseBlock">
+    <div class="d-flex flex-row">
+      <span class="label-info light label-width">Membership number</span>
+
+      <span class="label-info-value light">{{payor.insRegistrationNumber}}</span>
+    </div>
+
+    <div class="d-flex flex-row">
+      <span class="label-info light label-width">{{needsRenewalLabel(payor.insRenewalDate)}}</span>
+
+      <span class="label-info-value light" [class.warning-text]="needsRenewal(payor?.insRenewalDate)">{{payor.insRenewalDate | date: appInfo.getDateFormat}}</span>
+    </div>
+  </ng-container>
+
+  <ng-template #elseBlock>
+    <div class="d-flex flex-row mb-2">
+      <span class="label-info light label-width">Address</span>
+
+      <span class="label-info-value">
+        <ng-container *ngIf="payor.address">
+          <div *ngIf="payor.address?.address1" class="label-info-value mb-1">{{payor.address?.address1}}</div>
+
+          <div *ngIf="payor.address?.address2" class="label-info-value mb-1">{{payor.address?.address2}}</div>
+
+          <div *ngIf="payor.address?.address3" class="label-info-value mb-1">{{payor.address?.address3}}</div>
+
+          <div *ngIf="payor.address?.address3" class="label-info-value mb-1">{{payor.address?.address4}}</div>
+          
+          <div *ngIf="payor.address?.postcode" class="label-info-value">{{payor.address?.postcode}}</div>
+        </ng-container>
+      </span>
+    </div>
+  </ng-template>
+</div>

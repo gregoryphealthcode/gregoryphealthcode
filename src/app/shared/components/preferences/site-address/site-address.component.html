@@ -1,0 +1,33 @@
+<div id="pageMainAddress" class="d-flex flex-grow-1 flex-column page-main" (wheel)="onMouseWheel($event)">
+    <div class="d-flex flex-grow-1 flex-row responsive-margins" [formGroup]="editForm">
+        <div class="d-flex flex-column flex-grow-1 col-6 h-100">
+            <div class="label-info-value-title sm mt-2 mb-2">Site Address</div>
+
+            <div class="d-flex flex-row a-form-group d-row w-100">
+                <label>Postcode *</label>
+
+                <app-postcode-to-address #postcoderesolver formControlName="postcode"
+                    (addressSelect)="postcodeResolverAddressSelectHandler($event)" class="d-flex flex-row">
+                </app-postcode-to-address>
+            </div>
+
+            <app-text-box formControlName="address1" [capitalizeEachWord]="true" caption="Address 1" direction="row">
+            </app-text-box>
+
+            <app-text-box formControlName="address2" [capitalizeEachWord]="true" caption="Address 2" direction="row">
+            </app-text-box>
+
+            <app-text-box formControlName="address3" [capitalizeEachWord]="true" caption="Address 3" direction="row">
+            </app-text-box>
+
+            <app-text-box formControlName="address4" [capitalizeEachWord]="true" caption="City" direction="row">
+            </app-text-box>
+        </div>
+    </div>
+</div>
+
+<div class="page-footer">
+    <div class="horizontal-line"></div>
+    <app-button class="mt-2 mb-2 page-footer-button" text="Save" (clicked)="submitForm()"
+        [disabled]="submitting || editForm?.pristine"></app-button>
+</div>

@@ -1,0 +1,14 @@
+<div class="site-panel d-flex">
+  <div class="site-info d-flex">
+    <div class="d-flex flex-row mr-2 font-12" *ngIf="currentSite">
+      <span class="text-semiBold">{{currentSite.siteName}}&nbsp;</span>
+      <span class="text-grey-65">[{{currentSite.siteRef}}]&nbsp;</span>
+      <span class="label-tag my-auto ml-1 line-12" [ngClass]="{
+                'type3-1': currentSite.ePracticeVariant === 'Lite',
+                'type5-1': currentSite.ePracticeVariant === 'Full',
+                'type1-1': currentSite.ePracticeVariant === 'Basic',
+                'type4-1': currentSite.ePracticeVariant === 'Clinic'
+              }">{{currentSite.ePracticeVariant}}</span>
+    </div>
+  </div>
+</div>

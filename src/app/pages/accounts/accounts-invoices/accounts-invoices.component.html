@@ -1,0 +1,67 @@
+<div class="d-flex d-flex-column">
+    <div class="d-flex flex-grow-1">
+        <div class="page-header responsive-margins">{{title}}</div>
+    </div>
+</div>
+
+<div class="d-flex flex-grow-1 responsive-margins">
+    <div class="app-card flex-grow-1">
+        <mat-tab-group class="full-height" [(selectedIndex)]="selectedIndex" (selectedTabChange)="tabChange($event)">
+            <mat-tab class="header" name="all">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">
+                        All Pending Invoices
+                        <span class="notes-badge mx-1">{{invoiceCount}}</span>
+                    </span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-account-invoices-grid [status]="'all'" class="d-flex flex-grow-1 h-100">
+                    </app-account-invoices-grid>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header" name="drafts">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">
+                        Drafts
+                        <span class="notes-badge mx-1">{{draftCount}}</span>
+                    </span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-account-invoices-grid [status]="'draft'" class="d-flex flex-grow-1 h-100">
+                    </app-account-invoices-grid>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header" name="review">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">
+                        Review
+                        <span class="notes-badge mx-1">{{reviewCount}}</span>
+                    </span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-account-invoices-grid [status]="'review'" class="d-flex flex-grow-1 h-100">
+                    </app-account-invoices-grid>
+                </div>
+            </mat-tab>
+
+            <mat-tab class="header" name="failed">
+                <ng-template mat-tab-label>
+                    <span class="tabHeader">
+                        Failed Validation
+                        <span class="notes-badge mx-1">{{failedCount}}</span>
+                    </span>
+                </ng-template>
+
+                <div class="d-flex h-100" *matTabContent>
+                    <app-account-invoices-grid [status]="'failed'" class="d-flex flex-grow-1 h-100">
+                    </app-account-invoices-grid>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

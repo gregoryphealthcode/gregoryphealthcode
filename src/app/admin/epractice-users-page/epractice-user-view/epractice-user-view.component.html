@@ -1,0 +1,64 @@
+<app-epractice-user-add-edit [data]="selectedRecord" (saved)="saved($event)"></app-epractice-user-add-edit>
+<app-site-link-popup [userId]="userId" (siteLinked)="siteLinked = true" #siteLinkPopup></app-site-link-popup>
+<app-group-link-popup [userId]="userId" (groupLinked)="groupLinked = true" #groupLinkPopup></app-group-link-popup>
+
+<app-page-wrapper [title]="user?.userName" [hasTabs]="true" backPagePath="/admin/ePracticeUsers">
+    <div role="extra" class="d-flex flex-row">
+       
+    </div>
+
+    <app-page-header-buttons>
+        <app-button text="Delete" icon="far fa-trash" class="ml-auto my-auto mr-4" type="link" color="warning">
+        </app-button>
+
+        <app-button text="Edit" class="ml-3" (clicked)="editClicked()"></app-button>
+    </app-page-header-buttons>
+
+    <app-page-header-content>
+        <app-epractice-user-view-header class="d-flex flex-grow-1 mb-2 mt-1" [user]="user" (editClicked)="editClicked()">
+        </app-epractice-user-view-header>
+    </app-page-header-content>
+
+    <app-page-body>
+        <div class="d-flex flex-row flex-grow-1">
+            <mat-tab-group class="full-height left-aligned modal-tabs">
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <span class="tabHeader">Sites</span>
+                    </ng-template>
+
+                    <ng-template matTabContent>
+                        <app-card class="page-wrapper-tab-card p-body-0 organisations-grid-card mr-4" [title]="'Sites'">
+                            <app-sites-grid #sitesGrid class="d-flex flex-row flex-grow-1" [userId]="userId" [updateGrid]="siteLinked"
+                            [showUnlink]="true" (unlinkClicked)="unlinkSiteClicked($event)">
+                            </app-sites-grid>
+
+                            <app-card-footer>
+                                <app-button text="Link Site" class="mr-4" icon="far fa-link" type="link" (clicked)="siteLinkPopup.show()">                  
+                                </app-button>
+                            </app-card-footer>
+                        </app-card>
+                    </ng-template>
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                      <span class="tabHeader">Groups</span>
+                    </ng-template>
+          
+                    <ng-template matTabContent>
+                      <app-card class="page-wrapper-tab-card p-body-0 organisations-grid-card mr-4" [title]="'Groups'">
+                        <app-group-grid #groupsGrid class="d-flex flex-row flex-grow-1" [userId]="userId" [updateGrid]="groupLinked"
+                        [showUnlink]="true" (unlinkClicked)="unlinkGroupClicked($event)"></app-group-grid>
+          
+                        <app-card-footer>
+                          <app-button text="Link Group" class="mr-4" icon="far fa-link" type="link" (clicked)="groupLinkPopup.show()">                  
+                          </app-button>
+                        </app-card-footer>
+                      </app-card>
+                    </ng-template>
+                  </mat-tab>
+            </mat-tab-group>
+        </div>
+    </app-page-body>
+</app-page-wrapper>

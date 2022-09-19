@@ -1,0 +1,28 @@
+<dx-popup appCentralPopUpSettings *ngIf="show" [width]="'400'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" title="Reallocate Debt For Invoice - {{invoiceNo}}" (closed)="show=false">
+    </app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body" [formGroup]="editForm" appEnterKeyFocusWrapper delay="750">
+        <app-text-box formControlName="amount" direction="row" class="w-14" [max]="maxAmount" caption="Amount"
+          inputType="number" [isCurrency]="true">
+        </app-text-box>
+
+        <div class="d-flex flex-row a-form-group d-row">
+          <label>Payor *</label>
+
+          <app-patient-payor-select-dropdown formControlName="payorId" [patientId]="patientId" [payorId]="payorId"
+            [showInsurers]="true" (payorSelected)="payorSelectedHandler($event)">
+          </app-patient-payor-select-dropdown>
+        </div>
+      </div>
+
+      <div class="popup-form-footer-wrapper">
+        <app-button text="Close" class="ml-auto mr-3" (clicked)="show=false" color="grey"></app-button>
+        <app-button text="Save" size="sm" (clicked)="submitForm()" [disabled]="!editForm.valid"></app-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>

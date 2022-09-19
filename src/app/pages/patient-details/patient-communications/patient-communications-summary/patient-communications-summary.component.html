@@ -1,0 +1,110 @@
+<div class="d-flex flex-column flex-grow-1 w-100 h-100 app-card">
+  <div class="d-flex flex-row mx-4 mt-3">
+    <app-grid-search-text-box (changed)="searchBoxValue = $event; search()"></app-grid-search-text-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">From Date</label>
+    </div>
+
+    <dx-date-box [displayFormat]="dateFormat" [(value)]="fromDate" type="date" (onValueChanged)="search()">
+    </dx-date-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">To Date</label>
+    </div>
+
+    <dx-date-box [displayFormat]="dateFormat" [(value)]="toDate" type="date" (onValueChanged)="search()">
+    </dx-date-box>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3 w-100 h-100">
+    <div class="cssWidgetWrapper generic-border w-70 h-100 mr-2">
+      <dx-data-grid [dataSource]="filteredDocumentSummary" gridWithRowLinesSettings keyExpr="id"
+        [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg" focusedRowEnabled="true"
+        (onFocusedRowChanged)="onFocusedRowChanged($event)" [rowAlternationEnabled]="true"
+        [(focusedRowIndex)]="focusedRowIndex">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+        <dxi-column caption="Details" cellTemplate="descriptionTemplate" minWidth="350"></dxi-column>
+        <dxi-column dataField="created" caption="Document Date" dataType="date" [format]="dateFormat" sortOrder="desc"
+          [visible]="false"></dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false" [width]="100">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let data of 'descriptionTemplate'" class="d-flex flex-column">
+          <div class="d-flex flex-row align-items-center">
+            <span class="text-semiBold mr-2">{{data.data.details}}</span>
+
+            <span class="label-tag type5-1 my-auto">{{data.data.type}}</span>
+          </div>
+
+          <div class="d-flex flex-row mt-2" *ngIf="data.data.invoiceNumber">
+            <span class="label-width mr-2">Invoice Number: </span>{{data.data.invoiceNumber}}
+          </div>
+          <div class="d-flex flex-row mt-2">
+            <span class="label-width mr-2">Created: </span> {{data.data.created | date : dateFormat}}
+          </div>
+
+          <div *ngIf="data.data.text" class="d-flex flex-row">
+            <span class="label-width mr-2">Comments: </span>
+            <div class="comments">{{data.data.text}}</div>
+          </div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+          <app-button *ngIf="cellInfo.data.type == 'Letter(Draft)' && !cellInfo.data.locked" icon="far fa-trash"
+            type="link" color="grey" matTooltip="Delete" (clicked)="deleteLetterClicked(cellInfo)">
+          </app-button>
+
+          <app-button *ngIf="cellInfo.data.type == 'Document' || cellInfo.data.type == 'Dictation'" icon="far fa-trash"
+            type="link" color="grey" matTooltip="Delete" (clicked)="deleteDocumentClicked(cellInfo)">
+          </app-button>
+
+          <app-button *ngIf="cellInfo.data.type == 'Letter(Draft)'" type="link" color="grey"
+            icon="far fa-comment-alt-edit" matTooltip="Edit comments" (clicked)="editLetterCommentsClicked(cellInfo)">
+          </app-button>
+
+          <app-button *ngIf="cellInfo.data.type == 'Letter(Draft)'" type="link" color="grey" iconPosition="left"
+            icon="far fa-edit" matTooltip="Edit letter" (clicked)="editLetter(cellInfo.data.id)">
+          </app-button>
+
+          <app-button *ngIf="cellInfo.data.type == 'Letter(Sent)'" type="link" color="grey" iconPosition="left"
+            icon="far fa-eye" matTooltip="Open letter" (clicked)="openLetter(cellInfo.data)">
+          </app-button>
+
+          <app-button *ngIf="cellInfo.data.type == 'Letter(Sent)' && cellInfo.data.superseded == false" type="link" color="grey" iconPosition="left"
+            icon="far fa-copy" matTooltip="Edit copy" (clicked)="editCopyLetter(cellInfo.data)">
+          </app-button>
+
+          <app-button *ngIf="cellInfo.data.type == 'Document' || cellInfo.data.type == 'Dictation'" icon="far fa-edit"
+            type="link" color="grey" matTooltip="Edit" (clicked)="editDocumentClicked(cellInfo)"></app-button>
+        </div>
+      </dx-data-grid>
+    </div>
+
+    <div class="preview-wrapper h-100 flex-grow-1">
+      <div class="w-100 h-100 generic-border-left">
+
+        <iframe #previewiframe height="100%" class="iframe-shift" *ngIf="templatePreviewUrl != '' && showPreview"
+          width="100%" [src]="templatePreviewUrl | safe" frameborder='0'></iframe>
+
+        <span *ngIf="(!templatePreviewUrl || !showPreview) && (!smsPreview && !image)" class="preview-label">Preview Not
+          Available</span>
+
+        <ng-container *ngIf="smsPreview">
+          <div class="sms-preview ml-auto mr-auto mt-4">
+            {{smsPreview}}
+          </div>
+          <div class="sms-sent ml-auto mr-auto">
+            {{smsSent}}
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="image">
+          <img class="image-preview ml-auto mr-auto mt-1" [src]='image' />
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

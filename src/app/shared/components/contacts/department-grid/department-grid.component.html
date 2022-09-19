@@ -1,0 +1,73 @@
+<div class="d-flex flex-row flex-wrap w-100 mb-2 pt-2">
+    <app-grid-search-text-box (changed)="searchValue = $event; onSearchInputChangedHandler()" class="mr-3">
+    </app-grid-search-text-box>
+
+    <dx-select-box [dataSource]="searchOptions" valueExpr="value" displayExpr="viewValue"
+        (onSelectionChanged)="setSearchItem($event)" class="no-bg-dropdown dx-custom-button-hovered"
+        [(value)]="searchField">
+    </dx-select-box>
+
+    <div class="d-flex flex-row flex-wrap align-items-center ml-auto mr-4">
+        <mat-checkbox class="ml-4 CheckPadded" [checked]="showInactive" (change)="checkboxChanged($event)" matInput>
+            Include inactive
+        </mat-checkbox>
+    </div>
+</div>
+
+<div class="cssWidgetWrapper" class.generic-border="true">
+    <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" [remoteOperations]="true" class="cssGridGeneral"
+        focusedRowEnabled="true" [cacheEnabled]="false" (onFocusedRowChanged)="onFocusedRowChanged($event)"
+        focusedRowIndex="0" (onRowClick)="onRowClick($event)" [rowAlternationEnabled]="true"
+        (onRowDblClick)="onRowDoubleClick($event)"
+        [columnMinWidth]="175">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-search-panel [visible]="false"></dxo-search-panel>
+
+        <dxi-column *ngIf="contactClassification == 1" dataField="organisationName" caption="Organisation"
+            [allowSorting]="true" sortOrder="asc" [minWidth]="150"></dxi-column>
+        <dxi-column dataField="displayName" caption="Department" [allowSorting]="true" sortOrder="asc" [minWidth]="150">
+        </dxi-column>
+        <dxi-column cellTemplate="addressTemplate" caption="Address" [allowSorting]="true"></dxi-column>
+        <dxi-column dataField="contactNumber" cellTemplate="phoneTemplate" caption="Tel No."></dxi-column>
+        <dxi-column dataField="contactEmail" cellTemplate="emailTemplate" caption="Email"></dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+            <app-button type="link" text="Link Department" size="sm" iconPosition="left" icon="far fa-plus"
+                matTooltip="Link Department" (clicked)="addedDepartmentFromContact(cellInfo.row.data)">
+            </app-button>
+        </div>
+
+        <div *dxTemplate="let  data of 'addressTemplate'" [class.text-grey-65]="data.data.inactive">
+            <div *ngIf="data.data.address1; else noAddress" class="d-flex flex-column">
+                <span>{{data.data.address1}},</span>
+
+                <span *ngIf="data.data.address2">{{data.data.address2}},</span>
+
+                <span *ngIf="data.data.address3">{{data.data.address3}},</span>
+
+                <span *ngIf="data.data.address4">{{data.data.address4}},</span>
+
+                <span *ngIf="data.data.postcode">{{data.data.postcode}}</span>
+            </div>
+
+            <ng-template #noAddress>
+                <div class="d-flex flex-row">
+                    <span class="text-grey-70 py-2">No address</span>
+                    <!-- dummy to match row height -->
+                    <div class="d-flex flex-column"><span>&nbsp;</span><span>&nbsp;</span></div>
+                </div>
+            </ng-template>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'phoneTemplate'">
+            <a class="label-info-value mb-1" [href]="'tel:' + cellInfo.value">{{cellInfo.value}}</a>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'emailTemplate'">
+            <a class="label-info-value mb-1" [href]="'mailto:' + cellInfo.value">{{cellInfo.value}}</a>
+        </div>
+    </dx-data-grid>
+</div>

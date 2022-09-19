@@ -1,0 +1,9 @@
+<div class="d-flex flex-column">
+  <span class="reports-title mt-5 mb-4 label-info-value-title lg">Reports Centre</span>
+
+  <div class="d-flex flex-row flex-wrap mx-auto justify-content-center">
+    <app-report-card *ngFor="let item of items" [title]="item.title" [description]="item.description" [icon]="item.icon"
+      [path]="'../' + item.key">
+    </app-report-card>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="help-text-wrapper-error" *ngIf="errors.length > 0">
+  <table class="table table-sm table-hover">
+    <tr>
+      <td class="headerBorder"></td>
+      <td class="headerBorder">Code</td>
+      <td class="headerBorder">Message</td>
+    </tr>
+    <tbody>
+    <tr *ngFor="let item of errors">
+      <td><mat-icon fontSet="fad" fontIcon="fa-exclamation-circle"  class="ErrorIcon"> </mat-icon> </td>
+      <td> {{item.errorCode}} </td>
+      <td>  {{item.errorMessage}}</td>
+
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+<ng-content></ng-content>

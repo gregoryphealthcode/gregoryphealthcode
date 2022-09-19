@@ -1,0 +1,16 @@
+.content-height
+{
+  height: 300px;   // dummy height
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.orange-check {
+  color:orange;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+}
+
+.green-check {
+  color:green;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+}

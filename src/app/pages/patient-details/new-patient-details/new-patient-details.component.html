@@ -1,0 +1,336 @@
+<dx-popup appCentralPopUpSettings *ngIf="showEditPatient" [width]="'420'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" title="Edit Patient" (closed)="showEditPatient=false">
+    </app-pop-up-form-title>
+
+    <app-patient-details-edit [basicPatientDetails]="basicPatientDetails" class="central-popup-wrapper"
+      (closeDialog)="patientEditClosed($event);showEditPatient=false;"></app-patient-details-edit>
+  </div>
+</dx-popup>
+
+<dx-popup appCentralPopUpSettings *ngIf="notesPopup" [width]="700" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" title="Notes" [showClosed]="false">
+    </app-pop-up-form-title>
+
+    <app-patient-popup-warning-notes [popupNotesData]="popupNotesData" [patientId]="patientId"
+      (closedPopupWarnings)="notesPopup = false;" class="central-popup-wrapper">
+    </app-patient-popup-warning-notes>
+  </div>
+</dx-popup>
+
+<app-appointment-popup-add-edit *ngIf="showAppointmentPopup" (closed)="closedAppHandler()"
+  (saved)="showAppointmentPopup = false; update()" [patientId]="patientId">
+</app-appointment-popup-add-edit>
+
+<div class="a-card d-flex flex-wrap flex-row py-3 px-4 align-items-center disable-select safari-height"
+  *ngIf="basicPatientDetails">
+  <span class="d-flex title pr-3">{{basicPatientDetails?.lastName}}, {{basicPatientDetails?.firstName}}
+    {{basicPatientDetails?.title}}</span>
+
+  <span class="badge badge-danger ml-1" *ngIf="basicPatientDetails?.inactive">Inactive</span>
+
+  <span class="badge badge-success ml-1" *ngIf="!basicPatientDetails?.inactive">Active</span>
+
+  <span class="badge badge-danger ml-2" *ngIf="basicPatientDetails?.deceased">Deceased</span>
+
+  <span class="badge badge-danger ml-2" *ngIf="basicPatientDetails?.onStop">On Stop</span>
+
+  <span class="badge badge-danger ml-2" *ngIf="basicPatientDetails?.noChase">Don't Chase</span>
+
+  <div class="d-flex ml-auto">
+    <button mat-button class="app-button secondary grid-header-btn mr-2 safari-line-height" (click)="editDetails()"
+      matTooltip="Edit patient details">
+      <span>Edit</span>
+    </button>
+
+    <button mat-button class="app-button primary grid-header-btn mr-2 safari-line-height" (click)="close()"
+      matTooltip="Close patient details">
+      <span>Close</span>
+    </button>
+  </div>
+</div>
+
+<div class="d-flex flex-grow-1 disable-select max-w-100 overflow-y">
+  <div class=" d-flex flex-grow-1 safari-width-calc" [class]="tabIndex != 0 ? 'max-w-calc' : 'max-w-100'">
+    <div id="content" class="d-flex flex-grow-1 max-w-100">
+      <div id="main-content" class="d-flex flex-grow-1 max-w-100">
+        <mat-tab-group [selectedIndex]="tabIndex" (selectedIndexChange)="indexValue($event)"
+          class="full-height vertical-tabs max-w-100">
+          <mat-tab class="header">
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Overview</span>
+            </ng-template>
+
+            <ng-template matTabContent class="d-flex h-100 px-2 generic-border-right">
+              <app-patient-summary class="d-flex flex-grow-1" [(patientId)]="patientId"
+                [(basicPatientDetails)]="basicPatientDetails" [(primaryAddress)]="primaryAddress" [(nextApt)]="nextApt"
+                [(telecoms)]="telecoms" [(patientBalance)]="patientBalance" [(referenceNumbers)]="referenceNumbers"
+                [(insurer)]="insurer" (bookAptClicked)="newAppointment()" (tabIndex)="setTab($event)">
+              </app-patient-summary>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab class="header">
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Address</span>
+            </ng-template>
+
+            <ng-template matTabContent class="d-flex h-100 pt-1 px-2">
+              <app-patient-address [patientId]="patientId" class="d-flex flex-grow-1 h-100"></app-patient-address>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Telecoms</span>
+            </ng-template>
+
+            <ng-template matTabContent class="d-flex h-100 pt-1 px-2">
+              <app-patient-telecoms [patientId]="patientId" class="d-flex flex-grow-1 h-100">
+              </app-patient-telecoms>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Contacts</span>
+            </ng-template>
+
+            <ng-template class="d-flex h-100" matTabContent>
+              <app-patient-connections [patientId]="patientId" class="d-flex flex-grow-1 h-100">
+              </app-patient-connections>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Related Persons</span>
+            </ng-template>
+
+            <ng-template class="d-flex h-100" matTabContent>
+              <app-patient-related-persons [patientId]="patientId" class="d-flex flex-grow-1 h-100">
+              </app-patient-related-persons>
+            </ng-template>>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Insurers</span>
+
+              <ng-container *ngIf="insuranceExpired"><i class="fas fa-flag fa-red ml-2"></i></ng-container>
+
+              <ng-container *ngIf="insuranceNearExpiry"><i class="fas fa-flag fa-amber ml-2"></i></ng-container>
+            </ng-template>
+
+            <ng-template class="d-flex px-2 pt-2 h-100" matTabContent>
+              <app-patient-insurers [patientId]="patientId" class="w-100 h-100" [patientName]="patientName"
+                (insurerChanged)="insurerChangedHandler()"></app-patient-insurers>
+            </ng-template>>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Personal Information</span>
+            </ng-template>
+
+            <ng-template class="d-flex h-100" matTabContent>
+              <app-patient-personal-info [patientId]="patientId" class="w-100 h-100">
+              </app-patient-personal-info>
+            </ng-template>>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Reference Numbers</span>
+            </ng-template>
+
+            <ng-template class="d-flex h-100" matTabContent>
+              <app-patient-reference-numbers [patientId]="patientId" class="d-flex flex-grow-1 h-100"
+                (referenceChanged)="referenceChangedHandler()">
+              </app-patient-reference-numbers>
+            </ng-template>>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Invoices</span>
+            </ng-template>
+
+            <ng-template class="d-flex px-2 pt-2 h-100" matTabContent>
+              <app-patient-accounts [patientId]="patientId" class="d-flex flex-grow-1 h-100" [patientName]="patientName"
+                [tabIndex]="tabIndex">
+              </app-patient-accounts>
+            </ng-template>>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Communications</span>
+            </ng-template>
+
+            <ng-template class="d-flex px-2 pt-2 h-100" matTabContent>
+              <app-patient-communications [patientId]="patientId" class="d-flex flex-grow-1 h-100">
+              </app-patient-communications>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Notes</span>
+
+              <span class="notes-badge mx-2">{{notesCount}}</span>
+
+              <ng-container *ngIf="showIcon">
+                <ng-container *ngIf="showPopupIcon"> <i class="fas fa-flag fa-red"></i></ng-container>
+
+                <ng-container *ngIf="!showPopupIcon"> <i class="fas fa-flag fa-amber"></i></ng-container>
+              </ng-container>
+            </ng-template>
+
+            <ng-template class="d-flex px-2 pt-2 h-100" matTabContent>
+              <app-patient-notes [patientId]="patientId" class="d-flex flex-grow-1 h-100" [patientName]="patientName"
+                (NotesLoaded)="NotesLoaded($event)"></app-patient-notes>
+            </ng-template>>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Tasks</span>
+            </ng-template>
+
+            <ng-template class="d-flex px-2 pt-2 h-100" matTabContent>
+              <app-tasks-grid [patientId]="patientId" [fromPatient]="true" class="d-flex flex-grow-1 h-100">
+              </app-tasks-grid>
+            </ng-template>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Appointments</span>
+            </ng-template>
+
+            <ng-template class="d-flex pt-2 h-100" matTabContent>
+              <app-patient-appointments [patientId]="patientId" class="d-flex flex-grow-1 h-100">
+              </app-patient-appointments>
+            </ng-template>>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Waiting List</span>
+            </ng-template>
+
+            <ng-template class="d-flex pt-2 h-100" matTabContent>
+              <app-patient-waiting-list [patientId]="patientId" class="d-flex flex-grow-1 h-100">
+              </app-patient-waiting-list>
+            </ng-template>>
+          </mat-tab>
+
+          <!-- <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="tabHeader">Activity Log</span>
+            </ng-template>
+
+            <ng-template class="d-flex px-2 pt-2 h-100" matTabContent>
+              <app-patient-activity [patientId]="patientId" class="d-flex flex-grow-1 h-100"></app-patient-activity>
+            </ng-template>
+          </mat-tab> -->
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="tabIndex > 0">
+    <div class="d-none d-lg-flex ml-0 patient-side-bar">
+      <div class="summary-card d-flex flex-column">
+        <div class="d-flex flex-column appointment-card mt-2 mx-2 item-center">
+          <ng-container *ngIf="nextApt !== null">
+            <div class="label-info link  mx-2" (click)="setTab('Appointment')">Next Appointment</div>
+
+            <div class="label-info-value mt-1 mx-2" (click)="setTab('Appointment')">{{nextApt?.startDate | date:
+              "dd/MM/yyyy hh:mm"}}</div>
+            <div class="label-info-value mt-1 mx-2">{{nextApt?.ownerName}}</div>
+          </ng-container>
+
+          <ng-container *ngIf="nextApt === null">
+            <div class="label-info  link  mx-2 mb-1">No upcoming appointments</div>
+
+            <div class="label-info  mx-2">
+              <button mat-button class="app-button primary grid-header-btn-small" (click)="newAppointment()"
+                matTooltip="Create a new appointment">
+                <span>Add appointment</span>
+              </button>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="d-flex flex-column mt-2">
+          <span class="label-info label-width column-margin">Gender</span>
+
+          <span class="label-info-value column-margin mt-1 mb-1">{{basicPatientDetails?.gender}}</span>
+        </div>
+
+        <div class="d-flex flex-column mt-1">
+          <span class="label-info label-width column-margin">DOB (Age)</span>
+
+          <span class="label-info-value column-margin mt-1 mb-1">
+            {{basicPatientDetails?.birthDate | date:appInfo.getDateFormat}} ({{calcAge()}})
+          </span>
+        </div>
+
+        <div class="d-flex flex-column mt-1">
+          <span class="label-info label-width column-margin link" *ngIf="address1">Address</span>
+
+          <span class="label-info-value  column-margin">
+            <div *ngIf="this.address1" class="label-info-value " (click)="setTab('Address')">{{address1}}</div>
+
+            <div *ngIf="this.address2" class="label-info-value" (click)="setTab('Address')">{{address2}}</div>
+
+            <div *ngIf="this.address3" class="label-info-value" (click)="setTab('Address')">{{address3}}</div>
+
+            <div *ngIf="this.address3" class="label-info-value" (click)="setTab('Address')">{{address4}}</div>
+
+            <div *ngIf="this.postcode" class="label-info-value mb-1" (click)="setTab('Address')">{{postcode}}</div>
+          </span>
+        </div>
+
+        <ng-container *ngIf="insurer">
+          <div class="d-flex flex-column mt-1">
+            <span class="label-info label-width  column-margin link" (click)="setTab('Insurer')">Insurer</span>
+
+            <span class="label-info-value column-margin mt-1 mb-1">{{insurer.insurerName}}</span>
+          </div>
+
+          <div class="d-flex flex-column mt-1">
+            <span class="label-info label-width  column-margin link" (click)="setTab('Insurer')">Membership No.</span>
+
+            <span class="label-info-value column-margin mt-1  mb-1">{{insurer.registrationNumber}}</span>
+          </div>
+        </ng-container>
+
+        <div class="d-flex flex-column mt-1">
+          <span class="label-info label-width column-margin link" (click)="setTab('Balance')">Balance</span>
+
+          <span class="label-info-value column-margin mt-1  mb-1" (click)="setTab('Balance')">
+            {{appInfo.getCurrencySymbol}} {{patientBalance?.balanceDue === null ? "0.00" : patientBalance?.balanceDue}}
+
+            <i class="fas fa-flag orange" hint="orange flag = Balance due" *ngIf="(patientBalance?.balanceDue > 0)"></i>
+
+            <i class="fas fa-flag red" hint="red flag = On Stop" *ngIf="(patientBalance?.onStop)"
+              matTooltip="Patient On Stop"></i>
+          </span>
+        </div>
+
+        <div class="d-flex  flex-column mt-1" *ngFor="let item of referenceNumbers; let i = index">
+          <div class="label-info label-width  column-margin link mt-1" (click)="setTab('Reference')">{{item.refNoType}}
+          </div>
+
+          <div class="label-info-value column-margin mt-1  mb-1" (click)="setTab('Reference')">{{item.refNoValue}}</div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

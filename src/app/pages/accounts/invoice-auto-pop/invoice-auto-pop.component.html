@@ -1,0 +1,146 @@
+<div class="d-flex d-flex-column">
+  <div class="d-flex flex-grow-1">
+    <div class="page-header responsive-margins">Auto-Pop Invoices</div>
+  </div>
+</div>
+
+<div class="d-flex flex-grow-1 responsive-margins">
+  <div class="app-card flex-grow-1">
+    <div class="d-flex flex-row flex-wrap w-100 mb-3 pt-3 pl-4">
+      <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+      <dx-select-box [dataSource]="insurers" valueExpr="insurerId" displayExpr="insurerName"
+        (onSelectionChanged)="insurerChanged($event)" class="no-bg-dropdown dx-custom-button-hovered ml-3"
+        [value]="selectedInsurer">
+      </dx-select-box>
+
+      <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+        <label class="mr-1">From Date</label>
+      </div>
+
+      <dx-date-box [displayFormat]="dateFormat" [(value)]="fromDate" type="date" (onValueChanged)="dateChanged()">
+      </dx-date-box>
+
+      <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+        <label class="mr-1">To Date</label>
+      </div>
+
+      <dx-date-box [displayFormat]="dateFormat" [(value)]="toDate" type="date" (onValueChanged)="dateChanged()">
+      </dx-date-box>
+
+      <mat-checkbox class="ml-4 mt-2" [checked]="processed" (change)="checkboxChanged($event)">Include processed
+      </mat-checkbox>
+
+      <app-button *ngIf="isSearch" icon="far fa-search" text="Search" class="ml-auto mt-auto"
+        (clicked)="showSearchPopup = true;"></app-button>
+    </div>
+
+    <div class="cssWidgetWrapper disable-select hmin-275px">
+      <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" keyExpr="id" [hoverStateEnabled]="true"
+        class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true" [showRowLines]="true" focusedRowIndex="0"
+        (onFocusedRowChanged)="onFocusedRowChanged($event)" [focusedRowEnabled]="true"
+        (onRowDblClick)="process($event.data)">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-state-storing [enabled]="true" type="sessionStorage" storageKey="invoiceAutoPopListStorage">
+        </dxo-state-storing>
+
+        <dxi-column dataField="dateAdded" caption="Date Added" dataType="date" [format]="appInfo.getDateFormat"
+          [sortIndex]="0" sortOrder="desc" [minWidth]="120"></dxi-column>
+        <dxi-column dataField="insurerName" caption="Insurer" [minWidth]="150"></dxi-column>
+        <dxi-column dataField="patientFirstName" [visible]="false"></dxi-column>
+        <dxi-column dataField="patientLastName" [visible]="false"></dxi-column>
+        <dxi-column caption="Patient" [minWidth]="200" cellTemplate="patientNameTemplate"></dxi-column>
+        <dxi-column dataField="patientBirthDate" caption="DoB" [minWidth]="120" dataType="date"
+          [format]="appInfo.getDateFormat"></dxi-column>
+        <dxi-column caption="Patient Address" [minWidth]="250" cellTemplate="patientAddressTemplate"></dxi-column>
+        <dxi-column dataField="patientAddressLine1" [visible]="false"></dxi-column>
+        <dxi-column dataField="patientAddressLine2" [visible]="false"></dxi-column>
+        <dxi-column dataField="patientAddressLine3" [visible]="false"></dxi-column>
+        <dxi-column dataField="patientAddressLine4" [visible]="false"></dxi-column>
+        <dxi-column dataField="patientPostcode" [visible]="false"></dxi-column>
+        <dxi-column caption="Practitioner" [minWidth]="200" cellTemplate="practitionerNameTemplate"></dxi-column>
+        <dxi-column dataField="practitionerFirstName" [visible]="false"></dxi-column>
+        <dxi-column dataField="practitionerLastName" [visible]="false"></dxi-column>
+        <dxi-column caption="Practitioner Address" [minWidth]="250" cellTemplate="practitionerAddressTemplate">
+        </dxi-column>
+        <dxi-column dataField="practitionerAddressLine1" [visible]="false"></dxi-column>
+        <dxi-column dataField="practitionerAddressLine2" [visible]="false"></dxi-column>
+        <dxi-column dataField="practitionerAddressLine3" [visible]="false"></dxi-column>
+        <dxi-column dataField="practitionerAddressLine4" [visible]="false"></dxi-column>
+        <dxi-column dataField="practitionerPostcode" [visible]="false"></dxi-column>
+        <dxi-column caption="Processed" cellTemplate="processedTemplate" alignment="center" [minWidth]="100">
+        </dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="50">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <dxo-summary>
+          <dxi-total-item column="Date" summaryType="count" displayFormat="{0}">
+          </dxi-total-item>
+        </dxo-summary>
+
+        <div *dxTemplate="let cellInfo of 'processedTemplate'">
+          <mat-icon *ngIf="cellInfo.data.invoiceId" fontSet="fa" fontIcon="fa-check">
+          </mat-icon>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'patientNameTemplate'">
+          {{cellInfo.row.data.patientLastName}}, {{cellInfo.row.data.patientFirstName}}
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'practitionerNameTemplate'">
+          {{cellInfo.row.data.practitionerLastName}}, {{cellInfo.row.data.practitionerFirstName}}
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'patientAddressTemplate'">
+          {{cellInfo.row.data.patientAddressLine1 != 'null' && cellInfo.row.data.patientAddressLine1 != null
+          && cellInfo.row.data.patientAddressLine1 != ''? cellInfo.row.data.patientAddressLine1 + ',' : ''}}
+          {{cellInfo.row.data.patientAddressLine2 != 'null' && cellInfo.row.data.patientAddressLine2 != null
+          && cellInfo.row.data.patientAddressLine2 != ''? cellInfo.row.data.patientAddressLine2 + ',' : ''}}
+          {{cellInfo.row.data.patientAddressLine3 != 'null' && cellInfo.row.data.patientAddressLine3 != null
+          && cellInfo.row.data.patientAddressLine3 != ''? cellInfo.row.data.patientAddressLine3 + ',' : ''}}
+          {{cellInfo.row.data.patientAddressLine4 != 'null' && cellInfo.row.data.patientAddressLine4 != null
+          && cellInfo.row.data.patientAddressLine4 != ''? cellInfo.row.data.patientAddressLine4 + ',': ''}}
+          {{cellInfo.row.data.patientPostcode }}
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'practitionerAddressTemplate'">
+          {{cellInfo.row.data.practitionerAddressLine1 != 'null' && cellInfo.row.data.practitionerAddressLine1 != null
+          && cellInfo.row.data.practitionerAddressLine1 != ''? cellInfo.row.data.practitionerAddressLine1 + ',' : ''}}
+          {{cellInfo.row.data.practitionerAddressLine2 != 'null' && cellInfo.row.data.practitionerAddressLine2 != null
+          && cellInfo.row.data.practitionerAddressLine2 != ''? cellInfo.row.data.practitionerAddressLine2 + ',' : ''}}
+          {{cellInfo.row.data.practitionerAddressLine3 != 'null' && cellInfo.row.data.practitionerAddressLine3 != null
+          && cellInfo.row.data.practitionerAddressLine3 != ''? cellInfo.row.data.practitionerAddressLine3 + ',' : ''}}
+          {{cellInfo.row.data.practitionerAddressLine4 != 'null' && cellInfo.row.data.practitionerAddressLine4 != null
+          && cellInfo.row.data.practitionerAddressLine4 != ''? cellInfo.row.data.practitionerAddressLine4 + ',': ''}}
+          {{cellInfo.row.data.practitionerPostcode }}
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+          <app-button *ngIf="!cellInfo.row.data.invoiceId" type="link" color="grey" icon="far fa-pound-sign"
+            class="mr-2 pointer-events-all" (clicked)="process(cellInfo.row.data)" matTooltip="Process Invoice">
+          </app-button>
+
+          <app-button *ngIf="cellInfo.row.data.invoiceId" type="link" color="grey" icon="far fa-external-link-square"
+            class="mr-2 pointer-events-all" (clicked)="openInvoice(cellInfo.data)" matTooltip="View Invoice">
+          </app-button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>
+
+<app-patient-add-edit-popup (patientSelected)="newPatientAdded($event)" (closePopup)="showAddPatient=false;"
+  *ngIf="showAddPatient" [autoPopDetails]="autoPopDetails"></app-patient-add-edit-popup>
+
+<dx-popup appCentralPopUpSettings *ngIf="showSearchPopup" [width]="'800'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" title="Search Claims" (closed)="showSearchPopup = false">
+    </app-pop-up-form-title>
+
+    <app-invoice-auto-pop class="central-popup-wrapper" (formClosed)="showSearchPopup=false"
+      (recordAdded)="reloadData()">
+    </app-invoice-auto-pop>
+  </div>
+</dx-popup>

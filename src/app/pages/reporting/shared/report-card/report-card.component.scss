@@ -1,0 +1,55 @@
+@import "../../../../../assets/scss/variables.scss";
+
+$btn-color: lighten($primary,2%);
+
+:host a{
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: white;
+  background-clip: border-box;
+  border-radius: 0px;
+  //box-shadow: 0px 8px 9px -2px hsl(0, 0%, 92%), 0px 0px 1px 2px hsl(0, 0%, 97%);
+  border: 1px solid $base-border-color;
+  line-height: 1.35;
+  text-decoration: none;
+
+  width: 21rem;
+  height: 13rem;
+  margin: 1rem;
+  padding: 1rem 1.75rem;
+  align-items: center;
+
+  &:hover{
+    box-shadow: 0px 3px 16px rgba(0, 0, 0, 0.20);
+  }
+
+  .icon-wrapper{
+    background-color: #F2F8FD;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    i{
+      color: $btn-color;
+      padding-top: 1px;
+      font-size: 15px;
+    }
+  }
+
+  .report-link{
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.15rem 0;
+    color: darken($btn-color,5%);
+
+    &:hover{
+      cursor: pointer;
+      color: darken($btn-color,35%);
+    }
+  }
+}

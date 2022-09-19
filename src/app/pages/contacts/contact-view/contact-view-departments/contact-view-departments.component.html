@@ -1,0 +1,63 @@
+<div class="cssWidgetWrapper">
+    <dx-data-grid gridWithRowLinesSettings [dataSource]="records" class="cssGridGeneral" keyExpr="this"
+        [rowAlternationEnabled]="true" focusedRowIndex="0">
+
+        <dxi-column *ngIf="contactClassification == 1" dataField="organisationName" caption="Organisation"
+            [minWidth]="120" [width]="150"></dxi-column>
+        <dxi-column dataField="name" caption="Department" [minWidth]="120" [width]="150"></dxi-column>
+        <dxi-column cellTemplate="addressTemplate" caption="Address" [minWidth]="200" [width]="250"></dxi-column>
+        <dxi-column dataField="contactNumber" cellTemplate="phoneTemplate" caption="Tel No." [minWidth]="120"
+            [width]="150"></dxi-column>
+        <dxi-column dataField="contactEmail" cellTemplate="emailTemplate" caption="Email" [minWidth]="120"></dxi-column>
+        <dxi-column dataField="inactive" cellTemplate="inactiveTemplate" caption="Inactive" [minWidth]="100">
+        </dxi-column>
+        <dxi-column type="buttons" [minWidth]="120">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'addressTemplate'">
+            <div class="d-flex flex-column">
+                <div class="d-flex flex-row">
+                    <span>{{cellInfo.data.address1}}</span>
+
+                    <span *ngIf="cellInfo.data.address2">, {{cellInfo.data.address2}}</span>
+
+                    <span *ngIf="cellInfo.data.address3">, {{cellInfo.data.address3}}</span>
+
+                    <span *ngIf="cellInfo.data.postcode" class="text-semiBold">, {{cellInfo.data.postcode}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'phoneTemplate'">
+            <a class="label-info-value mb-1" [href]="'tel:' + cellInfo.value">{{cellInfo.value}}</a>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'emailTemplate'">
+            <a class="label-info-value mb-1" [href]="'mailto:' + cellInfo.value">{{cellInfo.value}}</a>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'inactiveTemplate'">
+            <mat-icon *ngIf="cellInfo.value == true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+        </div>
+
+        <div *dxTemplate="let data of 'myCommandTemplate'" class="d-flex flex-row">
+            <app-button *ngIf="contactClassification == 1" type="link" iconPosition="right" icon="far fa-unlink"
+                color="grey" matTooltip="Unlink Department" (clicked)="store.unlinkDepartment(data.data.departmentId)">
+            </app-button>
+
+            <app-button *ngIf="contactClassification == 2" type="link" iconPosition="right" icon="far fa-trash"
+                color="grey" matTooltip="Delete Department" (clicked)="store.deleteDepartment(data.data.departmentId)">
+            </app-button>
+
+            <app-button *ngIf="contactClassification == 2" type="link" iconPosition="right" icon="far fa-edit"
+                color="grey" matTooltip="Edit Department" (clicked)="editDepartment(data.row)">
+            </app-button>
+
+            <app-button *ngIf="contactClassification == 1" type="link" iconPosition="right"
+                icon="far fa-external-link-square" color="grey" matTooltip="View Department Organisation"
+                (clicked)="viewOrganisation(data.row)">
+            </app-button>
+        </div>
+    </dx-data-grid>
+</div>

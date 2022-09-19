@@ -1,0 +1,148 @@
+<app-pdf-preview-popup [title]="'Print'"></app-pdf-preview-popup>
+
+<div class="d-flex flex-column flex-grow-1 app-card">
+  <div class="d-flex flex-row mx-4 mt-3" style="align-items: center;">
+    <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+    <button mat-icon-button class="alternative icon" (click)="refreshData()" matTooltip="Refresh data">
+      <mat-icon fontSet="fa" fontIcon="fa-sync-alt"></mat-icon>
+    </button>
+
+    <mat-checkbox matInput class="mr-1" [checked]="unpaid" (change)="checkboxChanged($event)">
+      Only Unpaid</mat-checkbox>
+
+    <mat-checkbox matInput class="ml-2" [checked]="hideCancelledInvoices"
+      (change)="checkboxHideCancelledInvoicesChanged($event)">
+      Hide Cancelled</mat-checkbox>
+
+    <app-button icon="far fa-plus" text="New" class="ml-auto" (clicked)="quickeBill(patientId)"></app-button>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3">
+    <div class="app-card flex-grow-1 content-height border-none">
+      <div class="cssWidgetWrapper">
+        <dx-data-grid [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="this" [hoverStateEnabled]="true"
+          class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true"
+          (onFocusedRowChanged)="onFocusedRowChanged($event)" [dateSerializationFormat]="appInfo.getDateFormat"
+          (onRowPrepared)="onRowPrepared($event)" [focusedRowEnabled]="true" focusedRowIndex="0"
+          (onRowDblClick)="editInvoice($event)">
+          <dxo-header-filter [visible]="true" [allowSearch]="true"></dxo-header-filter>
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+          <dxo-master-detail [enabled]="true" template="invoicedetail"></dxo-master-detail>
+
+          <dxi-column dataField="invoiceDate" caption="Invoice Date" dataType="date" [format]="appInfo.getDateFormat"
+            sortOrder="desc" [sortIndex]="0" [minWidth]="150"></dxi-column>
+          <dxi-column dataField="invoiceNumber" caption="Invoice No." [minWidth]="120" sortOrder="desc" [sortIndex]="1"></dxi-column>
+          <dxi-column dataField="invoiceType" caption="Type" cellTemplate="typeTemplate" [minWidth]="50">
+          </dxi-column>
+          <dxi-column dataField="payor" caption="Payor" [minWidth]="150"></dxi-column>
+          <dxi-column dataField="status" caption="Status" cellTemplate="invoiceStatusTemplate" [minWidth]="120">
+          </dxi-column>
+          <dxi-column dataField="invoiceTotal" caption="Invoice Total" [minWidth]="120">
+            <dxo-format type="fixedPoint" [precision]="2" type="currency"  currency="{{this.appInfo.getCurrencyCode}}"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="amountDue" caption="Amount Due" [minWidth]="120">
+            <dxo-format type="fixedPoint" [precision]="2" type="currency"  currency="{{this.appInfo.getCurrencyCode}}"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="payorType" caption="Recipient/Payor" [allowGrouping]="true" [allowSorting]="true"
+            [minWidth]="150">
+          </dxi-column>
+          <dxi-column type="buttons" [showInColumnChooser]="false" [width]="100">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+          </dxi-column>
+
+          <div *dxTemplate="let cellInfo of 'invoiceStatusTemplate'" class="w-100">
+            <div [ngSwitch]="cellInfo.data.status">
+              <div class="label-tag md-2 type-success" *ngSwitchCase="'Draft'">
+                {{cellInfo.data.status}}
+              </div>
+
+              <div class="label-tag md-2 type-danger" *ngSwitchCase="'FailedValidation'">
+                {{cellInfo.data.status}}
+              </div>
+
+              <div class="label-tag md-2 type-primary" *ngSwitchCase="'Issued'">
+                {{cellInfo.data.status}}
+              </div>
+
+              <div class="label-tag md-2 type-warning" *ngSwitchCase="'Review'">
+                {{cellInfo.data.status}}
+              </div>
+
+              <div class="label-tag md-2 type-cancelled" *ngSwitchCase="'Cancelled'">
+                {{cellInfo.data.status}}
+              </div>
+
+              <div class="label-tag md-2 type4" *ngSwitchDefault>
+                {{cellInfo.data.status}}
+              </div>
+            </div>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'typeTemplate'">
+            <mat-icon class="ml-auto mr-auto" *ngIf="cellInfo.data.invoiceType == 'EDI'" fontSet="far" fontIcon="fa-tv"
+              matTooltip="EDI"></mat-icon>
+            <mat-icon class="ml-auto mr-auto" *ngIf="cellInfo.data.invoiceType == 'Patientzone'" fontSet="far"
+              fontIcon="fa-user-chart" matTooltip="Patientzone"></mat-icon>
+            <mat-icon class="ml-auto mr-auto" *ngIf="cellInfo.data.invoiceType == 'Paper'" fontSet="far"
+              fontIcon="fa-file-invoice" matTooltip="Paper"></mat-icon>
+          </div>
+
+          <dxo-summary>
+            <dxi-total-item column="invoiceDate" summaryType="count" displayFormat="{0}"></dxi-total-item>
+
+            <dxi-total-item column="invoiceTotal" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+              [valueFormat]="{type:'fixedPoint',precision:2}">
+              <dxo-format [precision]="2"></dxo-format>
+            </dxi-total-item>
+
+            <dxi-total-item column="amountDue" summaryType="sum" displayFormat="{{appInfo.getCurrencySymbol}} {0}"
+              [valueFormat]="{type:'fixedPoint',precision:2}">
+            </dxi-total-item>
+          </dxo-summary>
+
+          <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+            <app-button *ngIf="cellInfo.data.statusId === 3  || cellInfo.data.statusId === 4" type="link" color="grey"
+              icon="far fa-clone" class="mr-2 pointer-events-all" (clicked)="cloneInvoice(cellInfo)"
+              matTooltip="Copy invoice">
+            </app-button>
+
+            <app-button *ngIf="cellInfo.data.statusId !== 5" type="link" color="grey" icon="far fa-external-link-square"
+              (clicked)="editInvoice(cellInfo)" matTooltip="Open">
+            </app-button>
+
+            <ng-container *ngIf="cellInfo.data.statusId === 3 || cellInfo.data.statusId === 4">
+              <app-button type="link" *ngIf="cellInfo.data.correspondenceId" class="ml-2" color="grey"
+                icon="far fa-print" (clicked)="printInvoice(cellInfo.data)" matTooltip="Print">
+              </app-button>
+            </ng-container>
+          </div>
+
+          <div *dxTemplate="let inv of 'invoicedetail'">
+            <div class="card">
+              <div class="card-header">Invoice Items</div>
+              <div class="card-body">
+                <app-patient-accounts-invoice-items [invoiceId]="inv.data.invoiceId">
+                </app-patient-accounts-invoice-items>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">Transactions</div>
+              <div class="card-body">
+                <app-patient-accounts-transactions [invoiceId]="inv.data.invoiceId"></app-patient-accounts-transactions>
+              </div>
+            </div>
+            <br />
+          </div>
+
+          <div *dxTemplate="let data of 'btnsTemplateLeft'">
+            <div class="d-flex align-items-center">
+            </div>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

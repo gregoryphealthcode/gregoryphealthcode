@@ -1,0 +1,148 @@
+<div class="d-flex flex-column" [formGroup]="form">
+  <div class="summary-card bg-blue  disable-select">
+    <div class="summary-card-title">
+      <span>Invoices</span>
+    </div>
+
+    <div class="d-flex flex-row summary-card-body">
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <app-slide-toggle formControlName="sendInvoicesViaPatientZone" class="width-1/2" direction="row"
+              caption="Send via patientzone"></app-slide-toggle>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <app-select-box [dataSource]="invoiceTypes" class="width-3/4" direction="row"
+              formControlName="invoiceTemplate" valueExpr="templateId" displayExpr="description"
+              caption="Using Template" placeholder="Please select"></app-select-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-card bg-blue  disable-select">
+    <div class="summary-card-title">
+      <span>Shortfalls</span>
+    </div>
+
+    <div class="d-flex flex-row summary-card-body">
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <app-slide-toggle formControlName="sendShortfallViaPatientZone" class="mb-0" direction="row"
+              caption="Send via patientzone"></app-slide-toggle>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <app-select-box [dataSource]="shortfallTypes" class="width-3/4" direction="row" valueExpr="templateId"
+              formControlName="shortfallTemplate" displayExpr="description" caption="Using Template"
+              placeholder="Please select"></app-select-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-card bg-blue  disable-select">
+    <div class="summary-card-title">
+      <span>Reallocation of Debt</span>
+    </div>
+
+    <div class="d-flex flex-row summary-card-body">
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <app-slide-toggle formControlName="sendReallocationViaPatientZone" class="mb-0 md-height" direction="row"
+              caption="Send via patientzone"></app-slide-toggle>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <app-select-box [dataSource]="reallocationTypes" class="width-3/4" direction="row" valueExpr="templateId"
+              formControlName="reallocationTemplate" displayExpr="description" caption="Using Template"
+              placeholder="Please select"></app-select-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-card bg-blue disable-select">
+    <div class="summary-card-title">
+      <span>Payment Reminder</span>
+    </div>
+
+    <div class="d-flex flex-row summary-card-body">
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <app-slide-toggle formControlName="sendRemindersViaPatientZone" class="mb-0  md-height" direction="row"
+              caption="Send via patientzone"></app-slide-toggle>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <app-select-box [dataSource]="band2Types" class="width-3/4" direction="row" valueExpr="templateId"
+              formControlName="band2Template" displayExpr="description" caption="Band 2" placeholder="Please select">
+            </app-select-box>
+
+            <app-select-box [dataSource]="band3Types" class="width-3/4" direction="row" valueExpr="templateId"
+              formControlName="band3Template" displayExpr="description" caption="Band 3" placeholder="Please select">
+            </app-select-box>
+
+            <app-select-box [dataSource]="band4Types" class="width-3/4" direction="row" valueExpr="templateId"
+              formControlName="band4Template" displayExpr="description" caption="Band 4" placeholder="Please select">
+            </app-select-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-card bg-blue  disable-select">
+    <div class="summary-card-title">
+      <span>Credit Note</span>
+    </div>
+
+    <div class="d-flex flex-row summary-card-body">
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <app-slide-toggle formControlName="sendCreditNoteViaPatientZone" class="mb-0 md-height" direction="row"
+              caption="Send via patientzone"></app-slide-toggle>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column flex-grow-1">
+        <div class="d-flex flex-row ">
+          <div class="d-flex flex-column ">
+            <app-select-box [dataSource]="creditNoteTypes" class="width-3/4" direction="row" valueExpr="templateId"
+              formControlName="creditNoteTemplate" displayExpr="description" caption="Using Template"
+              placeholder="Please select"></app-select-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-form-footer-wrapper">
+  <app-button text="Save" (click)="save()"></app-button>
+</div>

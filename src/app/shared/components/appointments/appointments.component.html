@@ -1,0 +1,95 @@
+<div class="mb-3 mt-3 left-right-padding">
+  <div class="d-flex flex-column mt-2 justify-content-center align-items-center">
+    <dx-select-box class="selectBoxes w-16" [searchEnabled]='true' [dataSource]="owners" valueExpr="this"
+      placeholder="All Practitioners" (onSelectionChanged)="ownerChanged()" [(value)]="ownerSelected"
+      displayExpr="displayName" *ngIf="!sessionId">
+    </dx-select-box>
+  </div>
+</div>
+
+<!-- !!!!!!!!!!!!! MAIN SCHEDULER COMPONENT TO SHOW AVAILABLE SLOTS !!!!!!!!!!!!!!!!! -->
+<div class="scheduler-wrapper left-right-padding" *appLoadingSpinner="loadingVisible">
+  <dx-scheduler [dataSource]="sessionData" currentView="Agenda" [currentDate]="currentDate" [startDayHour]="5"
+    [firstDayOfWeek]="1" [endDayHour]="22" [showAllDayPanel]="false" [crossScrollingEnabled]="true"
+    dataCellTemplate="dataCellTemplate" noDataText="No slots found." appointmentTemplate="session-template"
+    appointmentTooltipTemplate="tooltip-template" (onOptionChanged)="onOptionChangedHandler($event)"
+    (onAppointmentRendered)="onAppointmentRenderedHandler($event)" (onContentReady)="onContentReadyHandler($event)"
+    class="mb-2">
+
+    <!-- PREVENT DRAGGING / RESIZING / DELETING -->
+    <dxo-editing [allowAdding]="false" [allowUpdating]="false" [allowDeleting]="false" [allowDragging]="false"
+      [allowResizing]="false"></dxo-editing>
+
+    <!-- AGENDA VIEW -->
+    <dxi-view type="agenda" name="Agenda" groupOrientation="horizontal" [agendaDuration]="7"
+      [cellDuration]="getCellDuration" [intervalCount]="1">
+    </dxi-view>
+
+    <!-- TEMPLATE FOR SESSION  -->
+    <div *dxTemplate="let model of 'session-template'" (click)="onAppointmentEditingHandler(model)"
+      class="pointer-events-all">
+      <div class='appointment-text-wrapper'>
+        <div class="d-flex flex-column text-xxs text-center pt-2px">
+          <span class="text-semiBold"><i class="fas fa-clock w-1 text-xxxs"></i>{{(model.appointmentData.startDate |
+            date:'EEEE, d MMMM, y')}}
+            {{(model.appointmentData.startDate | date:'HH:mm')}} - {{(model.appointmentData.endDate | date:'HH:mm')}}
+          </span>
+
+          <div class="d-block text-truncate pt-2px">
+            <span class="text-truncate"><i
+                class="fas fa-user-md w-1 text-xxxs"></i>{{model.appointmentData.ownerName}}</span>
+
+            <span class="mx-1">&nbsp;&#183;&nbsp;</span>
+
+            <span class="text-truncate"><i
+                class="fas fa-map-marker-alt w-1 text-xxxs"></i>{{model.appointmentData.locationName}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEMPLATE FOR NORMAL CELL  -->
+    <div *dxTemplate="let cellData of 'dataCellTemplate'" [ngClass]="markWeekEnd(cellData)">
+      {{cellData.text}}
+    </div>
+
+    <!-- TEMPLATE FOR TOOLTIP (WHEN USER CLICKS ON AN APPOINTMENT) -->
+    <div *dxTemplate="let model of 'tooltip-template'" class="background-white">
+      <div class='appointment-tooltip'>
+        <div class='appointment-info'>
+          <div class='appointment-times'>
+            <b>{{(model.appointmentData.startDate | date:'shortTime')}} -
+              {{(model.appointmentData.endDate | date:'shortTime')}}</b><br />
+
+            <b>{{model.appointmentData.locationName}}</b><br />
+
+            <b>{{model.appointmentData.description}}</b><br />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <span *ngIf="!isOnWaitingList">
+      <dxi-resource fieldExpr="addToWaitingList" [allowMultiple]="false" [dataSource]="soonerAppointment"
+        label="Sooner Appointment?">
+      </dxi-resource>
+    </span>
+  </dx-scheduler>
+
+  <div class="d-flex flex-column mt-2 mb-2 pb-3">
+    <div class="d-flex flex-column justify-content-center align-items-center" [formGroup]="editForm">
+      <app-button text="Add to waiting list" (clicked)="addToWaiting = true" type="secondary"></app-button>
+
+      <ng-container *ngIf="addToWaiting"> 
+        <app-text-area-box formControlName="notes" direction="row" caption="Notes" placeholder="Notes"
+          class="text-area-standard-height mt-4"></app-text-area-box>
+  
+        <app-slide-toggle formControlName="priority" class="mb-0 mt-1 md-height" direction="row" caption="Priority">
+        </app-slide-toggle>
+  
+        <app-button class="mt-4" text="Save" icon="far fa-plus" type="secondary"
+          (clicked)="addToWaitingList()"></app-button>
+      </ng-container>      
+    </div>
+  </div>
+</div>

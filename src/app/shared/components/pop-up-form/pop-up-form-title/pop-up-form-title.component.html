@@ -1,0 +1,8 @@
+<div [class.center]="centerAlign">
+  <span class="title" [ngClass]="{'lg': size === 'lg'}">{{title}}</span>
+  <span class="description">{{description}}</span>
+</div>
+
+<app-button *ngIf="showClosed" icon="fal fa-times" matTooltip="Close" class="h-auto w-auto"
+(clicked)="onClosed()" color="grey" type="link"></app-button>
+

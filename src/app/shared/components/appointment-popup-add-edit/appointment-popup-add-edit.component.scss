@@ -1,0 +1,164 @@
+.slot-option {
+  margin: 4px auto;
+  padding: 4px 8px;
+  border-radius: 5px;
+  background-color: #3f5484;
+  width: 150px;
+  color: white;
+  cursor: pointer;
+}
+
+.selected-slot {
+  border: 2px solid orange;
+}
+
+.slot-selection {
+  height: 60%;
+}
+
+.overflow-y {
+  height: 250px;
+  overflow-y: auto;
+}
+
+.fixed {
+  margin-top: 20px;
+  width: 100%;
+  position: sticky;
+  height: 25px;
+}
+
+.flex-grow-2 {
+  flex-grow: 2;
+}
+
+.mw-50 {
+  min-width: 50px;
+}
+
+.w-170 {
+  width: 170px;
+  min-width: 170px;
+  max-width: 170px;
+}
+
+.padding {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.h-60px {
+  height: 60px;
+}
+
+.w-80px { 
+  width: 80px !important;
+  max-width: 80px !important;
+}
+
+.h-50px {
+  height: 50px !important;
+  max-height: 50px !important;
+}
+
+.shift-up {
+  margin-top: -20px;
+}
+
+.shift-upper {
+  margin-top: -32px;
+}
+
+.w-30per {
+  width: 30%;
+}
+
+.w-40per {
+  width: 40%;
+}
+
+.w-80px {
+  width: 80px;
+}
+
+.float-right {
+  position: absolute;
+  right: 0;
+  margin: -3px 0 0 !important;
+  height: 20px !important;
+  width: 200px !important
+}
+
+.center {
+  text-align: center;
+  width: 100%;
+}
+
+.has-appointment {
+  background-color: crimson !important;
+  box-shadow: 10px rgba(0, 0, 0, 0.5) inset !important;
+}
+
+.a-table{
+  margin: 0.5rem 1.25rem;
+  width: 100%;
+
+  tr{
+    vertical-align: top;
+
+    th{
+      border-bottom: 2px solid hsl(0, 0%, 96%);
+      padding: 0.35rem 0.35rem;
+      font-weight: 500;
+      color: hsl(0, 0%, 65%);
+    }
+
+    td{
+      border-bottom: 2px solid hsl(0, 0%, 96%);
+      padding: 0.25rem 0.25rem 0.5rem;
+    }
+  }
+}
+
+.w-4-5r {
+  width: 4.5rem;
+}
+
+.label-text {
+  font-weight: bold;
+}
+
+.border-right {
+  border-right: 2px solid hsl(0, 0%, 96%);
+}
+
+.reposition {
+  position: absolute;
+  top: 2px;
+  right: 25px;
+}
+
+.content-height{
+  height: 200px;   // dummy height
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.date-picker {
+  width: 150px;
+  position: absolute;
+  left: 120px;
+  height: 25px !important;
+  font-size: 8pt !important;
+  margin-top: -5px !important;
+}
+
+.w-85per {
+  width: 85% !important;
+}
+
+.edit-payor-position {
+  position: absolute;
+  right: 15px;
+  margin-top: 53px;
+}

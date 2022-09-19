@@ -1,0 +1,108 @@
+@import "../../../../../assets/scss/variables.scss";
+
+.itemSelected {
+    border: 1px;
+    border-radius: 10px;
+    background-color:  aliceblue;
+  }
+
+  .insurers-row
+  {
+    cursor: pointer;
+    width:22em;
+    border:solid thin #efefef;
+     min-height:145px;
+     border-radius: 10px;
+  }
+
+  .carousel-row
+  {
+    height:150px;
+  }
+
+  .invoice-icon
+  {
+    font-size: 2.5em;
+    color: #00348d;
+    background-position: 0px 0px;
+    background-size: 14px 14px;
+    padding: 0px;
+    text-align: center;
+    line-height: 14px;
+  }
+
+
+  .buttons-right
+  {
+    align-self: flex-end;
+  }
+
+  .content-height{
+    height: 100px;   // dummy height
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+
+  .column-width
+  {
+    width: 20rem;
+  }
+
+  .icon-width
+  {
+    width: 6rem;
+  }
+
+  .very-small-column
+  {
+    width : 3rem;
+
+  }
+
+  .membership-column
+  {
+    width : 9rem;
+
+  }
+
+  .payor-panel
+  {
+    width: 65rem;
+    overflow-x: auto;
+  }
+
+
+/* Track */
+::-webkit-scrollbar-track {
+  // background: #DDE4E8;
+  // background-color: rgba(152, 163, 170, 0.4);
+  border-radius: 2px !important;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  // background: linear-gradient(180deg, #00338d, #00b1ff);
+  //background: hsl(0, 0%, 50%);
+  border-radius: 2px !important;
+ // width: 4px !important;
+}
+.align-icon-end
+{
+  align-items :flex-end;
+  margin-right : 2px;
+}
+
+
+.small-icon
+{
+ min-width: 2rem !important;
+
+}
+.small-icon:hover
+{
+  background-color:  transparent !important;
+}
+
+.captialize {
+  text-transform: capitalize;
+}

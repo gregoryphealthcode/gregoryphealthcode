@@ -1,0 +1,55 @@
+<div class="central-popup-body" [formGroup]="editForm" appEnterKeyFocusWrapper delay="750">
+  <div class="d-flex flex-row mb-2">
+    <i class="fal fa-info-circle fa-lg" style="margin-top: 6px;"></i>
+
+    <span class="d-flex ml-3">Updates made here will reflect globally and will be visible on other patients this contact
+      is linked to.</span>
+  </div>
+
+  <app-select-box [dataSource]="gluContactTypes" direction="row" valueExpr="this" displayExpr="contactType"
+    formControlName="contactType" caption="Type">
+  </app-select-box>
+
+  <ng-container *ngIf="contactClassification === 1">
+    <app-text-box formControlName="lastName" caption="Last Name" [capitalizeEachWord]="true" direction="row">
+    </app-text-box>
+
+    <app-text-box formControlName="firstName" caption="First Name" [capitalizeEachWord]="true" direction="row">
+    </app-text-box>
+
+    <app-select-box [dataSource]="titles" valueExpr="title" formControlName="title" displayExpr="title" direction="row"
+      caption="Title"></app-select-box>
+
+    <app-text-box formControlName="jobTitle" caption="Job Title" direction="row"></app-text-box>
+    <app-text-box formControlName="qualifications" caption="Qualifications" direction="row"></app-text-box>
+
+    <app-text-box formControlName="knownAs" caption="Known As" *ngIf="isGP" [capitalizeEachWord]="true" direction="row">
+    </app-text-box>
+  </ng-container>
+
+  <ng-container *ngIf="contactClassification === 2 || contactClassification === 3">
+    <app-text-box formControlName="displayName" caption="Name" [capitalizeEachWord]="true" direction="row">
+    </app-text-box>
+
+    <app-slide-toggle formControlName="primaryAddress" class="mb-0 mt-3 md-height" direction="row" caption="Primary">
+    </app-slide-toggle>
+  </ng-container>
+
+  <app-slide-toggle formControlName="inactive" class="mb-0 mt-1 md-height" direction="row" caption="Inactive?">
+  </app-slide-toggle>
+
+  <app-text-box formControlName="inactiveReason" caption="Inactive Reason"
+    *ngIf="getFormPropertyValue('inactive')" direction="row"></app-text-box>
+
+  <app-slide-toggle formControlName="isPayor" class="mb-0 mt-1 md-height" direction="row" caption="Payor?">
+  </app-slide-toggle>
+
+  <app-slide-toggle formControlName="sendViaPatientzone" class="mb-0 mt-1 md-height" [(ngModel)]="sendViaPatientzone" direction="row"
+    caption="Send invoices via patientzone?" *ngIf="getFormPropertyValue('isPayor') && isSitePatientzone"></app-slide-toggle>
+</div>
+
+<div class="popup-form-footer-wrapper mt-1">
+  <app-button text="Close" class="ml-auto mr-3" (clicked)="closeForm()" color="grey"></app-button>
+  
+  <app-button text="Update" (clicked)="submitForm()"></app-button>
+</div>

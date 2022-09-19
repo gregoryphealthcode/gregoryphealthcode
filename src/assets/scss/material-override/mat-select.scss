@@ -1,0 +1,14 @@
+.mat-select-value {
+  color: #000000!important;
+}
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color:$primary!important;
+}
+
+.mat-select-placeholder {
+  color: rgba(0,0,0)!important;
+}
+.mat-select-arrow {
+     color: rgb(0, 0, 0)!important
+}

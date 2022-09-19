@@ -1,0 +1,128 @@
+<div class="central-popup-body  responsive-paddings" [formGroup]="form" appEnterKeyFocusWrapper delay="750">
+  <div class="page-header">Practitioner Details</div>
+
+  <div class="d-flex flex-row mt-1 align-items-center">
+    <span class="label-info short-label-width">LAST Name</span>
+
+    <div class="field-width">
+      <dx-text-box placeholder="Last name (surname)" id="lastName" (onInput)="firstLetterCaps($event)"
+        formControlName="userDetailsLastName">
+      </dx-text-box>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row mt-1 align-items-center">
+    <span class="label-info short-label-width">First Name</span>
+
+    <div class="field-width">
+      <dx-text-box placeholder="First Name (forename)" id="firstName" (onInput)=" firstLetterCaps($event)"
+        formControlName="userDetailsFirstName">
+      </dx-text-box>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row mt-1 align-items-center">
+    <span class="label-info short-label-width">Title</span>
+
+    <div class="field-width">
+      <dx-autocomplete #titlesSelectBox id="titlesSelectBox" [dataSource]="lluTitles" [width]="150"
+        (onInput)="firstLetterCaps($event)" valueExpr="title" formControlName="userDetailsTitle" displayExpr="title"
+        placeholder="Title" [showDropDownButton]="true" [searchTimeout]="100" [minSearchLength]="0"
+        [openOnFieldClick]="true">
+      </dx-autocomplete>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row mt-1 align-items-center">
+    <span class="label-info short-label-width">Email *</span>
+
+    <div class="field-width">
+      <dx-text-box placeholder="Email" id="email" formControlName="userDetailsEmail">
+      </dx-text-box>
+    </div>
+
+    <ng-container
+      *ngIf="form.controls['userDetailsEmail'].invalid  && (form.controls['userDetailsEmail'].dirty || form.controls['userDetailsEmail'].touched)">
+      <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Invalid email address"
+        *ngIf="form.controls['userDetailsEmail'].hasError('email')"></i>
+      <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Email address is required"
+        *ngIf="form.controls['userDetailsEmail'].hasError('required')"></i>
+    </ng-container>
+  </div>
+
+  <div class="d-flex flex-row mt-1 align-items-center">
+    <span class="label-info short-label-width">Mobile *</span>
+
+    <div class="field-width">
+      <dx-text-box placeholder="Mobile" formControlName="mobile">
+      </dx-text-box>
+    </div>
+
+    <ng-container
+      *ngIf="form.controls['mobile'].invalid  && (form.controls['mobile'].dirty || form.controls['mobile'].touched)">
+      <i class="fas fa-exclamation-triangle warning mx-2 "
+        matTooltip="Invalid mobile number must start with either +447 or 07"
+        *ngIf="form.controls['mobile'].hasError('pattern')"></i>
+      <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Telephone is required"
+        *ngIf="form.controls['mobile'].hasError('required')"></i>
+    </ng-container>
+  </div>
+
+  <div class="page-header">Direct Debit Details</div>
+
+  <div class="d-flex flex-row mt-1 align-items-center">
+    <span class="label-info short-label-width">Account Name</span>
+
+    <div class="field-width">
+      <dx-text-box placeholder="Account Name" id="accountName" formControlName="accountName">
+      </dx-text-box>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row mt-1 align-items-center">
+    <span class="label-info short-label-width">Sort Code</span>
+
+    <div class="field-width">
+      <dx-text-box placeholder="Sort Code" id="sortCode" formControlName="sortCode" mask="00-00-00"
+        [showClearButton]="true">
+      </dx-text-box>
+    </div>
+
+    <ng-container
+      *ngIf="form.controls['sortCode'].invalid  && (form.controls['sortCode'].dirty || form.controls['sortCode'].touched)">
+      <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="  Sort code must be 9 digits"
+        *ngIf="form.controls['sortCode'].hasError('maxlength')"></i>
+    </ng-container>
+  </div>
+
+  <div class="d-flex flex-row mt-1 align-items-center">
+    <span class="label-info short-label-width">Account Number</span>
+
+    <div class="field-width">
+      <dx-text-box placeholder="Account Number" id="accountNumber" formControlName="accountNumber">
+      </dx-text-box>
+    </div>
+
+    <ng-container
+      *ngIf="form.controls['accountNumber'].invalid  && (form.controls['accountNumber'].dirty || form.controls['accountNumber'].touched)">
+      <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Account number should be 8 digits"
+        *ngIf="form.controls['accountNumber'].hasError('maxlength')"></i>
+      <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Account number should be 8 digits"
+        *ngIf="form.controls['accountNumber'].hasError('minlength')"></i>
+    </ng-container>
+  </div>
+
+  <div class="d-flex flex-row mt-1 align-items-center">
+    <span class="label-info short-label-width">Bank Name</span>
+
+    <div class="field-width">
+      <dx-text-box placeholder="Bank Name" id="bankName" formControlName="bankName">
+      </dx-text-box>
+    </div>
+  </div>
+</div>
+<div class="popup-form-footer-wrapper">
+  <app-button text="Close" (clicked)="close()" class="ml-auto mr-3" color="grey"></app-button>
+  
+  <app-button text="Add" (clicked)="add()" [disabled]="!form.valid"></app-button>  
+</div>

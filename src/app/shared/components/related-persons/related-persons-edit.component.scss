@@ -1,0 +1,71 @@
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0.15em 0 !important;
+}
+
+
+.dx-overlay-content .dx-popup-content {
+  background-color: whitesmoke !important;
+    border-width: 0px;
+}
+
+
+.dx-popup-wrapper > .dx-overlay-content {
+  background: whitesmoke !important;
+ }
+
+
+.field-width
+{
+  width : 14rem;
+}
+
+.field-width-1
+{
+  width : 9rem;
+}
+
+.short-label-width
+{
+  width : 10rem;
+}
+.small-field-width
+{
+  width : 9rem;
+}
+
+.spacing {
+  margin-bottom: 5px !important;
+}
+
+.calc-height {
+  height: calc(100% - 68px);
+}
+
+.pad-left {
+  padding-left: 54px;
+}
+
+.pad-right {
+  padding-right: 54px;
+}
+
+.contact-popup {
+  height: calc(100vh - 42px);
+}
+
+.central {
+  padding: 0 54px;
+  height: calc(100% - 66px);
+  overflow-x: hidden; 
+  overflow-y: auto;
+}
+
+.half-width {
+  width: 50% !important;
+  max-width: 50% !important;
+}
+
+.width-1\/4 {
+  width: 30% !important;
+  max-width: 30% !important;
+}

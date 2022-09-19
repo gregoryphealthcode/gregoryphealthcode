@@ -1,0 +1,67 @@
+<div class="central-popup-body responsive-paddings" [formGroup]="editForm" appEnterKeyFocusWrapper delay="750">
+  <div class="d-flex flex-column px-2">
+    <div class="d-flex flex-row flex-grow-1">
+      <div class="label-info-value mb-3">Add Session for {{ownerSelected.displayName}} at {{location.name}}</div>
+    </div>
+
+    <div class="d-flex flex-row w-100">
+      <app-text-box formControlName="description" caption="Description" [capitalizeEachWord]="true" class="w-100">
+      </app-text-box>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1">
+      <app-date-box acceptCustomValue="true" caption="Start Date" mask="dd/MM/yyyy HH:mm" formControlName="startDateTime"
+      class="mr-3" type="datetime">
+      </app-date-box>
+
+      <app-date-box acceptCustomValue="true" caption="End Date" mask="dd/MM/yyyy HH:mm" formControlName="endDateTime"
+      type="datetime">
+      </app-date-box>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1">
+      <app-slide-toggle formControlName="repeat" caption="Repeat" [(ngModel)]="showRepeat"></app-slide-toggle>
+
+      <app-slide-toggle formControlName="eBooking" caption="Is eBooking" [(ngModel)]="eBooking" [disabled]="!isNew"></app-slide-toggle>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1" *ngIf="showRepeat">
+      <ngx-rrule class="flex-grow-1" formControlName="recurrenceRule" [hideStart]="true" [hideEnd]="true"
+        [tz]="'Europe/London'" [frequency]="['Daily','Monthly','Weekly', 'Yearly']"></ngx-rrule>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1">
+      <app-select-box formControlName="unavailableTypeId" displayExpr="description" valueExpr="id" caption="Unavailable"
+        [dataSource]="unavailableTypes" class="mr-3"></app-select-box>
+
+      <app-select-box formControlName="recurrenceWindow" displayExpr="description" valueExpr="id"
+        caption="Recurrence Window (Days)" [dataSource]="windowDurations"></app-select-box>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1" *ngIf="!isUnavailable">
+      <app-select-box formControlName="sessionTypeId" displayExpr="description" valueExpr="sessionTypeId"
+        caption="Session Type" [dataSource]="sessionTypes" class="mr-3"></app-select-box>
+
+      <app-tag-box formControlName="appointmentTypeIds" displayExpr="description" valueExpr="id"
+        caption="Appointment Type" [dataSource]="appointmentTypes"></app-tag-box>
+    </div>
+  </div>
+</div>
+
+<div class="popup-form-footer-wrapper mt-2">
+  <app-button text="Close" class="ml-auto mr-3" (clicked)="close.emit()" color="grey"></app-button>
+
+  <app-button text="Save" (clicked)="submitForm()" class="mr-2" [disabled]="!editForm.valid"></app-button>
+</div>
+
+<dx-toast [visible]="syncingEbookingData" displayTime="400000"
+type="custom" width="240" position="top center" [elementAttr]="{id: 'loadingtoaste' }">
+  <div *dxTemplate="let data of 'content'" class="d-flex flex-row loading-toast">
+    <dx-load-indicator
+      id="small-indicator"
+      height="25"
+      width="25"
+    ></dx-load-indicator>
+    <span class="ml-2">Syncing eBooking data ...</span>
+</div>
+</dx-toast>

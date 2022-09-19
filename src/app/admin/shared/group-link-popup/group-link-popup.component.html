@@ -1,0 +1,59 @@
+<dx-popup appCentralPopUpSettings [width]="'800'" [height]="'550'" *ngIf="showPopup"
+    (onInitialized)="appInfo.disableESC($event)">
+    <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+        <app-pop-up-form-title title="Link Groups" (closed)="close()"></app-pop-up-form-title>
+
+        <div class="central-popup-wrapper">
+            <div class="central-popup-body">
+                <div class="d-flex flex-row flex-wrap w-100 mb-3 pt-2">
+                    <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()">
+                    </app-grid-search-text-box>
+                </div>
+
+                <div class="cssWidgetWrapper">
+                    <dx-data-grid id="groupGrid" [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="this"
+                        height="100%" [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg"
+                        [rowAlternationEnabled]="true" focusedRowIndex="0" [focusedRowEnabled]="true"
+                        [columnMinWidth]="175">
+                        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+                        <dxi-column dataField="bureauName" caption="Group Name" cssClass="text-semiBold"></dxi-column>
+                        <dxi-column dataField="primaryContactName" caption="Contact Name"></dxi-column>
+                        <dxi-column caption="Address" cellTemplate="addressTemplate"></dxi-column>
+                        <dxi-column type="buttons" [showInColumnChooser]="false" width="85">
+                            <dxi-button template="myCommandTemplate"></dxi-button>
+                        </dxi-column>
+
+                        <div *dxTemplate="let cellInfo of 'addressTemplate'">
+                            <div *ngIf="cellInfo.row.data.address1" class="d-flex flex-column">
+                                <div class="d-flex flex-row" style="flex-wrap: wrap;">
+                                    <span>{{cellInfo.row.data.address1}}, </span>
+
+                                    <span *ngIf="cellInfo.row.data.address2">{{cellInfo.row.data.address2}}, </span>
+
+                                    <span *ngIf="cellInfo.row.data.address3">{{cellInfo.row.data.address3}}, </span>
+
+                                    <span *ngIf="cellInfo.row.data.address4">{{cellInfo.row.data.address4}}, </span>
+
+                                    <span *ngIf="cellInfo.row.data.postcode"
+                                        class="text-semiBold">{{cellInfo.row.data.postcode}}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+                            <app-button type="link" text="Link group" size="sm" iconPosition="left" icon="far fa-plus"
+                                matTooltip="Link" (clicked)="addLink(cellInfo)">
+                            </app-button>
+                        </div>
+                    </dx-data-grid>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="popup-form-footer-wrapper">
+                <app-button text="Close" class="ml-auto mr-3" (clicked)="close()" color="grey"></app-button>
+            </div>
+        </div>
+    </div>
+</dx-popup>

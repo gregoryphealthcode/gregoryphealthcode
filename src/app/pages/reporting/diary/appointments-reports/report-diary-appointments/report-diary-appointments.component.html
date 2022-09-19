@@ -1,0 +1,90 @@
+<app-med-sec-site-selector (onSelected)="siteSelectorHandler()"></app-med-sec-site-selector>
+
+<div class="cssWidgetWrapper disable-select p-1">
+  <dx-data-grid gridWithRowLinesSettings appGridWithStateStore gridId="diaryAppointmentGrid1V1"
+    [dataSource]="dataSource" [showBorders]="false" [focusedRowEnabled]="true" focusedRowIndex="0"
+    [allowColumnReordering]="true" [allowColumnResizing]="true" [columnHidingEnabled]="true" [showColumnLines]="true"
+    [rowAlternationEnabled]="true" columnResizingMode="widget" (onToolbarPreparing)="onToolbarPreparing($event)"
+    (openSiteSelectorModel)="openSiteSelectorModelHandler()" (stateSelected)="stateSelectedHandler($event)"
+    (onOptionChanged)="onOptionChanged($event)" [columnMinWidth]="175"
+    [remoteOperations]="false">
+    <dxo-paging [pageSize]="30"> </dxo-paging>
+    <dxo-export [enabled]="true" [fileName]="fileName" [allowExportSelectedData]="false"></dxo-export>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-search-panel [visible]="true" [width]="160" placeholder="Search...">
+    </dxo-search-panel>
+    <dxo-load-panel [enabled]="true"></dxo-load-panel>
+    <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+    <dxo-column-fixing [enabled]="false"></dxo-column-fixing>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+    </dxo-editing>
+    <dxo-grouping [contextMenuEnabled]="true">
+    </dxo-grouping>
+    <dxo-group-panel [visible]="true" [allowColumnDragging]="true">
+    </dxo-group-panel>
+    <dxo-header-filter [visible]="true"></dxo-header-filter>
+    <dxo-pager [visible]="true" [allowedPageSizes]="false" [showPageSizeSelector]="true" [showInfo]="true"
+      [showNavigationButtons]="true">
+    </dxo-pager>
+    <dxi-column dataField="siteName" [allowSorting]="true" [visible]="isMedSec && !this.userStore.hasSelectedASite()"
+      caption="Site"></dxi-column>
+    <dxi-column dataField="startDate" caption="Start Date" dataType="date" [format]="appInfo.getDateFormat"
+      [allowFiltering]="true" [sortIndex]="0" sortOrder="desc"></dxi-column>
+    <dxi-column dataField="startTime" caption="Start Time" dataType="datetime" [calculateCellValue]="getDayTime"
+      [calculateFilterExpression]="calculateFilterExpression" [editorOptions]="{ type: 'time', pickerType: 'rollers' }"
+      format="HH:mm" sortOrder="desc" [sortIndex]="1">
+    </dxi-column>
+    <dxi-column dataField="patientName" caption="Patient" [allowSorting]="true"></dxi-column>
+    <dxi-column dataField="birthDate" caption="DOB" dataType="date" [format]="appInfo.getDateFormat"
+      [allowFiltering]="true"></dxi-column>
+    <dxi-column [calculateCellValue]="this.calculateAgeValue" caption="Age" [allowSorting]="true" alignment="center"
+      [allowFiltering]="true" [allowGrouping]="true"></dxi-column>
+    <dxi-column dataField="status" caption="Status" [allowSorting]="true" cellTemplate="apptCellTemplate"></dxi-column>
+    <dxi-column dataField="duration" caption="Duration (Hours/Mins)" [minWidth]="200"
+      cellTemplate="minutesCellTemplate"></dxi-column>
+    <dxi-column dataField="appointmentType" caption="Appointment Type" [minWidth]="200"></dxi-column>
+    <dxi-column dataField="specialist" caption="To See"></dxi-column>
+    <dxi-column dataField="locationName" caption="Location"></dxi-column>
+    <dxi-column dataField="locationAddress" caption="Address" [allowSorting]="false" [visible]="false"></dxi-column>
+    <dxi-column dataField="translatorNeeded" caption="Translator" [visible]="false" [minWidth]="200"></dxi-column>
+    <dxi-column dataField="eBookingRef" caption="E-Booking Ref" [visible]="false"></dxi-column>
+    <dxi-column dataField="endDate" caption="End Date" dataType="date" [format]="appInfo.getDateTimeFormat"
+      [visible]="false" [allowFiltering]="true"></dxi-column>
+    <dxi-column dataField="endTime" caption="End Time" dataType="date" format="HH:mm" [visible]="false"
+      [calculateFilterExpression]="calculateFilterExpression" [calculateCellValue]="getDayTime" [allowFiltering]="true"
+      [allowGrouping]="true" [editorOptions]="{ type: 'time', pickerType: 'rollers' }"></dxi-column>
+    <dxi-column dataField="patientReferenceNo" caption="Patient No." [allowSorting]="false" [visible]="false"
+      [allowFiltering]="true">
+    </dxi-column>
+    <dxi-column dataField="invoiceRaisedString" caption="Invoice Raised" [allowSorting]="false" [allowSorting]="true">
+    </dxi-column>
+    <dxi-column dataField="insurerNo" caption="Insurer Member No." [allowSorting]="false" [allowFiltering]="true">
+    </dxi-column>
+    <dxi-column dataField="scheme" caption="Insurer Pre Auth" [allowSorting]="false"></dxi-column>
+    <dxi-column dataField="payorName" caption="Payor" [allowSorting]="false" [allowFiltering]="false"></dxi-column>
+
+    <dxo-summary>
+      <dxi-total-item column="startDate" summaryType="count" displayFormat="{0}" valueFormat="fixedPoint {2}">
+        <dxo-format [precision]="2">
+        </dxo-format>
+      </dxi-total-item>
+
+      <dxi-total-item column="duration" summaryType="sum" [customizeText]="customiseDuration" alignment="center">
+      </dxi-total-item>
+    </dxo-summary>
+
+    <div *dxTemplate="let cellInfo of 'apptCellTemplate'" class="text-center">
+      <span *ngIf="cellInfo.value === 'Booked'" class="badge badge-warning">Booked</span>
+      <span *ngIf="cellInfo.value === 'Cancelled'" class="badge badge-danger">Cancelled</span>
+      <span *ngIf="cellInfo.value === 'Reserved'" class="badge badge-primary">Reserved</span>
+      <span *ngIf="cellInfo.value === 'Completed'" class="badge badge-success">Completed</span>
+      <span *ngIf="cellInfo.value === 'Billed'" class="badge badge-primary">Billed</span>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'minutesCellTemplate'" class="text-center">
+      <span>{{appInfo.convertToHours(cellInfo.value)}}</span>
+    </div>
+
+  </dx-data-grid>
+</div>

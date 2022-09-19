@@ -1,0 +1,77 @@
+<app-card class="page-wrapper-tab-card h-100">
+  <!-- <div class="d-flex flex-row flex-wrap w-100 mb-3 pt-2 pl-4">
+    <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+  </div> -->
+
+  <div class="d-flex flex-row flex-grow-1">
+    <div class="cssWidgetWrapper hmin-400px">
+      <dx-data-grid #dataGrid gridWithRowLinesSettings class="cssGridGeneral padd-first-lg" [dataSource]="shortfalls"
+        keyExpr="d" [remoteOperations]="false" [rowAlternationEnabled]="true" [focusedRowEnabled]="true"
+        focusedRowIndex="0" keyExpr="invoiceId" [(selectedRowKeys)]="selectedRows"
+        (onFocusedRowChanged)="onFocusedRowChanged($event)" (onSelectionChanged)="onSelectionChanged($event)"
+        [columnMinWidth]="150">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-editing mode="cell" [allowUpdating]="true"></dxo-editing>
+        <dxo-selection mode="multiple" [showCheckBoxesMode]="checkBoxesMode"></dxo-selection>
+
+        <dxi-column dataField="patientName" caption="Patient Name" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="invoiceNumber" caption="Invoice Number" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="invoiceDate" caption="Invoice Date" dataType="date" [format]="store.getDateFormat"
+          [allowEditing]="false">
+        </dxi-column>
+        <dxi-column dataField="totalDue" caption="Total Due" cellTemplate="currency" [allowEditing]="false">
+        </dxi-column>
+        <dxi-column dataField="balanceDue" caption="Balance Due" cellTemplate="currency" [allowEditing]="false">
+        </dxi-column>
+        <dxi-column dataField="canBeSent" caption="Send Electronically"></dxi-column>
+        <dxi-column dataField="templateId" caption="Shortfall Template" cellTemplate="letterTemplate"
+          [allowEditing]="false"></dxi-column>
+        <dxi-column caption="Status" cellTemplate="statusTemplate" [allowEditing]="false"></dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false" [allowEditing]="false">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'letterTemplate'">
+          <dx-select-box *ngIf="!cellInfo.data.completed" [dataSource]="templates" valueExpr="templateId"
+            displayExpr="description" [value]="cellInfo.value" (onValueChanged)="templateChanged($event, cellInfo)">
+          </dx-select-box>
+
+          <span *ngIf="cellInfo.data.completed">{{getTemplateName(cellInfo.data.selectedTemplateId)}}</span>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'statusTemplate'">
+          <span *ngIf="cellInfo.data.completed">Completed</span>
+
+          <app-button *ngIf="!cellInfo.data.completed && !cellInfo.data.valid" icon="far fa-exclamation-triangle"
+            type="link" color="warning" class="mt-2" text="Check Payor Details" (clicked)="showCheckDetails(cellInfo)">
+          </app-button>
+        </div>
+
+        <div *dxTemplate="let d of 'currency'" valueFormat="fixedPoint {2}">
+          <div class="current-value" *ngIf="d.value > 0">{{d.value | currency: store.getCurrency }}
+          </div>
+          <div class="current-value" *ngIf="d.value === 0">-</div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+          <app-button *ngIf="!cellInfo.data.completed" icon="far fa-money-check-edit-alt" type="link" color="grey"
+            class="mr-2" matTooltip="Reallocate payment" (clicked)="reallocate(cellInfo)"></app-button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+
+  <app-card-footer>
+    <app-button text="Process Shortfalls" icon="far fa-save" class="ml-auto mr-4" type="link"
+      matToolTip="Process selected shortfalls" (clicked)="processShortfalls()" [disabled]="selectedRows.length == 0">
+    </app-button>
+  </app-card-footer>
+</app-card>
+
+<app-bulk-payment-shortfall-reallocation *ngIf="show" [patientId]="patientId" [invoiceId]="invoiceId"
+  [checkDetails]="checkDetails" [patientAddress]="address" [balanceDue]="balanceDue"
+  [bulkPaymentTransactionId]="bulkPaymentTransactionId" (saved)="saved($event)" (closePopup)="show = false">
+</app-bulk-payment-shortfall-reallocation>
+
+<app-pdf-preview-popup [title]="'Print'"></app-pdf-preview-popup>

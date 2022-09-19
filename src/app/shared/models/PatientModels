@@ -1,0 +1,133 @@
+/* 
+import Guid from 'devextreme/core/guid';
+
+export class PatientDetailsModel {
+    uniqueNo?: number | null;
+    patientId?: Guid | null;
+    siteId?: Guid | null;
+    displayName?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;    
+    birthDate?: Date | null;
+    age?: int | null;
+    postcode?: string | null;    
+    otherInitials?: string | null;
+    title?: string | null;
+    gender?: string | null;
+    identifiedAs?: string | null;
+    deceased?: boolean | null;
+    deceasedDate?: Date | null;
+    noChase?: boolean | null;
+    onStop?: boolean | null;
+    inactive?: boolean | null;
+    inactiveReason?: string | null;
+    sendViaPatientzone?: boolean | null;    
+    forceAdd?: boolean | null; 
+    lastModifiedDate?: Date | null;
+    dateCreated?: Date | null;
+    userDefined1?: string | null;
+    userDefined2?: string | null;
+    userDefined3?: string | null;
+    userDefined4?: string | null;
+    userDefined5?: string | null;
+    userDefined6?: string | null;
+    userDefined7?: string | null;
+    patientGroupId?: Guid | null;    
+}
+
+export class PatientDetailsModelExtended extends PatientDetailsModel {
+    patientAddresses?: AddressModel[] | null;
+    patientReferenceNumbers?: ReferenceNumberModel[] | null;
+    patientTelecoms?: TelecomModel[] | null;
+    patientDataPoints?: DataPointModel[] | null;
+    patientBalance?: BalanceModel[] | null;
+    patientInsurers?: InsurerModel[] | null;
+    patientContacts?: ContactModel[] | null;
+}
+
+export class AddPatientRequestInsurerDto {
+    insurerId: string;
+    registrationNumber: string;
+    scheme: string;
+    renewalDate: string | null;
+    isPrimary: boolean;
+}
+
+export class PatientNoteModel {    
+    patientId: Guid | null;
+    dateUploaded: Date | null;
+    siteRef: string | null;
+    siteId: string | null;
+    noteId: string | null;
+    tempFileName: string | null;
+    attachmentFile: string | null;
+    attachmentType: string | null;
+    attachmentMimeType: string | null;
+    fileName: string | null;
+    attachmentId: string | null;
+}
+
+export class PatientAddressModel {
+    uniqueNo: number | null;
+    addressId: Guid | null;
+    patientId: Guid | null;
+    siteId: Guid | null;
+    addressType: number | null;
+    rank: number | null;
+    primaryAddress: boolean | null;
+    billingAddress: boolean | null;
+    address1: string | null;
+    address2: string | null;
+    address3: string | null;
+    address4: string | null;
+    postcode: string | null;
+    country: string | null;
+    longitude: number | null;
+    latitude: number | null;
+}
+
+
+export class PatientTelecomModel {
+    telecomId: Guid | null;
+    siteId: Guid | null;
+    patientId: Guid | null;
+    telecomSystem: any | null;
+    telecomValue: string | null;
+    rank: number | null;
+    preferred: boolean | null;
+    uniqueNo: number | null;
+    usage: string | null;
+    primary: boolean | null;
+    telecomTypeId: number | null;
+    telecomType: number | null;
+}
+
+
+
+export class PatientDetailsResponseModel {
+    duplicatePatients?: PatientDetailsModelBase[] | null;
+    success: boolean;
+}
+
+
+
+export class PatientViewModel {
+    patientId: Guid;
+    siteId: Guid;
+    lastName: string;
+    patientAddresses: Array<PatientAddress>;
+    patientReferenceNumbers: Array<PatientReferenceNumber>;
+}
+
+export class PatientAllergyModel {
+    id: Guid | null;
+    patientId: Guid | null;
+    allergyCode: string | null;
+    allergen: string | null;
+    allergySeverityId: number | null;
+    allergySeverity: string | null;
+    allergyTypeId: number | null;
+    allergyType: number | null;
+    notes: string | null;
+} 
+*/

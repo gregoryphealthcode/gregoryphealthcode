@@ -1,0 +1,124 @@
+<dx-popup #addListOptionPopup name="addListOptionPopup" title="title" [visible]="true" contentTemplate="popupContent"
+  (onInitialized)="appInfo.disableESC($event)" [width]="450" [height]="'auto'" [closeOnOutsideClick]="true"
+  [dragEnabled]="true" [showCloseButton]="true" [deferRendering]="false" [resizeEnabled]="false" [maxWidth]="'100vw'"
+  [maxHeight]="'100vh'" *ngIf="showAddListOptionPopup">
+  <div *dxTemplate="let data of 'popupContent'">
+    <div class="d-flex flex-column flex-grow-1 flex-auto top-row-height mt-2" appEnterKeyFocusWrapper delay="750">
+      <div class="d-flex flex-row align-items-center">
+        <label class="popup-label-width ml-3">{{addListOptionDescription}}:</label>
+
+        <div class="popup-field-width">
+          <dx-text-box #addedvalue [(value)]="addListOptionValue" class="font-15" (onInput)="firstLetterCaps($event)">
+          </dx-text-box>
+        </div>
+      </div>
+
+      <div class="d-flex ml-auto">
+        <button mat-button class="app-button primary grid-header-btn ml-auto mr-2"
+          (click)="saveListOptionClicked($event)" matTooltip="Edit patient details">
+          <span>Save</span>
+        </button>
+
+        <button mat-button class="app-button secondary grid-header-btn mr-2" (click)="cancelListOptionClicked($event)"
+          matTooltip="Close patient details">
+          <span>Cancel</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *dxTemplate="let data of 'title'" class="d-flex flex-row justify-content-end align-items-center px-0">
+    <div class="d-flex flex-column flex-grow-1 justify-content-center ml-3 px-0">
+      <span class="text-sm-3 text-grey-40">Add</span>
+    </div>
+
+    <div class="d-flex flex-column justify-content-end align-items-center px-0">
+      <button mat-icon-button class="icon alternative popup-close-btn" (click)="showAddListOptionPopup=false"
+        matTooltip="Close popup">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </div>
+</dx-popup>
+
+<div class="d-flex app-card flex-grow-1">
+  <div class="d-flex flex-column responsive-margins">
+    <div class="label-info-value-title mt-3">Patient details preferences</div>
+
+    <span class="label-description mt-2 mb-2">You can update patient details preferences from here</span>
+  </div>
+
+  <div class="d-flex flex-row flex-grow-1">
+    <mat-tab-group class="full-height settings-tabs left-aligned wm-100">
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Reference Numbers</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-reference-numbers></app-reference-numbers>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Contact Details</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-preference-contact-details></app-preference-contact-details>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Lifestyle</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-other-preferences [category]="'Lifestyle'"></app-other-preferences>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Social/Cultural</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-other-preferences [category]="'Social/Cultural'"></app-other-preferences>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Current Medication</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-other-preferences [category]="'Current Medication'"></app-other-preferences>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Family Health</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-other-preferences [category]="'Family History'"></app-other-preferences>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">General Health</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-other-preferences [category]="'General Health'"></app-other-preferences>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

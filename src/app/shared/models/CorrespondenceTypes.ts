@@ -1,0 +1,32 @@
+export enum CorrespondenceCategory {
+  Letters = 1,
+  Import = 2,
+  Headed = 3,
+  Accounts = 4,
+  Appointments = 5,
+  Invoices = 6,
+  All = 0,
+}
+
+export enum CorrespondenceTypes {
+  Confirmation = 1,
+  Cancellation = 2,
+  MissedAppointment = 3,
+  ScannedDocument = 4,
+  ImportedDocument = 5,
+  MRIScan = 6,
+  ReferralLetter = 7,
+  PatientInvoice = 8,
+  Standard = 9,
+  Confirmation_SMS = 10,
+  Confirmation_Email = 11,
+  Cancellation_SMS = 12,
+  Cancellation_Email = 13,
+  Shortfall = 14,
+  Reallocation = 15,
+  Reminders = 16,
+  CreditNote = 17,
+  Band2 = 18,
+  Band3 = 19,
+  Band4 = 20,
+}

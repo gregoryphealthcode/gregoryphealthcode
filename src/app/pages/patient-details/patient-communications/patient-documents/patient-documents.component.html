@@ -1,0 +1,111 @@
+<div class="d-flex flex-column flex-grow-1 w-100 h-100 app-card">
+  <div class="d-flex flex-row mx-4 mt-3">
+    <app-grid-search-text-box (changed)="searchBoxValue = $event; search()"></app-grid-search-text-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">Document type</label>
+    </div>
+
+    <dx-select-box [dataSource]="documentTypes" (onSelectionChanged)="typeChanged($event)"
+      class="no-bg-dropdown dx-custom-button-hovered ml-3" [(value)]="selectedType"></dx-select-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">From Date</label>
+    </div>
+
+    <dx-date-box [displayFormat]="dateFormat" [(value)]="fromDate" type="date" (onValueChanged)="search()">
+    </dx-date-box>
+
+    <div class="d-flex flex-row a-form-group ml-3 mb-1 align-items-center">
+      <label class="mr-1">To Date</label>
+    </div>
+
+    <dx-date-box [displayFormat]="dateFormat" [(value)]="toDate" type="date" (onValueChanged)="search()">
+    </dx-date-box>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3 w-100 h-100">
+    <div class="cssWidgetWrapper generic-border w-100 h-100 mr-2">
+      <dx-data-grid [dataSource]="filteredDocuments" gridWithRowLinesSettings keyExpr="patientDocumentId"
+        [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg" (onRowDblClick)="editClicked($event)"
+        focusedRowEnabled="true" (onFocusedRowChanged)="onFocusedRowChanged($event)" [rowAlternationEnabled]="true"
+        [(focusedRowIndex)]="focusedRowIndex">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+        <dxi-column dataField="documentName" caption="Document Name" cellTemplate="descriptionTemplate" minWidth="300">
+        </dxi-column>
+        <dxi-column dataField="documentDate" caption="Document Date" dataType="date" [format]="dateFormat"
+          minWidth="125" sortOrder="desc" [visible]="false"></dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false" minWidth="120">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let data of 'descriptionTemplate'" class="d-flex flex-column">
+          <div class="d-flex flex-row align-items-center">
+            <span class="text-semiBold mr-2">{{data.data.documentName}}</span>
+
+            <span class="label-tag type5-1 my-auto">{{data.data.documentTypeDescription}}</span>
+          </div>
+
+          <div class="d-flex flex-row mt-2">
+            <span class="label-width mr-2">Created: </span> {{data.data.documentDate | date : dateFormat}}
+          </div>
+
+          <div class="d-flex flex-row">
+            <span class="label-width mr-2">Created By: </span> {{data.data.createdByName}}
+          </div>
+
+          <div class="d-flex flex-row">
+            <span class="label-width mr-2">Document Type: </span> {{data.data.patientDocumentTypeDescription}}
+          </div>
+
+          <div class="d-flex flex-row">
+            <span class="label-width mr-2">File: </span>
+            <a class="download" title="{{data.data.fileName}}" (click)="downloadFile(data)">{{data.data.fileName}}</a>
+          </div>
+
+          <div *ngIf="data.data.comments" class="d-flex flex-row">
+            <span class="label-width mr-2">Comments: </span>
+            <div class="comments">{{data.data.comments}}</div>
+          </div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+          <app-button icon="far fa-trash" type="link" color="grey" matTooltip="Delete"
+            (clicked)="deleteClicked(cellInfo)"></app-button>
+
+          <app-button icon="far fa-edit" type="link" color="grey" matTooltip="Edit" (clicked)="editClicked(cellInfo)">
+          </app-button>
+
+          <app-button *ngIf="cellInfo.data.fileType == 'DOCX'" icon="far fa-file-edit" type="link" color="grey"
+            matTooltip="Edit Document" (clicked)="editDocument(cellInfo.data.patientDocumentId)">
+          </app-button>
+
+          <app-button *ngIf="cellInfo.data.fileType == 'DOCX' && cellInfo.data.superseded == false" type="link"
+            color="grey" iconPosition="left" icon="far fa-copy" matTooltip="Edit copy"
+            (clicked)="editCopyDocument(cellInfo)">
+          </app-button>
+
+          <app-button icon="far fa-file-download" type="link" color="grey" matTooltip="Download"
+            (clicked)="downloadFile(cellInfo)">
+          </app-button>
+        </div>
+      </dx-data-grid>
+    </div>
+
+    <div class="preview-wrapper h-100 flex-grow-1">
+      <div class="w-100 h-100 generic-border-left">
+
+        <iframe #previewiframe height="100%" class="iframe-shift"
+          *ngIf="(templatePreviewUrl != '' && showPreview) && !image" width="100%" [src]="templatePreviewUrl | safe"
+          frameborder='0'></iframe>
+
+        <span *ngIf="(!templatePreviewUrl || !showPreview) && !image" class="preview-label">Preview Not Available</span>
+
+        <ng-container *ngIf="image">
+          <img class="image-preview ml-auto mr-auto mt-1" [src]='image' />
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

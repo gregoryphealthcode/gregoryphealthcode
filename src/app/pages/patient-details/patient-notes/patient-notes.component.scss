@@ -1,0 +1,60 @@
+.content-block
+{
+  margin-top : 0px !important;
+}
+
+.dx-layout-manager .dx-label-h-align .dx-field-item-label
+{
+  margin: auto !important;
+}
+
+.notes-card
+{
+  border: 0;
+  overflow: hidden;
+}
+
+.readonly-text
+{
+  margin-left: .5em !important;
+}
+
+.NotesGrid
+{
+  min-height: 200px;
+}
+
+
+
+.content-height
+{
+  height: 100%;
+}
+.notePanel{
+background-color: #fafafa;
+
+}
+
+.label-info-value {
+  margin-top: 5px;
+}
+
+.popup-wrapper-content {
+  height: auto !important; 
+  overflow-y: auto !important; 
+  overflow-x: hidden !important; 
+  z-index: 10000;
+}
+
+.minHeight {
+  min-height: 150px;
+}
+
+.info-row {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.border-right {
+  border-right: 1px hsl(220, 77%, 85%);
+}

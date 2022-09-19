@@ -1,0 +1,27 @@
+@import "../../../../../../themes/generated/variables.base.scss";
+@import "../../../../../../dx-styles.scss";
+
+:host {
+  flex: auto;
+  z-index: 1;
+  display: flex;
+
+  :host ::ng-deep .dx-toolbar .dx-toolbar-item.menu-button>.dx-toolbar-item-content .dx-icon {
+    color: $base-accent;
+  }
+}
+
+.user-button.authorization{
+  padding: 0;
+}
+
+.mat-icon-button.alternative-hover.icon{
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  margin-right: 8px;
+
+  .mat-icon{
+    font-size: 19px;
+  }
+}

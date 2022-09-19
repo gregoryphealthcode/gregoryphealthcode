@@ -1,0 +1,107 @@
+@import "../../../../../themes/generated/variables.base.scss";
+@import "../../../../../dx-styles.scss";
+
+:host {
+  flex: 0 0 auto;
+  z-index: 1;
+  background-color: #fff;
+  border-bottom: 1px solid lighten($base-border-color, 3%);
+  height: 52px;
+
+  :host ::ng-deep .dx-toolbar .dx-toolbar-item.menu-button>.dx-toolbar-item-content .dx-icon {
+    color: $base-accent;
+  }
+}
+
+:host ::ng-deep .dx-toolbar.header-toolbar .dx-toolbar-items-container .dx-toolbar-after {
+  padding: 0 40px;
+
+  :host-context(.screen-x-small) & {
+    padding: 0 20px;
+  }
+}
+
+:host ::ng-deep .dx-toolbar .dx-toolbar-item.menu-button {
+  width: $side-panel-min-width;
+  text-align: center;
+  padding: 0;
+}
+
+:host ::ng-deep .header-title .dx-item-content {
+  padding: 0;
+  margin: 0;
+}
+
+:host-context(.dx-theme-generic) {
+  .dx-toolbar {
+    padding: 10px 0;
+  }
+
+  .user-button>.dx-button-content {
+    padding: 3px;
+  }
+}
+
+.dx-field-item-label-location-left {
+  padding-right: 5px;
+  min-width: 120px;
+}
+
+.dx-field-label { width: 25%; }
+.dx-swatch-additional .dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button), .dx-swatch-additional .dx-field-value-static { width: 75%; }
+
+.imageContainer
+{
+  max-width: 265px !important;
+  background-color: #00338d;
+  height: 55px;
+}
+
+.image
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.image-wrapper
+{
+  display: flex;
+  width: 130px;
+  align-items: center;
+}
+
+.left-section{
+  width: calc(50% + 70px);
+}
+
+.right-section{
+  width: calc(50% + 70px);
+}
+
+.user-button.authorization{
+  padding: 0;
+}
+
+.mat-icon-button.alternative-hover.icon{
+  width: 28px;
+  height: 30px;
+  line-height: 30px;
+  margin-right: 8px;
+
+  .mat-icon{
+    font-size: 18px;
+  }
+}
+
+.hamburger-icon{
+  font-size: 18px;
+  margin-left: 8px;
+  border: none;
+}
+
+.flex-auto {
+  flex:auto;
+}
+
+

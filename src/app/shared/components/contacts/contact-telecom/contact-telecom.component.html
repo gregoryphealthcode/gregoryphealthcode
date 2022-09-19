@@ -1,0 +1,53 @@
+<dx-popup appCentralPopUpSettings *ngIf="showPopup" [width]="'380'" [enableScroll]="true"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="isNew ? 'Add Contact Details' : 'Edit Contact Details'"
+      (closed)="showPopup = false"></app-pop-up-form-title>
+
+    <app-contact-telecom-edit class="central-popup-wrapper" [isNew]="isNew" (saveTelecom)="save($event)"
+      [contactId]="contactId" [telecomId]="telecomId" [siteId]="siteId" (formClosed)="hidePopup()">
+    </app-contact-telecom-edit>
+  </div>
+</dx-popup>
+
+<div class="d-flex flex-row mt-1">
+  <button mat-button class="app-button primary grid-header-btn-small" (click)="add()"
+    matTooltip="Add new contact details">
+    Add Contact Details
+  </button>
+</div>
+
+<div class="d-flex flex-row flex-grow-1 pt-2">
+  <div class="d-flex flex-column  px-0 flex-grow-1">
+    <div class="cssWidgetWrapper">
+      <dx-data-grid id="grdContactTelecoms" #grdContactTelecoms gridWithRowLinesSettings [dataSource]="telecoms"
+        class="cssGridGeneral" [showColumnLines]="true" [showRowLines]="true" [showBorders]="true"
+        [rowAlternationEnabled]="true" (onFocusedRowChanged)="onFocusedRowChanged($event)" keyExpr="this"
+        [focusedRowEnabled]="true" focusedRowIndex="0" (onRowDblClick)="doubleClickHandled($event)"
+        [columnMinWidth]="175">
+
+        <dxi-column dataField="description" caption="Type"></dxi-column>
+        <dxi-column dataField="value" caption="Value"></dxi-column>
+        <dxi-column dataField="preferred" cellTemplate="preferredTemplate" alignment="center" caption="Preferred"
+          width="70"></dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'preferredTemplate'">
+          <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'">
+          <button mat-icon-button class="alternative icon warning mx-1" matTooltip="Delete" (click)="delete()">
+            <mat-icon fontSet="fa" fontIcon="fa-trash"></mat-icon>
+          </button>
+
+          <button mat-icon-button class="alternative icon" (click)="editTelecom()" matTooltip="Edit">
+            <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
+          </button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,195 @@
+<app-page-wrapper [title]="contact?.displayName" [hasTabs]="true" backPagePath="/contacts/list-contacts">
+  <div role="extra" class="d-flex flex-row">
+    <span class="label-tag md type5-1 ml-2"
+      [ngStyle]="{'background-color': getBackgroundColor()}">{{contact?.contactType.contactType}}</span>
+
+    <span class="label-tag md badge-danger ml-2" *ngIf="contact && contact.inactive">Inactive</span>
+
+    <span class="label-tag md badge-success ml-2" *ngIf="contact && !contact.inactive">Active</span>
+
+    <span class="label-tag md type4-1 ml-2" *ngIf="contact && contact.isPayor">Payor</span>
+
+    <span class="label-tag md type3-1 ml-2" *ngIf="contact && contact.sendViaPatientzone">Invoices via
+      patientzone</span>
+  </div>
+
+  <app-page-header-buttons>
+    <app-button text="Delete" icon="far fa-trash" class="ml-auto my-auto mr-4" type="link" color="warning"
+      (clicked)="store.deleteContact()"></app-button>
+
+    <app-button text="Edit" class="ml-3" (clicked)="contactToEdit = {id: contactId}"></app-button>
+  </app-page-header-buttons>
+
+  <app-page-header-content>
+    <app-contact-view-header class="d-flex flex-grow-1 mb-2 mt-1" (editContactClicked)="contactToEdit = {id: contactId}"
+      [isOrganisation]="isOrganisation"></app-contact-view-header>
+  </app-page-header-content>
+
+  <app-page-body>
+    <div class="d-flex flex-row flex-grow-1">
+      <mat-tab-group class="full-height left-aligned modal-tabs" [selectedIndex]="store.tabIndex$|async"
+        (selectedIndexChange)="store.setTab($event)">
+
+        <!-- Connections -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="tabHeader">{{isOrganisation ? 'Contacts' : 'Organisations'}}</span>
+          </ng-template>
+
+          <ng-template matTabContent>
+            <app-card class="page-wrapper-tab-card p-body-0 organisations-grid-card mr-4"
+              [title]="isOrganisation ? 'Contacts' : 'Organisations'">
+              <app-contact-view-organisations class="d-flex flex-row flex-grow-1"></app-contact-view-organisations>
+
+              <app-card-footer>
+                <app-button [text]="isOrganisation ? 'Link to person' : 'Link to organisation'"
+                  (clicked)="showAddConnectionPopup = true" class="mr-1" icon="far fa-link" type="link"></app-button>
+              </app-card-footer>
+            </app-card>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Departments -->
+        <mat-tab *ngIf="(!isOrganisation && store.organisationCount > 0) || isOrganisation">
+          <ng-template mat-tab-label>
+            <span class="tabHeader">{{isOrganisation ? 'Departments' : 'Linked Departments'}}</span>
+          </ng-template>
+
+          <ng-template matTabContent>
+            <app-card class="page-wrapper-tab-card p-body-0 departments-grid-card mr-4" [title]="'Departments'">
+              <app-contact-view-departments class="d-flex flex-row flex-grow-1"
+                (editDepartmentDetails)="editDepartmentHandler($event)"></app-contact-view-departments>
+
+              <app-card-footer>
+                <app-button *ngIf="isOrganisation" text="Add department" (clicked)="showAddDepartmentPopupHandler()"
+                  class="mr-1" icon="far fa-link" type="link"></app-button>
+
+                <app-button *ngIf="!isOrganisation" text="Link to department"
+                  (clicked)="showSelectDepartmentPopup = true;" class="mr-1" icon="far fa-link" type="link">
+                </app-button>
+              </app-card-footer>
+            </app-card>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Addresses -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="tabHeader">Addresses & Telecoms</span>
+          </ng-template>
+
+          <ng-template matTabContent>
+            <div class="d-flex flex-row">
+              <app-card class="page-wrapper-tab-card p-body-0 address-grid-card mr-4" [title]="'Addresses'">
+                <app-contact-view-addresses class="d-flex flex-row flex-grow-1"></app-contact-view-addresses>
+
+                <app-card-footer>
+                  <app-button text="Add Address" icon="far fa-plus-square" type="link" class="mr-1"
+                    (clicked)="store.showAddAddress()"></app-button>
+                </app-card-footer>
+              </app-card>
+
+              <app-card class="page-wrapper-tab-card p-body-0 contacts-grid-card ml-4" [title]="'Telecoms'">
+                <app-contact-view-telecoms class="d-flex flex-row flex-grow-1"></app-contact-view-telecoms>
+
+                <app-card-footer>
+                  <app-button text="Add Telecom" icon="far fa-plus-square" type="link" class="mr-1"
+                    (clicked)="store.showAddTelecom()"></app-button>
+                </app-card-footer>
+              </app-card>
+            </div>
+          </ng-template>
+        </mat-tab>
+
+        <!-- Patients -->
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="tabHeader">Linked Patients</span>
+          </ng-template>
+
+          <ng-template matTabContent>
+            <div class="d-flex flex-row">
+              <app-card class="page-wrapper-tab-card p-body-0 patients-grid-card mr-4" [title]="'Linked Patients'">
+                <app-contact-view-patients class="d-flex flex-row flex-grow-1"
+                  (patientSelected)="patientSelectedHandler($event)"></app-contact-view-patients>
+
+                <app-card-footer>
+                  <app-button text="Link Patient" icon="far fa-plus-square" type="link" class="mr-1"
+                    (clicked)="patientLinkSearch.show()"></app-button>
+                </app-card-footer>
+              </app-card>
+
+              <app-patient-details-quick-view [patient]="patient" class="d-flex flex-grow-1 patients-summary-card"
+                *ngIf="patient" [compactMode]="false" [showTopButtons]="false">
+              </app-patient-details-quick-view>
+            </div>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </app-page-body>
+</app-page-wrapper>
+
+<!-- Add/Edit Address -->
+<app-edit-contact-address-modal [addressId]="addressId" [contact]="contact" (saved)="addressSaved($event)">
+</app-edit-contact-address-modal>
+
+<!-- Add/Edit Telecoms -->
+<app-contact-telecom-edit-modal [telecomId]="telecomId" [contact]="contact" [telecoms]="telecoms"
+  (saved)="telecomSaved($event)">
+</app-contact-telecom-edit-modal>
+
+<!-- Edit Contact -->
+<app-edit-contact-modal [contactId]="contactToEdit" [contactClassification]="contactClassification"
+  (saved)="store.getContactDetails$();"></app-edit-contact-modal>
+
+<!-- Add Department-->
+<app-add-contact *ngIf="showAddDepartmentPopup" [contactClassification]="3" [parentId]="contactId"
+  [departmentId]="departmentId" (closed)="departmentId = null; showAddDepartmentPopup = false"
+  class="d-flex flex-column flex-grow-1" (saved)="savedHandler($event)"></app-add-contact>
+
+<!-- Contacts Grid -->
+<dx-popup appCentralPopUpSettings width="1200" *ngIf="showAddConnectionPopup" height="650" [enableScroll]="false"
+  (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="isOrganisation ? 'Link to person' : 'Link to organisation'"
+      (closed)="showAddConnectionPopup = false;">
+    </app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body">
+        <app-contacts-grid class="d-flex flex-grow-1 flex-column"
+          [contactClassificationId]="addConnectionContactClassificationId" [contactId]="contactId"
+          (addedConnection)="store.addConnection($event.contactId); showAddConnectionPopup = false;">
+        </app-contacts-grid>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<app-patient-quick-search-popup #patientLinkSearch (doubleClickedRow)="patientAddedSelectedHandler($event)"
+  [addToContact]="'true'" [title]="'Link Patient'">
+</app-patient-quick-search-popup>
+
+<app-link-patient *ngIf="showAdditionalInfoPopup" [patientId]="patientId" [contactId]="contactId"
+  (closed)="showAdditionalInfoPopup = false;"></app-link-patient>
+
+<!-- Departments Grid -->
+<dx-popup appCentralPopUpSettings [width]="'900'" *ngIf="showSelectDepartmentPopup" [height]="'650'"
+  [enableScroll]="true" (onInitialized)="appInfo.disableESC($event)">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" title="Link Department" (closed)="showSelectDepartmentPopup = false;">
+    </app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body">
+        <app-department-grid class="d-flex flex-grow-1 flex-column" [contactId]="contactId"
+          [contactClassification]="contactClassification"
+          (addedDepartment)="store.addDepartmentConnection($event.departmentId); showSelectDepartmentPopup = false;">
+        </app-department-grid>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<app-med-sec-site-selector (onSelected)="addClicked()"></app-med-sec-site-selector>
