@@ -60,12 +60,100 @@
               "node_modules/bootstrap/scss/bootstrap.scss",
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js"
-            ],
+            "scripts": [ "node_modules/jquery/dist/jquery.js" ],
             "es5BrowserSupport": false
           },
           "configurations": {
+            "hfdev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hfdev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": false,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "aot": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "16mb",
+                  "maximumError": "30mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10mb"
+                }
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "src/ngsw-config.json"
+            },
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": false,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "aot": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "16mb",
+                  "maximumError": "30mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10mb"
+                }
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "src/ngsw-config.json"
+            },
+            "sit": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.sit.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": false,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "aot": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "16mb",
+                  "maximumError": "30mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10mb"
+                }
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "src/ngsw-config.json"
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -90,7 +178,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "10mb"
                 }
               ],
               "serviceWorker": true,
@@ -104,6 +192,15 @@
             "browserTarget": "healthCode-ePractice:build"
           },
           "configurations": {
+            "hfdev": {
+              "browserTarget": "healthCode-ePractice:build:hfdev"
+            },
+            "dev": {
+              "browserTarget": "healthCode-ePractice:build:dev"
+            },
+            "sit": {
+              "browserTarget": "healthCode-ePractice:build:sit"
+            },
             "production": {
               "browserTarget": "healthCode-ePractice:build:production"
             }
@@ -122,10 +219,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/devextreme/dist/css/dx.common.css",
@@ -146,9 +240,7 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "e2e": {
@@ -158,6 +250,15 @@
             "devServerTarget": "healthCode-ePractice:serve"
           },
           "configurations": {
+            "hfdev": {
+              "browserTarget": "healthCode-ePractice:serve:hfdev"
+            },
+            "dev": {
+              "browserTarget": "healthCode-ePractice:serve:dev"
+            },
+            "sit": {
+              "browserTarget": "healthCode-ePractice:serve:sit"
+            },
             "production": {
               "devServerTarget": "healthCode-ePractice:serve:production"
             }

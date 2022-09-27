@@ -5,13 +5,21 @@
 export const environment = {
   production: true,
   development: false,
-  serverUrl: 'https://api.epractice.sit.healthcode.co.uk',
-  authserverBaseurl: 'https://api.epractice.sit.healthcode.co.uk',
-  baseurl: 'https://api.epractice.sit.healthcode.co.uk',
-  documentApiUrl: 'https://api.epractice.sit.healthcode.co.uk',
-  medSecBaseurl: 'https://api.epractice.sit.healthcode.co.uk/ePracticeMedSec/',
+  // serverUrl: 'https://api.epractice.sit.healthcode.co.uk',
+  // authserverBaseurl: 'https://api.epractice.sit.healthcode.co.uk',
+  // baseurl: 'https://api.epractice.sit.healthcode.co.uk',
+  // documentApiUrl: 'https://api.epractice.sit.healthcode.co.uk',
+  // medSecBaseurl: 'https://api.epractice.sit.healthcode.co.uk/ePracticeMedSec/',
+  // RouterTraceEnabled: false,
+  // webPageRoot: 'https://epractice.sit.healthcode.co.uk /',
+  serverUrl: 'https://localhost:44331',
+  authserverBaseurl: 'https://localhost:44331',
+  baseurl: 'https://localhost:44331/api',
+  documentApiUrl: 'https://localhost:44392',
+  medSecBaseurl: 'https://localhost:44368/',
   RouterTraceEnabled: false,
-  webPageRoot: 'https://epractice.sit.healthcode.co.uk /',
+  webPageRoot: 'http://localhost:4200/',
+
   // OAuthSettings: {
   //   appId: '1f68a230-2c7b-4d3a-a295-d64fef17fd19',
   //   scopes: [
@@ -20,11 +28,12 @@ export const environment = {
   //     'mail.send'
   //   ]
   //  },
-  HelpHeroPlatform: 'Dev Server',
-  enableLocalAuth: false,
+  //HelpHeroPlatform: 'Dev Server',
+  HelpHeroPlatform: 'Local',
+  enableLocalAuth: true,
   healthCode: {
     clientId: 'epractice',
-    mainUrl: 'https://auth.sit.healthcode.co.uk',
+    mainUrl: 'https://auth.dev.healthcode.co.uk',
     scope: 'openid siteid email offline_access',
     authorizePath: 'authorize',
     redirectPath: 'https://localhost:4200/postauth'
