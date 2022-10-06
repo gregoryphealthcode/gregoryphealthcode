@@ -27,8 +27,8 @@ export const environment = {
       redirectPath: 'https://epractice.sit.healthcode.co.uk/postauth'
     },
   
-    msgurl: 'http://www.sit.healthcode.co.uk/secure-messaging/prelogin/auth/preauth.jsp',
-    pprurl: 'http://www.sit.healthcode.co.uk/pprepractice/pages/pprspecialist/prelogin/auth/preauth.jsp',
-    codeSearchUrl: 'http://www.sit.healthcode.co.uk/Code-Search/prelogin/auth/preauth.jsp'
+    msgurl: 'http://www.sit.veda.healthcode.co.uk/secure-messaging/prelogin/auth/preauth.jsp',
+    pprurl: 'http://www.sit.veda.healthcode.co.uk/pprepractice/pages/pprspecialist/prelogin/auth/preauth.jsp',
+    codeSearchUrl: 'http://www.sit.veda.healthcode.co.uk/Code-Search/prelogin/auth/preauth.jsp'
   };
   
