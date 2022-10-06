@@ -117,7 +117,7 @@ export class ReportInvoicesGridNewComponent extends GridBase implements OnInit {
         }
       },
       {
-        location: 'center',
+        location: '',
         widget: 'dxCheckBox',
         locateInMenu: 'auto',
         options: {
@@ -128,7 +128,7 @@ export class ReportInvoicesGridNewComponent extends GridBase implements OnInit {
           type: 'boolean',
           hint: "Select to date",
           elementAttr: {
-            class: "mt-3"
+            class: "includeCancelled"
           },
           onValueChanged: this.statusChanged.bind(this)
         }
