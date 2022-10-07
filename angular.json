@@ -47,7 +47,11 @@
               "src/assets",
               "src/manifest.json",
               "src/.htaccess",
-              { "glob": "**/*", "input": "node_modules/ng2-pdfjs-viewer/pdfjs", "output": "/assets/pdfjs" }
+              {
+                "glob": "**/*",
+                "input": "node_modules/ng2-pdfjs-viewer/pdfjs",
+                "output": "/assets/pdfjs"
+              }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
@@ -60,23 +64,25 @@
               "node_modules/bootstrap/scss/bootstrap.scss",
               "src/styles.scss"
             ],
-            "scripts": [ "node_modules/jquery/dist/jquery.js" ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js"
+            ],
             "es5BrowserSupport": false
           },
           "configurations": {
-            "hfdev": {
+            "production": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.hfdev.ts"
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
-              "outputHashing": "none",
+              "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
-              "namedChunks": false,
-              "extractLicenses": false,
+              "namedChunks": true,
+              "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
               "aot": true,
@@ -88,7 +94,37 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10mb"
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "src/ngsw-config.json"
+            },
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "aot": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "16mb",
+                  "maximumError": "30mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ],
               "serviceWorker": true,
@@ -101,14 +137,14 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "none",
-              "sourceMap": false,
+              "sourceMap": true,
               "extractCss": true,
-              "namedChunks": false,
+              "namedChunks": true,
               "extractLicenses": false,
-              "vendorChunk": false,
-              "buildOptimizer": true,
+              "vendorChunk": true,
+              "buildOptimizer": false,
               "aot": true,
               "budgets": [
                 {
@@ -118,7 +154,7 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10mb"
+                  "maximumWarning": "6kb"
                 }
               ],
               "serviceWorker": true,
@@ -132,11 +168,11 @@
                 }
               ],
               "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": false,
+              "outputHashing": "all",
+              "sourceMap": true,
               "extractCss": true,
-              "namedChunks": false,
-              "extractLicenses": false,
+              "namedChunks": true,
+              "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
               "aot": true,
@@ -148,24 +184,54 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10mb"
+                  "maximumWarning": "6kb"
                 }
               ],
               "serviceWorker": true,
               "ngswConfigPath": "src/ngsw-config.json"
             },
-            "production": {
+            "peter": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.peter.ts"
                 }
               ],
               "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": false,
+              "outputHashing": "all",
+              "sourceMap": true,
               "extractCss": true,
-              "namedChunks": false,
+              "namedChunks": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "aot": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "16mb",
+                  "maximumError": "30mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "src/ngsw-config.json"
+            },
+            "hf": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hf.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
               "extractLicenses": false,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -178,10 +244,40 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "10mb"
+                  "maximumWarning": "6kb"
                 }
               ],
               "serviceWorker": true,
+              "ngswConfigPath": "src/ngsw-config.json"
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "optimization": false,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "aot": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "16mb",
+                  "maximumError": "30mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "serviceWorker": false,
               "ngswConfigPath": "src/ngsw-config.json"
             }
           }
@@ -192,8 +288,11 @@
             "browserTarget": "healthCode-ePractice:build"
           },
           "configurations": {
-            "hfdev": {
-              "browserTarget": "healthCode-ePractice:build:hfdev"
+            "production": {
+              "browserTarget": "healthCode-ePractice:build:production"
+            },
+            "prod": {
+              "browserTarget": "healthCode-ePractice:build:prod"
             },
             "dev": {
               "browserTarget": "healthCode-ePractice:build:dev"
@@ -201,10 +300,17 @@
             "sit": {
               "browserTarget": "healthCode-ePractice:build:sit"
             },
-            "production": {
-              "browserTarget": "healthCode-ePractice:build:production"
+            "peter": {
+              "browserTarget": "healthCode-ePractice:build:peter"
+            },
+            "hf": {
+              "browserTarget": "healthCode-ePractice:build:hf"
+            },
+            "local": {
+              "browserTarget": "healthCode-ePractice:build:local"
             }
-          }
+          },
+          "defaultConfiguration": "local"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -219,7 +325,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/devextreme/dist/css/dx.common.css",
@@ -240,7 +349,9 @@
               "tsconfig.spec.json",
               "e2e/tsconfig.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "e2e": {
@@ -250,25 +361,22 @@
             "devServerTarget": "healthCode-ePractice:serve"
           },
           "configurations": {
-            "hfdev": {
-              "browserTarget": "healthCode-ePractice:serve:hfdev"
-            },
-            "dev": {
-              "browserTarget": "healthCode-ePractice:serve:dev"
-            },
-            "sit": {
-              "browserTarget": "healthCode-ePractice:serve:sit"
-            },
-            "production": {
-              "devServerTarget": "healthCode-ePractice:serve:production"
+            "prod": {
+              "devServerTarget": "healthCode-ePractice:serve:prod"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "healthCode-ePractice",
   "cli": {
-    "analytics": false
+    "cache": {
+      "enabled": true,
+      "path": ".cache",
+      "environment": "all"
+    },
+    "analytics": false,"schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

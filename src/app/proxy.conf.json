@@ -1,0 +1,11 @@
+{
+
+    "/epractice/HCAuthApi": {
+      "target": "https://auth.dev.healthcode.co.uk",
+      "pathRewrite": {"^/epractice/HCAuthApi/" : "/"},
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
+    },
+
+}

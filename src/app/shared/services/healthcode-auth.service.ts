@@ -44,7 +44,11 @@ export class HealthCodeAuthService {
   }
 
   public getStateToken(state: string) {
+    console.log('GET STATE TOKEN: ',  state);
     const findings = state.match(/sessionid<{(.*)}>callbackurl/);
+    console.log('GET STATE TOKEN - Findings: ',  findings);
+    console.log('GET STATE TOKEN - Result: ',  findings[1]);
+
     return findings[1];
   }
 
