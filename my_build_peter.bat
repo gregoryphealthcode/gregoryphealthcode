@@ -1,2 +1,2 @@
 
-ng build --base-href "/epractice/" --prod --configuration=peter
+ng build --base-href "/epractice/" --configuration=peter

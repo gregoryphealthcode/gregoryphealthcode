@@ -1,0 +1,49 @@
+<div class="cssWidgetWrapper disable-select">
+    <dx-data-grid #referrersGrid gridWithRowLinesSettings appGridWithStateStore gridId="patientGrid1V1"
+        [dataSource]="dataSource" [focusedRowEnabled]="true" focusedRowIndex="0" [allowColumnReordering]="true"
+        [allowColumnResizing]="true" [columnHidingEnabled]="true" [showColumnLines]="true"
+        [columnMinWidth]="125"
+        [rowAlternationEnabled]="true" columnResizingMode="widget" (onToolbarPreparing)="onToolbarPreparing($event)"
+        (onFocusedRowChanged)="onFocusedRowChanged($event)" (stateSelected)="stateSelectedHandler($event)">
+        <dxo-remote-operations [filtering]="true" [paging]="true" [sorting]="false" [summary]="false" [grouping]="false"
+            [groupPaging]="false">
+        </dxo-remote-operations>
+        <dxo-scrolling mode="virtual" preloadEnabled="true" [useNative]="false" [scrollByContent]="true"
+            [scrollByThumb]="true" showScrollbar="onHover"></dxo-scrolling>
+        <dxo-export [enabled]="true" [fileName]="fileName" [allowExportSelectedData]="false"></dxo-export>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-grouping [autoExpandAll]="false"></dxo-grouping>
+        <dxo-search-panel [visible]="true" [width]="160" placeholder="Search...">
+        </dxo-search-panel>
+        <dxo-load-panel [enabled]="true"></dxo-load-panel>
+        <dxo-column-chooser [enabled]="true" mode="select" [height]="550">
+        </dxo-column-chooser>
+        <dxo-paging [pageSize]="500"></dxo-paging>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-grouping [contextMenuEnabled]="true">
+        </dxo-grouping>
+        <dxo-group-panel [visible]="false" [allowColumnDragging]="true">
+        </dxo-group-panel>
+        <dxo-header-filter [visible]="true"></dxo-header-filter>
+
+        <dxi-column dataField="patientName" caption="Patient" [allowFiltering]="true" [allowSorting]="true">
+        </dxi-column>
+        <dxi-column dataField="birthDate" caption="DOB" dataType="MyDate" [visible]="false" [allowFiltering]="false"
+            dataType="date" format="shortDate">
+        </dxi-column>
+        <dxi-column [calculateCellValue]="calculateAge" caption="Age" [width]="100" [allowGrouping]="true"
+            [allowSorting]="true" [allowFiltering]="false" cellTemplate="warnifchildCellTemplate" alignment="center">
+        </dxi-column>
+        <dxi-column dataField="theirRef" caption="Their Ref"> </dxi-column>
+        <dxi-column dataField="contactName" caption="Referrer" [minWidth]="150" [allowFiltering]="true" [allowGrouping]="true"
+            [allowSorting]="true">
+        </dxi-column>
+        <dxi-column dataField="referrerType" caption="Referrer Type" [allowFiltering]="true" [allowGrouping]="true"
+            [allowSorting]="true">
+        </dxi-column>
+
+        <div *dxTemplate="let d of 'warnifchildCellTemplate'" [class]="(d.value) >= 18 ? 'adult' : 'child'">
+            <div class="current-value">{{d.value}}</div>
+        </div>
+    </dx-data-grid>
+</div>

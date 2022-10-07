@@ -1,3 +1,4 @@
+import dxTextBox from 'devextreme/ui/text_box';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { DxTextBoxComponent } from "devextreme-angular";
 import { BehaviorSubject } from "rxjs";
@@ -16,6 +17,7 @@ export class GridSearchTextBoxComponent extends SubscriptionBase implements OnIn
   @Input() mask;
   @Input() maskRules;
   @Input() get term() { return this._term };
+  gridSearchTextBoxInstance: dxTextBox;
   set term(value) {
     if (value) {
       this._term = value;
@@ -70,5 +72,14 @@ export class GridSearchTextBoxComponent extends SubscriptionBase implements OnIn
   }
 
   clearSearch() {
+  }
+
+  saveGridSearchTextBoxInstance(e) {
+    this.gridSearchTextBoxInstance = e;
+    setTimeout(()=>{
+      if (this.gridSearchTextBoxInstance) {
+        this.gridSearchTextBoxInstance.focus();
+      }
+    })
   }
 }

@@ -1,0 +1,21 @@
+<div class="d-flex d-flex-column">
+  <div class="d-flex flex-grow-1">
+    <div class="page-header responsive-margins">Appointment Waiting List</div>
+  </div>
+</div>
+
+<div class="d-flex flex-grow-1 responsive-margins">
+  <app-waiting-list-grid (selectedPatient)="patientSelectedHandler($event)"></app-waiting-list-grid>
+
+  <div class="d-none d-lg-flex flex-w-22">
+    <div class="app-card h-100 ml-4 flex-grow-1">
+      <app-no-data *ngIf="!showPanel" [showTitle]="false" text="Please select a patient from the list."
+        class="w-100 flex responsive-paddings" class="mt-40per"></app-no-data>
+
+      <app-patient-details-quick-view [patient]="patientDetails" class="d-flex flex-grow-1" *ngIf="showPanel"
+        (patientSelected)="showPatientDetails()" [showTopButtons]="true"
+        [showNewInvoice]="false" [showAddAppointment]="false">
+      </app-patient-details-quick-view>
+    </div>
+  </div>
+</div>

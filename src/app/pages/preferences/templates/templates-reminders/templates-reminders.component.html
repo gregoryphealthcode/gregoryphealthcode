@@ -1,0 +1,53 @@
+<div class="d-flex flex-grow-1 ">
+  <div class="app-card  flex-grow-1">
+    <div class="d-flex flex-row  align-items-center">
+      <div class="label-info-value my-2">Appointments Templates</div>
+    </div>
+
+    <div class="cssWidgetWrapper">
+      <dx-data-grid class="cssGridGeneral" #templatesGrid id="templatesGrid" [dataSource]="templates"
+        [remoteOperations]="false" [allowColumnReordering]="false" [showColumnLines]="true" [showRowLines]="true"
+        [showBorders]="true" [rowAlternationEnabled]="true" [focusedRowEnabled]="true" focusedRowIndex="0"
+        keyExpr="this" [allowColumnResizing]="true" (onFocusedRowChanged)="onFocusedRowChanged($event)">
+
+        <dxo-scrolling mode="virtual" preloadEnabled="true" [useNative]="false" [scrollByContent]="true"
+          [scrollByThumb]="true" showScrollbar="onHover"></dxo-scrolling>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-search-panel [visible]="false" [width]="240" placeholder="Search...">
+        </dxo-search-panel>
+        <dxo-load-panel [enabled]="true"></dxo-load-panel>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50, 100]"></dxo-pager>
+        <dxo-paging [pageSize]="50"></dxo-paging>
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+        </dxo-editing>
+
+        <dxi-column dataField="description" caption="Template Name"> </dxi-column>
+        <dxi-column dataField="typeDescription" caption="Type"> </dxi-column>
+        <dxi-column dataField="comments" caption="Comments"> </dxi-column>
+        <dxi-column dataField="fileName" caption="File Name"> </dxi-column>
+        <dxi-column dataField="default" caption="Default"> </dxi-column>
+        <dxi-column dataField="isPatientZone" caption="patientzone"> </dxi-column>
+        <dxi-column type="buttons" dataField="id" caption="Action">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let data of 'myCommandTemplate'">
+          <button mat-icon-button class="alternative small-icon" (click)="editTemplate(data)" matTooltip="Edit">
+            <mat-icon fontSet="fa" fontIcon="fa-file-word"></mat-icon>
+          </button>
+
+          <button mat-icon-button class="alternative small-icon" (click)="edit(data)"
+            matTooltip="Edit Template Details">
+            <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
+          </button>
+          
+          <button mat-icon-button class="alternative warning small-icon" (click)="deleteTemplate(data)"
+            matTooltip="Delete Template">
+            <mat-icon fontSet="fa" fontIcon="fa-trash"></mat-icon>
+          </button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

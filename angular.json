@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "healthCode-ePractice": {
+    "ePractice": {
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -37,37 +37,52 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "aot": true,
-            "outputPath": "dist/healthCode-ePractice",
+            "outputPath": "dist/ePractice",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "optimization": {
+              "scripts": false,
+              "styles": false,
+              "fonts": false
+            },
+            "outputHashing": "none",
+            "sourceMap": {
+              "scripts": true,
+              "styles": false,
+              "hidden": false,
+              "vendor": true
+            },
+            "namedChunks": true,
+            "commonChunk": true,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "subresourceIntegrity": false,
+            "buildOptimizer": false,
+            "serviceWorker": false,
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.json",
+              "src/manifest.webmanifest",
               "src/.htaccess",
-              {
-                "glob": "**/*",
-                "input": "node_modules/ng2-pdfjs-viewer/pdfjs",
-                "output": "/assets/pdfjs"
-              }
+              { "glob": "**/*", "input": "node_modules/ng2-pdfjs-viewer/pdfjs", "output": "/assets/pdfjs" }
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "node_modules/devextreme/dist/css/dx.common.css",
               "node_modules/devextreme/dist/css/dx.light.css",
               "node_modules/@fortawesome/fontawesome-pro/css/all.css",
               "src/themes/generated/theme.base.css",
               "src/themes/dx.generic.epracticetheme.css",
               "src/dx-styles.scss",
-              "node_modules/bootstrap/scss/bootstrap.scss",
+
               "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js"
-            ],
-            "es5BrowserSupport": false
+            ]
+
           },
           "configurations": {
             "production": {
@@ -77,15 +92,30 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": true
+              },
+              "deleteOutputPath": true,
               "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
+              "sourceMap": {
+                "scripts": false,
+                "styles": false,
+                "hidden": false,
+                "vendor": false
+              },
               "namedChunks": true,
-              "extractLicenses": true,
+              "commonChunk": true,
               "vendorChunk": false,
+              "extractLicenses": true,
+              "subresourceIntegrity": false,
               "buildOptimizer": true,
+              "serviceWorker": true,
+              "ngswConfigPath": "src/ngsw-config.json",
               "aot": true,
+              "inlineStyleLanguage": "scss",
+              "statsJson": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -96,99 +126,16 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
                 }
-              ],
-              "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json"
+              ]
+
             },
-            "prod": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "aot": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "16mb",
-                  "maximumError": "30mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json"
-            },
-            "dev": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.ts"
-                }
-              ],
-              "optimization": false,
-              "outputHashing": "none",
-              "sourceMap": true,
-              "extractCss": true,
-              "namedChunks": true,
-              "extractLicenses": false,
-              "vendorChunk": true,
+            "development": {
               "buildOptimizer": false,
-              "aot": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "16mb",
-                  "maximumError": "30mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json"
-            },
-            "sit": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.sit.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
               "sourceMap": true,
-              "extractCss": true,
-              "namedChunks": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "aot": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "16mb",
-                  "maximumError": "30mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json"
+              "namedChunks": true
             },
             "peter": {
               "fileReplacements": [
@@ -197,45 +144,30 @@
                   "with": "src/environments/environment.peter.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": true
+              },
+              "deleteOutputPath": true,
               "outputHashing": "all",
-              "sourceMap": true,
-              "extractCss": true,
+              "sourceMap": {
+                "scripts": false,
+                "styles": false,
+                "hidden": false,
+                "vendor": false
+              },
               "namedChunks": true,
+              "commonChunk": true,
+              "vendorChunk": false,
               "extractLicenses": true,
-              "vendorChunk": false,
+              "subresourceIntegrity": false,
               "buildOptimizer": true,
-              "aot": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "16mb",
-                  "maximumError": "30mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
               "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json"
-            },
-            "hf": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.hf.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": true,
-              "extractCss": true,
-              "namedChunks": true,
-              "extractLicenses": false,
-              "vendorChunk": false,
-              "buildOptimizer": true,
+              "ngswConfigPath": "src/ngsw-config.json",
               "aot": true,
+              "inlineStyleLanguage": "scss",
+              "statsJson": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -246,76 +178,79 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
                 }
-              ],
-              "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json"
+              ]
             },
-            "local": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.local.ts"
-                }
-              ],
-              "optimization": false,
-              "outputHashing": "none",
-              "sourceMap": true,
-              "extractCss": true,
-              "namedChunks": true,
-              "extractLicenses": false,
-              "vendorChunk": true,
-              "buildOptimizer": false,
-              "aot": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "16mb",
-                  "maximumError": "30mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "serviceWorker": false,
-              "ngswConfigPath": "src/ngsw-config.json"
-            }
+          "local": {
+            "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.local.ts"
+              }
+            ],
+            "optimization": {
+              "scripts": false,
+              "styles": false,
+              "fonts": false
+            },
+            "deleteOutputPath": false,
+            "outputHashing": "none",
+            "sourceMap": {
+              "scripts": false,
+              "styles": false,
+              "hidden": false,
+              "vendor": false
+            },
+            "namedChunks": true,
+            "commonChunk": true,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "subresourceIntegrity": false,
+            "buildOptimizer": false,
+            "serviceWorker": false,
+            "ngswConfigPath": "src/ngsw-config.json",
+            "aot": true,
+            "inlineStyleLanguage": "scss",
+            "statsJson": false,
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "16mb",
+                "maximumError": "30mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb"
+              }
+            ]
           }
+          },
+
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "healthCode-ePractice:build"
+            "browserTarget": "ePractice:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "healthCode-ePractice:build:production"
+              "browserTarget": "ePractice:build:production"
             },
-            "prod": {
-              "browserTarget": "healthCode-ePractice:build:prod"
-            },
-            "dev": {
-              "browserTarget": "healthCode-ePractice:build:dev"
-            },
-            "sit": {
-              "browserTarget": "healthCode-ePractice:build:sit"
-            },
-            "peter": {
-              "browserTarget": "healthCode-ePractice:build:peter"
-            },
-            "hf": {
-              "browserTarget": "healthCode-ePractice:build:hf"
+            "development": {
+              "browserTarget": "ePractice:build:development"
             },
             "local": {
-              "browserTarget": "healthCode-ePractice:build:local"
+              "browserTarget": "ePractice:build:local"
+            },
+            "peter": {
+              "browserTarget": "ePractice:build:peter"
             }
-          },
-          "defaultConfiguration": "local"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "healthCode-ePractice:build"
+            "browserTarget": "ePractice:build"
           }
         },
         "test": {
@@ -326,7 +261,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.svg",
               "src/assets"
             ],
             "styles": [
@@ -358,25 +293,24 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "healthCode-ePractice:serve"
+            "devServerTarget": "ePractice:serve"
           },
           "configurations": {
-            "prod": {
-              "devServerTarget": "healthCode-ePractice:serve:prod"
+            "production": {
+              "devServerTarget": "ePractice:serve:production"
             }
           }
         }
       }
     }
   },
+
   "cli": {
     "cache": {
       "enabled": true,
       "path": ".cache",
       "environment": "all"
     },
-    "analytics": false,"schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "analytics": false
   }
 }

@@ -1,0 +1,43 @@
+<div class="d-flex flex-row mx-4 mt-3" style="align-items: center;">
+  <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+  <dx-select-box [dataSource]="searchOptions" (onSelectionChanged)="setSearchItem()" class="no-bg-dropdown dx-custom-button-hovered ml-auto"
+  valueExpr="value" displayExpr="viewValue" [(value)]="correspondenceType">
+  </dx-select-box>
+</div>
+
+<div class="d-flex flex-grow-1 mt-3">
+  <div class="cssWidgetWrapper generic-border grid-width">
+    <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" class="grid-width padd-first-lg cssGridGeneral"
+      [remoteOperations]="true" [showRowLines]="true" [focusedRowEnabled]="true" [focusedRowIndex]="0"
+      (onRowDblClick)="onRowDoubleClick($event)" (onFocusedRowChanged)="onFocusedRowChanged($event)">
+
+      <dxo-scrolling mode="virtual"></dxo-scrolling>
+      <dxo-search-panel [visible]="false"></dxo-search-panel>
+
+      <dxi-column dataField="description" cellTemplate="descriptionTemplate" caption="Description" minWidth="100">
+      </dxi-column>      
+      <dxi-column dataField="documentReference" [visible]="false" sortOrder="desc"></dxi-column>
+
+      <div *dxTemplate="let data of 'descriptionTemplate'" class="d-flex flex-column">
+        <div class="d-flex flex-row align-items-center">
+          <span class="text-semiBold mr-2">{{data.data.documentReference}}</span>
+          <span class="label-tag type5-1 my-auto">{{data.data.category}}</span>
+        </div>
+        <div class="d-flex flex-row">
+          <span class="text-grey-65">Created&nbsp;</span>
+          <span>{{data.data.created | date: dateFormat}}</span>
+        </div>
+      </div>
+    </dx-data-grid>
+  </div>
+
+  <div class="preview-wrapper flex-grow-1">
+    <div class="w-100 h-100 generic-border-left">
+      <iframe #previewiframe height="100%" *ngIf="templatePreviewUrl" width="100%" [src]="templatePreviewUrl | safe"
+        frameborder='0'></iframe>
+
+      <span *ngIf="!templatePreviewUrl" class="preview-label">Preview</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+  <app-pop-up-form-title title="Complete Appointment" (closed)="closeForm()"></app-pop-up-form-title>
+
+  <div class="central-popup-wrapper">
+    <div class="central-popup-body" appEnterKeyFocusWrapper delay="750" [formGroup]="editForm">
+      <app-slide-toggle formControlName="patientAttend" class="md-height" direction="row" caption="Patient attended"
+        [(ngModel)]="attend">
+      </app-slide-toggle>
+
+      <app-slide-toggle formControlName="createInvoice" class="md-height" direction="row" caption="Create invoice"
+        [(ngModel)]="invoice">
+      </app-slide-toggle>
+    </div>
+
+    <!-- Footer -->
+    <div class="popup-form-footer-wrapper">
+      <app-button text="Close" class="ml-auto mr-3" (clicked)="closeForm()" color="grey"></app-button>
+
+      <app-button text="Complete" (clicked)="submitForm()" [disabled]="!editForm.valid"></app-button>
+    </div>
+  </div>
+</div>

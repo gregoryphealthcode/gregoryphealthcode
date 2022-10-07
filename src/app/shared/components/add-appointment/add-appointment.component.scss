@@ -1,0 +1,91 @@
+.col-form-label {
+    text-align:right;
+    margin: auto;
+    color : #000000;
+}
+
+.mat-tab-header
+{
+  background-color: #dde4e8 !important;
+}
+
+.textBox
+{
+  width: 23.5em;
+
+}
+
+.textArea
+{
+  width: 100%;
+  height: 7.5em;
+}
+.no-overflow
+{
+  overflow: hidden;
+}
+
+:host ::ng-deep{
+  .types-wrapper .radio-btn-wrapper{
+    width: 8.7rem;
+  }
+
+  .a-form-group.d-col.text-area-standard-height {
+    height: 110px;
+}
+
+  app-invoice-services-select .label-width{
+    min-width: 6rem;
+  }
+}
+
+app-card-action-button{
+  border-radius: 6px;
+  padding: 4px 10px 8px;
+
+  ::ng-deep button.app-button{
+    min-width: 4rem;
+
+    i{
+      --fa-secondary-opacity: 0.2;
+    }
+  }
+
+  &:hover{
+    cursor: pointer;
+    filter: brightness(0.8);
+  }
+
+}
+
+.shift-up {
+  margin-top: -15px;
+}
+
+.no-wrap {
+  flex-wrap: nowrap;
+}
+
+//Safari
+@supports (overflow:-webkit-marquee) and (justify-content:inherit) 
+{
+  .safari-pb-2 {
+    padding-bottom: 2rem;
+  }
+
+  .safari-warning-height {
+    height: 80px !important;
+  }
+
+  .safari-min-height {
+    min-height: 700px !important;
+  }
+}
+
+.h-auto {
+  height: auto !important;
+}
+
+.hidden {
+  visibility: hidden;
+}

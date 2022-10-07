@@ -1,0 +1,42 @@
+<div class="cssWidgetWrapper px-0">
+  <dx-data-grid [dataSource]="dataSource" gridWithRowLinesSettings [hoverStateEnabled]="true"
+    class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true" focusedRowIndex="0">
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+    <dxi-column dataField="type" caption="Appointment Type" [minWidth]="140"></dxi-column>
+    <dxi-column dataField="priority" cellTemplate="priorityTemplate" alignment="center" caption="Priority"
+      [minWidth]="100"></dxi-column>
+    <dxi-column dataField="specialistName" caption="Practitioner" cellTemplate="specialistTemplate" [minWidth]="120">
+    </dxi-column>
+    <dxi-column dataField="locationName" caption="Location" cellTemplate="locationTemplate" [minWidth]="120">
+    </dxi-column>
+    <dxi-column dataField="notes" caption="Notes" [minWidth]="120">
+    </dxi-column>
+    <dxi-column [allowFiltering]="false" [allowSorting]="false" cellTemplate="btnTemplate" [minWidth]="80">
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'specialistTemplate'">
+      <span *ngIf="data.data?.specialistName != null">{{data.data.specialistName}}</span>
+      <span *ngIf="data.data?.specialistName == null">Not selected</span>
+    </div>
+
+    <div *dxTemplate="let cellInfo of 'priorityTemplate'">
+      <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+    </div>
+
+    <div *dxTemplate="let data of 'locationTemplate'">
+      <span *ngIf="data.data?.locationName != null">{{data.data.locationName}}</span>
+      <span *ngIf="data.data?.locationName == null">Not selected</span>
+    </div>
+
+    <div *dxTemplate="let data of 'btnTemplate'" class="align-center">
+      <app-button icon="far fa-trash" type="link" color="grey" class="mr-2" matTooltip="Remove from list"
+        (clicked)="delete(data)">
+      </app-button>
+    </div>
+  </dx-data-grid>
+</div>
+
+<div class="d-flex flex-row">
+  <app-button text="Close" class="ml-auto mr-3" (clicked)="closed.emit()" color="grey"></app-button>
+</div>

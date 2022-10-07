@@ -134,7 +134,8 @@ $d-col-label-width: 15rem;
 
       &:not(.label-value) {
         padding-bottom: 2px;
-        color: hsl(0, 0%, 60%);
+        // color: hsl(0, 0%, 60%);
+        color: #8b8a8a;
       }
     }
 

@@ -1,0 +1,69 @@
+<app-waiting-list-add-edit-popup [data]="selectedRecord" (saved)="getWaitingList()"></app-waiting-list-add-edit-popup>
+
+<div class="page-header responsive-margins">Appointment Waiting List</div>
+
+<div class="d-flex flex-grow-1 responsive-margins disable-select">
+  <div class="d-flex flex-grow-1 responsive-paddings pt-0 px-0 app-card">
+    <div class="cssWidgetWrapper">
+      <dx-data-grid id="waitingListGridContainer" [dataSource]="waitingList" [remoteOperations]="false"
+        class="cssGridGeneral" [allowColumnReordering]="true" [rowAlternationEnabled]="false" [wordWrapEnabled]="false"
+        [showBorders]="true" [showColumnLines]="true" [showRowLines]="true" [focusedRowEnabled]="true"
+        focusedRowIndex="0" keyExpr="waitingListId" [rowAlternationEnabled]="true" [allowColumnResizing]="true"
+        [columnHidingEnabled]="true" (onFocusedRowChanged)="onFocusedRowChanged($event)" columnResizingMode="widget">
+
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 25, 50, 100]"></dxo-pager>
+        <dxo-load-panel [showPane]="false"></dxo-load-panel>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50, 100]"></dxo-pager>
+        <dxo-paging [pageSize]="50"></dxo-paging>
+
+        <dxi-column dataField="patientName" caption="Patient" [width]="220"></dxi-column>
+        <dxi-column dataField="priority" [width]="65" caption="Priority" cellTemplate="cellTemplate"></dxi-column>
+        <dxi-column dataField="slotAvailable" caption="Slot Available?" [width]="82"></dxi-column>
+        <dxi-column dataField="ownerId" caption="To See" [allowSorting]="false" [width]="180" [allowFiltering]="false"
+          cellTemplate="toSeeTemplate"></dxi-column>
+        <dxi-column dataField="appointmentType" caption="Appointment Type" [width]="180"></dxi-column>
+        <dxi-column dataField="duration" caption="Duration" [width]="70" [visible]="false"></dxi-column>
+        <dxi-column dataField="dateAdded" caption="Date Added" dataType="date" format="dd/MM/yyyy"></dxi-column>
+        <dxi-column type="buttons" [fixed]="true" fixedPosition="right" [showInColumnChooser]="false">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'toSeeTemplate'">
+          <span>{{calculateDiaryOwnerName(cellInfo.value)}}</span>
+        </div>
+
+        <dxo-summary>
+          <dxi-total-item column="patientName" summaryType="count" displayFormat="{0}" valueFormat="fixedPoint {2}">
+          </dxi-total-item>
+        </dxo-summary>
+
+        <div *dxTemplate="let cellInfo of 'cellTemplate'">
+          <span *ngIf="cellInfo.value === true"> <i class="fas fa-check"></i></span>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'">
+          <button mat-icon-button class="alternative icon warning mx-1" matTooltip="Delete Person"
+            (click)="removeFromWaitingList(cellInfo)">
+            <mat-icon fontSet="fa" fontIcon="fa-trash"></mat-icon>
+          </button>
+
+          <button mat-icon-button class="alternative icon" matTooltip="Edit Person" (click)="editHandler(cellInfo)">
+            <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
+          </button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+
+  <div class="d-none d-lg-flex flex-w-22">
+    <div class="app-card h-100 ml-4 flex-grow-1">
+      <app-no-data *ngIf="!showPanel" [showTitle]="false" text="Please select a patient from the list."
+        class="w-100 flex responsive-paddings" class="mt-40per"></app-no-data>
+
+      <app-patient-details-quick-view [patient]="patientDetails" class="d-flex flex-grow-1" *ngIf="showPanel"
+        (patientSelected)="showPatientDetails()" (addAppointment)="addAppointment($event)" [showTopButtons]="true"
+        (addToWaitingList)="showAdd()"></app-patient-details-quick-view>
+    </div>
+  </div>
+</div>

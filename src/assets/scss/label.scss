@@ -1,5 +1,5 @@
 //Safari
-@supports (overflow:-webkit-marquee) and (justify-content:inherit) 
+@supports (overflow:-webkit-marquee) and (justify-content:inherit)
 {
   .label-info {
     height: 15px;
@@ -33,7 +33,8 @@ $main-text-color: hsl(0 0% 30%);
 
 .label-description{
   font-size: 0.8rem;
-  color: lighten($main-text-color,46%);
+  //** PG color: lighten($main-text-color, 46%);
+  color: lighten($main-text-color, 30%);
 
   &.lg{
     font-size: 0.925rem;
@@ -46,7 +47,8 @@ $main-text-color: hsl(0 0% 30%);
 }
 
 .label-info-value{
-  font-size: 0.8rem;
+  //** PG **    font-size: 0.8rem;
+  font-size: 0.85rem;
   color: $main-text-color;
   font-weight: 500;
   line-height: 1.25;

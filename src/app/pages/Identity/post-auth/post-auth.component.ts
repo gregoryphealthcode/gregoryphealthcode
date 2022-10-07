@@ -38,7 +38,6 @@ export class PostAuthComponent extends SubscriptionBase implements OnInit {
     this.subscription.add(
       this.authService.postAuth(code, state).subscribe(
         (x) => {
-          console.log('POSTAUTH: ', x)
           if (!x) {
             this.showNoUserFound = true;
           }
@@ -51,7 +50,6 @@ export class PostAuthComponent extends SubscriptionBase implements OnInit {
   }
 
   private onError(error: any) {
-    console.log('ERROR: ', error);
     switch (error.status) {
       case 401:
         this.showUnauthorised = true;

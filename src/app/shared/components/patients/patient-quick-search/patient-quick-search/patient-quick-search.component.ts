@@ -4,6 +4,7 @@ import { dxPopupOptions } from "devextreme/ui/popup";
 import { SubscriptionBase } from "src/app/shared/base/subscribtion.base";
 import { PatientService } from "src/app/shared/services/patient.service";
 
+
 @Component({
   selector: "app-patient-quick-search",
   templateUrl: "./patient-quick-search.component.html",
@@ -39,7 +40,7 @@ export class PatientQuickSearchComponent extends SubscriptionBase implements OnI
 
   public showAddPatient: boolean;
   public dataSource: DataSource;
-  public dropdownOptions: dxPopupOptions = {
+  public dropdownOptions = {
     titleTemplate: "titleTemplate",
     closeOnOutsideClick: true,
     height: "300px",

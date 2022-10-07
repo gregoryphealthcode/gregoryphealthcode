@@ -1,0 +1,62 @@
+<dx-popup #formrepositorypopup name="formrepositorypopup" title="Form Repository" contentTemplate="popupContent"
+  width="100%" [closeOnOutsideClick]="true" [dragEnabled]="true" [showCloseButton]="true" [height]="800"
+  [deferRendering]="true" [resizeEnabled]="true" [maxWidth]="'100vw'" [maxHeight]="'100vh'">
+  <div *dxTemplate="let data of 'popupContent'">
+    <app-form-repository></app-form-repository>
+  </div>
+</dx-popup>
+
+<div class="d-flex flex-grow-1 ">
+  <div class="app-card  flex-grow-1">
+    <div class="d-flex flex-row  align-items-center">
+      <div class="label-info-value my-2">Correspondence Templates</div>
+    </div>
+
+    <div class="cssWidgetWrapper">
+      <dx-data-grid id="templatesGrid" [dataSource]="templates" [remoteOperations]="false" class="cssGridGeneral"
+        [showColumnLines]="true" [showRowLines]="true" [showBorders]="true" [rowAlternationEnabled]="true"
+        [focusedRowEnabled]="true" focusedRowIndex="0" keyExpr="this" [allowColumnResizing]="true"
+        (onFocusedRowChanged)="onFocusedRowChanged($event)" (onToolbarPreparing)="onToolbarPreparing($event)">
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 30, 40]" [showInfo]="true">
+        </dxo-pager>
+        <dxo-scrolling mode="virtual" preloadEnabled="true" [useNative]="false" [scrollByContent]="true"
+          [scrollByThumb]="true" showScrollbar="onHover"></dxo-scrolling>
+        <dxo-search-panel [visible]="false" [width]="240" placeholder="Search..."></dxo-search-panel>
+        <dxo-load-panel [enabled]="true"></dxo-load-panel>
+        <dxo-paging [pageSize]="10"></dxo-paging>
+
+        <dxi-column dataField="description" caption="Template Name"> </dxi-column>
+        <dxi-column dataField="typeDescription" caption="Type"> </dxi-column>
+        <dxi-column dataField="comments" caption="Comments"> </dxi-column>
+        <dxi-column dataField="fileName" caption="File Name"> </dxi-column>
+        <dxi-column dataField="default" caption="Default"> </dxi-column>
+        <dxi-column dataField="isPatientZone" caption="patientzone"> </dxi-column>
+        <dxi-column type="buttons" dataField="id" caption="Action">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let data of 'myCommandTemplate'">
+          <button mat-icon-button class="alternative small-icon" (click)="editTemplate(data)"
+            matTooltip="Edit Template Document">
+            <mat-icon fontSet="fa" fontIcon="fa-file-word"></mat-icon>
+          </button>
+
+          <button mat-icon-button class="alternative small-icon" (click)="edit(data)"
+            matTooltip="Edit Template Details">
+            <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
+          </button>
+
+          <button mat-icon-button class="alternative warning small-icon" (click)="deleteTemplate(data)"
+            matTooltip="Delete Template">
+            <mat-icon fontSet="fa" fontIcon="fa-trash"></mat-icon>
+          </button>
+        </div>
+
+        <div *dxTemplate="let data of 'afterSearch'" class="d-flex flex-row flex-wrap beforeSearch">
+          <button mat-button class='app-button primary grid-header-btn' matTooltip=''
+            (click)="formRepositoryClicked()">Form Repository</button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

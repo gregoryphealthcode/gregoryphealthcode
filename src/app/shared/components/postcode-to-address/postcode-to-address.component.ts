@@ -23,7 +23,7 @@ export class PostcodeToAddressComponent extends FormControlBase implements OnIni
   }
 
   @Output() addressSelect = new EventEmitter<PostcodeToAddressResponseModel>();
-  public dropdownOptions: dxPopupOptions = {
+  public dropdownOptions = {
     width: 250
   }
 
@@ -33,7 +33,7 @@ export class PostcodeToAddressComponent extends FormControlBase implements OnIni
 
   private searchTerms = new Subject<string>();
   private subscription = new Subscription();
-  previousValue: string;  
+  previousValue: string;
 
   process() {
     this.error = undefined;

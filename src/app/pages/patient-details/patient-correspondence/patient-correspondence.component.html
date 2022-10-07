@@ -1,0 +1,27 @@
+<!-- <mat-tab-group class="full-height2">
+  <mat-tab class="header">
+    <ng-template mat-tab-label>
+      <span class="tabHeader">Completed</span>
+
+      <span class="label-tag tab-count ml-2" *ngIf="counts">{{counts.completedCount}}</span>
+    </ng-template>
+
+    <div class="d-flex h-100" *matTabContent> -->
+      <app-correspondence-grid class="full-height2 d-flex flex-column" [patientId]="patientId">
+      </app-correspondence-grid>
+   <!--  </div>
+  </mat-tab>
+
+  <mat-tab class="header">
+    <ng-template mat-tab-label class="sub-heading">
+      <span class="tabHeade">Draft</span>
+
+      <span class="label-tag tab-count ml-2" *ngIf="counts">{{counts.draftCount}}</span>
+    </ng-template>
+    
+    <div class="d-flex h-100" *matTabContent>
+      <app-draft-correspondence-grid class="w-100 d-flex flex-column flex-grow-1" [patientId]="patientId" (gridChanged)="updateCounts()">        
+      </app-draft-correspondence-grid>
+    </div>
+  </mat-tab>
+</mat-tab-group> -->

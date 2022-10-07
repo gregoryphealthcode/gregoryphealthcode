@@ -778,9 +778,12 @@ export class PatientSearchComponent
     // this.searchInputChanged(e);
     // this.patientsearchdata.searchText = this.patientsearchform.instance.getEditor('searchText').option('text');
     // e.component._options.value
-    const searchfor = this.patientsearchform.instance
+    let searchfor: string ='';
+    try {
+     this.patientsearchform.instance
       .getEditor('searchText')
       .option('text');
+    } catch(e) {}
     console.log('searchfor:', searchfor);
     this.patientsearchform.instance
       .getEditor('searchText')

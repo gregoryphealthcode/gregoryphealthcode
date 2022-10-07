@@ -1,0 +1,38 @@
+:host ::ng-deep{
+  .time-input{
+    width: 8rem;
+  }
+
+  .day-checkbox{
+    width: 7rem;
+    padding-top: 6px;
+  }
+
+  .page-main {
+    position: absolute;
+    top: 0;
+    bottom: 50px;
+    overflow-y: auto;
+    width: 100%;
+    padding-bottom: 15px;
+}
+
+.page-footer {
+    position: absolute;
+    bottom: 0;
+    max-height: 50px;
+    width: 98%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.page-footer-button {
+    float: right;
+}
+
+}
+
+.w-450px {
+  width: 450px;
+}
+

@@ -17,7 +17,7 @@ export class CameraComponent implements OnInit {
   public multipleWebcamsAvailable = false;
   public deviceId: string;
   public videoOptions: MediaTrackConstraints = {
-    width: {min: 1280, ideal: 1920}, 
+    width: {min: 1280, ideal: 1920},
     height: {min: 720, ideal: 1080}
   };
   public errors: WebcamInitError[] = [];
@@ -54,7 +54,7 @@ export class CameraComponent implements OnInit {
   }
 
   public handleImage(webcamImage: WebcamImage): void {
-    this.webcamImage = webcamImage;    
+    this.webcamImage = webcamImage;
     this.showWebcam = false;
     this.pictureTaken.emit(webcamImage);
   }

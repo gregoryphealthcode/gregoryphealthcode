@@ -1,34 +1,48 @@
-
 export const environment = {
-  environment_name: 'peter',
-  production: false,
-  development: true,
+  production: true,
+  development: false,
 
+  environmentName: 'hc-peter',
+  testMode: true,
 
-  serverUrl: 'https://my-ebooking.co.uk/epractice2data',
-  authserverBaseurl: 'https://my-ebooking.co.uk/epractice2data/api',
-  baseurl: 'https://my-ebooking.co.uk/epractice2data/api',
-  documentApiUrl: 'https://my-ebooking.co.uk/ePracticeDocViewer',
-  medSecBaseurl: 'https://my-ebooking.co.uk/ePracticeMedSec/',
-
+  serverUrl: 'https://www.my-ebooking.co.uk/ePractice2Data',
+  authserverBaseurl: 'https://www.my-ebooking.co.uk/ePractice2Data',
+  baseurl: 'https://www.my-ebooking.co.uk/ePractice2Data/api',
+  documentApiUrl: 'https://www.my-ebooking.co.uk/ePracticeDocViewer',
+  medSecBaseurl: 'https://www.my-ebooking.co.uk/ePractice2Data/ePracticeMedSec/',
   RouterTraceEnabled: false,
-  webPageRoot: 'https://my-ebooking/epractice',
+  webPageRoot: 'https://www.my-ebooking.co.uk/epractice/',
 
-  HelpHeroPlatform: 'Dev Server',
 
-  enableLocalAuth: false,
+  // serverUrl: 'https://www.my-ebooking.co.uk/epractice/ePractice2Data',
+  // authserverBaseurl: 'https://www.my-ebooking.co.uk/ePractice2Data',
+  // baseurl: 'https://www.my-ebooking.co.uk/epractice',
+  // documentApiUrl: 'https://www.my-ebooking.co.uk/epractice',
+  // medSecBaseurl: 'https://www.my-ebooking.co.uk/epractice/ePracticeMedSec/',
+  // RouterTraceEnabled: false,
+  // webPageRoot: 'https://www.my-ebooking.co.uk/epractice/',
 
-  healthCode: {
+
+  // OAuthSettings: {
+  //   appId: '1f68a230-2c7b-4d3a-a295-d64fef17fd19',
+  //   scopes: [
+  //     'user.read',
+  //     'calendars.read',
+  //     'mail.send'
+  //   ]
+  //  },
+
+   HelpHeroPlatform: 'Dev Server',
+   enableLocalAuth: true,
+   healthCode:{
     clientId: 'epractice',
-    // mainUrl: 'https://auth.sit.healthcode.co.uk',    //** auth against SIT */
-    mainUrl: 'https://auth.dev.healthcode.co.uk',       //** auth against DEV */
-    scope: 'openid siteid email offline_access',
+    mainUrl: 'https://auth.sit.healthcode.co.uk',
+    scope:'openid siteid email offline_access',
     authorizePath: 'authorize',
-    redirectPath: 'https://my-ebooking/epractice/postauth'
+    redirectPath: 'https://epractice.sit.healthcode.co.uk/postauth'
   },
-  msgurl: 'http://www.dev2.healthcode.co.uk/secure-messaging/prelogin/auth/preauth.jsp',
-  pprurl: 'http://www.dev2.healthcode.co.uk/pprepractice/pages/pprspecialist/prelogin/auth/preauth.jsp',
-  codeSearchUrl: 'http://www.dev2.healthcode.co.uk/Code-Search/prelogin/auth/preauth.jsp'
-};
 
-import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+  msgurl: 'http://www.sit.healthcode.co.uk/secure-messaging/prelogin/auth/preauth.jsp',
+  pprurl: 'http://www.sit.healthcode.co.uk/pprepractice/pages/pprspecialist/prelogin/auth/preauth.jsp',
+  codeSearchUrl: 'http://www.sit.healthcode.co.uk/Code-Search/prelogin/auth/preauth.jsp'
+};

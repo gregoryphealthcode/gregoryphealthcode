@@ -1,0 +1,61 @@
+<dx-popup appCentralPopUpSettings [width]="'420'" *ngIf="show" [enableScroll]="true">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title title="Practitioner" (closed)="closeForm()"></app-pop-up-form-title>
+
+    <div class="central-popup-wrapper">
+      <div class="central-popup-body" appEnterKeyFocusWrapper delay="750" [formGroup]="editForm">
+        <span class="label-info-value text-semiBold generic-border-bottom pb-2">Main</span>
+
+        <app-text-box formControlName="displayName" direction="row" caption="Display Name" class="pt-3"
+          [capitalizeEachWord]="true"></app-text-box>
+
+        <app-text-box formControlName="lastName" direction="row" caption="Last Name" [capitalizeEachWord]="true">
+        </app-text-box>
+
+        <app-text-box formControlName="firstName" direction="row" caption="First Name" [capitalizeEachWord]="true">
+        </app-text-box>
+
+        <app-select-box caption="Title" [dataSource]="titles" formControlName="title" valueExpr="title" direction="row"
+          displayExpr="title"></app-select-box>
+
+        <app-text-box formControlName="jobTitle" direction="row" caption="Job Title" [capitalizeEachWord]="true">
+        </app-text-box>
+
+        <span class="label-info-value text-semiBold generic-border-bottom pb-2 mt-2">Specialty</span>
+
+        <app-select-box [dataSource]="specialities" valueExpr="name" displayExpr="name" class="pt-3"
+          formControlName="speciality" direction="row" caption="Specialty">
+        </app-select-box>
+
+        <app-select-box [dataSource]="subSpecialities" valueExpr="name" displayExpr="name"
+          formControlName="subSpeciality" direction="row" caption="Sub Specialty">
+        </app-select-box>
+
+        <app-tag-box formControlName="types" displayExpr="description" valueExpr="appointmentTypeId"
+          caption="Appointment Types" class="text-area-standard-height" [dataSource]="types" direction="row">
+        </app-tag-box>
+
+        <span class="label-info-value text-semiBold generic-border-bottom pb-2 mt-2">Other</span>
+        <app-text-area-box formControlName="notes" direction="row" caption="Notes"
+          class="text-area-standard-height pt-3"></app-text-area-box>
+
+        <app-text-box formControlName="gmcNo" direction="row" caption="GMC No"></app-text-box>
+
+        <app-slide-toggle *ngIf="!isNew" formControlName="active" class="mb-0 md-height" direction="row"
+          caption="Active" (checked)="active">
+        </app-slide-toggle>
+      </div>
+
+      <!-- Footer -->
+      <div class="popup-form-footer-wrapper">
+        <app-button text="Close" class="ml-auto mr-3" (clicked)="closeForm()" color="grey"></app-button>
+
+        <app-button text="Save" (clicked)="submitForm()" [disabled]="!editForm.valid"></app-button>
+      </div>
+    </div>
+  </div>
+</dx-popup>
+
+<!-- Popup for CHANGE PHOTO -->
+<app-specialist-edit-photo *ngIf="showPhotoPopup" (cancelled)="showPhotoPopup = false" (saved)="imageChanged($event)"
+  [image]="image"></app-specialist-edit-photo>

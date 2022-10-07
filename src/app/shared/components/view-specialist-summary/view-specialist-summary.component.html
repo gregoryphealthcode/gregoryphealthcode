@@ -1,0 +1,62 @@
+<div class="d-flex flex-column flex-grow-1">
+  <span class="d-flex a-card-title responsive-paddings">{{specialist.displayName}}</span>
+
+  <div class="content-height custom-scroll disable-select responsive-paddings">
+    <div class="d-flex flex-column flex-grow-1 left-margin-1 h-100 ">
+      <div class="d-flex flex-row avatar-wrapper">
+        <!--
+          <div *ngIf="specialist.active !==false" class="image-container">
+            <img [src]="specialist.photoDataType + specialist.photoAsBase64String"  width="100"  style="border-radius: 50%; border: 1px solid lightgrey;">
+         </div>
+        <div *ngIf="specialist.active === false " class="image-container">
+            <img [src]="specialist.photoDataType + specialist.photoAsBase64String"  width="100" style="border-radius: 50%; border: 1px solid lightgrey; opacity:0.3;">
+        </div> -->
+      </div>
+
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">Job Title</span>
+
+        <span class="label-info-value">{{specialist.jobTitle}}</span>
+      </div>
+
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">Specialty</span>
+
+        <span class="label-info-value">{{specialist.speciality}}</span>
+      </div>
+
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">Sub Specialty</span>
+
+        <span class="label-info-value">{{specialist.subSpeciality}}</span>
+      </div>
+
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">GMC No</span>
+
+        <span class="label-info-value">{{specialist.gmcNo}}</span>
+      </div>
+
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">Is Active</span>
+
+        <span class="label-info-value">
+          {{specialist.active === true ? 'Yes' : 'No' }}
+        </span>
+      </div>
+
+      <div class="d-flex flex-row">
+        <span class="label-info label-width">Notes</span>
+
+        <span class="label-info-value">{{specialist.notes}}</span>
+      </div>
+    </div>
+  </div>
+
+  <span class="horizontal-line"></span>
+
+  <div class="d-flex flex-row w-100 a-card-footer justify-content-center" *ngIf="showTopButtons">
+    <app-card-action-button icon="stethoscope" text="Edit Specialist" (clicked)="onSpecialistSelected()">
+    </app-card-action-button>
+  </div>
+</div>

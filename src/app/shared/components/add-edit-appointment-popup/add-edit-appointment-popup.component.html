@@ -1,0 +1,9 @@
+<app-patient-quick-search-popup (doubleClickedRow)="patientSelectedHandler($event)" (closed)="closedHandler()">
+</app-patient-quick-search-popup>
+
+<dx-popup appCentralPopUpSettings *ngIf="showAppointmentPopup" height="800" [enableScroll]="true">
+  <div *dxTemplate="let data of 'popupContent'" class="d-flex">
+    <app-add-appointment-form (closed)="closedHandler()" (saved)="savedHandler($event);"
+      [appointmentDataItem]="appointmentDataItem"></app-add-appointment-form>
+  </div>
+</dx-popup>

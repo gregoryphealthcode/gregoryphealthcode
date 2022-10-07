@@ -1,0 +1,55 @@
+<app-patient-documents-add-edit [data]="selectedRecord" (saved)="saved($event)" (changeTab)="changeTabHandler($event)"></app-patient-documents-add-edit>
+
+<div class="d-flex flex-column flex-grow-1 app-card">
+  <div class="d-flex flex-row mx-4 mt-3">
+    <!-- <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box> -->
+    <app-button icon="far fa-plus" class="ml-auto mt-auto" text="New" iconPosition="left" [showDropdownIcon]="true"
+        #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="belowMenu"></app-button>
+
+      <mat-menu #belowMenu="matMenu" yPosition="below">
+        <ng-container *ngFor="let item of items">
+          <app-button type="link" [icon]="item.icon" color="grey" class="menu-item-btn" [text]="item.description"
+            (clicked)="add(item.value)"></app-button>
+        </ng-container>
+      </mat-menu>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-3">
+    <div class="app-card flex-grow-1 content-height border-none">
+      <div class="cssWidgetWrapper">
+        <dx-data-grid [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="id" [hoverStateEnabled]="true"
+          class="cssGridGeneral padd-first-lg" (onRowDblClick)="editClicked($event)" [rowAlternationEnabled]="true" focusedRowIndex="0">
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+          <dxi-column dataField="documentName" caption="Document Name"></dxi-column>
+          <dxi-column dataField="documentTypeDescription" caption="Document Type"></dxi-column>
+          <dxi-column dataField="patientDocumentTypeDescription" caption="Patient Document Type"></dxi-column>
+          <dxi-column dataField="documentDate" caption="Document Date" dataType="date" [format]="dateFormat"></dxi-column>
+          <dxi-column dataField="fileName" caption="File" cellTemplate="fileTemplate"></dxi-column>
+          <dxi-column dataField="createdByName" caption="Created By"></dxi-column>
+          <dxi-column caption="Locked" cellTemplate="lockedTemplate"></dxi-column>          
+          <dxi-column dataField="comments" caption="Comments"></dxi-column>          
+          <dxi-column type="buttons" [showInColumnChooser]="false" width="75">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+          </dxi-column>
+
+          <div *dxTemplate="let cellInfo of 'fileTemplate'">
+            <a class="download" title="{{cellInfo.data.fileName}}" (click)="downloadFile(cellInfo)">{{cellInfo.data.fileName}}</a>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'lockedTemplate'">
+            <mat-icon *ngIf="cellInfo.data.locked === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+          </div>
+
+          <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">              
+            <app-button icon="far fa-trash" type="link" color="grey" class="mr-2" matTooltip="Delete"
+              (clicked)="deleteClicked(cellInfo)"></app-button>
+
+            <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit"
+              (clicked)="editClicked(cellInfo)"></app-button>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

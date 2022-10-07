@@ -1,0 +1,23 @@
+<mat-tab-group class="full-height2" [(selectedIndex)]="tabIndex">
+    <mat-tab class="header">
+      <ng-template mat-tab-label>
+        <span class="tabHeader">Letters</span>
+      </ng-template>
+  
+      <div class="d-flex h-100 w-100" *matTabContent>
+        <app-patient-letters class="w-100 d-flex flex-column" [patientId]="patientId" [newDictation]="newDictation" [documentId]="documentId">
+        </app-patient-letters>
+      </div>
+    </mat-tab>
+  
+    <mat-tab class="header">
+      <ng-template mat-tab-label class="sub-heading">
+        <span class="tabHeader">Documents</span>
+      </ng-template>
+      
+      <div class="d-flex h-100 w-100" *matTabContent>
+        <app-patient-documents class="w-100 d-flex flex-column flex-grow-1" [patientId]="patientId" (changeTab)="changeTabHandler($event)">        
+        </app-patient-documents>
+      </div>
+    </mat-tab>
+  </mat-tab-group>

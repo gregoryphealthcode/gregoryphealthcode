@@ -1,38 +1,58 @@
-
 export const environment = {
-  environment_name: 'local',
-  production: false,
-  development: true,
+  production: true,
+  development: false,
+
+  environmentName: 'hc-dev',
+  testMode: true,
 
 
-  serverUrl: 'https://my-ebooking.co.uk/epractice2data',
-  authserverBaseurl: 'https://my-ebooking.co.uk/epractice2data/api',
-  baseurl: 'https://my-ebooking.co.uk/epractice2data/api',
+  // serverUrl: 'https://api.epractice.dev.healthcode.co.uk',
+  // authserverBaseurl: 'https://api.epractice.dev.healthcode.co.uk',
+  // baseurl: 'https://api.epractice.dev.healthcode.co.uk/api',
+  // documentApiUrl: 'https://api.epractice.dev.healthcode.co.uk/ePracticeDocViewer',
+  // medSecBaseurl: 'https://api.epractice.dev.healthcode.co.uk/ePracticeMedSec/',
+  // RouterTraceEnabled: false,
+  // webPageRoot: 'https://epractice.dev.healthcode.co.uk/',
 
-  documentApiUrl: 'https://my-ebooking.co.uk/ePracticeDocViewer',
-  medSecBaseurl: 'https://my-ebooking.co.uk/ePracticeMedSec/',
-
+  serverUrl: 'https://localhost:44331',
+  authserverBaseurl: 'https://localhost:44331',
+  baseurl: 'https://localhost:44331/api',
+  documentApiUrl: 'https://localhost:44331',
+  medSecBaseurl: 'https://localhost:44331/ePracticeMedSec/',
   RouterTraceEnabled: false,
-  webPageRoot: 'https://my-ebooking/epractice',
+  webPageRoot: 'https://localhost /',
 
-  HelpHeroPlatform: 'Dev Server',
 
-  enableLocalAuth: false,
+  // serverUrl: 'https://www.my-ebooking.co.uk/epractice/ePractice2Data',
+  // authserverBaseurl: 'https://www.my-ebooking.co.uk/ePractice2Data',
+  // baseurl: 'https://www.my-ebooking.co.uk/epractice',
+  // documentApiUrl: 'https://www.my-ebooking.co.uk/epractice',
+  // medSecBaseurl: 'https://www.my-ebooking.co.uk/epractice/ePracticeMedSec/',
+  // RouterTraceEnabled: false,
+  // webPageRoot: 'https://www.my-ebooking.co.uk/epractice/',
 
-  healthCode: {
+
+  // OAuthSettings: {
+  //   appId: '1f68a230-2c7b-4d3a-a295-d64fef17fd19',
+  //   scopes: [
+  //     'user.read',
+  //     'calendars.read',
+  //     'mail.send'
+  //   ]
+  //  },
+
+   HelpHeroPlatform: 'Dev Server',
+   enableLocalAuth: true,
+
+   healthCode:{
     clientId: 'epractice',
-    // mainUrl: 'https://auth.sit.healthcode.co.uk',    //** auth against SIT */
-     // mainUrl: 'https://auth.dev.healthcode.co.uk',       //** auth against DEV */
-     mainUrl: '/epractice/HCAuthApi',         //** localproxy */
-
-
-    scope: 'openid siteid email offline_access',
+    mainUrl: 'https://auth.sit.healthcode.co.uk',
+    scope:'openid siteid email offline_access',
     authorizePath: 'authorize',
-    redirectPath: 'https://localhost:4433/postauth'
+    redirectPath: 'https://epractice.sit.healthcode.co.uk/postauth'
   },
-  msgurl: 'http://www.dev2.healthcode.co.uk/secure-messaging/prelogin/auth/preauth.jsp',
-  pprurl:
-    'http://www.dev2.healthcode.co.uk/pprepractice/pages/pprspecialist/prelogin/auth/preauth.jsp',
-  codeSearchUrl: 'http://www.dev2.healthcode.co.uk/Code-Search/prelogin/auth/preauth.jsp'
+
+  msgurl: 'http://www.sit.healthcode.co.uk/secure-messaging/prelogin/auth/preauth.jsp',
+  pprurl: 'http://www.sit.healthcode.co.uk/pprepractice/pages/pprspecialist/prelogin/auth/preauth.jsp',
+  codeSearchUrl: 'http://www.sit.healthcode.co.uk/Code-Search/prelogin/auth/preauth.jsp'
 };
-import 'zone.js/dist/zone-error';  // Included with Angular CLI.

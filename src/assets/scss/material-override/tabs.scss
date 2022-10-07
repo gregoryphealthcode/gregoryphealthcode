@@ -1,12 +1,19 @@
 body {
   .tabHeader {
     font-weight: 400;
-    color: hsl(0, 0%, 60%);
+    color: hsl(0, 0%, 44%);
   }
+
+  .tabHeader:hover {
+    font-weight: 500;
+    color: hsl(0, 0%, 23%);
+    background-color: #eef2f5!important;
+  }
+
 
   .mat-tab-label-active .tabHeader {
     font-weight: 500;
-    color: hsl(0, 0%, 30%);
+    color: hsl(0, 0%, 23%);
   }
 
   .mat-tab-nav-bar,
@@ -34,7 +41,7 @@ body {
       min-width: 80px;
       height: 48px;
       opacity: 1;
-      color: hsl(0, 0%, 55%);
+      color: hsl(0, 0%, 48%);
       font-weight: 400;
 
       &.mat-tab-label-active {

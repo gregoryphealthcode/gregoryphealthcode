@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PatientNoteService, PatientNoteModel } from 'src/app/shared/services/patient-note.service';
 import { AppButtonModule } from 'src/app/shared/widgets/app-button/app-button.module';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-patient-popup-warning-notes',
@@ -104,8 +105,8 @@ export interface PopupNoteModel {
     RouterModule,
     DxPopupModule,
     DxHtmlEditorModule,
-    MatIconModule, 
-    MatButtonModule, 
+    MatIconModule,
+    MatButtonModule,
     MatTooltipModule,
     AppButtonModule
   ],

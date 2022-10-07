@@ -1,0 +1,20 @@
+.content-height
+{
+  height: 350px;
+}
+
+.preview-wrapper{
+  width: auto;
+  height: calc(100%);
+  padding: 0;
+}
+
+.grid-width{
+  min-width: 400px;
+  max-width: 400px;
+}
+
+.iframe-shift {
+  margin-top: -120px;
+  height: calc(100% + 120px);
+}

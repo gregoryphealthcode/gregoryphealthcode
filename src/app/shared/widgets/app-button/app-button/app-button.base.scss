@@ -255,7 +255,11 @@ $height-xxs: 24px;
   }
 
   &.btn-primary-color {
-    background-color: $btn-primary-color;
+    // background-color: $btn-primary-color;
+    background: transparent linear-gradient(180deg,#060608 0%,#050607 28%,#1d1943 89%,#1c1843 100%) 0% 0% no-repeat padding-box;
+    background-image: linear-gradient(rgb(6, 6, 8) 0%, rgb(5, 6, 7) 28%, rgb(29, 25, 67) 89%, rgb(28, 24, 67) 100%);
+    border-radius:15px;
+
     color: white;
 
     &:hover {

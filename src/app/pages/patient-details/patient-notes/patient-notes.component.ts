@@ -29,6 +29,7 @@ import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { AppMessagesService } from 'src/app/shared/services/app-messages.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-patient-notes',
@@ -68,7 +69,7 @@ export class PatientNotesComponent extends GridBase implements OnInit {
   contextMenuItems = [
     { text: 'Edit', icon: 'fas fa-edit', disabled: !this.userStore.roleAllowsAccess(71) },
     { text: 'Delete', icon: 'fas fa-trash-alt', disabled: !this.userStore.roleAllowsAccess(71) },
-  ];  
+  ];
 
   ngOnInit() {
     this.getPatientNotes();
@@ -152,7 +153,7 @@ export class PatientNotesComponent extends GridBase implements OnInit {
           }
         ));
     }
-    
+
     this.appMessage.showDeleteConfirmation(callback, "Are you sure you want to delete this patient note?");
   }
 

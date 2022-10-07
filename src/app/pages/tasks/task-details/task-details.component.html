@@ -1,0 +1,6 @@
+<app-tasks-list [patientId]="patientId" [siteId]="siteId" [linkTo]="linkTo" [refresh]="refresh"></app-tasks-list>
+
+<div class="app-card responsive-paddings inner-content-height mt-3">
+  <app-create-task [patientId]="patientId" [siteId]="siteId" [taskDetails]="taskDetails" [isEdit]="false"
+    (editComplete)="editComplete($event)" [invoiceId]="invoiceId"></app-create-task>
+</div>

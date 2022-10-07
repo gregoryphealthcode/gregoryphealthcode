@@ -191,7 +191,10 @@ export class PostcodeSelectAddressComponent {
   public addressSearch() {
     console.log('address search clicked.');
     // use free postcode check service to determine valid BEFORE looking up the address & incurring token charges!
-    const myPostcode = this.selectAddressForm.instance.getEditor('searchTerm').option('text');
+    let myPostcode:string = '';
+    try {
+      this.selectAddressForm.instance.getEditor('searchTerm').option('text');
+    } catch(e) {}
     const selectedSite = this.siteStore.getSelectedSite();
     console.log('address search on postcode: ', myPostcode);
     if (this.checkPostcodeValid(myPostcode)) {
