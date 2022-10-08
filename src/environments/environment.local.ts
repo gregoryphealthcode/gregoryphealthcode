@@ -2,7 +2,7 @@ export const environment = {
   // production: true,
   // development: false,
   production: false,
-  development: trie,
+  development: true,
 
   environmentName: 'hc-dev',
   testMode: true,

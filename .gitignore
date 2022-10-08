@@ -11,6 +11,7 @@
 
 # dependencies
 /node_modules
+/.cache/**
 
 # profiling files
 chrome-profiler-events*.json
@@ -46,3 +47,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+.cache/14.2.5/babel-webpack/ff60b6aa67d6daf9ab88d241f6ed8820.json
