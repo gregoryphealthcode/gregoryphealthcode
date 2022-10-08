@@ -29,7 +29,8 @@ body {
 
   .mat-tab-group.mat-primary .mat-ink-bar,
   .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-    background: $primary;
+    // background: $primary;
+    background:  linear-gradient(30deg, #bd30f2,  #fa24a1);
     height: 3px;
   }
 

@@ -38,13 +38,13 @@ export const environment = {
 
    healthCode:{
     clientId: 'epractice',
-    mainUrl: 'https://auth.sit.healthcode.co.uk',
+    mainUrl: 'https://auth.dev.healthcode.co.uk',
     scope:'openid siteid email offline_access',
     authorizePath: 'authorize',
-    redirectPath: 'https://epractice.sit.healthcode.co.uk/postauth'
+    redirectPath: 'https://epractice.dev.healthcode.co.uk/postauth'
   },
 
-  msgurl: 'http://www.sit.healthcode.co.uk/secure-messaging/prelogin/auth/preauth.jsp',
-  pprurl: 'http://www.sit.healthcode.co.uk/pprepractice/pages/pprspecialist/prelogin/auth/preauth.jsp',
-  codeSearchUrl: 'http://www.sit.healthcode.co.uk/Code-Search/prelogin/auth/preauth.jsp'
+  msgurl: 'http://www.dev2.healthcode.co.uk/secure-messaging/prelogin/auth/preauth.jsp',
+  pprurl: 'http://www.dev2.healthcode.co.uk/pprepractice/pages/pprspecialist/prelogin/auth/preauth.jsp',
+  codeSearchUrl: 'http://www.dev2.healthcode.co.uk/Code-Search/prelogin/auth/preauth.jsp'
 };

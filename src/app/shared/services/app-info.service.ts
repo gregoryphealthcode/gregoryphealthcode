@@ -195,7 +195,7 @@ export class PatientViewModel {
 export class AppInfoService {
 
   public get versionNumber() {
-    return '3-7.10.22p';
+    return '3-9.10.22p';
   }
 
 

@@ -15,8 +15,9 @@ $main-text-color: hsl(0 0% 30%);
 }
 
 .label-info{
-  font-size: 0.8rem;
-  color: lighten($main-text-color,25%);
+  font-size: 0.85rem;
+  // color: lighten($main-text-color,10%);
+  color: #337ab7!important;
   line-height: 1.3;
   padding-top: 2px;
   height: auto;
@@ -26,15 +27,15 @@ $main-text-color: hsl(0 0% 30%);
   }
 
   &.light{
-    color: lighten($main-text-color,35%);
+    color: lighten(#337ab7,15%);
     font-weight: 400;
   }
 }
 
 .label-description{
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   //** PG color: lighten($main-text-color, 46%);
-  color: lighten($main-text-color, 30%);
+  color: lighten($main-text-color, 20%);
 
   &.lg{
     font-size: 0.925rem;
@@ -48,9 +49,9 @@ $main-text-color: hsl(0 0% 30%);
 
 .label-info-value{
   //** PG **    font-size: 0.8rem;
-  font-size: 0.85rem;
-  color: $main-text-color;
-  font-weight: 500;
+  font-size: 0.9rem;
+  color: #111;
+  font-weight: 500!important;
   line-height: 1.25;
   padding-top: 2px;
 
@@ -86,7 +87,7 @@ $main-text-color: hsl(0 0% 30%);
 
 .label-tag{
   border-radius: 3px;
-  font-size: 9px;
+  font-size: 12px;
   padding: 0 0.6em 1px;
   border:none;
   display: flex;
@@ -127,7 +128,7 @@ $main-text-color: hsl(0 0% 30%);
   }
   &.type3-1{
     background-color:  hsl(209, 80%, 69%);
-    color: hsl(208, 89%, 96%);
+    color: #333;
   }
 
   &.type4{
@@ -198,11 +199,13 @@ $main-text-color: hsl(0 0% 30%);
 
 .mat-tab-label-active{
   .label-tag.tab-count{
-    background-color: darken($primary,5%);
+    // background-color: darken($primary,5%);
+    background-color: #80899f;
   }
 
   .label-tag.tab-upcount{
-    background-color: darken($primary,5%);
+    // background-color: darken($primary,5%);
+    background-color: #80899f;
   }
 }
 
