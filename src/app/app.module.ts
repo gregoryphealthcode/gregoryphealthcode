@@ -10,10 +10,11 @@ import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/c
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 // import { DeviceDetectorModule } from 'ngx-device-detector';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+// import { library } from '@fortawesome/fontawesome-svg-core';
+// import { fas } from '@fortawesome/free-solid-svg-icons';
+// import { far } from '@fortawesome/free-regular-svg-icons';
+// import { fal } from '@fortawesome/fontawesome-pro';
 import { AppointmentService } from './shared/services/appointment.service';
 import { DxLoadPanelModule } from 'devextreme-angular';
 import { ContactService } from './shared/services/contact.service';
@@ -61,7 +62,7 @@ import { AdminModule } from './admin/admin.module';
     MasterPageModule,
     MedSecMasterPageModule,
     AdminModule,
-    FontAwesomeModule,
+    // FontAwesomeModule,
     HttpClientModule,
     DxLoadPanelModule,
     SpinnerModule,

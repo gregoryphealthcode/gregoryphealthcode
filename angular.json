@@ -76,7 +76,6 @@
               "src/themes/generated/theme.base.css",
               "src/themes/dx.generic.epracticetheme.css",
               "src/dx-styles.scss",
-
               "src/styles.scss"
             ],
             "scripts": [

@@ -46,6 +46,7 @@ html {
     app-general,
     .content {
       background-color:$main-bg-color;
+
     }
 
     hr{
@@ -312,7 +313,7 @@ select:-webkit-autofill:focus {
 }
 
 //Safari
-@supports (overflow:-webkit-marquee) and (justify-content:inherit) 
+@supports (overflow:-webkit-marquee) and (justify-content:inherit)
 {
   .safari-scroll {
       height: auto !important;

@@ -24,10 +24,10 @@ export class SideNavigationMenuComponent extends SubscriptionBase implements OnI
   @Input() collapseMenu: string;
   @Input() get compactMode() {
     return this._compactMode;
-  } 
+  }
   set compactMode(val) {
     this._compactMode = val;
-    if (val && this.menu.instance) {
+    if (val && this.menu?.instance) {
       this.showMenuItemsTooltip = false;
     }
   }
@@ -118,7 +118,7 @@ export class SideNavigationMenuComponent extends SubscriptionBase implements OnI
           this.items.find(x => x.key == 'documents').selected = true;
         break;
       }
-    }      
+    }
   }
 
   public hideTooltips() {
@@ -234,10 +234,10 @@ export class SideNavigationMenuComponent extends SubscriptionBase implements OnI
       this.showAppointmentPopup = true;
       return;
     }
-    else if (itemData.path) {      
+    else if (itemData.path) {
       if (itemData.fragment)
-        this.router.navigate([itemData.path], {fragment: itemData.fragment});      
-      else 
+        this.router.navigate([itemData.path], {fragment: itemData.fragment});
+      else
       this.router.navigate([itemData.path]);
     }
 

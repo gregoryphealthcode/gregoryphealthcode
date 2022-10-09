@@ -55,6 +55,6 @@ export const environment = {
   },
 
   msgurl: 'http://www.dev2.healthcode.co.uk/secure-messaging/prelogin/auth/preauth.jsp',
-  pprurl: 'http://www.dev2.healthcode.co.uk/pprepractice/pages/pprspecialist/prelogin/auth/preauth.jsp',
+  pprurl: 'http://www.dev.healthcode.co.uk/pprepractice/pages/pprspecialist/prelogin/auth/preauth.jsp',
   codeSearchUrl: 'http://www.dev2.healthcode.co.uk/Code-Search/prelogin/auth/preauth.jsp'
 };

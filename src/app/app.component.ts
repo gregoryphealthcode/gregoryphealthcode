@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router, NavigationStart, Event as NavigationEvent } from '@angular/router';
+
 import { filter } from 'rxjs/operators';
 import { AuthService } from './shared/services/auth.service';
 import { UserStore } from './shared/stores/user.store';
