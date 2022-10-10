@@ -33,7 +33,7 @@ export const environment = {
   //  },
 
    HelpHeroPlatform: 'Dev Server',
-   enableLocalAuth: false,
+   enableLocalAuth: true,
    healthCode:{
     clientId: 'epractice',
     mainUrl: 'https://auth.dev.healthcode.co.uk',

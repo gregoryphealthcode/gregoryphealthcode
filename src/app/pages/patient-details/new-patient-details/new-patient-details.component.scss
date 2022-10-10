@@ -42,6 +42,9 @@
 
                 &.mat-tab-label-active {
                   background-color: #eef2f5;
+                  color: hsl(0deg, 0%, 40%);
+                  font-weight: 600;
+                  border-bottom: 2px solid purple!important;
                 }
               }
             }

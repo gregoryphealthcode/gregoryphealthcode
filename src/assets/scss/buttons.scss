@@ -1,7 +1,7 @@
 $iconBtn-text-color: lighten(saturate($primary, 15%), 3%);
 
 //Safari
-@supports (overflow:-webkit-marquee) and (justify-content:inherit) 
+@supports (overflow:-webkit-marquee) and (justify-content:inherit)
 {
   .mat-button,
   .mat-stroked-button,
@@ -295,7 +295,7 @@ body {
   .app-button {
     height: 30px;
     line-height: 30px;
-    border-radius: 6px;
+    border-radius: 15px;
     min-width: 6.5rem;
     font-weight: 500;
     font-size: 12px;
@@ -316,6 +316,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    border-radius: 15px;
 
     &.mat-icon-button {
       min-width: 7rem;
@@ -331,7 +332,9 @@ body {
     }
 
     &.primary {
-      background-color: $primary;
+      // background-color: $primary;
+      background: transparent linear-gradient(180deg,#060608 0%,#050607 28%,#1d1943 89%,#1c1843 100%) 0% 0% no-repeat padding-box;
+      background-image: linear-gradient(rgb(6, 6, 8) 0%, rgb(5, 6, 7) 28%, rgb(29, 25, 67) 89%, rgb(28, 24, 67) 100%);
       //box-shadow: 0px 4px 4px -1px hsl(204, 15%, 92%);
       color: #fff;
       &:hover {

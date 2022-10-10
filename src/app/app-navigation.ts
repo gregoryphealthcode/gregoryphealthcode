@@ -3,7 +3,7 @@ export const navigation = [
     text: 'Home',
     path: '/home',
     key: 'home',
-    icon: 'falight fa-home',
+    icon: 'fa-light fa-home',
     accessbit: 1,
     selected: true
   },
@@ -149,12 +149,12 @@ export const navigation = [
   {
     text: 'Reporting',
     key: 'reporting',
-    icon: 'falight fa-chart-bar',
+    icon: 'fa-light fa-chart-bar',
     accessbit: 1,
     path: 'reports/centre',
   },
   {
-    text: 'PPR Profile',
+    text: 'The PPR Profile',
     path: 'ppr-profile',
     key: 'ppr-profile',
     accessbit: 375,
@@ -164,7 +164,7 @@ export const navigation = [
   {
     text: 'UK GDPR',
     key: 'GDPR',
-    icon: 'far fa-passport',
+    icon: 'fa-light fa-passport',
     accessbit: 1,
     items: [
       {
@@ -199,7 +199,7 @@ export const navigation = [
   },
   {
     text: 'Tasks',
-    icon: 'far fa-tasks',
+    icon: 'fa-light fa-tasks',
     path: '/tasks',
     key: 'tasks',
     accessbit: 465,
@@ -247,7 +247,7 @@ export const navigation = [
     key: 'preferences',
     path: '/preferences',
     // icon: 'fad fa-cog',
-    icon: 'hcicon hc-setting-tools',
+    icon: 'hcicon hc-settings-tools',
     accessbit: 1
   }
 ];
@@ -257,7 +257,7 @@ export const medSecNavigation = [
     text: 'Home',
     path: 'medsec/home',
     key: 'home',
-    icon: 'far fa-home',
+    icon: 'fa-light fa-home',
     accessbit: 1,
     selected: true
   },
@@ -315,7 +315,7 @@ export const medSecNavigation = [
   },
   {
     text: 'Tasks',
-    icon: 'far fa-tasks',
+    icon: 'fa-light fa-tasks',
     path: '/medsec/tasks',
     key: 'tasks',
     accessbit: 465,
@@ -323,7 +323,7 @@ export const medSecNavigation = [
   {
     text: 'Reporting',
     key: '/reports/centre',
-    icon: 'far fa-chart-bar',
+    icon: 'fa-light fa-chart-bar',
     accessbit: 1,
     path: '/medsec/reports/centre',
   },
@@ -343,7 +343,7 @@ export const adminNavigation = [
     text: 'Home',
     path: 'admin/home',
     key: 'home',
-    icon: 'far fa-home',
+    icon: 'fa-light fa-home',
     accessbit: 1,
     selected: true
   },

@@ -4,10 +4,12 @@ body {
   }
 
   .dx-texteditor-input {
-    font-size: 13px;
+    font-size: 15px!important;
+    color: black!important;
     padding: 10px 7px 11px 11px;
     background: none !important;
     border-color: #b5b5b5;
+    font-weight: 600;
   }
 
   .dx-placeholder {

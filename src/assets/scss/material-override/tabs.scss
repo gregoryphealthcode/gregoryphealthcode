@@ -5,9 +5,10 @@ body {
   }
 
   .tabHeader:hover {
-    font-weight: 500;
+    font-weight: 600;
     color: hsl(0, 0%, 23%);
     background-color: #eef2f5!important;
+    border-bottom:1px solid purple;
   }
 
 
