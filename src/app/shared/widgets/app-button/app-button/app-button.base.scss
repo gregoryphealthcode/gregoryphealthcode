@@ -27,7 +27,7 @@ $height-xxs: 24px;
   align-items: center;
   justify-content: center;
   height: 34px;
-  border-radius: 4px;
+  border-radius: 14px;
   font-size: 13px;
   font-family: "manrope";
   letter-spacing: 0.5px;
@@ -230,6 +230,7 @@ $height-xxs: 24px;
     &:hover {
       background-color: lighten(desaturate($btn-primary-color, 15%), 49%);
       color: darken($btn-primary-color, 25%);
+      border: 2px solid purple;
     }
 
     &[disabled] {
@@ -265,6 +266,7 @@ $height-xxs: 24px;
     &:hover {
      // background-color: darken($btn-primary-color, 7%);
      background-image: linear-gradient(rgb(28, 24, 67) 0%, rgb(29, 25, 67) 28%, rgb(5, 6, 7) 89%, rgb(6, 6, 8) 100%);
+     border: 2px solid purple;
     }
 
     &[disabled] {

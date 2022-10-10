@@ -50,12 +50,15 @@ body {
   .mat-icon-button,
   .mat-stroked-button,
   .mat-flat-button {
+    border: 1px solid rgb(6,7,8);
     &[disabled] {
       cursor: default;
+      border: 1px solid grey;
       background-color: lighten(desaturate($primary, 15%), 40%);
       color: lighten(desaturate($primary, 15%), 57%);
 
       &:hover {
+        border-color: purple;
         color: lighten(desaturate($primary, 15%), 57%);
         background-color: lighten(desaturate($primary, 15%), 40%);
       }
@@ -304,7 +307,7 @@ body {
 
 
   .app-button {
-    border: 0;
+    // border: 0;
     background: none;
     color: hsl(0, 0%, 40%);
     white-space: nowrap;

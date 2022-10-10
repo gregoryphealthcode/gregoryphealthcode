@@ -22,9 +22,9 @@ export abstract class FormControlBase implements ControlValueAccessor, OnInit, D
     }
     return this._caption;
   }
-  
+
   @Input() placeholder: string;
-  @Input() controlType = 'd';
+    @Input() controlType = 'd';
   @Input() inputType = 'text';
   @Input() hint: string;
   @Input() suffix: string;
@@ -90,12 +90,12 @@ export abstract class FormControlBase implements ControlValueAccessor, OnInit, D
       if (this.isInvalid) { this.setError(); }
       this.setWrapperClass();
 
-      if (!this.isInvalid && this.required) 
+      if (!this.isInvalid && this.required)
       {
-        this.required = false;        
+        this.required = false;
       }
 
-      if (!control.valid && control.errors && control.errors.required) { this.required = true }    
+      if (!control.valid && control.errors && control.errors.required) { this.required = true }
     }
   }
 
