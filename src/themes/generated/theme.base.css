@@ -4865,6 +4865,9 @@
 }
 .dx-selectbox-popup-wrapper .dx-list {
   background-color: white;
+  border-radius:8px;
+  padding:5px;
+  border:1px solid grey;
 }
 .dx-toolbar {
   background-color: white;

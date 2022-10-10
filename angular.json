@@ -179,7 +179,7 @@
                 }
               ]
             },
-          "local": {
+            "local": {
             "fileReplacements": [
               {
                 "replace": "src/environments/environment.ts",
@@ -194,8 +194,8 @@
             "deleteOutputPath": false,
             "outputHashing": "none",
             "sourceMap": {
-              "scripts": false,
-              "styles": false,
+              "scripts": true,
+              "styles": true,
               "hidden": false,
               "vendor": false
             },
