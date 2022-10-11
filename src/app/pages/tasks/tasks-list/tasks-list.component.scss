@@ -1,0 +1,30 @@
+:host ::ng-deep #my-progress-bar-status {
+    display: inline-block;
+    transition:none!important;
+
+}
+:host ::ng-deep .complete .dx-progressbar-range {
+    background-color: #17d317;
+    transition:none!important;
+}
+
+:host ::ng-deep div.dx-progressbar-range {
+    transition:none!important;
+}
+
+:host ::ng-deep .dx-progressbar-wrapper {
+    background: white;
+    padding: 4px;
+    border: 1px solid lightgray;
+}
+
+.inner-content-height
+{
+  min-height: 125px;
+  min-width: 50rem;
+}
+
+.content-height
+{
+  min-height: 150px;
+}

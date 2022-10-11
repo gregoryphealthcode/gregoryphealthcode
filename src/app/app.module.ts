@@ -6,14 +6,15 @@ import { ScreenService, AppInfoService } from './shared/services';
 import { AppRoutingModule } from './app-routing.module';
 import { AlertService } from './shared/services/alert.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
-import { DeviceDetectorModule } from 'ngx-device-detector';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
+// import { DeviceDetectorModule } from 'ngx-device-detector';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+// import { library } from '@fortawesome/fontawesome-svg-core';
+// import { fas } from '@fortawesome/free-solid-svg-icons';
+// import { far } from '@fortawesome/free-regular-svg-icons';
+// import { fal } from '@fortawesome/fontawesome-pro';
 import { AppointmentService } from './shared/services/appointment.service';
 import { DxLoadPanelModule } from 'devextreme-angular';
 import { ContactService } from './shared/services/contact.service';
@@ -61,12 +62,16 @@ import { AdminModule } from './admin/admin.module';
     MasterPageModule,
     MedSecMasterPageModule,
     AdminModule,
-    FontAwesomeModule,
+    // FontAwesomeModule,
     HttpClientModule,
     DxLoadPanelModule,
     SpinnerModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    DeviceDetectorModule.forRoot(),
+    // ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
+    // DeviceDetectorModule.forRoot(),
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatDialogModule,
@@ -89,6 +94,7 @@ import { AdminModule } from './admin/admin.module';
     SearchService,
     UpdateService,
     PatientZoneService,
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: BearerInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
@@ -97,5 +103,5 @@ import { AdminModule } from './admin/admin.module';
 })
 export class AppModule {constructor(injector: Injector) {
   AppInjector.setInjector(injector);
-  library.add(fas, far);
+//** PG */  library.add(fas, far);
 } }

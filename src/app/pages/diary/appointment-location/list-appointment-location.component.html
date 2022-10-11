@@ -1,0 +1,55 @@
+<dx-popup appCentralPopUpSettings *ngIf="showAddLocations" [width]="'380'" [enableScroll]="true">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="isNew ? 'Add Location' : 'Edit Location'" (closed)="showAddLocations=false">
+    </app-pop-up-form-title>
+
+    <app-appointment-location class="central-popup-wrapper" (formClosed)="showAddLocations=false; getAppointmentLocations();" [siteId]="siteId">
+    </app-appointment-location>
+  </div>
+</dx-popup>
+
+<div class="d-flex flex-column flex-grow-1 app-card">
+  <div class="d-flex flex-column responsive-margins">
+    <div class="label-info-value-title mt-3">Appointment location preferences</div>
+
+    <span class="label-description mt-2 mb-2">You can update appointment locations from here</span>
+  </div>
+
+  <div class="d-flex flex-row mr-4 ml-4">
+    <app-button icon="far fa-plus" text="New" class="ml-auto mt-auto" (clicked)="add()"></app-button>
+  </div>
+
+  <div class="d-flex flex-grow-1 mt-2">
+    <div class="app-card flex-grow-1 content-height border-none">
+      <div class="cssWidgetWrapper">
+        <dx-data-grid [dataSource]="locations" keyExpr="this" [hoverStateEnabled]="true" gridWithRowLinesSettings
+          class="cssGridGeneral padd-first-lg" focusedRowIndex="0"
+          [columnMinWidth]="175">
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+          <dxi-column dataField="name" caption="Location Name" [sortIndex]="0" sortOrder="asc"></dxi-column>
+          <dxi-column dataField="hcCode" caption="HC Code"></dxi-column>
+          <dxi-column cellTemplate="addressTemplate" caption="Address"></dxi-column>
+          <dxi-column type="buttons" [showInColumnChooser]="false">
+            <dxi-button template="myCommandTemplate"></dxi-button>
+          </dxi-column>
+
+          <div *dxTemplate="let cellInfo of 'addressTemplate'">
+            {{cellInfo.row.data.address1 }}, 
+            {{cellInfo.row.data.address2 != 'null' && cellInfo.row.data.address2 != null && cellInfo.row.data.address2 != ''? cellInfo.row.data.address2 + ',' : ''}} 
+            {{cellInfo.row.data.address3 != 'null' && cellInfo.row.data.address3 != null && cellInfo.row.data.address3 != ''? cellInfo.row.data.address3 + ',' : ''}} 
+            {{cellInfo.row.data.address4 != 'null' && cellInfo.row.data.address4 != null && cellInfo.row.data.address4 != ''? cellInfo.row.data.address4 + ',': ''}}
+            {{cellInfo.row.data.postcode }}
+          </div>
+          
+          <div *dxTemplate="let data of 'myCommandTemplate'">
+            <button mat-icon-button class="alternative icon" (click)="viewSessions(data.key)"
+              matTooltip="Manage Sessions">
+              <mat-icon fontSet="fa" fontIcon="fa-cog"></mat-icon>
+            </button>
+          </div>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>

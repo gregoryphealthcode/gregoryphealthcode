@@ -1,0 +1,5 @@
+<app-card class="page-wrapper-tab-card">
+  <app-bulk-payments-reallocation class="d-flex flex-row flex-grow-1" [reallocations]="reallocationPayments"
+    [hasPatientZone]="hasPatientZone" (onNoDefaultTemplatesFound)="onNoDefaultTemplatesFound.emit($event)">
+  </app-bulk-payments-reallocation>
+</app-card>

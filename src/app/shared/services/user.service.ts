@@ -176,11 +176,6 @@ export class UserService {
     return this.http.post<AuthTokenResponseViewModel>(url, model);
   }
 
-  public logOut(model:any){
-    const url = `${environment.baseurl}/auth/logout`;
-    return this.http.post(url, model);
-  }
-
   public setupPin(model: SetupPinRequest) {
     const url = `${environment.baseurl}/user/setupPin`;
     return this.http.put<GenericApiResponse>(url, model);

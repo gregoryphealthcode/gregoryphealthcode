@@ -48,7 +48,7 @@ export class AudioRecordingService {
       this.stream = s;
       this.record();
     }).catch(error => {
-      this._recordingFailed.next();
+      this._recordingFailed.next("");
     });
   }
 
@@ -64,7 +64,7 @@ export class AudioRecordingService {
       desiredSampRate: 16000,
       disableLogs: true,
       numberOfAudioChannels: 1,
-      bufferSize: 16384,    
+      bufferSize: 16384,
     });
 
     this.recorder.record();
@@ -102,7 +102,7 @@ export class AudioRecordingService {
         }
       }, () => {
         this.stopMedia();
-        this._recordingFailed.next();
+        this._recordingFailed.next("");
       });
     }
   }

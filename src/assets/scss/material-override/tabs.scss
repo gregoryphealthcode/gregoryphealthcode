@@ -1,12 +1,20 @@
 body {
   .tabHeader {
     font-weight: 400;
-    color: hsl(0, 0%, 60%);
+    color: hsl(0, 0%, 44%);
   }
+
+  .tabHeader:hover {
+    font-weight: 600;
+    color: hsl(0, 0%, 23%);
+    background-color: #eef2f5!important;
+    border-bottom:1px solid purple;
+  }
+
 
   .mat-tab-label-active .tabHeader {
     font-weight: 500;
-    color: hsl(0, 0%, 30%);
+    color: hsl(0, 0%, 23%);
   }
 
   .mat-tab-nav-bar,
@@ -22,7 +30,8 @@ body {
 
   .mat-tab-group.mat-primary .mat-ink-bar,
   .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-    background: $primary;
+    // background: $primary;
+    background:  linear-gradient(30deg, #bd30f2,  #fa24a1);
     height: 3px;
   }
 
@@ -34,7 +43,7 @@ body {
       min-width: 80px;
       height: 48px;
       opacity: 1;
-      color: hsl(0, 0%, 55%);
+      color: hsl(0, 0%, 48%);
       font-weight: 400;
 
       &.mat-tab-label-active {

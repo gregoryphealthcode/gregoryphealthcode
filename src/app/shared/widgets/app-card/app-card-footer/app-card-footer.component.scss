@@ -10,6 +10,7 @@ $btn-color: hsl(0, 0%, 40%);
 
   ::ng-deep .app-btn.btn-primary-color.btn-link{
     color: $btn-color;
+    border-radius:15px;
 
     &[disabled]{
       color: lighten($btn-color, 20%);

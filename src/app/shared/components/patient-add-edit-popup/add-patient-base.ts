@@ -260,7 +260,8 @@ export abstract class AddPatientBase extends AddEditPatientBase implements OnIni
       address3: new FormControl(null, Validators.maxLength(50)),
       address4: new FormControl(null, Validators.maxLength(50)),
       postcode: new FormControl(null, [requiredIfValidator(() => this.addressNeeded), Validators.maxLength(10), Validators.pattern('^[a-zA-Z0-9 ]*$')]),
-      primaryAddress: new FormControl({ value: true }, null),
+      // primaryAddress: new FormControl({ value: true }, null),
+      primaryAddress: new FormControl(true, null),
       billingAddress: new FormControl(null, null),
       telecoms: new FormArray([]),
       referenceNumbers: new FormArray([])

@@ -1,0 +1,41 @@
+<app-patient-payors-select *ngIf="store.payorIsInEditMode; else viewMode"
+  [patientId]="store.getFormPropertyValue('patientId')" (payorSelected)="payorSelectedHandler();store.setPayor($event)">
+</app-patient-payors-select>
+
+<ng-template #viewMode>
+  <div class="d-flex flex-column flex-grow-1 mr-2 mt-2" *ngIf="store.appointmentPayor$ | async as payor">
+    <div class="d-flex flex-row align-items-baseline my-1">
+      <i class="far fa-receipt w-1 text-grey-70"></i>
+      <span class="label-info-value light">{{payor.displayName}}</span>
+      <app-button type="link" class="d-flex ml-3" size="lg" icon="fad fa-edit" matTooltip="Edit Details"
+        (clicked)="payorSelectedHandler(); store.editPayor()"></app-button>
+    </div>
+
+    <ng-container *ngIf="payor.isInsurer; else elseBlock">
+      <div class="d-flex flex-row align-items-baseline mb-1">
+        <i class="far fa-id-card w-1 text-grey-70"></i>
+        <span class="label-info-value light">{{payor.insRegistrationNumber}}</span>
+      </div>
+
+      <div class="d-flex flex-row align-items-baseline">
+        <i class="far fa-clock w-1 text-grey-70"></i>
+        <span class="label-info-value light">{{payor.insRenewalDate | dateFormat }}</span>
+      </div>
+    </ng-container>
+
+    <ng-template #elseBlock>
+      <div class="d-flex flex-row align-items-baseline">
+        <i class="far fa-map-marker-alt w-1 text-grey-70"></i>
+        <span class="label-info-value d-flex flex-column">
+          <ng-container *ngIf="payor.address">
+            <div *ngIf="payor.address?.address1" class="label-info-value mb-1">{{payor.address?.address1}}</div>
+            <div *ngIf="payor.address?.address2" class="label-info-value mb-1">{{payor.address?.address2}}</div>
+            <div *ngIf="payor.address?.address3" class="label-info-value mb-1">{{payor.address?.address3}}</div>
+            <div *ngIf="payor.address?.address3" class="label-info-value mb-1">{{payor.address?.address4}}</div>
+            <div *ngIf="payor.address?.postcode" class="label-info-value">{{payor.address?.postcode}}</div>
+          </ng-container>
+        </span>
+      </div>
+    </ng-template>
+  </div>
+</ng-template>

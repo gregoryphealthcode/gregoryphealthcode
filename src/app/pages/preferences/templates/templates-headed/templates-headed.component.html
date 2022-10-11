@@ -1,0 +1,110 @@
+<dx-popup #newtemplatepopup name="newtemplatepopup" title="Add New Template" contentTemplate="popupContent"
+    [width]="600" [closeOnOutsideClick]="true" [dragEnabled]="false" [showCloseButton]="true" [height]="400"
+    [deferRendering]="false" [resizeEnabled]="false" [maxWidth]="'100vw'" [maxHeight]="'100vh'"
+    (onShown)="newtemplateshown()">
+
+    <div *dxTemplate="let data of 'popupContent'">
+        <div class="content-block dx-card responsive-paddings dx-swatch-additional p-5px m-7px h-300px"
+            (newTemplateCancelled)='this.newtemplatepopup.instance.hide()'
+            (newTemplateAdded)='this.newtemplatepopup.instance.hide(); '>
+            <dx-form #newtemplateform id="newtemplateform" [formData]="newtemplatedata" [minColWidth]="300" colCount="2"
+                focusStateEnabled="true" activeStateEnabled="true" hoverStateEnabled="true"
+                [elementAttr]="{autocomplete: 'off'}" scrollingEnabled="true" showValidationSummary="true"
+                validationGroup="newtemplateData" [labelLocation]="preflabellocation"
+                (onFieldDataChanged)="form_fieldDataChanged()">
+                <dxi-item itemType="group" caption="" [colSpan]="2" [colCount]="2" [alignItemLabels]="true">
+                    <dxi-item #newTemplateDesription dataField="Description" editorType='dxTextBox' [colSpan]="2"
+                        [label]="{text: 'Template Name'}"
+                        [editorOptions]="{stylingMode: 'outlined',  placeholder: '', height: '27px', onInput: firstLetterCaps}">
+                        <dxi-validation-rule type="required" message="Template Name is required"></dxi-validation-rule>
+                    </dxi-item>
+
+                    <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+
+                    <dxi-item dataField="Comments" editorType='dxTextBox' [colSpan]="2" [label]="{text: 'Comments'}"
+                        [editorOptions]="{stylingMode: 'outlined',  placeholder: '', height: '27px'}">
+                    </dxi-item>
+
+                    <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+
+                    <dxi-item #templateDropdown name="templateDropdown" dataField="Heading" editorType='dxSelectBox'
+                        [colSpan]="2" [label]="{text: 'Base Template On'}"
+                        [editorOptions]="{stylingMode: 'outlined', items: templates, displayExpr: 'Description', valueExpr: 'FileName',  style: 'margin-bottom: 5px;'}">
+                        <dxi-validation-rule type="required"
+                            message="Selection of which template to base the new one on is required.">
+                        </dxi-validation-rule>
+                    </dxi-item>
+
+                    <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+
+                    <dxi-item [colSpan]="2">
+                        <div class="text-center float-none ml-auto mr-auto">
+                            <dx-button text="OK" (onClick)="addtemplateClicked()" type="default" icon="fas fa-check"
+                                class="mr-10px">
+                            </dx-button>
+
+                            <dx-button text="Cancel" (onClick)="cancelClicked()" type="default"
+                                icon="fas fa-times" class="ml-10px">
+                            </dx-button>
+                        </div>
+                    </dxi-item>
+                </dxi-item>
+            </dx-form>
+        </div>
+    </div>
+</dx-popup>
+
+<div class="d-flex flex-grow-1 ">
+    <div class="app-card  flex-grow-1">
+        <div class="d-flex flex-row  align-items-center">
+            <div class="label-info-value my-2">Headed Stationery Templates</div>
+        </div>
+
+        <div class="cssWidgetWrapper">
+            <dx-data-grid class="cssGridGeneral" #templatesGrid id="templatesGrid" [dataSource]="templates"
+                [remoteOperations]="false" [allowColumnReordering]="false" [showColumnLines]="true"
+                [showRowLines]="true" [showBorders]="true" [rowAlternationEnabled]="true" [focusedRowEnabled]="true"
+                focusedRowIndex="0" keyExpr="this" [allowColumnResizing]="true"
+                (onFocusedRowChanged)="onFocusedRowChanged($event)">
+                <dxo-scrolling mode="virtual" preloadEnabled="true" [useNative]="false" [scrollByContent]="true"
+                    [scrollByThumb]="true" showScrollbar="onHover"></dxo-scrolling>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-search-panel [visible]="false" [width]="240" placeholder="Search...">
+                </dxo-search-panel>
+                <dxo-load-panel [enabled]="true"></dxo-load-panel>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50, 100]"></dxo-pager>
+                <dxo-paging [pageSize]="50"></dxo-paging>
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+                </dxo-editing>
+
+                <dxi-column dataField="description" caption="Template Name"></dxi-column>
+                <dxi-column dataField="typeDescription" caption="Type"></dxi-column>
+                <dxi-column dataField="comments" caption="Comments"></dxi-column>
+                <dxi-column dataField="fileName" caption="File Name"></dxi-column>
+                <dxi-column dataField="default" caption="Default"></dxi-column>
+                <dxi-column dataField="isPatientZone" caption="patientzone"></dxi-column>
+                <dxi-column type="buttons" dataField="id" caption="Action">
+                    <dxi-button template="myCommandTemplate"></dxi-button>
+                </dxi-column>
+
+                <div *dxTemplate="let data of 'myCommandTemplate'">
+                    <button mat-icon-button class="alternative small-icon" (click)="editTemplate(data)"
+                        matTooltip="Edit">
+                        <mat-icon fontSet="fa" fontIcon="fa-file-word"></mat-icon>
+                    </button>
+
+                    <button mat-icon-button class="alternative small-icon" (click)="edit(data)"
+                        matTooltip="Edit Template Details">
+                        <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
+                    </button>
+
+                    <button mat-icon-button class="alternative warning small-icon" (click)="deleteTemplate(data)"
+                        matTooltip="Delete Template">
+                        <mat-icon fontSet="fa" fontIcon="fa-trash"></mat-icon>
+                    </button>
+                </div>
+            </dx-data-grid>
+        </div>
+    </div>
+</div>

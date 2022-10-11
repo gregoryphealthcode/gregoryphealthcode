@@ -424,4 +424,9 @@ export class NewPatientDetailsComponent extends SubscriptionBase implements OnIn
       );
     }
   }
+
+  focusLastName() {
+
+  }
+
 }

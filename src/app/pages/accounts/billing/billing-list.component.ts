@@ -12,7 +12,8 @@ import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { exportDataGrid } from 'devextreme/excel_exporter';
-import { Workbook } from 'exceljs'
+import { Workbook } from 'exceljs';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-billing-list',
@@ -109,7 +110,7 @@ export class BillingListComponent extends GridBase implements OnInit {
     this.quickeBill(e.data.patientId, e.data.appointmentId);
   }
 
-  quickeBill(patientId: string, appointmentId: string) {    
+  quickeBill(patientId: string, appointmentId: string) {
     sessionStorage.setItem('returnUrl', '/accounts/billing-list');
     this.router.navigate(['/accounts/invoice'], {
       queryParams: { patientId: patientId, appointmentId: appointmentId },

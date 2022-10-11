@@ -1,0 +1,29 @@
+<div class="d-flex flex-grow-1 flex-column page-main">
+  <div class="d-flex flex-grow-1 flex-row responsive-margins" [formGroup]="editForm">
+      <div class="d-flex flex-column flex-grow-1 col-6 h-100">
+          <div class="label-info-value-title sm mb-3 mt-2">Practice Hours</div>
+
+          <div class="modal-section-content" formArrayName="days">
+            <div *ngFor="let workDay of workDaysFormArray.controls; let i = index" class="mb-2" [formGroupName]="i" class="d-flex flex-row w-450px">
+              <mat-checkbox formControlName="working" color="primary" class="day-checkbox">{{days[i]}}</mat-checkbox>
+
+              <mat-form-field appearance="outline" class="time-input mx-4 ml-auto">
+                <mat-label>Start</mat-label>
+                <input matInput formControlName="startTime" type="time" [disableControl]="!workDay.value.working">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="time-input ml-auto mr-3">
+                <mat-label>End</mat-label>
+                <input matInput formControlName="endTime" type="time" [disableControl]="!workDay.value.working">
+              </mat-form-field>
+
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="page-footer">
+  <div class="horizontal-line"></div>
+  <app-button class="mt-2 mb-2 page-footer-button" text="Save" (clicked)="submitForm()"></app-button>
+</div>

@@ -12,6 +12,7 @@ import { UserStore } from 'src/app/shared/stores/user.store';
 import * as RecordRTC from 'recordrtc';
 import { WebcamImage } from 'ngx-webcam';
 import { AppInfoService } from 'src/app/shared/services/app-info.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-patient-documents-add-edit',

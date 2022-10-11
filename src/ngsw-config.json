@@ -1,16 +1,22 @@
 {
-  "index": "/ePractice/",
+  "index": "/ePractice/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
       "resources": {
         "files": [
-          "/favicon.ico",
-          "/index.html",
+          "/favicon.svg",
+          "/*.html",
           "/*.css",
           "/*.js",
-          "/manifest.webmanifest"
+          "/*.js.map",
+          "/*.woff2",
+          "/*.jpg",
+          "/*.webp",
+          "/*.png",
+          "/*.woff2",
+          "/dxicons.woff2"
         ]
       }
     }, {

@@ -3,13 +3,14 @@ export const navigation = [
     text: 'Home',
     path: '/home',
     key: 'home',
-    icon: 'fad fa-home',
+    icon: 'fa-light fa-home',
     accessbit: 1,
     selected: true
   },
   {
     text: 'Patients',
-    icon: 'fad fa-user-injured',
+    //icon: 'fad fa-user-injured',
+    icon: 'hcicon hc-patients-people',
     path: '/patient-list',
     key: 'patient-list',
     hint: 'List Patients',
@@ -17,14 +18,16 @@ export const navigation = [
   },
   {
     text: 'Contacts',
-    icon: 'fad fa-address-card',
+   // icon: 'fad fa-address-card',
+    icon: 'hcicon hc-account-contactdetails',
     accessbit: 28,
     path: '/contacts/list-contacts',
     key: 'list-contacts'
   },
   {
     text: 'Accounts',
-    icon: 'fad fa-pound-sign',
+    // icon: 'fad fa-pound-sign',
+    icon: 'hcicon hc-billing_invoicing',
     accessbit: 1,
     key: 'Accounts',
     items: [
@@ -115,12 +118,14 @@ export const navigation = [
     text: 'Diary',
     key: 'diary',
     path: 'diary',
-    icon: 'fad fa-calendar-check',
+    // icon: 'fad fa-calendar-check',
+    icon: 'hcicon hc-appointment-calendar',
     accessbit: 158,
   },
   {
     text: 'Documents',
-    icon: 'fad fa-file-alt',
+    // icon: 'fad fa-file-alt',
+    icon: 'hcicon hc-document-report',
     path: 'documents',
     key: 'documents',
     accessbit: 1,
@@ -144,21 +149,22 @@ export const navigation = [
   {
     text: 'Reporting',
     key: 'reporting',
-    icon: 'fad fa-chart-bar',
+    icon: 'fa-light fa-chart-bar',
     accessbit: 1,
     path: 'reports/centre',
   },
   {
-    text: 'PPR Profile',
+    text: 'The PPR Profile',
     path: 'ppr-profile',
     key: 'ppr-profile',
     accessbit: 375,
-    icon: 'fad fa-user-md'
+    // icon: 'fad fa-user-md'
+    icon: 'hcicon hc-the-ppr',
   },
   {
     text: 'UK GDPR',
     key: 'GDPR',
-    icon: 'fad fa-passport',
+    icon: 'fa-light fa-passport',
     accessbit: 1,
     items: [
       {
@@ -193,7 +199,7 @@ export const navigation = [
   },
   {
     text: 'Tasks',
-    icon: 'fad fa-tasks',
+    icon: 'fa-light fa-tasks',
     path: '/tasks',
     key: 'tasks',
     accessbit: 465,
@@ -202,13 +208,15 @@ export const navigation = [
     text: 'Secure Messages',
     path: 'messages',
     key: 'messages',
-    icon: 'fad fa-envelope',
+    // icon: 'fad fa-envelope',
+    icon: 'hcicon hc-email-messaging',
     accessbit: 1,
   },
   {
     text: 'Help Centre',
     key: 'Help',
-    icon: 'fad fa-info-circle',
+    // icon: 'fad fa-info-circle',
+    icon: 'hcicon hc-customersupport',
     accessbit: 1,
     items: [
       {
@@ -238,7 +246,8 @@ export const navigation = [
     text: 'Preferences',
     key: 'preferences',
     path: '/preferences',
-    icon: 'fad fa-cog',
+    // icon: 'fad fa-cog',
+    icon: 'hcicon hc-settings-tools',
     accessbit: 1
   }
 ];
@@ -248,13 +257,14 @@ export const medSecNavigation = [
     text: 'Home',
     path: 'medsec/home',
     key: 'home',
-    icon: 'fad fa-home',
+    icon: 'fa-light fa-home',
     accessbit: 1,
     selected: true
   },
   {
     text: 'Patients',
-    icon: 'fad fa-user-injured',
+    // icon: 'fad fa-user-injured',
+    icon: 'hcicon hc-patients-people',
     path: '/medsec/patient-list',
     key: 'patient-list',
     hint: 'List Patients',
@@ -262,7 +272,7 @@ export const medSecNavigation = [
   },
   {
     text: 'Accounts',
-    icon: 'fad fa-pound-sign',
+    icon: 'hcicon hc-billing_invoicing',
     key: 'accounts',
     accessbit: 1,
     items: [
@@ -292,20 +302,20 @@ export const medSecNavigation = [
   {
     text: 'Diary',
     key: 'diary',
-    icon: 'fad fa-calendar-check',
+    icon: 'hcicon hc-appointment-calendar',
     path: 'diary',
     accessbit: 1,
   },
   {
     text: 'Contacts',
-    icon: 'fad fa-address-card',
+    icon: 'hcicon hc-account-contactdetails',
     accessbit: 1,
     path: '/medsec/contacts/list-contacts',
     key: '/contacts/list-contacts'
   },
   {
     text: 'Tasks',
-    icon: 'fad fa-tasks',
+    icon: 'fa-light fa-tasks',
     path: '/medsec/tasks',
     key: 'tasks',
     accessbit: 465,
@@ -313,7 +323,7 @@ export const medSecNavigation = [
   {
     text: 'Reporting',
     key: '/reports/centre',
-    icon: 'fad fa-chart-bar',
+    icon: 'fa-light fa-chart-bar',
     accessbit: 1,
     path: '/medsec/reports/centre',
   },
@@ -321,7 +331,8 @@ export const medSecNavigation = [
     text: 'Preferences',
     key: '/preferences/preferences-integration-services',
     path: '/medsec/preferences/preferences-integration-services',
-    icon: 'fad fa-cog',
+    // icon: 'fad fa-cog',
+    icon: 'hcicon hc-customersupport',
     accessbit: 1
   },
 
@@ -332,7 +343,7 @@ export const adminNavigation = [
     text: 'Home',
     path: 'admin/home',
     key: 'home',
-    icon: 'fad fa-home',
+    icon: 'fa-light fa-home',
     accessbit: 1,
     selected: true
   },

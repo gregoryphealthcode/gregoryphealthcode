@@ -1,0 +1,82 @@
+<app-card class="page-wrapper-tab-card">
+  <div class="d-flex flex-row flex-grow-1">
+    <div class="cssWidgetWrapper hmin-300px">
+      <dx-data-grid #bulkPaymentsGrid id="bulkPaymentsGrid" class="cssGridGeneral" [dataSource]="bulkPayments"
+        [remoteOperations]="false" [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true"
+        [focusedRowEnabled]="true" focusedRowIndex="0" keyExpr="this" [allowColumnResizing]="true"
+        [columnHidingEnabled]="true" columnResizingMode="widget">
+        <dxo-scrolling mode="virtual" preloadEnabled="true" [useNative]="false" [scrollByContent]="true"
+          [scrollByThumb]="true" showScrollbar="onHover"></dxo-scrolling>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-search-panel [visible]="false" [width]="120" placeholder="Search..."></dxo-search-panel>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50, 100]"></dxo-pager>
+        <dxo-column-fixing [enabled]="true"> </dxo-column-fixing>
+        <dxo-paging [pageSize]="50"></dxo-paging>
+        <dxo-filter-row [visible]="false"> </dxo-filter-row>
+        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false"></dxo-editing>
+        <dxo-grouping [contextMenuEnabled]="true"> </dxo-grouping>
+        <dxo-group-panel [visible]="false" [allowColumnDragging]="true"></dxo-group-panel>
+
+        <dxi-column dataField="patientName" caption="Patient Name"></dxi-column>
+        <dxi-column dataField="invoiceNumber" caption="Invoice Number"></dxi-column>
+        <dxi-column dataField="invoiceDate" caption="Invoice Date" dataType="date" [format]="dateFormat">
+        </dxi-column>
+        <dxi-column dataField="totalDue" caption="Amount" cellTemplate="cellTemplate1"></dxi-column>
+        <dxi-column dataField="balanceDue" caption="Balance Due" cellTemplate="cellTemplate2"></dxi-column>
+        <dxi-column dataField="allocation" caption="Allocation" cellTemplate="cellTemplate"></dxi-column>
+
+        <div *dxTemplate="let data of 'cellTemplate1'">
+          {{ data.key.totalDue | currency: currencyCode:"symbol" }}
+        </div>
+        
+        <div *dxTemplate="let data of 'cellTemplate2'">
+          {{ data.key.balanceDue | currency: currencyCode:"symbol" }}
+        </div>
+        
+        <div *dxTemplate="let data of 'cellTemplate'" class="d-flex flex-row">
+          <dx-number-box #numberBox [max]="data.data.balanceDue < 0 ? 0 : data.data.balanceDue" [min]="0"
+            [showSpinButtons]="true" (onValueChanged)="allocation(data.data, $event)"></dx-number-box>
+
+          <app-button icon="fal fa-money-check-edit-alt" class="set-grid-btn" size="lg" type="link" color="grey"
+            (clicked)="setTextBoxValue(numberBox, data.data)"></app-button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+
+  <app-card-footer>
+    <app-button text="Process Allocations" icon="far fa-save" class="ml-auto mr-4" type="link"
+      (clicked)="saveAllocation()" [disabled]="allocations?.length === 0"></app-button>
+    <app-button text="Add Unassigned Credit" icon="far fa-plus-square ml-2" type="link"></app-button>
+  </app-card-footer>
+</app-card>
+
+<dx-popup appCentralPopUpSettings *ngIf="showUnassignedCreditPopup" [width]="'auto'" [enableScroll]="true">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="'Add Unassigned Credit'"
+      (closed)="showUnassignedCreditPopup = false"></app-pop-up-form-title>
+
+    <div class="form-group row">
+      <div class="col-md-12">
+        <dx-number-box [(value)]="unassignedUnallocated" name="total">
+        </dx-number-box>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-12">
+        <dx-text-area stylingMode="outlined" [(value)]="unassignedComments"></dx-text-area>
+      </div>
+    </div>
+
+    <div class="d-flex flex-row flex-grow-1 buttons-right">
+      <button mat-button class="app-button primary grid-header-btn mx-1" (click)="saveUnassigned()">
+        Save
+      </button>
+      
+      <button mat-button class="app-button secondary grid-header-btn mx-1" (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</dx-popup>

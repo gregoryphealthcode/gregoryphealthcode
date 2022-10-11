@@ -1,0 +1,89 @@
+<div class="d-flex flex-column mt-3 responsive-paddings" [formGroup]="form">
+  <div class="d-flex flex-row">
+    <div class="d-flex flex-column">
+      <div class="d-flex flex-row  align-items-center px-0">
+        <span class="label-info label-width">Link To *</span>
+
+        <div class="field-width">
+          <dx-select-box id="linked" [searchEnabled]="true" [dataSource]="linkedTo" formControlName="linked"
+            name="linked" required valueExpr="description" displayExpr="description">
+          </dx-select-box>
+        </div>
+
+        <ng-container
+          *ngIf="form.controls['linked'].invalid  && (form.controls['linked'].dirty || form.controls['linked'].touched)">
+          <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Link To is required"
+            *ngIf="form.controls['linked'].hasError('required')"></i>
+        </ng-container>
+      </div>
+
+      <div class="d-flex flex-row  align-items-center px-0">
+        <span class="label-info label-width">Comments</span>
+
+        <div class="field-width">
+          <dx-text-area [(value)]="taskDetails.note" formControlName="comments" name="comments">
+          </dx-text-area>
+        </div>
+        
+        <ng-container
+          *ngIf="form.controls['comments'].invalid && (form.controls['comments'].dirty || form.controls['comments'].touched)">
+          <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Max Length is 200 characters"
+            *ngIf="form.controls['comments'].hasError('maxlength')"></i>
+        </ng-container>
+      </div>
+
+      <div class="d-flex flex-row  align-items-center px-0">
+        <span class="label-info label-width">Follow Up *</span>
+
+        <div class="field-width">
+          <dx-date-box [displayFormat]="getDateFormat()" formControlName="followUp" name="followUp" required
+            type="date"></dx-date-box>
+        </div>
+
+        <ng-container
+          *ngIf="form.controls['followUp'].invalid && (form.controls['followUp'].dirty || form.controls['followUp'].touched)">
+          <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Follow Up is required"
+            *ngIf="form.controls['followUp'].hasError('required')"></i>
+        </ng-container>
+      </div>
+
+      <div class="d-flex flex-row  align-items-center px-0">
+        <span class="label-info label-width">Task Type *</span>
+
+        <div class="field-width">
+          <dx-select-box id="methodsSelectBox" [searchEnabled]="true" [dataSource]="taskTypes" required valueExpr="id"
+            displayExpr="description" formControlName="taskType">
+          </dx-select-box>
+        </div>
+
+        <ng-container
+          *ngIf="form.controls['taskType'].invalid && (form.controls['taskType'].dirty || form.controls['taskType'].touched)">
+          <i class="fas fa-exclamation-triangle warning mx-2 " matTooltip="Task type is required"
+            *ngIf="form.controls['taskType'].hasError('required')"></i>
+        </ng-container>
+      </div>
+
+      <div class="d-flex flex-row  align-items-center px-0">
+        <span class="label-info label-width">Complete</span>
+
+        <div class="field-width">
+          <dx-check-box formControlName="complete"></dx-check-box>
+        </div>
+      </div>
+
+      <div class="d-flex flex-row  align-items-center px-0">
+        <span class="label-info label-width">Percentage Complete</span>
+
+        <div class="field-width">
+          <dx-number-box formControlName="percentageComplete"></dx-number-box>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-form-footer-wrapper">
+  <app-button text="Save" class="ml-auto mr-3" (clicked)="save()" *ngIf="isEdit" color="grey"></app-button>
+  
+  <app-button text="Add Task" (clicked)="save()" [disabled]="!form.valid" *ngIf="!isEdit"></app-button>
+</div>

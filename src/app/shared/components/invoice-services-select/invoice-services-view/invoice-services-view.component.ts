@@ -35,16 +35,12 @@ export class InvoiceServicesViewComponent extends SubscriptionBase implements On
     this.currencyCode = this.appInfo.getCurrencyCode;
 
     this.addToSubscription(this.store.services$.pipe(tap(x => {
-      this.services = x.sort(function (a, b) {
-        a = a.startTime;
-        b = b.startTime;
-        if (a < b) {
-          return -1;
-        } else if (a > b) {
-          return 1;
-        }
+      this.services = x;
+      this.services.sort(function (a, b) {
+        if (a.startTime < b.startTime) return -1;
+        if (a.startTime > b.startTime) return 1;
         return 0;
-        });
+      })
       if (x) {
         this.invoiceTotal = this.services.reduce((a, b) => a + b.fee, 0);
         this.outstanding = this.invoiceTotal;

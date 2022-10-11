@@ -17,7 +17,7 @@ import { PatientNotesModule } from '../patient-notes/patient-notes.component';
 import { PatientActivityModule } from '../patient-activity/patient-activity.component';
 import { PatientPopupWarningNotesModule } from '../patient-popup-warning-notes/patient-popup-warning-notes.component';
 import { PatientInsurersModule } from '../patient-insurers/patient-insurers.module';
-import { AngularResizedEventModule } from 'angular-resize-event';
+import { AngularResizeEventModule } from 'angular-resize-event';
 import { RelatedPersonsEditModule } from 'src/app/shared/components/related-persons/related-persons-edit.module';
 import { NewPatientDetailsComponent } from './new-patient-details.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -88,7 +88,7 @@ import { AppointmentPopupAddEditModule } from 'src/app/shared/components/appoint
     DxDataGridModule,
     PatientPopupWarningNotesModule,
     PatientInsurersModule,
-    AngularResizedEventModule,
+    AngularResizeEventModule,
     RelatedPersonsEditModule,
     MatIconModule,
     MatFormFieldModule,

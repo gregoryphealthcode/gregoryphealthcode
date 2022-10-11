@@ -7,6 +7,7 @@ import { requiredIfValidator } from 'src/app/shared/helpers/form-helper';
 import { AppInfoService } from 'src/app/shared/services/app-info.service';
 import { GlobalTemplateTypesModel, TemplateFileModel, TemplateService, GlobalTemplateViewModel, GlobalTemplateCategoryModel } from 'src/app/shared/services/template.service';
 import { UserStore } from 'src/app/shared/stores/user.store';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-global-template-add-edit',

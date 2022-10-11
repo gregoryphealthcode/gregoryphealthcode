@@ -193,6 +193,12 @@ export class PatientViewModel {
 
 @Injectable()
 export class AppInfoService {
+
+  public get versionNumber() {
+    return '3-10.10.22p';
+  }
+
+
   public context: ODataContext;
   lifestyleOptions: any;
   lluPatientDataPointItemsDatasource: any;

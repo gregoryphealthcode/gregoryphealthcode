@@ -1,5 +1,7 @@
 <div class="identity-card">
-  <div class="logo"></div>
+  <div class="logo-container">
+    <div class="logo"></div>
+  </div>
 
   <div class="login-header">
     <span class="text-lg text-grey-50">SIGN IN</span>
@@ -9,7 +11,7 @@
     <div class="dx-field mb-3">
       <span class="text-grey-55 pb-1 d-flex">Username</span>
 
-      <dx-text-box [showClearButton]="true" formControlName="username" [isValid]="isValid('username')"
+      <dx-text-box [showClearButton]="true" formControlName="username" [isValid]="isValid('username')" id="login-page_username_textbox"
         [validationError]="getError('username')" placeholder="Enter username here" class="w-full w-100 login-input">
       </dx-text-box>
     </div>
@@ -17,7 +19,7 @@
     <div class="dx-field">
       <span class="text-grey-55 pb-1 d-flex">Password</span>
 
-      <dx-text-box class="w-full w-100 login-input" [(mode)]="passwordMode" [showClearButton]="true"
+      <dx-text-box class="w-full w-100 login-input" [(mode)]="passwordMode" [showClearButton]="true" id="login-page_password_textbox"
         formControlName="password" [isValid]="isValid('password')" [validationError]="getError('password')"
         placeholder="Enter password here">
         <dxi-button name="passwordshowbutton" [options]="passwordButtonOptions" hint="Show/hide password"></dxi-button>
@@ -33,7 +35,11 @@
   </div>
 
   <div class="dx-field login-btn-wrapper">
-    <dx-button type="default" text="Login" [disabled]="submitting" [useSubmitBehavior]="false" (click)="submitForm()"
+    <dx-button type="default" text="Login" [disabled]="submitting" [useSubmitBehavior]="false" (click)="submitForm()"  id="login-page_login_button"
       class="w-full w-100 login-btn"></dx-button>
+  </div>
+  <br />
+  <div class="login-version_no">
+    v {{appInfo.versionNumber}}
   </div>
 </div>

@@ -15,7 +15,8 @@ body {
   }
 
   .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-thumb {
-    background-color: darken(saturate($primary, 5%), $amount: 5%);
+   // background-color: darken(saturate($primary, 5%), $amount: 5%);
+   background-color: #36518fc2;
   }
 
   .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-bar {
@@ -57,7 +58,7 @@ body {
   }
 
   .mat-form-field-appearance-outline .mat-form-field-outline {
-    color: hsl(0, 0%, 92%);
+    color: #6c757d;
   }
 
   .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-start,

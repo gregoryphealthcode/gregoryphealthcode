@@ -1,0 +1,59 @@
+<dx-popup name="changePhotoPopup" title="Profile Picture" contentTemplate="popupContent" [width]="600"
+    [resizeEnabled]="false" height="800" [style]="'max-width:100vw!important; max-height:100vh!important;'"
+    [deferRendering]="false" [maxWidth]="'100vw'" [maxHeight]="'100vh'" [visible]="true">
+    <div *dxTemplate="let data of 'popupContent'">
+        <div class="card m-1 p-1 hm-100 overflow-auto">
+            <div id="fileuploader-container" class="display-none">
+                <dx-file-uploader name="file" selectButtonText="Select Photo. " labelText=" or drag/drop file here"
+                    accept="image/*" [allowedFileExtensions]="['*.tif', '.jpg', '.jpeg', '.png', '.bmp']"
+                    [maxFileSize]="5000000" [multiple]="false" ([value])="uploadervalue"
+                    (onValueChanged)="photoSelected($event)" [showFileList]="false" uploadMode="useForm">
+                </dx-file-uploader>
+
+                <span class="note text-right">Allowed file extensions: <span>.bmp, .jpg, .png, .tif</span>.</span><br />
+
+                <span class="note">Maximum file size: <span>5 MB.</span></span>
+            </div>
+
+            <dx-toolbar class="mt-2px" [style.visibility]="toolbarVisible ? 'visible' : 'hidden'">
+                <dxi-item widget="dxButton" location="before" locateInMenu="auto" [options]="rotateLeftButtonOptions">
+                </dxi-item>
+
+                <dxi-item widget="dxButton" location="before" locateInMenu="auto" [options]="rotateRightButtonOptions">
+                </dxi-item>
+
+                <dxi-item widget="dxButton" location="before" locateInMenu="auto" [options]="flipHButtonOptions">
+                </dxi-item>
+
+                <dxi-item widget="dxButton" location="before" locateInMenu="auto" [options]="flipVButtonOptions">
+                </dxi-item>
+            </dx-toolbar>
+
+            <div>
+                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                    [aspectRatio]="1 / 1" [resizeToWidth]="570" [cropperMinWidth]="150" [onlyScaleDown]="true"
+                    [roundCropper]="true" format="png" outputType="base64" (imageCropped)="imageCropped($event)"
+                    (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"
+                    [style.display]="showCropper ? null : 'none'" [alignImage]="'left'"></image-cropper>
+            </div>
+
+            <img #imagePreview name="imagePreview" class="image-border" />
+
+            <img #imagePreviewsmall name="imagePreviewsmall" class="image-border-small" />
+
+            <dx-box direction="row" width="100%" class="mt-10px">
+                <dxi-item direction="col" [ratio]="1">
+                    <span class="text-center float-none ml-auto mr-auto">
+                        <dx-button text="OK" (onClick)="savePhotoClicked($event)" type="default" icon="fas fa-check"
+                            class="mr-10px">
+                        </dx-button>
+                        
+                        <dx-button text="Cancel" (onClick)="cancelPhotoClicked($event)" type="default"
+                            icon="fas fa-times" class="ml-10px">
+                        </dx-button>
+                    </span>
+                </dxi-item>
+            </dx-box>
+        </div>
+    </div>
+</dx-popup>

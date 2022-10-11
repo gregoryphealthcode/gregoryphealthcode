@@ -1,4 +1,5 @@
 <dx-text-box [(value)]="term" name="temp" [class.w-12]="!enableCustomWidth" [showClearButton]="true" [mask]="mask" [maskRules]="maskRules"
+  (onInitialized)="saveGridSearchTextBoxInstance($event)"
   (onValueChanged)="search()" valueChangeEvent="keyup" [placeholder]="placeholder" autocomplete="new-password" #searchBox>
   <dxi-button name="clear" location="after" [options]="clearIconButton" *ngIf="term" (onClick)="clearSearch"></dxi-button>
   <dxi-button name="find" location="before" [options]="findIconButton"></dxi-button>

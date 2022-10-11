@@ -12,6 +12,7 @@ import { UserStore } from 'src/app/shared/stores/user.store';
 import { element } from 'protractor';
 import { MedSecSiteSelectorComponent } from 'src/app/shared/components/med-sec-site-selector/med-sec-site-selector/med-sec-site-selector.component';
 import { GridWithStateStoreDirective } from 'src/app/shared/directives/grid-with-state-store.directive';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-report-invoices-grid-new',
@@ -79,6 +80,8 @@ export class ReportInvoicesGridNewComponent extends GridBase implements OnInit {
 
   onToolbarPreparing(e) {
     const dataGrid = e.component;
+    // e.multiline = true;
+    e.toolbarOptions.multiline = true;
     this.toolbarItems = e.toolbarOptions.items;
     const searchPanel = $.grep(this.toolbarItems, function (item: any) {
       return item.name === 'searchPanel';
@@ -117,7 +120,7 @@ export class ReportInvoicesGridNewComponent extends GridBase implements OnInit {
         }
       },
       {
-        location: '',
+        location: 'center',
         widget: 'dxCheckBox',
         locateInMenu: 'auto',
         options: {
@@ -128,7 +131,7 @@ export class ReportInvoicesGridNewComponent extends GridBase implements OnInit {
           type: 'boolean',
           hint: "Select to date",
           elementAttr: {
-            class: "includeCancelled"
+            class: "mt-3"
           },
           onValueChanged: this.statusChanged.bind(this)
         }

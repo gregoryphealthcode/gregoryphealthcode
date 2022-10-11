@@ -1,0 +1,79 @@
+<dx-popup appCentralPopUpSettings *ngIf="showAddSession" [enableScroll]="true">
+    <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+        <app-pop-up-form-title [hasBorder]="true" title="Session Details" (closed)="showAddSession=false">
+        </app-pop-up-form-title>
+
+        <app-session-details [ownerSelected]="owner" [siteId]="siteId" [sessionData]="session" [location]="location"
+            (savedSession)="refreshData(); showAddSession=false;" (close)="showAddSession=false;"></app-session-details>
+    </div>
+</dx-popup>
+
+
+<div class="page-header responsive-margins">Appointment Sessions</div>
+
+<div class="d-flex flex-grow-1 responsive-margins disable-select">
+    <div class="d-flex flex-grow-1 responsive-paddings pt-0 px-0 app-card">
+        <div class="d-flex flex-column flex-grow-1 app-card">
+            <div class="d-flex flex-row mx-4 mt-3">
+                <!-- <dx-date-box id="startDate" [max]="now"
+                    class="no-bg-dropdown dx-custom-button-hovered dx-dateTime-box-width mr-2" acceptCustomValue="true"
+                    [value]="now" showDropDownButton="true" useMaskBehavior="true" displayFormat="dd/MM/yyyy"
+                    (onValueChanged)="dateChange($event)">
+                </dx-date-box> -->
+
+                <dx-select-box [dataSource]="appointmentTypes" valueExpr="id" displayExpr="description"
+                    (onSelectionChanged)="setSearchType($event)" class="no-bg-dropdown dx-custom-button-hovered"
+                    [(value)]="selectedType">
+                </dx-select-box>
+
+                <!-- <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+                <app-button icon="far fa-plus" text="New" class="ml-auto mt-auto" (clicked)="add()"></app-button> -->
+                <mat-checkbox name="Debtors" class="ml-4 CheckPadded" [checked]="isExpiredSessions" (change)="checkboxChanged($event)"
+                matInput>Include Expired Sessions</mat-checkbox>
+            </div>
+            <div class="d-flex flex-grow-1 mt-3">
+                <div class="app-card flex-grow-1 content-height border-none">
+                    <div class="cssWidgetWrapper h-100 pt-1">
+                        <dx-data-grid [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="appointmentSessionId"
+                            [hoverStateEnabled]="true" class="cssGridGeneral padd-first-lg"
+                            [rowAlternationEnabled]="true" [showRowLines]="true" focusedRowIndex="0"
+                            (onRowDblClick)="editClicked($event)">
+                            <dxo-scrolling mode="virtual"></dxo-scrolling>
+                            <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+                            <dxi-column dataField="description" caption="Description" [minWidth]="120"></dxi-column>
+                            <dxi-column dataField="locationName" caption="Location" [minWidth]="200"></dxi-column>
+                            <dxi-column dataField="ownerName" caption="Owner" [minWidth]="200"></dxi-column>
+                            <dxi-column dataField="appointmentTypes" caption="Session Types" [allowFiltering]="false"
+                                [minWidth]="250">
+                            </dxi-column>
+                            <dxi-column dataField="startDateTime" caption="Start Date Time" dataType="date"
+                                format="dd/MM/yyyy" [minWidth]="100">
+                            </dxi-column>
+                            <dxi-column dataField="endDateTime" caption="End Date Time" dataType="date"
+                                format="dd/MM/yyyy" [minWidth]="100" [filterValue]="now" selectedFilterOperation=">"></dxi-column>
+                            <dxi-column dataField="eBooking" cellTemplate="eBookingTemplate" alignment="center"
+                                dataType="boolean" caption="eBooking" [minWidth]="100"></dxi-column>
+                            <dxi-column type="buttons" [showInColumnChooser]="false" [minWidth]="100">
+                                <dxi-button template="myCommandTemplate"></dxi-button>
+                            </dxi-column>
+
+                            <div *dxTemplate="let cellInfo of 'eBookingTemplate'">
+                                <mat-icon *ngIf="cellInfo.value === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+                            </div>
+
+                            <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+                                <!-- <app-button icon="far fa-trash" type="link" color="grey" class="mr-2"
+                                    matTooltip="Delete" (clicked)="deleteClicked(cellInfo)"></app-button> -->
+
+                                <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit"
+                                    (clicked)="editClicked(cellInfo)"></app-button>
+                            </div>
+                        </dx-data-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<div class="d-flex d-flex-column">
+  <div class="d-flex flex-grow-1">
+    <div class="page-header responsive-margins">Draft Invoices</div>
+  </div>
+</div>
+
+<div class="d-flex flex-grow-1 responsive-margins">
+  <div class="app-card flex-grow-1">
+    <div class="d-flex flex-row flex-wrap w-100 mb-3 pt-3 pl-4">
+      <app-grid-search-text-box (changed)="searchTermValue = $event; onSearchInputChangedHandler()" class="mr-3">
+      </app-grid-search-text-box>
+
+      <!-- <app-button text="Export" icon="far fa-file-download" class="mt-auto mb-auto ml-auto mr-4" type="link"
+      (clicked)="export()"></app-button> -->
+    </div>
+
+    <div class="cssWidgetWrapper disable-select hmin-275px">
+      <dx-data-grid gridWithRowLinesSettings [dataSource]="dataSource" keyExpr="this" [hoverStateEnabled]="true"
+        class="cssGridGeneral padd-first-lg" [rowAlternationEnabled]="true" [showRowLines]="true" focusedRowIndex="0"
+        (onFocusedRowChanged)="onFocusedRowChanged($event)" [focusedRowEnabled]="true">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-state-storing [enabled]="true" type="sessionStorage" storageKey="draftInvoiceListStorage"></dxo-state-storing>
+
+        <dxi-column dataField="invoiceDate" caption="Invoice Date" dataType="date" [format]="appInfo.getDateFormat"
+          [sortIndex]="0" sortOrder="asc"></dxi-column>
+        <dxi-column dataField="invoiceNumber" caption="Invoice Number"></dxi-column>     
+        <dxi-column caption="Type" cellTemplate="typeTemplate"></dxi-column>
+        <dxi-column dataField="payor" caption="Payor"></dxi-column>  
+        <dxi-column dataField="patientText" caption="Patient"></dxi-column>
+        <dxi-column dataField="birthDate" caption="DoB" dataType="date" [format]="appInfo.getDateFormat"></dxi-column>
+        <dxi-column dataField="totalGross" caption="Total" dataType="number">
+          <dxo-format type="fixedPoint" [precision]="2">
+          </dxo-format>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'typeTemplate'">
+          <span *ngIf="cellInfo.row.data.invoiceType == 'Insurer' && cellInfo.row.data.paperBased != true">EDI</span>
+            <span *ngIf="cellInfo.row.data.invoiceType == 'Patient' && cellInfo.row.data.paperBased != true">Patient</span>
+            <span *ngIf="cellInfo.row.data.invoiceType == 'Contact' && cellInfo.row.data.paperBased != true">Contact</span>
+            <span *ngIf="cellInfo.row.data.invoiceType == 'Relative' && cellInfo.row.data.paperBased != true">Relative</span>
+          <span *ngIf="cellInfo.row.data.paperBased == true">Paper</span>
+        </div>
+        
+        <dxo-summary>
+          <dxi-total-item column="invoiceDate" summaryType="count" displayFormat="{0}" valueFormat="fixedPoint {2}">
+          </dxi-total-item>
+          <dxi-total-item column="totalGross" summaryType="sum" displayFormat="£ {0}" valueFormat="fixedPoint {2}">
+            <dxo-format [precision]="2">
+            </dxo-format>
+          </dxi-total-item>
+        </dxo-summary>
+      </dx-data-grid>
+    </div>
+  </div>
+
+  <div class="d-none d-lg-flex flex-w-22">
+    <div class="app-card h-100 ml-4 flex-grow-1">
+      <app-no-data *ngIf="!showPanel" [showTitle]="false" text="Please select a patient from the list."
+        class="w-100 flex responsive-paddings px-4 mt-40per"></app-no-data>
+
+      <app-invoice-summary-view class="d-flex flex-grow-1" [isDraft]="true" [patientId]="patientId"
+        [invoice]="selectedRowData" class="d-flex flex-grow-1" *ngIf="showPanel"></app-invoice-summary-view>
+    </div>
+  </div>
+</div>

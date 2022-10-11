@@ -1,0 +1,382 @@
+<dx-popup #redistributePopup name="redistributePopup" title="title" contentTemplate="popupContent" [visible]="true"
+  *ngIf="showRedistributePopup" [width]="'auto'" [closeOnOutsideClick]="false" [dragEnabled]="true"
+  [showCloseButton]="true" [height]="'auto'" [deferRendering]="true" [resizeEnabled]="true">
+  <div *dxTemplate="let data of 'popupContent'">
+    <div class="d-flex flex-column flex-grow-1 flex-auto top-row-height mx-3" appEnterKeyFocusWrapper delay="750">
+      <div class="d-flex flex-row mt-3 align-items-center">
+        <label for="comment" class="label-width">Payor</label>
+
+        <div class="field-width">
+          <dx-select-box id="payors" [searchEnabled]="true" [dataSource]="payors" valueExpr="this"
+            displayExpr="fullName" [(value)]="payorSelected">
+          </dx-select-box>
+        </div>
+      </div>
+
+      <div class="d-flex flex-row mt-3 align-items-center">
+        <label for="comment" class="label-width">Shortfall Letter</label>
+
+        <div class="field-width">
+          <dx-select-box [items]="letters" [value]="this" (onValueChanged)="updateShortfallLetterValue($event)">
+          </dx-select-box>
+        </div>
+      </div>
+
+      <div class="d-flex flex-row mt-3 mb-3 align-items-center">
+        <label for="comment" class="label-width">Amount</label>
+
+        <div class="field-width">
+          <dx-number-box [(value)]=outstandingBalance></dx-number-box>
+        </div>
+      </div>
+
+      <div class="d-flex flex-row flex-grow-1 buttons-right">
+        <button mat-button class="app-button secondary grid-header-btn" (click)="reallocate(true)"
+          [disabled]="!transactionVM.invoiceWasSentToPatientZone">Send To patientzone</button>
+
+        <button mat-button class="app-button primary grid-header-btn" (click)="reallocate(false)">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div *dxTemplate="let data of 'title'" class="d-flex flex-row justify-content-end align-items-center px-0">
+    <div class="d-flex flex-column flex-grow-1 justify-content-center ml-3 px-0">
+      <span class="text-sm-3 text-grey-40">Redistribute Payment</span>
+    </div>
+
+    <div class="d-flex flex-column justify-content-end align-items-center px-0">
+      <button mat-icon-button class="icon alternative popup-close-btn" (click)="showRedistributePopup=false"
+        matTooltip="Close popup">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </div>
+</dx-popup>
+
+<div class="d-flex flex-grow-1 responsive-margins" appEnterKeyFocusWrapper delay="750">
+  <div class="app-card responsive-paddings flex-grow-1">
+    <mat-tab-group animationDuration="2000ms" [selectedIndex]="1">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Patient and Payor Details</span>
+        </ng-template>
+
+        <div class="d-flex mt-2 content-height " *matTabContent>
+          <div class="d-flex flex-column  flex-grow-1 mx-4 mb-3">
+            <div class="app-card responsive-paddings top-row-content-height">
+              <div class="d-flex flex-row">
+                <div class="sub-header">Patient Details</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Name</div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{transactionVM.patientName}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Address</div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{addressVM.address1}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width"></div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{addressVM.address2}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width"></div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{addressVM.address3}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width"></div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{addressVM.address4}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width"></div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{addressVM.postcode}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Warning Notes</div>
+
+                <div class="d-flex flex-column mr-2 label-width">
+                  <dx-text-area></dx-text-area>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column  flex-grow-1 mx-4 mb-3">
+            <div class="app-card responsive-paddings top-row-content-height">
+              <div class="d-flex flex-row">
+                <div class="sub-header">Payor Details</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Name</div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{transactionVM.payorName}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Contact Name</div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{transactionVM.payorName}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Address</div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{payorDetailsVM.address1}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width"></div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{payorDetailsVM.address2}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width"></div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{payorDetailsVM.address3}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width"></div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{payorDetailsVM.address4}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width"></div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{payorDetailsVM.postcode}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Transactions</span>
+        </ng-template>
+
+        <div class="d-flex mt-2 content-height">
+          <div class="d-flex flex-column  flex-grow-1 mx-4 mb-3">
+            <div class="app-card responsive-paddings top-row-content-height">
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Patient Name</div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{transactionVM.patientName}}</div>
+
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">DOB</div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{transactionVM.birthDate |
+                  date:appInfoService.getDateFormatBySite(siteId)}}</div>
+              </div>
+              <div class="d-flex flex-row">
+
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Invoice No.</div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{transactionVM.invoiceNumber}}</div>
+
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Invoice Date</div>
+
+                <div class="d-flex flex-column mr-2 label-width"> {{transactionVM.invoiceDate |
+                  date:appInfoService.getDateFormatBySite(siteId) }}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Invoice Net Total</div>
+
+                <div class="d-flex flex-column mr-2 label-width">
+                  {{appInfoService.getCurrencySymbolBySite(siteId)}}{{transactionVM.invoiceTotal}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Transaction Total</div>
+
+                <div class="d-flex flex-column mr-2 label-width">
+                  {{appInfoService.getCurrencySymbolBySite(siteId)}}{{transactionVM.totalPaid}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Write Off/Credit Total</div>
+
+                <div class="d-flex flex-column mr-2 label-width">
+                  {{appInfoService.getCurrencySymbolBySite(siteId)}}{{transactionVM.writeOffAmount}}</div>
+              </div>
+
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Balance Outstanding</div>
+
+                <div class="d-flex flex-column mr-2 label-width">
+                  {{appInfoService.getCurrencySymbolBySite(siteId)}}{{transactionVM.outstandingBalance}}</div>
+              </div>
+
+              <div class="d-flex flex-row" *ngFor="let item of transactionVM.payorOutstandingViewModel; index as i">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Due From</div>
+
+                <div class="d-flex flex-column mr-2 label-width">{{item.payorName}}</div>
+
+                <div class="d-flex flex-column mr-2 label-width">
+                  {{appInfoService.getCurrencySymbolBySite(siteId)}}{{item.outstandingBalance }}</div>
+
+                <div class="d-flex flex-column">
+                  <button mat-icon-button class="icon alternative popup-close-btn" (click)="addTransaction()"
+                    matTooltip="Add Transaction">
+                    <i class="fas fa-pound-sign"></i>
+                  </button>
+                </div>
+
+                <div class="d-flex flex-column">
+                  <button mat-icon-button class="icon alternative popup-close-btn" (click)="redistribute()"
+                    matTooltip="Redistribute Amount">
+                    <i class="fas fa-hand-holding-usd"></i>
+                  </button>
+                </div>
+              </div>
+                        </div>
+
+            <div class="app-card responsive-paddings inner-content-height mt-3">
+              <div class="cssWidgetWrapper">
+                <dx-data-grid id="gridManageTransactionContainer" class="cssGridGeneral"
+                  [dataSource]="transactionVM.transactionLines" [remoteOperations]="false"
+                  [allowColumnReordering]="true" [rowAlternationEnabled]="false" [showBorders]="false"
+                  [focusedRowEnabled]="true" focusedRowIndex="0" keyExpr="this" [allowColumnResizing]="true"
+                  [columnHidingEnabled]="true" columnResizingMode="widget">
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-search-panel [visible]="false" [width]="240" placeholder="Search...">
+                  </dxo-search-panel>
+                  <dxo-scrolling columnRenderingMode="virtual">
+                  </dxo-scrolling>
+                  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50, 100]">
+                  </dxo-pager>
+                  <dxo-column-chooser [enabled]="false" mode="select" [height]="550">
+                  </dxo-column-chooser>
+                  <dxo-column-fixing [enabled]="true">
+                  </dxo-column-fixing>
+                  <dxo-paging [pageSize]="50"></dxo-paging>
+                  <dxo-filter-row [visible]="false">
+                  </dxo-filter-row>
+                  <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false">
+                  </dxo-editing>
+                  <dxo-grouping [contextMenuEnabled]="true">
+                  </dxo-grouping>
+                  <dxo-group-panel [visible]="false" [allowColumnDragging]="true">
+                  </dxo-group-panel>
+
+                  <dxi-column dataField="transactionDate" caption="Date" dataType="date"
+                    [format]="appInfoService.getDateFormatBySite(siteId)"></dxi-column>
+                  <dxi-column dataField="transactionType" caption="Type"></dxi-column>
+                  <dxi-column dataField="who" caption="Paid By/To"></dxi-column>
+                  <dxi-column dataField="amountPaid" caption="Amount" cellTemplate="currency">
+                    <dxo-format type="fixedPoint" [precision]="2">
+                    </dxo-format>
+                  </dxi-column>
+
+                  <div *dxTemplate="let d of 'currency'">
+                    <div class="current-value">{{appInfoService.getCurrencySymbolBySite(siteId)}}{{d.value | number :
+                      '1.2-2'}}</div>
+                  </div>
+                </dx-data-grid>
+              </div>
+            </div>
+
+            <div class="app-card responsive-paddings inner-content-height mt-3">
+              <div class="d-flex flex-row align-items-center py-1">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Payor</div>
+
+                <div class="d-flex flex-column mr-2 w-80  ">
+                  <dx-select-box id="payors" [searchEnabled]="true" [dataSource]="payors" valueExpr="this"
+                    displayExpr="fullName" [(value)]="payorSelected">
+                  </dx-select-box>
+                </div>
+
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Trans. Type</div>
+
+                <div class="d-flex flex-column w-80">
+                  <dx-select-box id="transTypeSelectBox" [searchEnabled]="true" [dataSource]="transType"
+                    valueExpr="this" displayExpr="description" [(value)]="transTypeSelected">
+                  </dx-select-box>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row align-items-center py-1">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Method</div>
+
+                <div class="d-flex flex-column mr-2 w-80">
+                  <dx-select-box id="methodsSelectBox" [searchEnabled]="true" [dataSource]="methods" valueExpr="id"
+                    displayExpr="description" [(value)]="transactionDetail.methodId">
+                  </dx-select-box>
+                </div>
+
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Amount</div>
+
+                <div class="d-flex flex-column mr-2 w-80">
+                  <dx-number-box [(value)]="transactionDetail.amountPaid">
+                  </dx-number-box>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row align-items-center py-1">
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Date</div>
+
+                <div class="d-flex flex-column mr-2 w-80">
+                  <dx-date-box [displayFormat]="appInfoService.getDateFormatBySite(siteId)"
+                    [(value)]="transactionDetail.transactionDate" type="date"></dx-date-box>
+                </div>
+
+                <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Comments</div>
+
+                <div class="d-flex flex-column mr-2 w-80">
+                  <dx-text-area [(value)]="transactionDetail.comments">
+                  </dx-text-area>
+                </div>
+              </div>
+
+              <div class="d-flex flex-row flex-grow-1 buttons-right">
+                <button mat-button class="app-button primary grid-header-btn   " matTooltip="Save"
+                  (click)="save()">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Tasks</span>
+        </ng-template>
+
+        <div class="d-flex mt-2 content-height" *matTabContent>
+          <div class="app-card responsive-paddings inner-content-height">
+            <div class="d-flex flex-row align-items-center">
+              <div class="d-flex flex-column label-info sub-heading mr-2 label-width">Tasks For</div>
+
+              <div class="d-flex flex-column mr-2 w-80  ">
+                <dx-select-box id="methodsSelectBox" [searchEnabled]="true" [dataSource]="patients"
+                  valueExpr="patientId" displayExpr="name" [(value)]="patientId"></dx-select-box>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row align-items-center py-1">
+              <app-task-details [patientId]="patientId" [linkTo]="linkId" [siteId]="siteId" [invoiceId]="invoiceId">
+              </app-task-details>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

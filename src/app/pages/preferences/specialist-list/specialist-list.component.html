@@ -1,0 +1,75 @@
+<app-specialist-add-edit [data]="selectedType" (saved)="getSpecialists()"></app-specialist-add-edit>
+
+<div class="d-flex flex-row flex-grow-1">
+  <div class="app-card d-flex flex-column flex-grow-1 col-lg-8 px-0">
+    <div class="d-flex flex-column responsive-margins">
+      <div class="label-info-value-title mt-3">Practitioners</div>
+
+      <div class="flex-row mt-1 mb-2" style="align-items: center;">
+        <span class="label-description" style="line-height: 1.6rem;">You can update Practitioner's preferences from
+          here</span>
+
+        <mat-checkbox class="ml-4 CheckPadded" style="float: right;" [checked]="showInactive"
+          (change)="checkboxChanged($event)" matInput>
+          Include inactive
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column flex-grow-1">
+      <div class="d-flex flex-row mx-4">
+        <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+        <app-button icon="far fa-plus" text="New" class="ml-auto mt-auto" (clicked)="addClicked()"></app-button>
+      </div>
+
+      <div class="d-flex flex-grow-1 mt-2">
+        <div class="cssWidgetWrapper">
+          <dx-data-grid [dataSource]="dataSource" gridWithRowLinesSettings keyExpr="id" [hoverStateEnabled]="true"
+            class="cssGridGeneral padd-first-lg" [focusedRowEnabled]="true" [focusedRowIndex]="0"
+            (onFocusedRowChanged)="onFocusedRowChanged($event)" [columnMinWidth]="100">
+            <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+            <dxi-column dataField="displayName" cellTemplate="nameTemplate" caption="Display Name">
+            </dxi-column>
+            <dxi-column dataField="lastName" caption="Last Name"></dxi-column>
+            <dxi-column dataField="firstName" caption="First Name"></dxi-column>
+            <dxi-column dataField="speciality" caption="Specialty" cellTemplate="typeTemplate" alignment="center">
+            </dxi-column>
+            <dxi-column type="buttons" [showInColumnChooser]="false" width="55">
+              <dxi-button template="myCommandTemplate"></dxi-button>
+            </dxi-column>
+
+            <div *dxTemplate="let data of 'nameTemplate'" class="d-flex flex-column"
+              [class.text-grey-65]="data.data.active == false">
+              <div class="d-flex">
+                <span class="text-semiBold">{{data.data.displayName}}</span>
+
+                <span *ngIf="data.data.active == false">&nbsp;- Inactive</span>
+              </div>
+            </div>
+
+            <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+              <app-button icon="far fa-edit" type="link" color="grey" matTooltip="Edit"
+                (clicked)="editClicked(cellInfo.data.id)"></app-button>
+            </div>
+
+            <div *dxTemplate="let data of 'typeTemplate'" class="d-flex flex-row justify-content-center">
+              <span class="label-tag md type5-1">{{data.data.speciality}}</span>
+            </div>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 px-0 d-none d-lg-flex">
+    <div class="app-card w-100 h-100 ml-3">
+      <app-no-data *ngIf="!showDetails" text="Please select a consultant from the list."
+        class="w-100 flex responsive-paddings" style="margin-top: 40%;"></app-no-data>
+
+      <app-view-specialist-summary *ngIf="showDetails" class="d-flex flex-grow-1" (editSpecialist)="editClicked($event)"
+        [specialist]="selectedrowData"></app-view-specialist-summary>
+    </div>
+  </div>
+</div>

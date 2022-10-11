@@ -11,8 +11,10 @@
 
       <p class="text-sm-2 text-semiBold mt-4 text-grey-50">Type your PIN to unlock.</p>
 
-      <dx-text-box #pinText name="pinText" placeholder="" mode="password" width="80" [(ngModel)]="pinValue" appAutoFocus
-        preventAutoFill maxLength="4" (onEnterKey)="onUnlockClick($event)" [inputAttr]="{ autocomplete: 'off'}"
+      <dx-text-box #pinText name="pinText" placeholder="" mode="password" width="80" [(ngModel)]="pinValue" old_appAutoFocus
+        preventAutoFill maxLength="4" (onEnterKey)="onUnlockClick($event)" [focusStateEnabled]="true"
+        (onInitialized)="savePinEditInstance($event)"
+        [inputAttr]="{id:'pinTextEdit', autocomplete: 'off'}"
         stylingMode="outlined">
       </dx-text-box>
 

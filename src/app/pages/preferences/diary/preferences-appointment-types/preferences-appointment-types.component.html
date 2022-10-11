@@ -1,0 +1,44 @@
+<app-appointment-type-add-edit [data]="selectedType" (saved)="refreshDataGrid()"></app-appointment-type-add-edit>
+
+<div class="d-flex flex-row mr-4 mt-2 ml-4">
+  <app-grid-search-text-box (changed)="searchBoxValue = $event; doSearch()"></app-grid-search-text-box>
+
+  <app-button icon="far fa-plus" text="New Type" class="ml-auto mt-auto" (clicked)="addAppointmentTypeClicked()">
+  </app-button>
+</div>
+
+<div class="d-flex flex-grow-1 mt-2">
+  <div class="app-card flex-grow-1 content-height border-none px-4">
+    <div class="cssWidgetWrapper">
+      <dx-data-grid #appointmentTypesGrid [dataSource]="gridDataSource" (onRowDblClick)="editClicked($event)"
+        keyExpr="this" [hoverStateEnabled]="true" gridWithRowLinesSettings class="cssGridGeneral padd-first-sm" focusedRowIndex="0"
+        [columnMinWidth]="125">
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+
+        <dxi-column dataField="description" caption="Description" cellTemplate="descriptionTemplate" minWidth="160"
+          [sortIndex]="1" sortOrder="asc">
+        </dxi-column>
+        <dxi-column dataField="duration" caption="Duration" width="85" alignment="center"></dxi-column>
+        <dxi-column dataField="type" caption="Type" width="140" alignment="center"></dxi-column>
+        <dxi-column dataField="episodeType" caption="Episode" [width]="150"> </dxi-column>
+        <dxi-column type="buttons" [showInColumnChooser]="false" width="85">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'descriptionTemplate'" class="d-flex flex-row align-items-center">
+          <div class="type-color" [ngStyle]="{'background-color': getBackgroundColour(cellInfo)}"></div>
+
+          <div class="ml-2 text-semiBold">{{cellInfo.data.description}}</div>
+        </div>
+
+        <div *dxTemplate="let cellInfo of 'myCommandTemplate'" class="d-flex flex-row">
+          <app-button icon="far fa-trash" type="link" color="grey" class="mx-2" matTooltip="Delete"
+            (clicked)="deleteAppointmentTypeClicked(cellInfo)"></app-button>
+
+          <app-button icon="far fa-edit" type="link" color="grey" class="mr-2" matTooltip="Edit"
+            (clicked)="editClicked(cellInfo)"></app-button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

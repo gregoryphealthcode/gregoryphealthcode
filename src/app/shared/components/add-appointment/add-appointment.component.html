@@ -1,0 +1,277 @@
+<app-pop-up-form-title *ngIf="getFormPropertyValue('statusId') <= 2"
+  [title]="isNew? 'Add appointment' : 'Edit appointment'" [cancelConfirmation]="cancelBtn" [ofEditForm]="true">
+</app-pop-up-form-title>
+
+<app-pop-up-form-title *ngIf="getFormPropertyValue('statusId') > 2"
+  [title]="isNew? 'Add appointment' : 'Edit appointment'" (closed)="cancel()" [ofEditForm]="true">
+</app-pop-up-form-title>
+
+<div class="central-popup-wrapper">
+  <div class="central-popup-body safari-min-height" appEnterKeyFocusWrapper delay="750" [formGroup]="editForm">
+    <div class="a-alert warning mr-2 mb-2" *ngIf="errorMessage">
+      <p class="a-alert-title">Warning</p>
+      <p class="m-0">{{errorMessage}}</p>
+    </div>
+
+    <app-form-section title="Patient" class="mt-1 no-end-section no-wrap w-100" [showInfo]="false"
+      [showDanger]="dropdownData.isOnWaitingList && !dropdownData.onStop" [showWarning]="dropdownData.onStop">
+      <div section-danger class="w-100 safari-warning-height">
+        <div class="d-flex flex-column my-1 w-100 safari-pb-2">
+          <p class="m-0 text-semiBold">Attention!</p>
+
+          <p class="m-0">Patient is currently on the waiting list.</p>
+
+          <div class="d-flex ml-auto text-semiBold hoverable align-items-center mr-3"
+            (click)="showPatientWaitingListPopUp = true">
+            <mat-icon fontSet="far" class="h-auto w-auto mr-2" fontIcon="fa-list"> </mat-icon>
+
+            <span>Show List</span>
+          </div>
+        </div>
+      </div>
+
+      <div section-warning class="w-100">
+        <div class="d-flex flex-column my-1 w-100">
+          <p class="m-0 text-semiBold">Warning!</p>
+
+          <p class="m-0">This patient is currently on stop and a new appointment cannot be made.</p>
+        </div>
+      </div>
+
+      <div class="form-section-row mb-0 mt-2">
+        <app-form-group class="width-1/2 md-height">
+          <div class="text-grey-60" *ngIf="dropdownData.patientName">
+            <span class="label-value">{{dropdownData.patient.lastName}}, {{dropdownData.patient.firstName}}
+              {{dropdownData.patient.title}}</span>
+          </div>
+          <div class="text-grey-60" *ngIf="dropdownData.patientName">
+            <span class="label-value">{{dropdownData.patient.birthDate | date: appInfo.getDateFormat}}
+              ({{dropdownData.patient.age}})</span>
+          </div>
+          <div class="text-grey-60" *ngIf="dropdownData.patient">
+            <span class="label-value">{{dropdownData.patient.patientAddressesString}}</span>
+          </div>
+        </app-form-group>
+
+        <!-- Status -->
+        <ng-container *ngIf="!isNew">
+          <app-select-box [dataSource]="dropdownData.patientStatus" class="md-height width-1/2"
+            formControlName="patientStatusId" valueExpr="uniqueNo"
+            *ngIf="getFormPropertyValue('statusId') === 2; else elseBlock" displayExpr="description"
+            placeholder="Status" caption="Status">
+          </app-select-box>
+
+          <ng-template #elseBlock>
+            <span class="label-tag md type3 mb-auto">{{getPatientStatusDescription()}}</span>
+          </ng-template>
+        </ng-container>
+      </div>
+    </app-form-section>
+
+    <!-- Show only if we have a patient and not on stop -->
+    <ng-container *ngIf="getFormPropertyValue('patientId') && !dropdownData.onStop">
+      <!-- Details section -->
+      <app-form-section title="Main Details" class="no-end-section no-wrap" [showInfo]="false">
+        <app-button *ngIf="slotSelected" icon="far fa-edit" type="link" color="grey" class="ml-auto shift-up"
+          matTooltip="Edit" (clicked)="edit()"></app-button>
+
+        <div class="form-section-row mt-3">
+          <!-- Type -->
+          <app-select-box caption="Type" [dataSource]="dropdownData.appointmentTypes" [(ngModel)]="appointmentTypeId"
+            [ngModelOptions]="{standalone: true}" (ngModelChange)="apptTypeChanged($event)"
+            valueExpr="appointmentTypeId" displayExpr="description"
+            *ngIf="isNew && (fromSession || fromPatient) && !getFormPropertyValue('startDate')" class="width-1/2">
+          </app-select-box>
+
+          <!-- Type -->
+          <app-select-box caption="Type" [dataSource]="dropdownData.appointmentOwnerTypes"
+            formControlName="appointmentTypeId" valueExpr="id" displayExpr="description"
+            *ngIf="!isNew || isNew && getFormPropertyValue('startDate')"
+            [readonly]="(isNew && getFormPropertyValue('startDate') && !noSession) || !isNew" class="width-1/2">
+          </app-select-box>
+
+          <!-- Duration -->
+          <app-text-box class="width-1/2" *ngIf="appointmentTypeId && validateDuration()"
+            formControlName="durationMinutes" inputType="number" caption="Duration" min="1" max="999"
+            [readonly]="getFormPropertyValue('startDate') || !isNew" suffix="minutes" hint="Minutes">
+          </app-text-box>
+        </div>
+
+        <!-- Show only if we have a type -->
+        <!-- Specialist & Location -->
+        <!-- editable if new and did not come from the diary or session -->
+        <div class="form-section-row a-form-group"
+          *ngIf="!isNew || (isNew && getFormPropertyValue('appointmentTypeId') && getFormPropertyValue('startDate'))">
+          <app-form-label caption="Specialist" [value]="dropdownData.selectedSpecialistDisplayName" class="width-1/2">
+          </app-form-label>
+
+          <!-- editable if new and came from the diary -->
+          <app-select-box caption="Location" [dataSource]="dropdownData.locations" formControlName="locationId"
+            valueExpr="locationId" displayExpr="locationName" [readonly]="getFormPropertyValue('sessionId') || !isNew"
+            class="width-1/2">
+          </app-select-box>
+        </div>
+
+        <div class="form-section-row" *ngIf="showSlotsPopUp && isNew && appointmentTypeId">
+          <div class="d-flex flex-column bg-white ml-auto mr-auto">
+            <app-appointments (slotSelected)="slotSelectedHandler($event)" (addedToWaitingList)="waitingListHandler()"
+              [duration]="getFormPropertyValue('durationMinutes')" [sessionId]="getFormPropertyValue('sessionId')"
+              [patientId]="getFormPropertyValue('patientId')" [appointmentTypeId]="appointmentTypeId"
+              class="d-flex flex-column mb-2 flex-grow-1 h-auto"></app-appointments>
+          </div>
+        </div>
+
+        <ng-container *ngIf="showMainDetails">
+          <!-- Start Date & End Date-->
+          <div class="form-section-row">
+            <app-date-box class="width-1/2" caption="Start Date" formControlName="startDate" type="datetime"
+              [showAsLabel]="true" [showDropDownButton]="true">
+            </app-date-box>
+
+            <app-date-box class="width-1/2" caption="End Date" [showDropDownButton]="false" formControlName="endDate"
+              [readonly]="true">
+            </app-date-box>
+          </div>
+
+          <div class="form-section-row" *ngIf="isNew && getFormPropertyValue('sessionId')">
+            <app-slide-toggle caption="Also add to waiting list?" class="width-100" formControlName="addToWaitingList"
+              *ngIf="!showAddedToWaitingList && !getFormPropertyValue('addToWaitingList')"
+              [(ngModel)]="addToWaitingList">
+            </app-slide-toggle>
+
+            <div class="a-alert information w-100" *ngIf="showAddedToWaitingList">
+              <div class="d-flex flex-row align-items-center">
+                <p class="m-0">Patient has been added to the waiting list.</p>
+
+                <span class="d-flex ml-auto hoverable" (click)="showAddedToWaitingList=false">
+                  <mat-icon>clear</mat-icon>
+                </span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </app-form-section>
+
+      <ng-container *ngIf="showMainDetails">
+        <app-form-section title="Notes" class="no-end-section no-wrap" [showInfo]="false">
+          <!-- Notes -->
+          <div class="form-section-row mt-1">
+            <app-text-area-box formControlName="description" class="text-area-standard-height w-100">
+            </app-text-area-box>
+          </div>
+        </app-form-section>
+
+        <!-- Tabs -->        
+        <mat-tab-group class="full-height left-aligned modal-tabs" style="height: 20rem;" appEnableScroll (selectedTabChange)="scroll(target)">
+          <mat-tab label="Confirmation">
+            <div class="d-flex flex-column mt-3 w-20">
+              <div class="form-section-row">
+                <app-slide-toggle caption="Letter?" class="md-height form-col-1/3" formControlName="confirmationLetter"
+                  [(ngModel)]="dropdownData.letterDefault">
+                </app-slide-toggle>
+
+                <app-select-box [searchEnabled]="true" class="md-height pt-2 mr-auto"
+                  [dataSource]="dropdownData.letterTemplates" formControlName="letterTemplateId" valueExpr="templateId"
+                  displayExpr="description" *ngIf="getFormPropertyValue('confirmationLetter')"
+                  placeholder="Select a template">
+                </app-select-box>
+              </div>
+
+              <div class="form-section-row ">
+                <app-slide-toggle caption="SMS?" class="md-height form-col-1/3" formControlName="confirmationText"
+                  [(ngModel)]="dropdownData.smsDefault">
+                </app-slide-toggle>
+
+                <app-select-box [searchEnabled]="true" class="md-height pt-2 mr-auto"
+                  [dataSource]="dropdownData.smsTemplates" formControlName="smsTemplateId" valueExpr="templateId"
+                  displayExpr="description" *ngIf="getFormPropertyValue('confirmationText')"
+                  placeholder="Select a template">
+                </app-select-box>
+              </div>
+
+              <div class="form-section-row">
+                <app-slide-toggle caption="Email?" class="md-height form-col-1/3" formControlName="confirmationEmail"
+                  [(ngModel)]="dropdownData.emailDefault">
+                </app-slide-toggle>
+
+                <app-select-box [searchEnabled]="true" class="md-height pt-2" [dataSource]="dropdownData.emailTemplates"
+                  formControlName="emailTemplateId" valueExpr="templateId" displayExpr="description"
+                  *ngIf="getFormPropertyValue('confirmationEmail')" placeholder="Select a template">
+                </app-select-box>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Payor">
+            <app-add-edit-appointment-payor (payorSelected)="payorSelectedHandler()"></app-add-edit-appointment-payor>
+          </mat-tab>
+
+          <!-- Second tab -->
+          <mat-tab label="Services">
+            <app-invoice-services-select (serviceAdded)="serviceAddedHandler()"></app-invoice-services-select>
+          </mat-tab>
+
+          <mat-tab label="Instructions">
+            <app-appointment-instructions class="d-flex flex-column flex-grow-1" [appointmentId]="showMainDetails">
+            </app-appointment-instructions>
+          </mat-tab>
+
+          <mat-tab label="Other">
+            <div class="form-section-row mt-3">
+              <app-slide-toggle caption="Translator needed?" class="width-1/3" formControlName="translatorNeeded">
+              </app-slide-toggle>
+
+              <app-select-box caption="Language" [dataSource]="dropdownData.translatorLanguages"
+                formControlName="translatorLanguage" valueExpr="uniqueNo" displayExpr="description" class="width-1/2"
+                *ngIf="getFormPropertyValue('translatorNeeded')">
+              </app-select-box>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+        <div #target></div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="popup-form-footer-wrapper">
+    <app-button text="Cancel" class="ml-auto mr-3" [class.hidden]="getFormPropertyValue('statusId') > 2" color="grey"
+      appCancelConfirmation #cancelBtn="cancelConfirmation" confirmButtonText="Create appointment" [form]="editForm"
+      (cancelClick)="cancel()" (saveClick)="isNew ? book() : submitForm()"
+      [confirmButtonText]="isNew ? 'Book appointment' : 'Update appointment'">
+    </app-button>
+
+    <app-button *ngIf="getFormPropertyValue('statusId') > 2" text="Cancel" class="ml-auto mr-3" color="grey"
+      (clicked)="cancel()"></app-button>
+
+    <div *ngIf="!dropdownData.onStop" class="d-flex justify-content-end">
+      <ng-container *ngIf="isNew">
+        <app-button text="Book" (clicked)="book()" [disabled]="submitting || !this.slotSelected"></app-button>
+      </ng-container>
+
+      <ng-container *ngIf="!isNew && getFormPropertyValue('statusId') == 2">
+        <app-button text="Complete" *ngIf="canBeCompleted" (clicked)="complete()" type="secondary" class="mr-3">
+        </app-button>
+
+        <app-button text="Update" (clicked)="submitForm()" [disabled]="submitting || editForm.pristine"></app-button>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<!-- Patient waiting list popup -->
+<dx-popup appCentralPopUpSettings *ngIf="showPatientWaitingListPopUp" [minHeight]="'30rem'" [width]="'60rem'"
+  [enableScroll]="true">
+  <div *dxTemplate="let data of 'popupContent'" class="d-flex flex-column bg-white">
+    <app-pop-up-form-title title="Waiting list" description="You can remove patient from waiting list from here"
+      (closed)="showPatientWaitingListPopUp = false"></app-pop-up-form-title>
+
+    <app-patient-waiting-list class="d-flex flex-column my-2 flex-grow-1 overflow-auto h-100"
+      [patientId]="getFormPropertyValue('patientId')" [patientName]="dropdownData.patientName"
+      (closed)="patientWaitingListClosed()">
+    </app-patient-waiting-list>
+  </div>
+</dx-popup>
+
+<dx-popup appCentralPopUpSettings width="300px" *ngIf="showComplete" [enableScroll]="true">
+  <app-appointment-complete [patientStatusId]="patientStatusId" [statusId]="statusId" (saved)="savedHandler($event)" (closed)="showComplete = false;"></app-appointment-complete>
+</dx-popup>

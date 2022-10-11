@@ -40,7 +40,8 @@
   z-index: 1602 !important;
 }
 
-$header-text-color: lighten(desaturate($primary, 70%), 10%);
+// $header-text-color: lighten(desaturate($primary, 70%), 10%);
+$header-text-color: #3a7cb8;
 $header-bg-color: #e7eef4;
 // $header-bg-color: transparent;
 $selected-row-bg-color: #a6c0da;
@@ -302,7 +303,7 @@ body .cssGridGeneral {
         left: auto;
         transform: rotate(90deg);
         &:before {
-          color: hsl(0, 0, 70);
+          color: rgb(131 129 129);
         }
       }
 
@@ -313,7 +314,7 @@ body .cssGridGeneral {
       }
 
       .dx-placeholder {
-        color: hsl(0, 0, 70);
+        color: rgb(131 129 129);
         font-size: 13px;
       }
     }

@@ -48,7 +48,7 @@ export class PatientDetailsEditComponent extends AddEditPatientBase implements O
   maxDate = new Date();
   isSitePatientzone: boolean;
 
-  httpRequest = (x: any) => { 
+  httpRequest = (x: any) => {
     let isFuture = new Date(x.birthDate).getTime() > new Date().getTime();
     if (isFuture) {
       x.birthDate = new Date();
@@ -60,7 +60,7 @@ export class PatientDetailsEditComponent extends AddEditPatientBase implements O
     }
 
     return this.patientService.editPatientDetails(x)
-  }; 
+  };
 
   ngOnInit(): void {
     this.onSuccessfullySaved = this.onSaved;
@@ -79,6 +79,7 @@ export class PatientDetailsEditComponent extends AddEditPatientBase implements O
 
     this.subscribeToDateOfBirthChanges();
     this.subscribeToDateOfDeathChanges();
+    //setTimeout((x)=>{document.querySelector("div[data-automation]").(Input).focus();},750);
   }
 
   isNumber(value) {

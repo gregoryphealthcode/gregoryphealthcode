@@ -4,6 +4,7 @@
 
 $menu-main-bg-color: #eef2f5;
 $menu-main-border-color: hsl(0, 0%, 92%);
+$menu-main-bg: transparent linear-gradient(180deg,#060608 0%,#050607 28%,#1d1943 89%,#1c1843 100%) 0% 0% no-repeat padding-box;;
 $counts-bg-color: hsl(0, 65%, 60%);
 $upcounts-bg-color: orange;
 
@@ -100,7 +101,8 @@ $icon-2nd-level-color2--hovered: hsl(204, 34%, 93%);
   border-top: 1px solid $menu-main-border-color;
 
   ::ng-deep .menu-container {
-    background-color: $menu-main-bg-color;
+    // background-color: $menu-main-bg-color;
+    background: $menu-main-bg;
     display: flex;
     flex: 1;
 

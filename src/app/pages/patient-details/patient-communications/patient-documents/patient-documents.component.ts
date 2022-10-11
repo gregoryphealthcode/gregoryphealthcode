@@ -10,6 +10,7 @@ import { PatientDocumentModel, PatientDocumentService } from 'src/app/shared/ser
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { environment } from 'src/environments/environment';
 import { PatientCommunicationStore } from '../patient-communications-store.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-patient-documents',
@@ -90,7 +91,7 @@ export class PatientDocumentsComponent extends SubscriptionBase implements OnIni
       this.filteredDocuments = this.filteredDocuments.filter(x => x.documentDate != null && new Date(x.documentDate) <= this.toDate);
     }
 
-    
+
 
     this.focusedRowIndex = -1;
   }
@@ -107,7 +108,7 @@ export class PatientDocumentsComponent extends SubscriptionBase implements OnIni
     this.showPreview = false;
     if (e?.row?.data) {
       this.rowInfo = e.row.data;
-     
+
       if (this.rowInfo.fileName && (this.rowInfo.fileType == "DOCX")) {
         this.showPreview = true;
         this.getDocumentPreviewUrl(this.rowInfo);

@@ -1,0 +1,81 @@
+<dx-popup appCentralPopUpSettings *ngIf="showAddTemplate" [width]="'480'" [enableScroll]="true">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="'Template Details'" (closed)="showAddTemplate = false">
+    </app-pop-up-form-title>
+
+    <app-templates-correspondence-add (templateAdded)="showAddTemplate=false;refreshGrid()"
+      [templateModel]="templateDetails"></app-templates-correspondence-add>
+  </div>
+</dx-popup>
+
+<div class="d-flex app-card flex-column flex-grow-1">
+  <div class="d-flex d-flex-column">
+    <div class="d-flex flex-row responsive-margins">
+      <div class="page-header">Templates Preferences</div>
+    </div>
+
+    <div class="d-flex flex-grow-1 mr-5 mt-2">
+      <button mat-flat-button class="app-button primary grid-header-btn ml-auto mr-2" matTooltip="Add Template"
+        (click)="newTemplate()" tabindex="7">Add Template</button>
+    </div>
+  </div>
+
+  <div class="d-flex flex-row responsive-margins  flex-grow-1">
+    <mat-tab-group class="flex-grow-1 w-20 full-height">
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Letters</span>
+        </ng-template>
+
+        <div class="d-flex h-100">
+          <app-templates-correspondence [refresh]="refresh" (editEmit)="edit($event)" (delete)="delete($event)">
+          </app-templates-correspondence>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Invoice</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-templates-invoices [refresh]="refresh" (editEmit)="edit($event)" (delete)="delete($event)">
+          </app-templates-invoices>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Accounts</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-templates-receipts [refresh]="refresh" (editEmit)="edit($event)" (delete)="delete($event)">
+          </app-templates-receipts>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Appointments</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-templates-reminders [refresh]="refresh" class="d-flex h-100" (editEmit)="edit($event)"
+            (delete)="delete($event)"></app-templates-reminders>
+        </div>
+      </mat-tab>
+
+      <mat-tab class="header">
+        <ng-template mat-tab-label>
+          <span class="tabHeader">Headed Stationery</span>
+        </ng-template>
+
+        <div class="d-flex h-100" *matTabContent>
+          <app-templates-headed [refresh]="refresh" (editEmit)="edit($event)" (delete)="delete($event)">
+          </app-templates-headed>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

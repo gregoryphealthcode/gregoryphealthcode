@@ -1,5 +1,6 @@
+import { HomeComponent } from './pages/home/home.component';
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { Routes, RouterModule, NoPreloading, PreloadingStrategy, PreloadAllModules } from "@angular/router";
 import { AuthGuardService } from "./shared/guards/auth.guard";
 import { MasterPageComponent } from "./pages/master-page/master-page.component";
 import { IdentityMasterPageComponent } from "./pages/Identity/identity-master-page/identity-master-page.component";
@@ -11,6 +12,14 @@ import { AdminGuard } from "./shared/guards/admin.guard";
 import { AdminMasterPageComponent } from "./admin/admin-master-page/admin-master-page.component";
 
 const routes: Routes = [
+  // { path: 'identity', loadChildren: () => import('./pages/Identity/identity.module').then(m => m.IdentityModule)
+  // },
+  {
+    path: "identity",
+    component: IdentityMasterPageComponent,
+    loadChildren: () =>
+      import("./pages/Identity/identity.module").then((m) => m.IdentityModule),
+  },
   {
     path: "medsec",
     component: MedSecMasterPageComponent,
@@ -91,7 +100,7 @@ const routes: Routes = [
           import("./pages/accounts/accounts.module").then(
             (m) => m.AccountsModule
           ),
-      },      
+      },
       {
         path: "preferences",
         loadChildren: () =>
@@ -152,25 +161,34 @@ const routes: Routes = [
             (m) => m.AdminModule
           ),
       },
-  {
-    path: "identity",
-    component: IdentityMasterPageComponent,
-    loadChildren: () =>
-      import("./pages/Identity/identity.module").then((m) => m.IdentityModule),
-  },
+  // {
+  //   path: "identity",
+  //   component: IdentityMasterPageComponent,
+  //   loadChildren: () =>
+  //     import("./pages/Identity/identity.module").then((m) => m.IdentityModule),
+  // },
   {
     path: "postauth",
     component: PostAuthComponent,
   },
-  { path: "**", component: PageNotFoundComponent },
+  // { path: "**", component: PageNotFoundComponent },
+  { path: "**", component: HomeComponent },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(
-      routes
+    RouterModule.forRoot(routes, {
+      onSameUrlNavigation: 'ignore',
+      enableTracing: false,
+      useHash: false,
+      urlUpdateStrategy:'eager',
+      preloadingStrategy: PreloadAllModules
+      // preloadingStrategy: NoPreloading
+    }),
+    //RouterModule.forRoot(
+    //  routes
       //  { enableTracing: true } // <-- debugging purposes only
-    ),
+    //),
   ],
   exports: [RouterModule],
 })

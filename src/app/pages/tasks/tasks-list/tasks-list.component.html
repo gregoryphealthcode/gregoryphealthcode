@@ -1,0 +1,55 @@
+<dx-popup appCentralPopUpSettings *ngIf="showEdit" [width]="'580'" [enableScroll]="true">
+  <div *dxTemplate="let data of 'popupContent'" class="popup-wrapper">
+    <app-pop-up-form-title [hasBorder]="true" [title]="'Edit Task'" (closed)="showEdit = false"></app-pop-up-form-title>
+
+    <app-create-task [patientId]="patientId" [siteId]="siteId" [taskDetails]="taskDetails"
+      (editComplete)="showEdit=false;getTasks()" [isEdit]="true"></app-create-task>
+  </div>
+</dx-popup>
+
+<div class="d-flex flex-grow-1 disable-select inner-content-height">
+  <div class="app-card responsive-paddings col-lg-12 flex-grow-1">
+    <div class="cssWidgetWrapper ">
+      <dx-data-grid id="gridTaskList" class="cssGridGeneral" [dataSource]="tasks" [remoteOperations]="false"
+        [allowColumnReordering]="true" [rowAlternationEnabled]="true" [showBorders]="true" [focusedRowEnabled]="true"
+        focusedRowIndex="0" keyExpr="this" [allowColumnResizing]="true" [columnHidingEnabled]="true"
+        columnResizingMode="widget" (onFocusedRowChanged)="onFocusedRowChanged($event)">
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50, 100]"> </dxo-pager>
+        <dxo-column-fixing [enabled]="true"> </dxo-column-fixing>
+        <dxo-paging [pageSize]="50"></dxo-paging>
+        <dxo-filter-row [visible]="false"> </dxo-filter-row>
+        <dxo-editing mode="row" [allowUpdating]="false" [allowDeleting]="false" [useIcons]="false"> </dxo-editing>
+        <dxo-grouping [contextMenuEnabled]="true"> </dxo-grouping>
+        <dxo-group-panel [visible]="false" [allowColumnDragging]="true"> </dxo-group-panel>
+
+        <dxi-column dataField="note" caption="Task"></dxi-column>
+        <dxi-column dataField="dueDateTime" caption="Date" dataType="date"
+          [format]="appInfo.getDateFormatBySite(siteId)"></dxi-column>
+        <dxi-column dataField="taskType" caption="Type"></dxi-column>
+        <dxi-column dataField="isComplete" caption="Completed"></dxi-column>
+        <dxi-column dataField="invoiceNumber" caption="Invoice No"></dxi-column>
+        <dxi-column dataField="percentageComplete" caption="% Complete" [width]="140" [minWidth]="100"
+          cellTemplate="cellTemplate">
+        </dxi-column>
+        <dxi-column type="buttons" dataField="id" caption="Action">
+          <dxi-button template="myCommandTemplate"></dxi-button>
+        </dxi-column>
+
+        <div *dxTemplate="let data of 'cellTemplate'">
+          <div>
+            <dx-progress-bar #myProgressBar id="my-progress-bar-status" width="90%" [min]="0" [max]="100"
+              [class.complete]="myProgressBar.value === 100" [showStatus]="true" [readOnly]="true" [value]="data.value"
+              [statusFormat]="format">
+            </dx-progress-bar>
+          </div>
+        </div>
+
+        <div *dxTemplate="let data of 'myCommandTemplate'">
+          <button mat-icon-button class="alternative small-icon" (click)="edit(data.key)" matTooltip="Edit">
+            <mat-icon fontSet="fa" fontIcon="fa-edit"></mat-icon>
+          </button>
+        </div>
+      </dx-data-grid>
+    </div>
+  </div>
+</div>

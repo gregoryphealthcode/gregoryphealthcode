@@ -1,0 +1,42 @@
+<app-appointment-instructions-add-edit *ngIf="editMode" class="w-100 h-100 my-2" [appointmentId]="appointmentId" [appointmentInstructions]="appointmentInstructions" [isNew]="isNew"
+    (saved)="instructionsAddedHandler()" (closed)="editMode = false;"></app-appointment-instructions-add-edit>
+
+<app-button class="mt-3 ml-auto mr-auto" *ngIf="!editMode" (clicked)="addNewInstructions()" text="Add Instructions"></app-button>
+
+<div *ngIf="instructions" class="d-flex flex-grow-1 w-100 justify-content-center mb-3 mt-2">
+  <table class="a-table w-100">
+      <thead>
+        <tr>
+          <th class="w-6r"> Title </th>
+          <th class="wmin-6r"> Text </th>
+          <th class="text-center w-2r"> Is Directions </th>
+        </tr>
+      </thead>
+    
+      <tbody>
+        <tr *ngFor="let item of instructions;index as i ">
+          <td class="pt-2">
+              {{item.title}}
+          </td>
+    
+          <td >
+            {{item.text}}
+          </td>
+    
+          <td class="pt-2 text-center">
+              <mat-icon *ngIf="item.isDirections === true" fontSet="fa" fontIcon="fa-check"></mat-icon>
+          </td>
+    
+          <td>
+            <div class="d-flex flex-row mt-2">
+              <app-button type="link" icon="fad fa-trash-alt" (clicked)="removeInstructions(item)" matTooltip="Delete Instructions">
+              </app-button>
+    
+              <app-button class="ml-2" type="link" icon="fad fa-edit" (clicked)="editInstuctions(item)" matTooltip="Edit Instructions">
+              </app-button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>

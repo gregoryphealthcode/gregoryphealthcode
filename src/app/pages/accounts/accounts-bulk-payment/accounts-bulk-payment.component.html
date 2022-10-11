@@ -1,0 +1,62 @@
+<app-page-wrapper title="Bulk payment" [hasTabs]="true" backPagePath="/accounts/bulk-payments">
+  <app-page-header-buttons>
+    <app-button text="Delete" icon="far fa-trash" class="ml-auto my-auto mr-4" type="link" color="warning"
+      (clicked)="detailsForm.delete()"></app-button>
+    <app-button text="Save" class="ml-3" (clicked)="detailsForm.submitForm()"></app-button>
+  </app-page-header-buttons>
+
+  <app-page-header-content class="mb-2">
+    <app-payment-summary [currencyCode]="currencyCode" [unallocated]="detailsForm.model?.unallocated"
+      [allocated]="detailsForm.model?.allocated" [shortFalls]="detailsForm.model?.shortFalls"></app-payment-summary>
+
+    <div class="vertical-line line-2x ml-1 mr-5"></div>
+
+    <app-bulk-payment-details #detailsForm [siteId]="detailsForm.model?.siteId" class="d-flex flex-grow-1"
+      [bulkPaymentId]="bulkPaymentId" (siteIdChanged)="siteIdchanged($event)"></app-bulk-payment-details>
+  </app-page-header-content>
+
+  <app-page-body>
+    <div class="d-flex flex-row flex-grow-1">
+      <mat-tab-group class="full-height left-aligned modal-tabs" [(selectedIndex)]="selectedIndex">
+        <mat-tab class="header">
+          <ng-template mat-tab-label>
+            <span class="tabHeader">Outstanding</span>
+          </ng-template>
+
+          <ng-template matTabContent>
+            <app-outstanding-invoices class="d-flex flex-grow-1 h-100 outstanding-invoices-card"
+              [dateFormat]="dateFormat" [currencyCode]="currencyCode" [bulkPaymentId]="bulkPaymentId"
+              [unallocated]="detailsForm.model?.unallocated"
+              (onAllocatedChanged)="detailsForm.setFormPropertyValue('allocated', $event)"
+              [allocated]="detailsForm.model?.allocated" [total]="detailsForm.model?.total"
+              [siteId]="detailsForm.model?.siteId" [payorId]="detailsForm.model?.payorId"
+              [payorName]="detailsForm.payorName" [methodId]="detailsForm.model?.method" [isNew]="false"
+              [isPopup]="false"></app-outstanding-invoices>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="tabHeader">Allocated</span>
+          </ng-template>
+
+          <ng-template matTabContent>
+            <app-payment-allocations [dateFormat]="dateFormat" [currencyCode]="currencyCode" [id]="bulkPaymentId"
+              class="d-flex flex-column h-100 w-100 allocated-card"></app-payment-allocations>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="tabHeader">Shortfalls</span>
+          </ng-template>
+
+          <ng-template matTabContent>
+            <app-short-falls [bulkPaymentId]="bulkPaymentId" class="d-flex flex-column h-100 w-100"
+              (onNoDefaultTemplatesFound)="selectedIndex == 1"></app-short-falls>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </app-page-body>
+</app-page-wrapper>

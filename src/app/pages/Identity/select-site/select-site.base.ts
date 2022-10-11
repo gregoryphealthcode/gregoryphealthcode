@@ -3,9 +3,11 @@ import { UserAllowedSitesViewModel } from 'src/app/shared/models/UserAllowedSite
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { tap } from 'rxjs/operators';
-import { Output, EventEmitter } from '@angular/core';
+import { Output, EventEmitter, Component } from '@angular/core';
 
-export class SelectSiteBase extends SubscriptionBase {
+@Component({template: ''})
+export class SelectSiteBase extends SubscriptionBase
+{
    @Output() siteSelect = new EventEmitter<SiteSelectDetails>();
 
   public sites: UserAllowedSitesViewModel[];
