@@ -225,7 +225,8 @@ $height-xxs: 24px;
 
   &.btn-secondary.btn-primary-color {
     background-color: lighten(desaturate($btn-primary-color, 12%), 53%);
-    color: darken($btn-primary-color, 18%);
+    // color: darken($btn-primary-color, 18%);
+    color: white;
 
     &:hover {
       background-color: lighten(desaturate($btn-primary-color, 15%), 49%);
@@ -314,7 +315,8 @@ $height-xxs: 24px;
       background: none;
 
       .btn-icon{
-        color: hsl(0, 0%, 54%);
+        //color: hsl(0, 0%, 54%);
+        color: rgb(6,7,8);
       }
     }
 
@@ -405,7 +407,8 @@ $height-xxs: 24px;
       }
 
       &.btn-grey-color.btn-link {
-        color: hsl(0, 0%, 30%);
+       // color: hsl(0, 0%, 30%);
+       color: rgb(6,7,8);
       }
 
       &.btn-link {

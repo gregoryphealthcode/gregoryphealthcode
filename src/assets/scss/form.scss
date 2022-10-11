@@ -19,7 +19,10 @@ $d-col-label-width: 15rem;
 
     &:not(.label-value) {
       padding-bottom: 1px;
-      color: hsl(0, 0%, 35%);
+      // color: hsl(0, 0%, 35%);
+      // color: hsl(0, 0%, 35%);
+      color: $title-bg-color;
+
     }
   }
 

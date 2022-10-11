@@ -7,7 +7,7 @@ body {
     font-size: 15px!important;
     color: black!important;
     padding: 10px 7px 11px 11px;
-    background: none !important;
+    // background: none !important;
     border-color: #b5b5b5;
     font-weight: 600;
   }
@@ -41,7 +41,10 @@ body {
 
   .dx-swatch-additional .dx-checkbox-icon,
   .dx-texteditor.dx-editor-outlined {
-    border-color: #6c757d;;
+    border-color: #6c757d;
+  }
+  .dx-texteditor.dx-editor-outlined.dx-state-disabled {
+    border-color: #d1d2d3;
   }
 
   .dx-invalid.dx-texteditor.dx-editor-outlined {

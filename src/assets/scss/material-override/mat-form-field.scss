@@ -16,11 +16,12 @@ body {
 
   .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-thumb {
    // background-color: darken(saturate($primary, 5%), $amount: 5%);
-   background-color: #36518fc2;
+   background-color: rgba(54, 81, 143, 0.761);
   }
 
   .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-bar {
-    background-color: lighten(desaturate($primary, 30%), $amount: 44%);
+   // background-color: lighten(desaturate($primary, 30%), $amount: 44%);
+   background-color: lightgrey;
   }
 
 

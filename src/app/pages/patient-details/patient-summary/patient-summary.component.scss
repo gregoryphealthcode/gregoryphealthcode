@@ -66,7 +66,8 @@ $left-right-padding: 1.75rem;
   }
 
   &.width-lg {
-    width: 48.7rem;
+    // width: 48.7rem;
+    width: 52%;
   }
 
   :host ::ng-deep .app-btn.btn-link {

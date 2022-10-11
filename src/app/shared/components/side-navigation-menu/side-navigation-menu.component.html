@@ -17,10 +17,10 @@
 
         <div class="task-counts">
         <span *ngIf="itemObj.upCount" class="label-tag tab-upcount mx-auto mr-2 ml-auto" style="display: inline-block; position: relative; margin-right: 8px !important;"
-          [class.count-compact]="compactMode">{{itemObj.upCount}}</span>
+          [class.count-compact]="compactMode" [hint]="itemObj.upCount + 'upcoming tasks (within 30 days)'">{{itemObj.upCount}}</span>
 
         <span *ngIf="itemObj.dueCount" class="label-tag tab-count mx-auto mr-2 ml-2" style="display: inline-block; position: relative;"
-          [class.count-compact]="compactMode">{{itemObj.dueCount}}</span>        
+          [class.count-compact]="compactMode">{{itemObj.dueCount}}</span>
         </div>
       </div>
     </div>
