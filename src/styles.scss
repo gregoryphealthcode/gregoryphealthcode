@@ -61,6 +61,7 @@ $ep-color-heading: #000000;
 $ep-color-button-background: #dde4e8;
 $ep-color-button-text: white;
 // $ep-color-button-border: grey;
+// $ep-color-button-border: grey;
 $ep-color-button-border: grey;
 $ep-color-toolbarbutton-background: #dde4e8;
 $ep-color-toolbarbutton-text: white;
@@ -73,6 +74,7 @@ $ep-color-panelborder: grey;
 $base-border-color: rgba(135,135,135,0.25);
 $ep-border-radius: 15px;
 $ep-color-highlighttext: #69be28;
+$ep-card-border-radius: 20px;
 $ep-card-border-radius: 20px;
 
 
@@ -122,12 +124,22 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 // .content h4, .content h5 {
 //   margin-bottom: 8px !important;
 //   margin-top: 8px !important;
 // }
 
+.dx-swatch-additional .dx-box-item-content {
+  font-size: 13px;
+}
 .dx-swatch-additional .dx-box-item-content {
   font-size: 13px;
 }
@@ -322,19 +334,29 @@ span.dx-field-item-label-text {color: $ep-color-label; float:right;}
 
 // .dx-texteditor-input {font-weight:600; background-color: #E7ECEF !important;}
 .dx-layout-manager .dx-field-item:not(.dx-first-row) {
-  padding-top: 2px;
+
+  padding-top:  2px;
+
 }
 
 .dx-swatch-additional .dx-treeview-item .dx-icon {
-  font-size: 18px;
+
+  font-size:  18px;
+
 }
 .screen-large .responsive-paddings {
-  padding: 20px;
+
+  padding:  20px;
+
 }
 .content-block {
-  margin-left: 20px;
+
+  margin-left:  20px;
+
   margin-right: 20px;
-  margin-top: 10px;
+
+  margin-top:  10px;
+
 }
 
 // .dx-overlay-content .dx-popup-content {
@@ -359,17 +381,27 @@ gridster-item {
 
 //PG .menu-container .dx-treeview-item-content:hover { font-weight:bold!important;}
 .menu-container .dx-treeview .dx-treeview-node-container .dx-treeview-node.dx-state-selected > .dx-treeview-item * {
-  font-weight: bold;
+
+  font-weight:  bold;
+
 }
 .dx-treeview-node.dx-treeview-item-without-checkbox.dx-treeview-node-is-leaf.dx-state-selected.dx-state-focused
+
   .dx-item-content.dx-treeview-item-content {
-  color: white;
+
+  color:  white;
+
 }
 li.dx-treeview-node.dx-treeview-item-without-checkbox.dx-treeview-node-is-leaf.dx-state-selected.dx-state-focused
+
   .dx-item-content.dx-treeview-item-content
+
   * {
-  color: white !important;
-  font-weight: bold;
+
+  color:  white  !important;
+
+  font-weight:  bold;
+;
 }
 
 .dx-context-menu {
@@ -397,25 +429,35 @@ dx-text-area.dx-state-focused .dx-texteditor-input {
 }
 
 .dx-datagrid-headers {
-  // color: $ep-color-label;
+  // // color:  $ep-color-label;
+  color: rgb(45, 120, 174);
   color: rgb(45, 120, 174);
   font-weight: bold;
 }
 
 .dx-datagrid .dx-row > td {
-  padding: 3px;
+
+  padding:  3px;
+
 }
 
 .dx-datagrid-rowsview .dx-adaptive-detail-row .dx-adaptive-item-text {
-  padding-top: 0px;
-  padding-bottom: 0px;
+
+  padding-top:  0px;
+
+  padding-bottom:  0px;
+
 }
 .dx-datagrid-rowsview .dx-row > .dx-master-detail-cell {
-  padding: 10px;
+
+  padding:  10px;
+
 }
 
 .dx-template-wrapper a {
-  color: rgba(55, 155, 255, 0.7) !important;
+
+  color:  rgba(55,  155,  255,  0.7)  !important;
+
 }
 
 // #patientSearchGrid .dx-template-wrapper td.dx-command-edit  a.dx-link.edit {color:transparent!important; display:none!important;}
@@ -437,6 +479,17 @@ tr.dx-row-focused .dx-button.myCommandButton {
 tr.dx-row-focused .dx-button.myCommandButton .dx-icon {
   color: white !important;
 }
+.dx-button.myCommandButton {
+  display: none !important;
+}
+tr.dx-row-focused .dx-button.myCommandButton {
+  display: inline-block !important;
+  color: white !important;
+  border-color: white !important;
+}
+tr.dx-row-focused .dx-button.myCommandButton .dx-icon {
+  color: white !important;
+}
 
 .dx-item.dx-tab.dx-tab-selected .dx-tab-text {
   font-weight: 500;
@@ -444,14 +497,18 @@ tr.dx-row-focused .dx-button.myCommandButton .dx-icon {
 }
 
 .screen-large .responsive-paddings {
-  padding: 10px !important;
-  margin: 10px !important;
+  padding: 10px  !important;
+  margin: 10px  !important;
 }
 
 a.dx-link.myCommandButton {
-  padding-left: 8px !important;
-  padding-right: 8px !important;
-  font-weight: normal;
+
+  padding-left:  8px  !important;
+
+  padding-right:  8px  !important;
+
+  font-weight:  normal;
+
 }
 
 #patientSearchGrid {
@@ -497,17 +554,21 @@ td[role="columnheader"] .dx-datagrid-text-content {
 }
 
 #loginform span.dx-field-item-label-text {
-  color: white !important;
+
+  color:  white  !important;
+
 }
 
 .upper .dx-textbox.dx-texteditor input {
-  text-transform: uppercase !important;
+
+  text-transform: uppercase  !important;
+
 }
 
 .dx-button.dx-button-default.dx-button-mode-outlined.dx-state-hover {
   --borderWidth: 3px;
   // background: white!important;
-  position: relative !important;
+  position: relative  !important;
   border-radius: 3px;
 }
 
@@ -537,11 +598,13 @@ td[role="columnheader"] .dx-datagrid-text-content {
 
   // animation: frame-enter 1s forwards ease-in-out reverse, gradient-animation 4s ease-in-out infinite;
   // animation: gradient-animation 4s ease-in-out infinite;
-  background-size: 300% 300% !important;
+  background-size: 300% 300%  !important;
 }
 
 .dx-checkbox-text {
-  color: #00338d;
+
+  color:  #00338d;
+
 }
 
 /* motion */
@@ -558,7 +621,7 @@ td[role="columnheader"] .dx-datagrid-text-content {
 }
 
 .dx-swatch-additional .dx-button-has-text .dx-button-content {
-  padding: 6px !important;
+  padding:  6px  !important;
 }
 
 .dx-dropdowneditor-button-visible .dx-texteditor-input {
@@ -566,11 +629,16 @@ td[role="columnheader"] .dx-datagrid-text-content {
 }
 
 .dx-popup-content {
-  padding: 5px;
+
+  padding:  5px;
+;
 }
 .dx-layout-manager.dx-layout-manager-one-col
+
   .dx-box-item:not(:first-child)
+
   .dx-single-column-item-content
+
   > .dx-field-item {
   padding-top: 5px;
 }
@@ -602,12 +670,12 @@ td[role="columnheader"] .dx-datagrid-text-content {
 
 // app-footer { padding-top:5px!important; padding-bottom:5px!important;}
 app-footer {
-  padding-top: 3px !important;
-  padding-bottom: 0px !important;
-  padding-left: 10px !important;
-  padding-right: 10px !important;
-  margin-left: -30px !important;
-  margin-right: -30px !important;
+    padding-top: 3px !important;
+    padding-bottom: 0px !important;
+    padding-left: 10px  !important;
+    padding-right: 10px  !important;
+    margin-left: -30px  !important;
+    margin-right: -30px  !important;
 }
 
 .dx-pages .dx-info,
@@ -640,7 +708,19 @@ app-footer {
 .dx-checkbox-text {
   color: #333;
 }
+.dx-datagrid-rowsview .dx-row.dx-group-row:not(.dx-row-focused) {
+  color: #00338d;
+}
+.dx-datagrid-rowsview .dx-row.dx-group-row:not(.dx-row-focused) td {
+  font-weight: bold;
+}
+.dx-checkbox-text {
+  color: #333;
+}
 
+.dx-datagrid-filter-row .dx-menu-item-content .dx-icon {
+  color: #00338d;
+}
 .dx-datagrid-filter-row .dx-menu-item-content .dx-icon {
   color: #00338d;
 }
@@ -684,7 +764,9 @@ app-side-navigation-menu dx-toolbar,
 }
 
 .dx-device-mobile .dx-list-item-content {
-  padding: 5px 15px;
+
+  padding:  5px 15px;
+
 }
 
 // .dx-scrollview-content .dx-item.dx-list-item:nth-child(odd):not(.dx-state-hover):not(.dx-list-item-selected):not(.dx-state-focused){background-color:white;}
@@ -747,34 +829,53 @@ app-side-navigation-menu dx-toolbar,
 }
 
 .dx-swatch-additional .dx-checkbox-checked .dx-checkbox-icon {
+
   color: #333;
+
   font-weight: bold;
+
 }
 
 .text-center {
+
   text-align: center;
+
 }
 .ml-auto {
+
   margin-left: auto;
+
 }
 .mr-auto {
+
   margin-right: auto;
+
 }
 .lh-30 {
-  line-height: 30px;
+
+  line-height:  30px;
+;
 }
 
 .dx-responsivebox-screen-xs span.dx-field-item-label-text {
+
   float: left;
+
 }
 
 .dx-toolbar.header-toolbar .dx-toolbar-items-container .dx-toolbar-after {
-  padding-left: 5px !important;
-  padding-right: 1px !important;
+
+  padding-left:  5px  !important;
+
+  padding-right: 1px  !important;
+
 }
 .dx-field-item-required-mark {
+
   margin-left: -4px;
+
   color: red;
+
 }
 
 .dx-toolbar-label {
@@ -782,7 +883,9 @@ app-side-navigation-menu dx-toolbar,
 }
 
 .dx-device-mobile .dx-toolbar .dx-toolbar-items-container {
+
   height: 30px;
+
 }
 .dx-device-mobile .dx-popup-title.dx-toolbar .dx-toolbar-label {
   font-size: 17px;
@@ -794,8 +897,11 @@ app-side-navigation-menu dx-toolbar,
 }
 
 .dx-toolbar-item-content h4 {
-  margin-top: 0px;
-  margin-bottom: 0px;
+
+  margin-top:  0px;
+
+  margin-bottom:  0px;
+
 }
 
 // .dx-toolbar-item-content .dx-button-has-icon .dx-button-content { padding:4px;}
@@ -823,12 +929,22 @@ app-side-navigation-menu dx-toolbar,
 }
 
 footer {
+
   font-size: 12px;
+
 }
 header dx-button .dx-button-content {
-  padding: 4px !important;
+
+  padding: 4px  !important;
+
 }
 
+.dx-swatch-additional .dx-form-group-caption {
+  color: #00338d;
+  font-weight: 600;
+  display: block;
+  text-align: center;
+}
 .dx-swatch-additional .dx-form-group-caption {
   color: #00338d;
   font-weight: 600;
@@ -851,6 +967,9 @@ header dx-button .dx-button-content {
   font-weight: 500;
 }
 
+#EditDocumentRichEdit {
+  zoom: 0.75;
+}
 #EditDocumentRichEdit {
   zoom: 0.75;
 }
@@ -878,7 +997,9 @@ header dx-button .dx-button-content {
 }
 .dx-button-mode-contained.dx-button-default.dx-state-hover,
 .dx-button-mode-contained.dx-button-default.dx-state-hover {
+
   background-color: #00985f;
+
 }
 
 .dx-swatch-additional .dx-button-mode-contained.dx-button-default.dx-state-hover {
@@ -891,7 +1012,9 @@ app-side-navigation-menu
 
 // .dx-overlay-content .dx-popup-content {background: linear-gradient(200deg, #dbecf6, #dbecf6,#dbecf6, #efdbf6cc); }
 .dx-toolbar .dx-toolbar-items-container {
+
   height: 47px;
+
 }
 
 .dx-actionsheet-container .dx-actionsheet-item {
@@ -901,24 +1024,34 @@ app-side-navigation-menu
 #searchText.dx-state-readonly input,
 .dx-state-readonly input[name="lastName"],
 .dx-state-readonly input[name="firstName"] {
-  background: lightcyan !important;
-  font-size: 20px !important;
-  font-weight: 600 !important;
+
+  background: lightcyan  !important;
+
+  font-size:  20px  !important;
+
+  font-weight: 600  !important;
+
 }
 
 div.dx-textbox.dx-state-readonly > .dx-texteditor-container > .dx-texteditor-buttons-container {
+
   display: none;
+
 }
 
 .dx-swatch-additional .dx-toolbar-menu-section .dx-toolbar-item-auto-hide {
   padding: 5px 1px;
 }
 .dx-toolbar-menu-section .dx-toolbar-hidden-button .dx-button {
+
   padding: 1px;
+
 }
 
 .dx-datebox-wrapper-calendar .dx-calendar {
+
   margin: 5px;
+
 }
 .dx-datebox-wrapper-calendar.dx-datebox-wrapper-datetime .dx-calendar {
   margin-right: 5px;
@@ -929,7 +1062,9 @@ div.dx-textbox.dx-state-readonly > .dx-texteditor-container > .dx-texteditor-but
 }
 
 .ql-editor.dx-htmleditor-content {
+
   font-size: 16px;
+
 }
 .dx-swatch-additional .dx-field {
   margin: 0 0 2px 0;
@@ -938,24 +1073,27 @@ div.dx-textbox.dx-state-readonly > .dx-texteditor-container > .dx-texteditor-but
 
 .dx-field-label.hc-sitelabel {
   padding-top: 2px;
+
   padding-bottom: 2px;
   margin: 0;
   margin-top: 3px;
   font-size: 14px;
-  color: #00338d;
+  color:  #00338d;
 }
 
 .dx-field-label.hc-label {
   padding-top: 2px;
+
   padding-bottom: 2px;
   margin: 0;
   margin-top: 3px;
   font-size: 14px;
-  color: #00338d;
+  color:  #00338d;
 }
 
 .dx-field-value.hc-sitevalue {
   padding-top: 2px;
+
   padding-bottom: 2px;
   margin: 0;
   font-size: 17px;
@@ -963,7 +1101,9 @@ div.dx-textbox.dx-state-readonly > .dx-texteditor-container > .dx-texteditor-but
 }
 
 .dx-swatch-additional .dx-widget {
+
   line-height: 16px;
+
 }
 
 // .dx-swatch-additional .dx-tab.dx-tab-selected {
@@ -1011,7 +1151,9 @@ div.dx-textbox.dx-state-readonly > .dx-texteditor-container > .dx-texteditor-but
 }
 
 .dx-accordion-item-title {
+
   min-height: 24px;
+
 }
 
 .fa-red {
@@ -1054,7 +1196,9 @@ div.dx-textbox.dx-state-readonly > .dx-texteditor-container > .dx-texteditor-but
 }
 
 .dx-checkbox-checked .dx-checkbox-icon {
+
   color: #333;
+
 }
 
 .dx-swatch-additional .dx-accordion-item-title:before {
@@ -1086,6 +1230,7 @@ div.dx-textbox.dx-state-readonly > .dx-texteditor-container > .dx-texteditor-but
 // .dx-item-content.dx-toolbar-item-content > .dx-button > .dx-button-content { padding-top: 3px!important; padding-bottom: 3px!important;}
 
 app-footer {
+
   background: white;
   height: 22px;
   margin-left: -20px;
@@ -1123,10 +1268,14 @@ app-footer {
 }
 
 .dx-htmleditor-content {
+
   padding: 5px 10px;
+;
 }
 label {
+
   margin-bottom: 0;
+
 }
 
 .dx-overlay-content.dx-popup-normal.dx-resizable.dx-popup-inherit-height {
@@ -1134,7 +1283,9 @@ label {
 }
 
 .dx-timeview-format12 {
+
   width: 80px;
+
 }
 
 .dx-scheduler-appointment-popup .dx-field-item-label-location-left {
@@ -1154,8 +1305,8 @@ label {
 }
 
 .appointment-description {
-  //  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
-  color: black;
+    //  text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+    color: black;
 }
 
 .dx-button-content.dx-scheduler-appointment-collector-content {
@@ -1189,7 +1340,9 @@ div.dx-tabpanel-container div.dx-multiview-wrapper {
 }
 
 label.dx-field-item-label-location-top {
+
   margin-bottom: 1px;
+
 }
 
 // .authorization.user-button.dx-button.dx-button-normal.dx-state-hover .user-info { background:  $primary; }
@@ -1219,14 +1372,16 @@ tr.dx-row-focused .dx-command-edit dx-button {
 .dx-field-item-label-text {color: #00338d;}
 
 .dx-field-label {
-  color: #00338d;
+  color:  #00338d;
 }
 .dx-swatch-additional .dx-field-label {
-  color: #00338d;
+  color:  #00338d;
 }
 
 .card-body {
+
   padding: 10px;
+
 }
 
 .dx-field {
@@ -1234,18 +1389,29 @@ tr.dx-row-focused .dx-command-edit dx-button {
 }
 
 .dx-swatch-additional .dx-datagrid .dx-row > td.dx-command-edit {
-  padding-top: 0px;
+
+  padding-top:  0px;
+
   padding-bottom: 0px;
-  padding-right: 0px;
+
+  padding-right:  0px;
+;
 }
 .dx-datagrid .dx-row > td.dx-command-edit {
-  padding-top: 0px;
+
+  padding-top:  0px;
+
   padding-bottom: 0px;
-  padding-right: 0px;
+
+  padding-right:  0px;
+;
 }
 .child.dx-template-wrapper {
-  background: yellow;
-  color: #333;
+
+  background:  yellow;
+
+  color:  #333;
+
 }
 
 .dx-swatch-additional .dx-datagrid .dx-row > td,
@@ -1269,10 +1435,14 @@ tr.dx-row-focused .referrer-checkbox-column {
 }
 
 .dx-swatch-additional dx-drop-down-button .dx-button-has-text .dx-button-content {
-  padding: 3px !important;
+
+  padding: 3px  !important;
+
 }
 dx-drop-down-button .dx-swatch-additional .dx-button-has-text .dx-button-content {
-  padding: 3px !important;
+
+  padding: 3px  !important;
+
 }
 // .dx-swatch-additional .dx-button-has-text .dx-button-content { padding: 3px;}
 
@@ -1283,17 +1453,19 @@ dx-drop-down-button .dx-swatch-additional .dx-button-has-text .dx-button-content
 
 .dx-swatch-additional .dx-buttongroup-item.dx-button.dx-button-mode-contained.dx-item-selected,
 .dx-swatch-additional .dx-buttongroup-item.dx-button.dx-button-mode-contained.dx-button-normal.dx-state-focused {
-  background: #dde4e8;
+  background:  #dde4e8;
 }
 
 .dx-swatch-additional .dx-buttongroup-item.dx-button.dx-button-mode-contained.dx-state-hover,
 .dx-swatch-additional .dx-buttongroup-item.dx-button.dx-button-mode-contained.dx-state-focused,
 .dx-swatch-additional .dx-buttongroup-item.dx-button.dx-button-mode-contained.dx-button-normal.dx-state-hover {
-  background: #dde4e8;
+  background:  #dde4e8;
 }
 
 .dx-swatch-additional .dx-buttongroup-item.dx-button-mode-contained .dx-icon {
+
   color: white;
+
 }
 
 .dx-swatch-additional .dx-popup-wrapper > .dx-overlay-content {
@@ -1322,18 +1494,20 @@ strong {
 }
 
 .dx-progressbar-animating-container {
+
   height: 12px;
+
 }
 
 .hc-chart {
-  width: calc(100% - 15px);
-  height: calc(50vh - 70px);
-  background: white;
-  margin-left: 5px;
-  margin-top: 5px;
-  margin-right: 0px;
-  margin-bottom: 0px;
-  border: 1px solid lightgray;
+  width:  calc(100% - 15px);
+  height:  calc(50vh - 70px);
+  background:  white;
+  margin-left:  5px;
+  margin-top:  5px;
+  margin-right:  0px;
+  margin-bottom:  0px;
+  border:  1px solid lightgray;
   border-radius: 5px;
 }
 
@@ -1368,13 +1542,19 @@ dx-datagrid-group-closed,
 }
 
 .hc-dashboardchart {
+
   height: calc(100% - 20px);
+
   width: calc(100% - 15px);
+
 }
 
 .dx-datagrid-total-footer > .dx-datagrid-content {
+
   padding-top: 2px;
+
   padding-bottom: 2px;
+
 }
 
 .fa-layers-counter {
@@ -1388,12 +1568,12 @@ dx-datagrid-group-closed,
   max-width: 5em;
   min-width: 1.5em;
   overflow: hidden;
-  padding: 0.25em;
+  padding: 00.25em;
   right: 0;
   text-overflow: ellipsis;
   top: 0;
-  -webkit-transform: scale(0.35);
-  transform: scale(0.35);
+  -webkit-transform: scale(00.35);
+  transform: scale(00.35);
   -webkit-transform-origin: top right;
   transform-origin: top right;
 }
@@ -1410,7 +1590,9 @@ dx-datagrid-group-closed,
 }
 
 .dx-texteditor-input {
+
   background: white;
+
 }
 
 .dx-checkbox.dx-state-readonly .dx-checkbox-icon {
@@ -1453,7 +1635,7 @@ dx-datagrid-group-closed,
 }
 
 dx-text-area.dx-state-focused textarea {
-  background: rgba(245, 227, 157, 0.27);
+  background: rgba(245,  227,  157,  0.27);
 }
 
 // this blanket override for a bootstrap class is having a negative effect,
@@ -1493,7 +1675,10 @@ dx-text-area.dx-state-focused textarea {
 .dx-dropdowneditor.dx-state-hover:not(.dx-custom-button-hovered) .dx-dropdowneditor-icon {
   color: black;
 }
+}
 
+h5.card-title {
+  font-weight: normal;
 h5.card-title {
   font-weight: normal;
 }
@@ -1509,7 +1694,9 @@ h5.card-title {
 }
 
 .dx-item.dx-accordion-item.dx-accordion-item-opened
+
   > .dx-template-wrapper.dx-item-content.dx-accordion-item-title
+
   .dx-icon,
 .dx-item.dx-accordion-item.dx-accordion-item-opened > .dx-item-content.dx-accordion-item-title .dx-icon {
   color: white;
@@ -1532,7 +1719,7 @@ h5.card-title {
 }
 
 .dx-swatch-additional .ep-SmallLabel .dx-field-item-label-text {
-  font-size: 12px !important;
+  font-size: 12px  !important;
 }
 
 // .border-primary.card-body.itemSelected { border: 2px solid  #00b1ff;}    WHY??????
@@ -1543,7 +1730,9 @@ h5.card-title {
 }
 
 ep-DeleteButton.dx-state-hover {
-  background-color: red !important;
+
+  background-color: red  !important;
+
 }
 
 .card.card-tile {
@@ -1562,7 +1751,7 @@ dx-data-grid .dx-datagrid-header-panel .dx-toolbar {
 
 .dx-searchbox .dx-icon-search:before {
   color: #00348d;
-  background: white;
+  background:  white;
 }
 .dx-toolbar .dx-toolbar-items-container {
   height: 32px;
@@ -1581,9 +1770,13 @@ dx-sortable.sortable-cards.dx-sortable .card {
   padding: 2px;
   margin-top: 2px;
 }
+dx-sortable.sortable-cards.dx-sortable .card {
+  padding: 2px;
+  margin-top: 2px;
+}
 
 .dx-treeview-item {
-  margin-top: 0px;
+  margin-top:  0px;
   margin-bottom: 0px;
 }
 
@@ -1606,8 +1799,8 @@ $loading-dk: #033e68;
 $loading-lt: rgba(33, 217, 187, 1);
 
 #loadIndicatorInner {
-  background: linear-gradient(90deg, $loading-lt 0%, $loading-dk 33%, $loading-lt 66%, $loading-dk 100%) !important;
-  background-size: 500% 100% !important;
+  background: linear-gradient(90deg, $loading-lt 0%, $loading-dk 33%, $loading-lt 66%, $loading-dk 100%)  !important;
+  background-size: 500% 100%  !important;
   animation: errorBg 3s linear infinite;
   border-radius: 10px;
 }
@@ -1621,7 +1814,9 @@ $loading-lt: rgba(33, 217, 187, 1);
 }
 
 .patientDetailsAge.dx-state-readonly .dx-texteditor-buttons-container {
+
   display: none;
+
 }
 
 .dx-datagrid-rowsview.dx-empty {
@@ -1651,9 +1846,9 @@ $loading-lt: rgba(33, 217, 187, 1);
   }
   100% {
     transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
-  }
+   }
 }
-body.show-spinner .preloader {
+body.show-spinner .preloader  {
   display: block;
 }
 
@@ -1734,7 +1929,10 @@ body.show-spinner .preloader {
   width: 100%;
   text-align: center;
 }
+}
 
+.col-form-label {
+  font-weight: 400;
 .col-form-label {
   font-weight: 400;
 }
@@ -1748,7 +1946,9 @@ body.show-spinner .preloader {
 }
 
 #previewContentDiv {
+
   background: white;
+
 }
 
 .dx-htmleditor-toolbar-wrapper {
@@ -1761,7 +1961,9 @@ body.show-spinner .preloader {
 }
 
 .form-group {
+
   margin-bottom: 0.25rem;
+
 }
 
 .col-form-text {
@@ -1844,7 +2046,7 @@ dx-datagrid-summary-item {
 
 .example-large-box {
   height: 340px;
-  //  width: 95%;
+    //  width: 95%;
 }
 
 .small-tab-box {
@@ -1927,7 +2129,7 @@ dx-datagrid-summary-item {
   color: #ffffff;
   font-family: Open Sans;
   &:hover {
-    background-color: darken(desaturate($primary, 2%), 10%);
+     background-color: darken(desaturate($primary, 2%), 10%);
   }
 }
 
@@ -1953,14 +2155,19 @@ dx-datagrid-summary-item {
   vertical-align: baseline;
   border-radius: 0.25rem;
   -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+
     -webkit-box-shadow 0.15s ease-in-out;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+
     -webkit-box-shadow 0.15s ease-in-out;
   -o-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+
     box-shadow 0.15s ease-in-out;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+
     box-shadow 0.15s ease-in-out;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+
     box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 
@@ -1970,10 +2177,14 @@ dx-datagrid-summary-item {
 }
 
 .dx-box-item-content {
+
   font-size: 13.5px;
+
 }
 .d-table-caption {
-  display: table-caption !important;
+
+  display: table-caption  !important;
+
 }
 
 .dx-gallery-wrapper {
@@ -2011,7 +2222,7 @@ dx-datagrid-summary-item {
 .dx-treelist-container .dx-treelist-rowsview .dx-freespace-row td.dx-pointer-events-none,
 .dx-treelist-container .dx-treelist-headers .dx-row td.dx-pointer-events-none {
   border-left: none !important;
-  border-right: none !important;
+  border-right:  none !important;
 }
 .search-height {
   max-height: 50px;
@@ -2038,6 +2249,24 @@ dx-datagrid-summary-item {
   min-height: 500px !important;
 }
 
+body.hide-spinner .ProgressSpinnerWrapper {
+  display: none;
+}
+
+// NEW STUFF
+
+.dx-button-mode-contained.dx-button-default.dx-state-focused {
+  color: cyan;
+}
+
+.dx-menu-item.dx-state-hover {
+  background-color: rgb(117 163 207);
+  color: black;
+  text-shadow: 0.5px 0.5px black;
+}
+.link:hover {
+  text-decoration: underline;
+}
 body.hide-spinner .ProgressSpinnerWrapper {
   display: none;
 }
