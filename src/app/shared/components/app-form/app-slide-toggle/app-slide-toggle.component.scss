@@ -2,8 +2,7 @@
 
 :host ::ng-deep .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-thumb {
   //background-color: darken(saturate($primary, 5%), $amount: 5%);
-  background-color: rgb(73, 93, 139);
-
+  background-color: #36518fc2;
 }
 
 :host ::ng-deep .mat-slide-toggle.mat-primary .mat-slide-toggle-bar {

@@ -38,7 +38,7 @@ export class HealthCodeAuthService {
       nonceParam
 
     return environment.healthCode.mainUrl + '/' +
-      environment.healthCode.authorizePath + '?prompt=login&' +
+      environment.healthCode.authorizePath + '?' +
       query
 
   }

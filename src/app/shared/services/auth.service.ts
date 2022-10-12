@@ -136,13 +136,12 @@ export class AuthService {
 
 
   public logOut() {
-    if (!environment.enableLocalAuth && this.userStore.getAuthToken()) {
-      this.userService.logOut({code: ''}).subscribe(() => {
-        this.onSuccessfulLogout();
-      });
-    } else {
-      this.onSuccessfulLogout();
-    }
+    this.addAuditLogEntry();
+    sessionStorage.clear();
+    this.stopSignalR();
+    this.emitGoogleAnalyticsEvent();
+    this.authenticationEvents.next(UserAuthenticationEventType.LogOut);
+    this.routeToLogin();
   }
 
   public routeToAccessDeniedPage(path: string) {
@@ -156,7 +155,6 @@ export class AuthService {
       this.router.navigate(["/identity/login"]);
       return;
     }
-
 
     const returnUrl = this.router.routerState.snapshot.url;
 
@@ -182,7 +180,9 @@ export class AuthService {
     );
   }
 
-   public setupPin(pin: string) {
+
+
+  public setupPin(pin: string) {
     const id = this.userStore.getUserId();
     return this.userService.setupPin({ id, pin }).pipe(
       tap((x) => {
@@ -259,14 +259,5 @@ export class AuthService {
   private startSignalR() {
     this.signalRService.setAccessToken(this.userStore.getAuthToken());
     this.signalRService.startConnection(environment.baseurl); // start SignalR connection, page reload
-  }
-
-  private onSuccessfulLogout() {
-    this.addAuditLogEntry();
-    sessionStorage.clear();
-    this.stopSignalR();
-    this.emitGoogleAnalyticsEvent();
-    this.authenticationEvents.next(UserAuthenticationEventType.LogOut);
-    this.routeToLogin();
   }
 }
